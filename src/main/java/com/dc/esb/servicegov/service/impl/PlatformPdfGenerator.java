@@ -28,7 +28,7 @@ import java.util.List;
 public class PlatformPdfGenerator implements PdfGenerator {
 
     private static final Log log = LogFactory.getLog(PlatformPdfGenerator.class);
-    private static final String TMP_PDF_DIR = "D:/pdftmp";
+    private static final String TMP_PDF_DIR = "pdftmp";
 
     @Autowired
     private ServiceCategoryManagerImpl serviceCategoryManager;
@@ -43,7 +43,10 @@ public class PlatformPdfGenerator implements PdfGenerator {
             List<ServiceCategory> categories = serviceCategoryManager.getTopCategories();
 
             if (null != categories) {
-                String pdfPath = TMP_PDF_DIR + File.separator + "浦发银行服务手册.pdf";
+                File dir = new File(TMP_PDF_DIR);
+                dir.mkdirs();
+                String pdfPath = TMP_PDF_DIR + File.separator + "ServiceCategory.pdf";
+                log.info("开始生成pdf["+pdfPath+"]");
                 pdfFile = new File(pdfPath);
                 if (pdfFile.exists()) {
                     boolean deleted = pdfFile.delete();

@@ -2177,12 +2177,12 @@
 			/* Tell the draw function we have been filtering */
 			oSettings.bFiltered = true;
 			$(oSettings.oInstance).trigger('filter', oSettings);
-			
+
 			/* Redraw the table */
 			oSettings._iDisplayStart = 0;
 			_fnCalculateEnd( oSettings );
 			_fnDraw( oSettings );
-			
+
 			/* Rebuild search array 'offline' */
 			_fnBuildSearchArray( oSettings, 0 );
 		}

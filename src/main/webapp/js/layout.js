@@ -6,114 +6,129 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var companyTableLayout = [
-    {
-        "sTitle": "编号",
-        "mData": "id"
+var oLanguage = {
+    "sLengthMenu": "显示 _MENU_ 条记录每页",
+    "sSearch": "搜索 _INPUT_",
+    "oPaginate": {
+        "sFirst": "第一页",
+        "sLast": "最后一页",
+        "sNext": "下一页",
+        "sPrevious": "上一页"
     },
-    {
-        "sTitle": "公司名称",
-        "mData": "companyName"
-    }
+    sInfo: "第 _START_ 到 _END_ 条记录 共 _TOTAL_ 条"
+};
 
-];
-
-var projectTableLayout = [
+var serviceTableLayout = [
     {
-        "sTitle": "编号",
-        "mData": "id"
+        "sTitle": "服务ID",
+        "mData": "serviceId"
     },
     {
-        "sTitle": "项目名称",
-        "mData": "projectName"
+        "sTitle": "服务名称",
+        "mData": "serviceName"
     },
     {
-        "sTitle": "当前电费(元/度)",
-        "mData": "electricityCharge"
+        "sTitle": "服务状态",
+        "mData": "versionState"
     },
     {
-        "sTitle": "节能分享比例(%)",
-        "mData": "partsRatio"
-    },
-    {
-        "sTitle": "项目开始日期",
-        "mData": "startDate"
-    },
-    {
-        "sTitle": "项目结束日期",
-        "mData": "endDate"
+        "sTitle": "服务备注",
+        "mData": "serviceRemark"
     }
 ];
 
-var gprsTableLayout = [
+var operationTableLayout = [
     {
-        "sTitle": "编号",
-        "mData": "id"
+        "sTitle": "操作ID",
+        "mData": "serviceId"
     },
     {
-        "sTitle": "GPRS识别码",
-        "mData": "identifier"
+        "sTitle": "操作名称",
+        "mData": "serviceName"
     },
     {
-        "sTitle": "GPRS名称",
-        "mData": "name"
+        "sTitle": "操作状态",
+        "mData": "versionState"
+    },
+    {
+        "sTitle": "操作备注",
+        "mData": "serviceRemark"
     }
 ];
 
-var ammeterTableLayout = [
+var interfaceTableLayout = [
     {
-        "sTitle": "编号",
-        "mData": "id"
+        "sTitle": "接口ID",
+        "mData": "interfaceId"
     },
     {
-        "sTitle": "电表名称",
-        "mData": "pumpName"
+        "sTitle": "接口名称",
+        "mData": "interfaceName"
     },
     {
-        "sTitle": "电表标识",
-        "mData": "name"
+        "sTitle": "对应操作",
+        "mData": "serviceId"
     },
     {
-        "sTitle": "互感器倍率",
-        "mData": "sensorRate"
+        "sTitle": "接口系统",
+        "mData": "systemName"
     },
     {
-        "sTitle": "技改前能耗",
-        "mData": "formerCost"
+        "sTitle": "接口报文类型",
+        "mData": "interfaceMsgType"
     },
     {
-        "sTitle": "报警上限",
-        "mData": "upperLimit"
-    },
-    {
-        "sTitle": "报警下限",
-        "mData": "lowerLimit"
+        "sTitle": "接口类型",
+        "mData": "interfaceType"
     }
 ];
 
-var ammeterRecordTableLayout  = [
+var serviceInvokeTableLayout = [
     {
-        "sTitle": "编号",
-        "mData": "id"
+        "sTitle": "服务ID",
+        "mData": "serviceId"
     },
     {
-        "sTitle": "电表标识",
-        "mData": "ammeterName"
+        "sTitle": "操作ID",
+        "mData": "operationId"
     },
     {
-        "sTitle": "电表电量读数（kWh）",
-        "mData": "ammeterValue"
+        "sTitle": "接口ID",
+        "mData": "interfaceId"
     },
     {
-        "sTitle": "累时器读数（h）",
-        "mData": "timeSum"
+        "sTitle": "调用方系统",
+        "mData": "consumerName"
     },
     {
-        "sTitle": "抄表时间",
-        "mData": "recordDate"
+        "sTitle": "提供方系统",
+        "mData": "providerName"
     },
     {
-        "sTitle": "瞬时功率（h）",
-        "mData": "ammeterValue"
+        "sTitle": "经由系统",
+        "mData": "passBySysName"
+    },
+    {
+        "sTitle": "调用关系",
+        "mData": "messageType"
+    }
+];
+
+var systemTableLayout = [
+    {
+        "sTitle": "系统ID",
+        "mData": "systemId"
+    },
+    {
+        "sTitle": "系统简称",
+        "mData": "systemAbbreviation"
+    },
+    {
+        "sTitle": "系统中文名",
+        "mData": "systemName"
+    },
+    {
+        "sTitle": "系统描述",
+        "mData": "systemRemark"
     }
 ];

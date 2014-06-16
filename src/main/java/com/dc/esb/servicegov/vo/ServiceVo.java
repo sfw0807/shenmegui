@@ -1,45 +1,40 @@
-package com.dc.esb.servicegov.entity;
+package com.dc.esb.servicegov.vo;
+
+import com.dc.esb.servicegov.entity.Service;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Administrator
- * Date: 14-5-27
- * Time: 上午10:36
+ * Date: 14-6-10
+ * Time: 上午9:06
  */
-@Entity
-@Table(name="SG_MM_MSM_SERVICE")
-public class Service {
-    @Id
-    @Column(name="SERVICEID")
+public class ServiceVo {
     private String serviceId;
-    @Column(name="SERVICENAME")
     private String serviceName;
-    @Column(name="SVRREMARK")
     private String serviceRemark;
-    @Column(name="MODIFYUSERID")
     private String modifyUser;
-    @Column(name="STATE")
     private String state;
-    @Column(name="RESOURCEID")
     private String resourceId;
-    @Column(name="VERSIONSTATE")
     private String versionState;
-    @Column(name="ACTIONID")
     private String actionId;
-    @Column(name="TYPE")
     private String type;
+    private String providerSysName;
+    private String consumerSysName;
 
-    public String getType() {
-        return type;
-    }
+    public ServiceVo(Service service) {
 
-    public void setType(String type) {
-        this.type = type;
+        this.serviceId = service.getServiceId();
+        this.serviceName = service.getServiceName();
+        this.serviceRemark = service.getServiceRemark();
+        this.modifyUser = service.getModifyUser();
+        this.state = service.getState();
+        this.resourceId = service.getResourceId();
+        this.versionState = service.getVersionState();
+        this.actionId = service.getActionId();
+        this.type = service.getType();
     }
 
     public String getServiceId() {
@@ -104,5 +99,29 @@ public class Service {
 
     public void setActionId(String actionId) {
         this.actionId = actionId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getProviderSysName() {
+        return providerSysName;
+    }
+
+    public void setProviderSysName(String providerSysName) {
+        this.providerSysName = providerSysName;
+    }
+
+    public String getConsumerSysName() {
+        return consumerSysName;
+    }
+
+    public void setConsumerSysName(String consumerSysName) {
+        this.consumerSysName = consumerSysName;
     }
 }

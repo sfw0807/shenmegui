@@ -287,7 +287,8 @@ input.ui-button {
 }
 .ui-buttonset .ui-button {
 	margin-left: 0;
-	margin-right: -.3em;
+    /*remove this for pagenat btn*/
+	/*margin-right: -.3em;*/
 }
 
 /* workarounds */

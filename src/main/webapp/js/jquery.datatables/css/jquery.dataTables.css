@@ -85,6 +85,9 @@ table.dataTable tr.even td.sorting_3 { background-color: #F9F9FF; }
 	float: right;
 	text-align: right;
 }
+.dataTables_paginate a{
+    margin-right: 0px;
+}
 
 /* Two button pagination - previous / next */
 .paginate_disabled_previous,
