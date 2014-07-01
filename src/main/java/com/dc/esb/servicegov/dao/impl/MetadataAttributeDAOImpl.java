@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * Time: 下午2:18
  */
 @Repository
-public class MetadataAttributeDAOImpl extends HibernateDAO<MetadataAttribute, String>{
+public class MetadataAttributeDAOImpl extends HibernateDAO<MetadataAttribute, String> {
 
 }

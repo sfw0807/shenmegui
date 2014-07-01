@@ -14,9 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,13 +35,13 @@ public class ServiceCategoryManagerImpl {
     private ServiceDAOImpl serviceDAO;
 
     @Transactional
-    public List<Service> getServicesByCategory(String categoryId){
+    public List<Service> getServicesByCategory(String categoryId) {
         List<Service> services = null;
-        if(null != categoryId){
-            List<ServiceBelong> serviceBelongs = serviceBelongDAO.findBy("groupId",categoryId);
-            if(null != serviceBelongs){
+        if (null != categoryId) {
+            List<ServiceBelong> serviceBelongs = serviceBelongDAO.findBy("groupId", categoryId);
+            if (null != serviceBelongs) {
                 services = new ArrayList<Service>();
-                for(ServiceBelong serviceBelong : serviceBelongs){
+                for (ServiceBelong serviceBelong : serviceBelongs) {
                     List<Service> servicesById = serviceDAO.findBy("serviceId", serviceBelong.getServiceId());
                     services.addAll(servicesById);
                 }
@@ -55,20 +53,20 @@ public class ServiceCategoryManagerImpl {
     @Transactional
     public ServiceCategory getCategoryById(String id) throws DataException {
         ServiceCategory category = null;
-        if(null != id){
+        if (null != id) {
             List<ServiceCategory> categories = serviceCategoryDAO.findBy("groupId", id);
-            if(null == categories){
-                String errorMsg = "服务分组["+id+"]不存在！";
+            if (null == categories) {
+                String errorMsg = "服务分组[" + id + "]不存在！";
                 log.error(errorMsg);
                 throw new DataException(errorMsg);
             }
-            if(0 == categories.size()){
-                String errorMsg = "服务分组["+id+"]不存在！";
+            if (0 == categories.size()) {
+                String errorMsg = "服务分组[" + id + "]不存在！";
                 log.error(errorMsg);
                 throw new DataException(errorMsg);
             }
-            if(categories.size() > 1){
-                String errorMsg = "服务分组["+id+"]重复存在！";
+            if (categories.size() > 1) {
+                String errorMsg = "服务分组[" + id + "]重复存在！";
                 log.error(errorMsg);
                 throw new DataException(errorMsg);
             }
@@ -79,17 +77,17 @@ public class ServiceCategoryManagerImpl {
     }
 
     @Transactional
-    public List<ServiceCategory> getAllCategories(){
-        return  serviceCategoryDAO.getAll();
+    public List<ServiceCategory> getAllCategories() {
+        return serviceCategoryDAO.getAll();
     }
 
     @Transactional
-    public List<ServiceCategory> getTopCategories(){
+    public List<ServiceCategory> getTopCategories() {
         return serviceCategoryDAO.findBy("parentId", "MSMGroup");
     }
 
     @Transactional
-    public List<ServiceCategory> getSubCategories(ServiceCategory topServiceCategory){
+    public List<ServiceCategory> getSubCategories(ServiceCategory topServiceCategory) {
         String categoryId = topServiceCategory.getGroupId();
         return serviceCategoryDAO.findBy("parentId", categoryId);
     }

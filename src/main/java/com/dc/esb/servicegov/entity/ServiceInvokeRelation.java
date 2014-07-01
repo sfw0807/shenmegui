@@ -12,26 +12,26 @@ import javax.persistence.Table;
  * Time: 下午6:05
  */
 @Entity
-@Table(name="SG_MM_MSM_SERVICE_INVOKE_RELAT")
+@Table(name = "SG_MM_MSM_SERVICE_INVOKE_RELAT")
 public class ServiceInvokeRelation {
     @Id
-    @Column(name="RECORDID")
+    @Column(name = "RECORDID")
     private String recordId;
-    @Column(name="PROVIDESYS")
+    @Column(name = "PROVIDESYS")
     private String providerSystemId;
-    @Column(name="CONSUMESYS")
+    @Column(name = "CONSUMESYS")
     private String consumerSystemAb;
-    @Column(name="SERVICE")
+    @Column(name = "SERVICE")
     private String serviceId;
-    @Column(name="SCENE")
+    @Column(name = "SCENE")
     private String operationId;
-    @Column(name="TYPE")
+    @Column(name = "TYPE")
     private String type;
-    @Column(name="ECODE")
+    @Column(name = "ECODE")
     private String interfaceId;
-    @Column(name="FUNCTYPE")
+    @Column(name = "FUNCTYPE")
     private String functionType;
-    @Column(name="PASSEDSYS")
+    @Column(name = "PASSEDSYS")
     private String passbySys;
 
     public String getRecordId() {

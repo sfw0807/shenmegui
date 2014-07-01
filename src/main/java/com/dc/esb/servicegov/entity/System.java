@@ -12,20 +12,20 @@ import javax.persistence.Table;
  * Time: 下午3:17
  */
 @Entity
-@Table(name="SG_MM_SYS_SYSINFO")
+@Table(name = "SG_MM_SYS_SYSINFO")
 public class System {
     @Id
-    @Column(name="ORGID")
+    @Column(name = "ORGID")
     private String systemId;
-    @Column(name="SYSENGAB")
+    @Column(name = "SYSENGAB")
     private String systemAbbreviation;
-    @Column(name="SYSNAME")
+    @Column(name = "SYSNAME")
     private String systemName;
-    @Column(name="SYSTYPE")
+    @Column(name = "SYSTYPE")
     private String systemType;
-    @Column(name="SYSMSGTYPE")
+    @Column(name = "SYSMSGTYPE")
     private String systemMsgType;
-    @Column(name="SYSREMARK")
+    @Column(name = "SYSREMARK")
     private String systemRemark;
 
     public String getSystemId() {

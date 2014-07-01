@@ -102,7 +102,7 @@ public class ServiceCategoryPdfGenerator implements PdfGenerator<List<ServiceCat
             try {
                 Phrase topCategoryPhrase = new Phrase(serviceCategory.getGroupName(), PdfUtils.ST_SONG_BIG_BOLD_FONT);
                 Paragraph topCategoryParagraph = new Paragraph(topCategoryPhrase);
-                Chapter chapter = new Chapter(topCategoryParagraph,i++);
+                Chapter chapter = new Chapter(topCategoryParagraph, i++);
                 List<ServiceCategory> subServiceCategories = serviceCategoryManager.getSubCategories(serviceCategory);
                 generateSubCategory(subServiceCategories, document, chapter);
                 document.add(chapter);
@@ -132,7 +132,7 @@ public class ServiceCategoryPdfGenerator implements PdfGenerator<List<ServiceCat
         }
     }
 
-    private void render(ServiceCategory serviceCategory, Document document, Section section ) throws Exception {
+    private void render(ServiceCategory serviceCategory, Document document, Section section) throws Exception {
         if (null != serviceCategory && null != document) {
             String categoryId = serviceCategory.getGroupId();
 //            String categoryName = serviceCategory.getGroupName();

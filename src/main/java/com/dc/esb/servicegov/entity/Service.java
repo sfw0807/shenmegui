@@ -12,26 +12,26 @@ import javax.persistence.Table;
  * Time: 上午10:36
  */
 @Entity
-@Table(name="SG_MM_MSM_SERVICE")
+@Table(name = "SG_MM_MSM_SERVICE")
 public class Service {
     @Id
-    @Column(name="SERVICEID")
+    @Column(name = "SERVICEID")
     private String serviceId;
-    @Column(name="SERVICENAME")
+    @Column(name = "SERVICENAME")
     private String serviceName;
-    @Column(name="SVRREMARK")
+    @Column(name = "SVRREMARK")
     private String serviceRemark;
-    @Column(name="MODIFYUSERID")
+    @Column(name = "MODIFYUSERID")
     private String modifyUser;
-    @Column(name="STATE")
+    @Column(name = "STATE")
     private String state;
-    @Column(name="RESOURCEID")
+    @Column(name = "RESOURCEID")
     private String resourceId;
-    @Column(name="VERSIONSTATE")
+    @Column(name = "VERSIONSTATE")
     private String versionState;
-    @Column(name="ACTIONID")
+    @Column(name = "ACTIONID")
     private String actionId;
-    @Column(name="TYPE")
+    @Column(name = "TYPE")
     private String type;
 
     public String getType() {

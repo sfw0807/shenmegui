@@ -30,19 +30,19 @@ public class OperationController {
     @RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
     public
     @ResponseBody
-    List<Service> getAllOperation(){
+    List<Service> getAllOperation() {
         return serviceManager.getAllOperation();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/byServiceId/{serviceId}", headers = "Accept=application/json")
     public
     @ResponseBody
-    List<Service> getAllOperation(@PathVariable String serviceId){
+    List<Service> getAllOperation(@PathVariable String serviceId) {
         List<Service> operations = null;
-        try{
+        try {
             operations = serviceManager.getOpertions(serviceId);
-        } catch(Exception e){
-            String errorMsg = "获取服务["+serviceId+"]的操作失败！";
+        } catch (Exception e) {
+            String errorMsg = "获取服务[" + serviceId + "]的操作失败！";
             log.error(errorMsg, e);
         }
         return operations;

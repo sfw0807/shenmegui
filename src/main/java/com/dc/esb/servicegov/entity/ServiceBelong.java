@@ -12,12 +12,12 @@ import javax.persistence.Table;
  * Time: 下午5:58
  */
 @Entity
-@Table(name="SG_MM_MSM_GROUP_SVC_R")
+@Table(name = "SG_MM_MSM_GROUP_SVC_R")
 public class ServiceBelong {
     @Id
-    @Column(name="SERVICEID")
+    @Column(name = "SERVICEID")
     private String serviceId;
-    @Column(name="GROUPID")
+    @Column(name = "GROUPID")
     private String groupId;
 
     public String getServiceId() {

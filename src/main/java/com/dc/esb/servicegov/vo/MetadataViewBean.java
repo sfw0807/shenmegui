@@ -13,7 +13,7 @@ public class MetadataViewBean {
     private String scale;
     private String length;
 
-    public MetadataViewBean(){
+    public MetadataViewBean() {
 
     }
 

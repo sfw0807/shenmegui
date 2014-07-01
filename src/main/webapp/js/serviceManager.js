@@ -74,5 +74,14 @@ var serviceManager = {
                 callBack(result);
             }
         });
+    },
+    exportWSDL : function (id, callBack){
+        $.ajax({
+            url: '/wsdl/byService/' + id,
+            type: 'GET',
+            success: function(result) {
+                callBack(result);
+            }
+        });
     }
 }

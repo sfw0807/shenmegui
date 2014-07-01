@@ -12,30 +12,30 @@ import javax.persistence.Table;
  * Time: 上午10:43
  */
 @Entity
-@Table(name="SG_MM_MSM_SDA_R")
+@Table(name = "SG_MM_MSM_SDA_R")
 public class SDANode {
     @Id
-    @Column(name="RESOURCEID")
+    @Column(name = "RESOURCEID")
     private String resourceId;
-    @Column(name="STRUCTNAME")
+    @Column(name = "STRUCTNAME")
     private String structName;
-    @Column(name="STRUCTALIAS")
+    @Column(name = "STRUCTALIAS")
     private String structAlias;
-    @Column(name="SERVICEID")
+    @Column(name = "SERVICEID")
     private String serviceId;
-    @Column(name="STRUCTINDEX")
+    @Column(name = "STRUCTINDEX")
     private int structIndex;
-    @Column(name="METADATAID")
+    @Column(name = "METADATAID")
     private String metadtaId;
-    @Column(name="ACTIONID")
+    @Column(name = "ACTIONID")
     private String actionId;
-    @Column(name="PARENTRESOURCEID")
+    @Column(name = "PARENTRESOURCEID")
     private String parentResourceId;
-    @Column(name="TYPE")
+    @Column(name = "TYPE")
     private String type;
-    @Column(name="REMARK")
+    @Column(name = "REMARK")
     private String remark;
-    @Column(name="REQUIRED")
+    @Column(name = "REQUIRED")
     private String required;
 
     public String getResourceId() {

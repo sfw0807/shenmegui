@@ -1,6 +1,5 @@
 package com.dc.esb.servicegov.controller;
 
-import com.dc.esb.servicegov.entity.*;
 import com.dc.esb.servicegov.entity.System;
 import com.dc.esb.servicegov.service.impl.SystemManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class SystemController {
     @RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
     public
     @ResponseBody
-    List<System> getAllSystem(){
+    List<System> getAllSystem() {
         return systemManager.getAllSystems();
     }
 }

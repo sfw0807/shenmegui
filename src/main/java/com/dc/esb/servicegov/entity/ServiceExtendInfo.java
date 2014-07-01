@@ -12,18 +12,18 @@ import javax.persistence.Table;
  * Time: 下午3:48
  */
 @Entity
-@Table(name="SG_MM_MSM_EXTENDS")
+@Table(name = "SG_MM_MSM_EXTENDS")
 public class ServiceExtendInfo {
-    @Column(name="ACTIONID")
+    @Column(name = "ACTIONID")
     @Id
     private String actionId;
-    @Column(name="RELATIONID")
+    @Column(name = "RELATIONID")
     private String relationId;
-    @Column(name="SUPERSERVICEID")
+    @Column(name = "SUPERSERVICEID")
     private String superServiceId;
-    @Column(name="SUPERSERVICENAME")
+    @Column(name = "SUPERSERVICENAME")
     private String superServiceName;
-    @Column(name="EXTENDSEQ")
+    @Column(name = "EXTENDSEQ")
     private int extendSeq;
 
     public String getActionId() {

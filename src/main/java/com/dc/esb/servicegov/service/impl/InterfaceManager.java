@@ -21,13 +21,13 @@ public class InterfaceManager {
     @Autowired
     private InterfaceDAOImpl interfaceDAO;
 
-    public List<Interface> getAllInterfaces(){
+    public List<Interface> getAllInterfaces() {
         return interfaceDAO.getAll();
     }
 
-    public List<Interface> getInterfacesByOperation(String operationId){
+    public List<Interface> getInterfacesByOperation(String operationId) {
         List<Interface> interfaces = null;
-        if(null != operationId){
+        if (null != operationId) {
             interfaces = interfaceDAO.findBy("serviceId", operationId);
         }
         return interfaces;

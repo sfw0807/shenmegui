@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * Time: 上午11:19
  */
 @Repository
-public class SDANodeDAOImpl extends HibernateDAO<SDANode, String>{
+public class SDANodeDAOImpl extends HibernateDAO<SDANode, String> {
 
 }

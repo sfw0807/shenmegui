@@ -12,20 +12,20 @@ import javax.persistence.Table;
  * Time: 下午5:51
  */
 @Entity
-@Table(name="SG_COM_GROUP")
+@Table(name = "SG_COM_GROUP")
 public class ServiceCategory {
     @Id
-    @Column(name="GROUPID")
+    @Column(name = "GROUPID")
     private String groupId;
-    @Column(name="TYPEID")
+    @Column(name = "TYPEID")
     private String typeId;
-    @Column(name="GROUPNAME")
+    @Column(name = "GROUPNAME")
     private String groupName;
-    @Column(name="REMARK")
+    @Column(name = "REMARK")
     private String remark;
-    @Column(name="PARENTID")
+    @Column(name = "PARENTID")
     private String parentId;
-    @Column(name="RANK")
+    @Column(name = "RANK")
     private int rank;
 
     public String getGroupId() {

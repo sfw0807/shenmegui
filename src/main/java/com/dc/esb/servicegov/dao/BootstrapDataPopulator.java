@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.zju.electric_factory.dao;
+package com.dc.esb.servicegov.dao;
 
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.hibernate.SessionFactory;
@@ -47,8 +47,7 @@ public class BootstrapDataPopulator implements InitializingBean {
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
-    
-    
+
 
     public void afterPropertiesSet() throws Exception {
         //because we're using an in-memory hsqldb for the sample app, a new one will be created each time the

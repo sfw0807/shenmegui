@@ -10,7 +10,7 @@ import java.io.File;
  */
 public interface PdfGenerator<T> {
 
-    public File generate (T t) throws Exception;
+    public File generate(T t) throws Exception;
 
 }
 

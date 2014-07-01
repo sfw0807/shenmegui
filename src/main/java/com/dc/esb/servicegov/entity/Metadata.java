@@ -12,28 +12,28 @@ import javax.persistence.Table;
  * Time: 上午11:07
  */
 @Entity
-@Table(name="SG_MM_MDT_METADATA")
+@Table(name = "SG_MM_MDT_METADATA")
 public class Metadata {
     @Id
-    @Column(name="METADATAID")
+    @Column(name = "METADATAID")
     private String metadataId;
-    @Column(name="METADATANAME")
+    @Column(name = "METADATANAME")
     private String metadataName;
-    @Column(name="GROUPACTIONID")
+    @Column(name = "GROUPACTIONID")
     private String groupActionId;
-    @Column(name="METADATADESC")
+    @Column(name = "METADATADESC")
     private String metadataDesc;
-    @Column(name="CODEVALUE")
+    @Column(name = "CODEVALUE")
     private String codeValue;
-    @Column(name="STATE")
+    @Column(name = "STATE")
     private String state;
-    @Column(name="ACTIONID")
+    @Column(name = "ACTIONID")
     private String actionId;
-    @Column(name="RELEASEID")
+    @Column(name = "RELEASEID")
     private String releaseId;
-    @Column(name="VERSIONNUM")
+    @Column(name = "VERSIONNUM")
     private String versionNum;
-    @Column(name="OPERATEUSERID")
+    @Column(name = "OPERATEUSERID")
     private String operateUserId;
 
     public String getMetadataId() {

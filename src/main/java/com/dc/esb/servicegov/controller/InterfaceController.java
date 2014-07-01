@@ -32,19 +32,19 @@ public class InterfaceController {
     @RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
     private
     @ResponseBody
-    List<Interface> getAllInterfaces(){
+    List<Interface> getAllInterfaces() {
         return interfaceManager.getAllInterfaces();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/byOperationId/{operationId}", headers = "Accept=application/json")
     private
     @ResponseBody
-    List<InterfaceVo> getInterfacesByOperationId(@PathVariable String operationId){
+    List<InterfaceVo> getInterfacesByOperationId(@PathVariable String operationId) {
         List<InterfaceVo> interfaceVos = null;
-        if(null != operationId){
+        if (null != operationId) {
             List<Interface> interfaces = interfaceManager.getInterfacesByOperation(operationId);
             interfaceVos = new ArrayList<InterfaceVo>();
-            for(Interface i : interfaces){
+            for (Interface i : interfaces) {
                 InterfaceVo iv = new InterfaceVo(i);
                 System system = systemManager.getSystemByInterface(i.getInterfaceId());
                 iv.setSystemName(system.getSystemName());

@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * Time: 上午11:16
  */
 @Repository
-public class ServiceDAOImpl extends HibernateDAO<Service,String>{
+public class ServiceDAOImpl extends HibernateDAO<Service, String> {
 
 }

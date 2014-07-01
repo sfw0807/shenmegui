@@ -21,6 +21,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -110,11 +111,11 @@ public class OperationPdfGenerator implements PdfGenerator<List<Service>> {
     }
 
     private void render(Service service, Document document, Section section) throws Exception {
-        Section operationSection = renderTitle(service, document, section );
-        renderSDA(service, document, operationSection );
+        Section operationSection = renderTitle(service, document, section);
+        renderSDA(service, document, operationSection);
     }
 
-    private Section renderTitle(Service service, Document document, Section section ) throws Exception {
+    private Section renderTitle(Service service, Document document, Section section) throws Exception {
 
 //        String serviceId = service.getServiceId();
 //        String serviceName = service.getServiceName();
@@ -158,7 +159,7 @@ public class OperationPdfGenerator implements PdfGenerator<List<Service>> {
             Paragraph opDescParagraph = new Paragraph(opDescPhrase);
             opDescParagraph.setFirstLineIndent(20);
             operationSection = section.addSection(opDescParagraph);
-            operationSection.setBookmarkTitle(operationId + "(" + operationName + ")" );
+            operationSection.setBookmarkTitle(operationId + "(" + operationName + ")");
             operationSection.setBookmarkOpen(false);
             operationSection.setNumberStyle(Section.NUMBERSTYLE_DOTTED_WITHOUT_FINAL_DOT);
 //            document.add(opDescParagraph);
@@ -171,7 +172,7 @@ public class OperationPdfGenerator implements PdfGenerator<List<Service>> {
 
     }
 
-    private void renderSDA(Service service, Document document, Section section ) throws Exception {
+    private void renderSDA(Service service, Document document, Section section) throws Exception {
         try {
             SDA sda = serviceManager.getSDAofService(service);
             PdfPTable table = new PdfPTable(6);

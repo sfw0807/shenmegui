@@ -22,12 +22,12 @@ public class SystemManager {
     @Autowired
     private InterfaceDAOImpl interfaceDAO;
 
-    public List<System> getAllSystems(){
+    public List<System> getAllSystems() {
         return systemDAO.getAll();
     }
 
-    public System getSystemByInterface(String interfaceId){
-        Interface in =  interfaceDAO.findUniqueBy("interfaceId", interfaceId);
+    public System getSystemByInterface(String interfaceId) {
+        Interface in = interfaceDAO.findUniqueBy("interfaceId", interfaceId);
         String systemId = in.getSysId();
         System system = systemDAO.findUniqueBy("systemId", systemId);
         return system;

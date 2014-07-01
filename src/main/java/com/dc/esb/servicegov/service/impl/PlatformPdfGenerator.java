@@ -1,7 +1,5 @@
 package com.dc.esb.servicegov.service.impl;
 
-import com.dc.esb.servicegov.dao.impl.ServiceCategoryDAOImpl;
-import com.dc.esb.servicegov.entity.Service;
 import com.dc.esb.servicegov.entity.ServiceCategory;
 import com.dc.esb.servicegov.exception.DataException;
 import com.dc.esb.servicegov.service.PdfGenerator;
@@ -46,7 +44,7 @@ public class PlatformPdfGenerator implements PdfGenerator {
                 File dir = new File(TMP_PDF_DIR);
                 dir.mkdirs();
                 String pdfPath = TMP_PDF_DIR + File.separator + "ServiceCategory.pdf";
-                log.info("开始生成pdf["+pdfPath+"]");
+                log.info("开始生成pdf[" + pdfPath + "]");
                 pdfFile = new File(pdfPath);
                 if (pdfFile.exists()) {
                     boolean deleted = pdfFile.delete();
@@ -66,7 +64,7 @@ public class PlatformPdfGenerator implements PdfGenerator {
 
                 document.open();
                 try {
-                    serviceCategoryPdfGenerator.generateTopCategory(categories,document);
+                    serviceCategoryPdfGenerator.generateTopCategory(categories, document);
                 } finally {
                     document.close();
                 }
@@ -76,10 +74,10 @@ public class PlatformPdfGenerator implements PdfGenerator {
                 throw new DataException(errorMsg);
             }
         } finally {
-            if(null != out){
-                try{
+            if (null != out) {
+                try {
                     out.close();
-                }catch(Exception e){
+                } catch (Exception e) {
                     log.error(e);
                 }
             }

@@ -1,7 +1,7 @@
 package com.dc.esb.servicegov.dao.impl;
 
-import org.springframework.stereotype.Repository;
 import com.dc.esb.servicegov.entity.System;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,6 +10,6 @@ import com.dc.esb.servicegov.entity.System;
  * Time: 下午3:25
  */
 @Repository
-public class SystemDAOImpl extends HibernateDAO<System, String>{
+public class SystemDAOImpl extends HibernateDAO<System, String> {
 
 }

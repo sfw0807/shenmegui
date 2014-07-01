@@ -8,7 +8,7 @@
 $(function () {
 
     var tables = {};
-    var asInitVals = new Array();
+    var asInitVals = [];
 
     var panels = [$("#service_main"), $("#operation_main"), $("#interface_main"), $("#service_invoke_main")];
     var hideOthers = function hiderOthers(self) {
@@ -115,14 +115,14 @@ $(function () {
             var serviceNames = "";
             for (var i = 0; i < services.length; i++) {
                 serviceNames += "[";
-                serviceNames += services[i].serviceName;
+                serviceNames += services[i]["serviceName"];
                 serviceNames += "]";
             }
             alert("您选择了多个服务：" + serviceNames + "进行查询，请选择一个服务进行查询！");
             $("#operation_main").addClass("hidden");
             $("#service_main").removeClass("hidden");
         } else {
-            var serviceId = services[0].serviceId;
+            var serviceId = services[0]["serviceId"];
             //获取操作的数据，回调操作Grid构建函数
             operationManager.getByServiceId(serviceId, initOperationTable);
         }
@@ -233,6 +233,29 @@ $(function () {
     $("#queryAllSysBtn").button().click(function () {
         hideOthers($("#system_main"));
         systemManager.getAll(initSystemTable);
+    });
+    //导出WSDL
+    $('#exportWSDLBtn').button().click(function () {
+        var services = getSelectedFromTable(tables["serviceTable"]);
+        if (!services || services.length == 0) {
+            alert("请选择服务查询!");
+        } else if (services.length > 1) {
+            var serviceNames = "";
+            for (var i = 0; i < services.length; i++) {
+                serviceNames += "[";
+                serviceNames += services[i].serviceName;
+                serviceNames += "]";
+            }
+            alert("您选择了多个服务：" + serviceNames + "进行查询，请选择一个服务进行查询！");
+        } else {
+            var serviceId = services[0].serviceId;
+            //获取操作的数据，回调操作Grid构建函数
+            serviceManager.exportWSDL(serviceId, function(result){
+                if(result == false){
+                    alert("导出WSDL出错，请检查此服务是否旧版本服务");
+                }
+            });
+        }
     });
 
 

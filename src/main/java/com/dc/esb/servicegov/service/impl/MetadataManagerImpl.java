@@ -32,18 +32,18 @@ public class MetadataManagerImpl {
     public MetadataViewBean getMetadataById(String id) throws DataException {
         MetadataViewBean metadataViewBean = null;
         List<Metadata> metadatas = metadataDAO.findBy("metadataId", id);
-        if(null == metadatas){
-            String errorMsg = "元数据["+id+"]不存在！";
+        if (null == metadatas) {
+            String errorMsg = "元数据[" + id + "]不存在！";
             log.error(errorMsg);
             throw new DataException(errorMsg);
         }
-        if(metadatas.size() == 0){
-            String errorMsg = "元数据["+id+"]不存在！";
+        if (metadatas.size() == 0) {
+            String errorMsg = "元数据[" + id + "]不存在！";
             log.error(errorMsg);
             throw new DataException(errorMsg);
         }
-        if(metadatas.size() > 1){
-            String errorMsg ="元数据["+id+"]存在重复项！";
+        if (metadatas.size() > 1) {
+            String errorMsg = "元数据[" + id + "]存在重复项！";
             log.error(errorMsg);
             throw new DataException(errorMsg);
         }
@@ -53,15 +53,15 @@ public class MetadataManagerImpl {
         metadataViewBean.setMetadataId(metadata.getMetadataId());
         metadataViewBean.setMetadataName(metadata.getMetadataName());
         List<MetadataAttribute> metadataAttributes = getMetadataAttributesById(metadataId);
-        if(null != metadataAttributes){
-            for(MetadataAttribute metadataAttribute : metadataAttributes){
-                if("type".equalsIgnoreCase(metadataAttribute.getAttributeId())){
+        if (null != metadataAttributes) {
+            for (MetadataAttribute metadataAttribute : metadataAttributes) {
+                if ("type".equalsIgnoreCase(metadataAttribute.getAttributeId())) {
                     metadataViewBean.setType(metadataAttribute.getAttributeValue());
                 }
-                if("length".equalsIgnoreCase(metadataAttribute.getAttributeId())){
+                if ("length".equalsIgnoreCase(metadataAttribute.getAttributeId())) {
                     metadataViewBean.setLength(metadataAttribute.getAttributeValue());
                 }
-                if("scale".equalsIgnoreCase(metadataAttribute.getAttributeId())){
+                if ("scale".equalsIgnoreCase(metadataAttribute.getAttributeId())) {
                     metadataViewBean.setScale(metadataAttribute.getAttributeValue());
                 }
             }
@@ -69,9 +69,9 @@ public class MetadataManagerImpl {
         return metadataViewBean;
     }
 
-    public List<MetadataAttribute> getMetadataAttributesById(String metadataId){
+    public List<MetadataAttribute> getMetadataAttributesById(String metadataId) {
         List<MetadataAttribute> metadataAttributes = null;
-        if(null != metadataId){
+        if (null != metadataId) {
             metadataAttributes = metadataAttributeDAO.findBy("metadataId", metadataId);
         }
         return metadataAttributes;

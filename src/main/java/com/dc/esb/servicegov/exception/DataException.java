@@ -7,7 +7,7 @@ package com.dc.esb.servicegov.exception;
  * Time: 下午1:31
  */
 public class DataException extends Exception {
-    public DataException(String str){
+    public DataException(String str) {
         super(str);
     }
 

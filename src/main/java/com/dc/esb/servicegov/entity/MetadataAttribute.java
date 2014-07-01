@@ -12,20 +12,20 @@ import javax.persistence.Table;
  * Time: 下午2:13
  */
 @Entity
-@Table(name="SG_MM_MDT_METADATAATTRIBUTES")
+@Table(name = "SG_MM_MDT_METADATAATTRIBUTES")
 public class MetadataAttribute {
     @Id
-    @Column(name="ATTRIBUTEID")
+    @Column(name = "ATTRIBUTEID")
     private String attributeId;
-    @Column(name="ATTRIBUTENAME")
+    @Column(name = "ATTRIBUTENAME")
     private String attributeName;
-    @Column(name="ATTRIBUTEVALUE")
+    @Column(name = "ATTRIBUTEVALUE")
     private String attributeValue;
-    @Column(name="ACTIONID")
+    @Column(name = "ACTIONID")
     private String actionId;
-    @Column(name="METADATAID")
+    @Column(name = "METADATAID")
     private String metadataId;
-    @Column(name="RELEASEID")
+    @Column(name = "RELEASEID")
     private String releaseId;
 
     public String getAttributeId() {

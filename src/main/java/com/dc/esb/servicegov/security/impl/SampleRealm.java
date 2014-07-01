@@ -18,22 +18,23 @@ package com.dc.esb.servicegov.security.impl;
  * specific language governing permissions and limitations
  * under the License.
  */
-import org.apache.shiro.authc.*;
+
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.credential.Sha256CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The Spring/Hibernate sample application's one and only configured Apache Shiro Realm.
- *
+ * <p/>
  * <p>Because a Realm is really just a security-specific DAO, we could have just made Hibernate calls directly
  * in the implementation and named it a 'HibernateRealm' or something similar.</p>
- *currentUserInterceptor
+ * currentUserInterceptor
  * <p>But we've decided to make the calls to the database using a UserDAO, since a DAO would be used in other areas
  * of a 'real' application in addition to here. We felt it better to use that same DAO to show code re-use.</p>
  */

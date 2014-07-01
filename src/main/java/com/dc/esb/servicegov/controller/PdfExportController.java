@@ -7,7 +7,6 @@ import com.dc.esb.servicegov.service.impl.PlatformPdfGenerator;
 import com.dc.esb.servicegov.service.impl.ServiceCategoryManagerImpl;
 import com.dc.esb.servicegov.service.impl.ServiceCategoryPdfGenerator;
 import com.dc.esb.servicegov.service.impl.ServiceManagerImpl;
-import com.dc.esb.servicegov.vo.SDA;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,11 +54,11 @@ public class PdfExportController {
     public
     @ResponseBody
     boolean exportService(@PathVariable String id) {
-        try{
+        try {
             List<Service> services = serviceManager.getServiceById(id);
             servicePdfGenerator.generate(services);
-        }catch(Exception e){
-            log.error(e,e);
+        } catch (Exception e) {
+            log.error(e, e);
         }
         return true;
 
@@ -71,13 +68,13 @@ public class PdfExportController {
     public
     @ResponseBody
     boolean exportCategory(@PathVariable String id) {
-        try{
+        try {
             ServiceCategory category = serviceCategoryManager.getCategoryById(id);
             List<ServiceCategory> categories = new ArrayList<ServiceCategory>();
             categories.add(category);
             serviceCategoryPdfGenerator.generate(categories);
-        }catch(Exception e){
-            log.error(e,e);
+        } catch (Exception e) {
+            log.error(e, e);
         }
         return true;
     }
@@ -86,55 +83,54 @@ public class PdfExportController {
     public
     @ResponseBody
     boolean exportAll(HttpServletRequest request, HttpServletResponse response) {
-        try{
-            File pdfFile =  platformPdfGenerator.generate(null);
-            InputStream in  = null;
+        try {
+            File pdfFile = platformPdfGenerator.generate(null);
+            InputStream in = null;
             OutputStream out = null;
-            try{
+            try {
                 response.setContentType("application/pdf");
-                response.addHeader("Content-Disposition", "attachment;filename="+new String(pdfFile.getName().getBytes("gbk"),"iso-8859-1"));
+                response.addHeader("Content-Disposition", "attachment;filename=" + new String(pdfFile.getName().getBytes("gbk"), "iso-8859-1"));
                 in = new BufferedInputStream(new FileInputStream(pdfFile));
                 out = new BufferedOutputStream(response.getOutputStream());
                 long fileLength = pdfFile.length();
                 byte[] cache = null;
-                if(fileLength > Integer.MAX_VALUE){
+                if (fileLength > Integer.MAX_VALUE) {
                     cache = new byte[Integer.MAX_VALUE];
-                }else{
-                    cache = new byte[(int)fileLength];
+                } else {
+                    cache = new byte[(int) fileLength];
                 }
                 int i = 0;
-                while( (i = in.read(cache)) > 0){
-                    out.write(cache,0,i);
+                while ((i = in.read(cache)) > 0) {
+                    out.write(cache, 0, i);
                 }
                 out.flush();
-            }catch (Exception e){
-                log.error(e,e);
-            }finally{
-                if(null != in){
+            } catch (Exception e) {
+                log.error(e, e);
+            } finally {
+                if (null != in) {
                     try {
                         in.close();
                     } catch (IOException e) {
-                        log.error(e,e);
+                        log.error(e, e);
                     }
 
                 }
-                if(null != out){
+                if (null != out) {
                     try {
                         in.close();
                     } catch (IOException e) {
-                        log.error(e,e);
+                        log.error(e, e);
                     }
 
                 }
 
             }
 
-        }catch(Exception e){
-            log.error(e,e);
+        } catch (Exception e) {
+            log.error(e, e);
         }
         return true;
     }
-
 
 
 }

@@ -13,30 +13,30 @@ import javax.persistence.Table;
  * Time: 上午11:37
  */
 @Entity
-@Table(name="SG_MM_ASM_ADDTIONALSTRUCTURE")
+@Table(name = "SG_MM_ASM_ADDTIONALSTRUCTURE")
 public class Interface {
     @Id
-    @Column(name="INTERFACEID")
+    @Column(name = "INTERFACEID")
     private String interfaceId;
-    @Column(name="INTERFACENAME")
+    @Column(name = "INTERFACENAME")
     private String interfaceName;
-    @Column(name="INTERFACEREMARK")
+    @Column(name = "INTERFACEREMARK")
     private String interfaceRemark;
-    @Column(name="INTERFACETYPE")
+    @Column(name = "INTERFACETYPE")
     private String interfaceType;
-    @Column(name="SERVICEID")
+    @Column(name = "SERVICEID")
     private String serviceId;
-    @Column(name="RESOURCEID")
+    @Column(name = "RESOURCEID")
     private String resoutceId;
-    @Column(name="INTERFACEMEGTYPE")
+    @Column(name = "INTERFACEMEGTYPE")
     private String interfaceMsgType;
-    @Column(name="SYSID")
+    @Column(name = "SYSID")
     private String sysId;
-    @Column(name="ACTIONID")
+    @Column(name = "ACTIONID")
     private String actionId;
-    @Column(name="VERSIONSTATE")
+    @Column(name = "VERSIONSTATE")
     private String versionState;
-    @Column(name="VERSIONNUMBER")
+    @Column(name = "VERSIONNUMBER")
     private int versionNumber;
 
     public String getInterfaceId() {

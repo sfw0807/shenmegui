@@ -40,6 +40,9 @@ public class ServiceManagerImpl {
     private ServiceInvokeRelationDAOImpl serviceInvokeRelationDAO;
     @Autowired
     private SystemDAOImpl systemDAO;
+    @Autowired
+    private RemainingServiceDAOImpl remainingServiceDAO;
+
 
     public List<Service> getServiceById(String serviceId) {
         List<Service> service = null;
@@ -102,7 +105,7 @@ public class ServiceManagerImpl {
             }
             params.put("serviceId", service.getServiceId().trim());
             params.put("parentResourceId", "/");
-            List<SDANode> nodes = sdaNodeDAO.findBy(params);
+            List<SDANode> nodes = sdaNodeDAO.findBy(params, "structIndex");
             if (nodes.size() > 1) {
                 String errorMsg = "一个sda只能有一个root节点";
                 log.error(errorMsg);
@@ -136,7 +139,9 @@ public class ServiceManagerImpl {
             }
             String nodeResourceId = sdaNode.getResourceId();
             //获取所有的数据子节点
-            List<SDANode> childNodes = sdaNodeDAO.findBy("parentResourceId", nodeResourceId);
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("parentResourceId", nodeResourceId);
+            List<SDANode> childNodes = sdaNodeDAO.findBy(params, "structIndex");
             if (null != childNodes && childNodes.size() > 0) {
                 childSdas = new ArrayList<SDA>();
             }
@@ -209,19 +214,34 @@ public class ServiceManagerImpl {
     public List<Service> getServiceByOperationId(String operationId) {
         List<Service> services = null;
         List<ServiceInvokeRelation> serviceInvokeRelations = serviceInvokeRelationDAO.findBy("operationId", operationId);
-        if(null != serviceInvokeRelations){
-            List<String> serviceIds = new ArrayList<String> ();
+        if (null != serviceInvokeRelations) {
+            List<String> serviceIds = new ArrayList<String>();
             services = new ArrayList<Service>();
-            for(ServiceInvokeRelation serviceInvokeRelation : serviceInvokeRelations){
+            for (ServiceInvokeRelation serviceInvokeRelation : serviceInvokeRelations) {
                 String serviceId = serviceInvokeRelation.getServiceId();
                 serviceIds.remove(serviceId);
                 serviceIds.add(serviceId);
             }
-            for(String serviceId : serviceIds){
+            for (String serviceId : serviceIds) {
                 Service service = serviceDAO.findUniqueBy("serviceId", serviceId);
                 services.add(service);
             }
         }
         return services;
     }
+
+    @Transactional
+    public List<Service> getParentService(Service service){
+        List<ServiceExtendInfo> serviceExtendInfos = serviceExtendInfoDAO.findBy("relationId", service.getResourceId());
+        ServiceExtendInfo serviceExtendInfo = serviceExtendInfos.get(0);
+        String serviceId = serviceExtendInfo.getSuperServiceId();
+        return getServiceById(serviceId);
+    }
+
+    @Transactional
+    public List<RemainingService> getRemainingServiceByServiceId(String serviceId){
+        return remainingServiceDAO.findBy("serviceId", serviceId);
+    }
+
+
 }
