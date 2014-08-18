@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,6 +136,8 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
             for (Service operationDO : operations) {
                 log.error("开始处理场景["+operationDO.getServiceId()+"]");
                 String operationId = operationDO.getServiceId();
+                //Todo
+                String tmpOperationId = handleDupOperationIdIssue(operationId);
                 SDA sda = serviceManager.getSDAofService(operationDO);
                 List<SDA> childSDAs = sda.getChildNode();
                 if (null == childSDAs) {
@@ -156,11 +159,11 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
 
                 //req
                 Element reqOperation = schemaRoot.addElement(QN_ELEM);
-                reqOperation.addAttribute("name", "Req" + operationId);
-                String reqOperationTypeName = "s:Req" + operationId + "Type";
+                reqOperation.addAttribute("name", "Req" + tmpOperationId);
+                String reqOperationTypeName = "s:Req" + tmpOperationId + "Type";
                 reqOperation.addAttribute("type", reqOperationTypeName);
                 Element reqOperationType = schemaRoot.addElement(QN_COMPLEX_TYPE);
-                reqOperationType.addAttribute("name", "Req" + operationId + "Type");
+                reqOperationType.addAttribute("name", "Req" + tmpOperationId + "Type");
                 Element reqOperationTypeSeq = reqOperationType.addElement(QN_SEQ);
                 Element reqSvcHeaderElem = reqOperationTypeSeq.addElement(QN_ELEM);
                 reqSvcHeaderElem.addAttribute("name", "ReqSvcHeader");
@@ -192,11 +195,11 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
                 //rsp
 
                 Element rspOperation = schemaRoot.addElement(QN_ELEM);
-                rspOperation.addAttribute("name", "Rsp" + operationId);
-                String rspOperationTypeName = "s:Rsp" + operationId + "Type";
+                rspOperation.addAttribute("name", "Rsp" + tmpOperationId);
+                String rspOperationTypeName = "s:Rsp" + tmpOperationId + "Type";
                 rspOperation.addAttribute("type", rspOperationTypeName);
                 Element rspOperationType = schemaRoot.addElement(QN_COMPLEX_TYPE);
-                rspOperationType.addAttribute("name", "Rsp" + operationId + "Type");
+                rspOperationType.addAttribute("name", "Rsp" + tmpOperationId + "Type");
                 Element rspOperationTypeSeq = rspOperationType.addElement(QN_SEQ);
                 Element rspSvcHeaderElem = rspOperationTypeSeq.addElement(QN_ELEM);
                 rspSvcHeaderElem.addAttribute("name", "RspSvcHeader");
@@ -253,7 +256,7 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
                 try {
                     schemaOut.close();
                 } catch (IOException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    log.error(e,e);
                 }
             }
         }
@@ -447,5 +450,14 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
             generate(service, dirPath);
         }
         return true;
+    }
+
+    public String handleDupOperationIdIssue(String operationId){
+        if(operationId.indexOf("-") > -1){
+            String tmpOperationId = operationId.substring(0, operationId.indexOf("-"));
+            return tmpOperationId;
+        }else{
+            return operationId;
+        }
     }
 }

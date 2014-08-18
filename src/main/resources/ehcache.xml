@@ -20,27 +20,4 @@
 
     <diskStore path="java.io.tmpdir/em"/>
 
-
-    <defaultCache
-        maxElementsInMemory="1000"
-        eternal="false"
-        timeToLiveSeconds="600"
-        overflowToDisk="true"
-        diskPersistent="false"
-        />
-
-    <!--=================================================================
-        Hibernate Object Caches
-        =================================================================-->
-
-    <cache name="com.dc.esb.servicegov.entity.Metadata"
-        maxElementsInMemory="1000"
-        timeToLiveSeconds="600"
-        overflowToDisk="true"/>
-
-    <cache name="com.dc.esb.servicegov.entity.MetadataAttribute"
-        maxElementsInMemory="1000"
-        timeToLiveSeconds="600"
-        overflowToDisk="true"/>
-
 </ehcache>

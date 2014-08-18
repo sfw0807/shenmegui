@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -69,6 +70,7 @@ public class MetadataManagerImpl {
         return metadataViewBean;
     }
 
+    @Transactional
     public List<MetadataAttribute> getMetadataAttributesById(String metadataId) {
         List<MetadataAttribute> metadataAttributes = null;
         if (null != metadataId) {

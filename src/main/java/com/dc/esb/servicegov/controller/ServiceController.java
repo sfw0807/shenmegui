@@ -55,6 +55,13 @@ public class ServiceController {
     public
     @ResponseBody
     String checkWSDLVersion(@PathVariable String serviceId) {
+        List<Service> services = serviceManager.getServiceById(serviceId);
+        if(null == services){
+            return "0";
+        }
+        if(services.size() == 0){
+            return "0";
+        }
         List<RemainingService> remainingServices = serviceManager.getRemainingServiceByServiceId(serviceId);
         return (null != remainingServices && remainingServices.size() > 0) ? "1":"2";
     }

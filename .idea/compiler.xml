@@ -22,11 +22,20 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="electric_factory" />
         <module name="itextpdf" />
         <module name="servicegov" />
       </profile>
+      <profile default="false" name="Annotation profile for ld" enabled="true">
+        <sourceOutputDir name="output\generated-sources\annotations" />
+        <sourceTestOutputDir name="output\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="ld" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="electric_factory" target="1.6" />
       <module name="itextpdf" target="1.5" />
       <module name="servicegov" target="1.6" />
     </bytecodeTargetLevel>

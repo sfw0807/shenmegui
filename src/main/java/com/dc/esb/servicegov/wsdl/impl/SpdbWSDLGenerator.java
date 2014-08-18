@@ -83,15 +83,15 @@ public class SpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
 
     public File generate(Service serviceDO) {
         BufferedOutputStream wsdlOut = null;
+        String serviceId = serviceDO.getServiceId();
+        String workspacePath = getWorkSpace();
+        String dirPath = workspacePath + File.separator + serviceId;
+        if(log.isInfoEnabled()){
+            log.info("create wsdl in" + dirPath);
+        }
+        File dir = new File(dirPath);
+        dir.mkdirs();
         try {
-            String serviceId = serviceDO.getServiceId();
-            String workspacePath = getWorkSpace();
-            String dirPath = workspacePath + File.separator + serviceId;
-            if(log.isInfoEnabled()){
-                log.info("create wsdl in" + dirPath);
-            }
-            File dir = new File(dirPath);
-            dir.mkdirs();
             serviceSchemaGenerator.generate(serviceId, dirPath);
             List<Service> operations = serviceManager.getOpertions(serviceId);
             esbServiceDescriptorGenerator.generate(serviceDO, operations, dirPath);
@@ -120,15 +120,16 @@ public class SpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
                 for (Service operationDO : operations) {
 
                     String operationId = operationDO.getServiceId();
+                    String tmpOperationId = handleDupOperationIdIssue(operationId);
                     //Create Rep and Rsp Parts
                     Part bodyReqPart = wsdlDefinition.createPart();
-                    bodyReqPart.setName("Req" + operationId);
+                    bodyReqPart.setName("Req" + tmpOperationId);
 //                    bodyReqPart.setTypeName(new QName("http://esb.spdbbiz.com/services/" + serviceId, "Req" + operationId, "s"));
-                    bodyReqPart.setElementName(new QName("http://esb.spdbbiz.com/services/" + serviceId, "Req" + operationId, "s"));
+                    bodyReqPart.setElementName(new QName("http://esb.spdbbiz.com/services/" + serviceId, "Req" + tmpOperationId, "s"));
                     Part bodyRspPart = wsdlDefinition.createPart();
-                    bodyRspPart.setName("Rsp" + operationId);
+                    bodyRspPart.setName("Rsp" + tmpOperationId);
 //                    bodyRspPart.setTypeName(new QName("http://esb.spdbbiz.com/services/" + serviceId, "Rsp" + operationId, "s"));
-                    bodyRspPart.setElementName(new QName("http://esb.spdbbiz.com/services/" + serviceId, "Rsp" + operationId, "s"));
+                    bodyRspPart.setElementName(new QName("http://esb.spdbbiz.com/services/" + serviceId, "Rsp" + tmpOperationId, "s"));
 
                     Part headerReqPart = wsdlDefinition.createPart();
                     headerReqPart.setName("ReqHeader");
@@ -151,18 +152,18 @@ public class SpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
                     wsdlDefinition.addMessage(headerRspMessage);
 
                     Message bodyReqMessage = wsdlDefinition.createMessage();
-                    bodyReqMessage.setQName(new QName(tns, "Req" + operationId));
+                    bodyReqMessage.setQName(new QName(tns, "Req" + tmpOperationId));
                     bodyReqMessage.addPart(bodyReqPart);
                     bodyReqMessage.setUndefined(false);
                     Message bodyRspMessage = wsdlDefinition.createMessage();
-                    bodyRspMessage.setQName(new QName(tns, "Rsp" + operationId));
+                    bodyRspMessage.setQName(new QName(tns, "Rsp" + tmpOperationId));
                     bodyRspMessage.addPart(bodyRspPart);
                     bodyRspMessage.setUndefined(false);
                     wsdlDefinition.addMessage(bodyReqMessage);
                     wsdlDefinition.addMessage(bodyRspMessage);
                     //create Operation for portType
                     Operation operation = wsdlDefinition.createOperation();
-                    operation.setName(operationId);
+                    operation.setName(tmpOperationId);
                     //创建 Input，并设置 Input 的 message
                     Input input = wsdlDefinition.createInput();
                     input.setMessage(bodyReqMessage);
@@ -181,7 +182,7 @@ public class SpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
                     //创建 bindingInput
                     BindingInput bindingInput = wsdlDefinition.createBindingInput();
                     SOAPOperation soapOperation = new SOAPOperationImpl();
-                    soapOperation.setSoapActionURI("urn:/" + operationId);
+                    soapOperation.setSoapActionURI("urn:/" + tmpOperationId);
                     bindingOperation.addExtensibilityElement(soapOperation);
                     //Create SOAP header use = "literal"
                     SOAPHeader inSOAPHeader = new SOAPHeaderImpl();
@@ -204,7 +205,7 @@ public class SpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
                     outSOAPBody.setUse("literal");
                     bindingOutput.addExtensibilityElement(outSOAPBody);
                     //设置 bindingOperation 的名称，绑定输入 和 绑定输出
-                    bindingOperation.setName(operationId);
+                    bindingOperation.setName(tmpOperationId);
                     bindingOperation.setBindingInput(bindingInput);
                     bindingOperation.setBindingOutput(bindingOutput);
                     binding.addBindingOperation(bindingOperation);
@@ -255,10 +256,13 @@ public class SpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
             } catch (IOException e) {
                 log.error(e,e);
             }
+            //Todo check and delete dir
+            boolean deleted = dir.delete();
+            if(!deleted){
+                log.error("删除服务["+serviceId+"]的WSDL文件夹失败！");
+            }
         }
-
         return null;
-
     }
 
     private Definition createDefinition(String serviceId, WSDLFactory wsdlFactory) {
@@ -300,6 +304,16 @@ public class SpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
             log.error(e, e);
         }
         return types;
+    }
+
+    //Todo
+    public String handleDupOperationIdIssue(String operationId){
+        if(operationId.indexOf("-") > -1){
+            String tmpOperationId = operationId.substring(0, operationId.indexOf("-"));
+            return tmpOperationId;
+        }else{
+            return operationId;
+        }
     }
 
 

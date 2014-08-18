@@ -103,7 +103,7 @@
 			realms, use the 'realms' property instead. -->
 		<property name="realm" ref="sampleRealm" />
 		<!-- Uncomment this next property if you want heterogenous session access 
-			or clusterable/d    istributable sessions. The default value is 'http' which
+			or clusterable/d    istrobibutable sessions. The default value is 'http' which
 			uses the Servlet container's HttpSession as the underlying Session implementation. 
 			<property name="sessionMode" value="native"/> -->
 	</bean>

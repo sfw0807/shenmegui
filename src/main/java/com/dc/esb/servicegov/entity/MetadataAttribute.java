@@ -14,17 +14,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "SG_MM_MDT_METADATAATTRIBUTES")
 public class MetadataAttribute {
-    @Id
+
     @Column(name = "ATTRIBUTEID")
     private String attributeId;
     @Column(name = "ATTRIBUTENAME")
     private String attributeName;
     @Column(name = "ATTRIBUTEVALUE")
     private String attributeValue;
+    @Id
     @Column(name = "ACTIONID")
     private String actionId;
     @Column(name = "METADATAID")
     private String metadataId;
+
     @Column(name = "RELEASEID")
     private String releaseId;
 

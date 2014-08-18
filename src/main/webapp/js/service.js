@@ -11,6 +11,8 @@ $(function () {
     var asInitVals = [];
 
     var panels = [$("#service_main"), $("#operation_main"), $("#interface_main"), $("#service_invoke_main")];
+
+    //隐藏其他tab
     var hideOthers = function hiderOthers(self) {
 
         for (var i = 0; i < panels.length; i++) {
@@ -80,7 +82,7 @@ $(function () {
     //请求服务数据，回调实例化方法
     var result = serviceManager.getAll(initServiceTable);
     //实例化tfoot查询框
-    var initServiceTableFooter = function initServiceTableFooter () {
+    var initServiceTableFooter = function initServiceTableFooter() {
         $("#serviceTable tfoot input").keyup(function () {
             tables["serviceTable"].fnFilter(this.value, $("#serviceTable tfoot input").index(this));
         });
@@ -198,24 +200,24 @@ $(function () {
     //操作页面按照操作查询服务
     $("#queryOpServiceBtn").button().click(function () {
         var operations = getSelectedFromTable(tables["operationTable"]);
-        if(operations){
+        if (operations) {
             console.log(operations);
-            if(operations.length == 0){
+            if (operations.length == 0) {
                 alert("请选择操作！");
-            }else if(operations.length > 1){
-                var operationNames="";
-                for(var i = 0; i < operations.length; i++){
+            } else if (operations.length > 1) {
+                var operationNames = "";
+                for (var i = 0; i < operations.length; i++) {
                     operationNames += "[";
                     operationNames += operations[0]["serviceName"];
                     operationNames += "]";
                 }
-                alert("您选择了多个操作"+operationNames+"请选择一个操作进行查询！请选择一个操作进行查询！");
-            }else{
+                alert("您选择了多个操作" + operationNames + "请选择一个操作进行查询！请选择一个操作进行查询！");
+            } else {
                 hideOthers($("#service_main"));
                 console.log(operations[0]);
                 serviceManager.getByOperationId(operations[0]["serviceId"], initServiceTable);
             }
-        }else{
+        } else {
             alert("请选择操作！");
         }
     });
@@ -249,10 +251,12 @@ $(function () {
             alert("您选择了多个服务：" + serviceNames + "进行查询，请选择一个服务进行查询！");
         } else {
             var serviceId = services[0].serviceId;
-            //获取操作的数据，回调操作Grid构建函数
-            serviceManager.exportWSDL(serviceId, function(result){
-                if(result == false){
-                    alert("导出WSDL出错，请检查此服务是否旧版本服务");
+            $.fileDownload("/wsdl/byService/" + serviceId, {
+                successCallback : function (url) {
+                    alert("下载成功！");
+                },
+                failCallback : function (url) {
+                    alert("fail to download wsdl");
                 }
             });
         }

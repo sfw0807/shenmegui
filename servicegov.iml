@@ -98,6 +98,8 @@
     <orderEntry type="library" name="Maven: db2:db2jcc_license_cu:0.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.itextpdf:itextpdf:0.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.itextpdf:itextasian:0.0.1" level="project" />
+    <orderEntry type="library" name="Maven: xml-apis:xml-apis:1.0.b2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.poi:poi:3.10-FINAL" level="project" />
   </component>
 </module>
 
