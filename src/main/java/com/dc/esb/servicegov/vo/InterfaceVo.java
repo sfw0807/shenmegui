@@ -21,8 +21,32 @@ public class InterfaceVo {
     private String versionState;
     private int versionNumber;
     private String systemName;
+    private String consumerSys;
+    private String providerSys;
+    private String bigSserviceId;
+    private String bigSserviceName;
 
-    public InterfaceVo(Interface i) {
+    public String getBigSserviceId() {
+		return bigSserviceId;
+	}
+
+
+	public void setBigSserviceId(String bigSserviceId) {
+		this.bigSserviceId = bigSserviceId;
+	}
+
+
+	public String getBigSserviceName() {
+		return bigSserviceName;
+	}
+
+
+	public void setBigSserviceName(String bigSserviceName) {
+		this.bigSserviceName = bigSserviceName;
+	}
+
+
+	public InterfaceVo(Interface i) {
         this.interfaceId = i.getInterfaceId();
         this.interfaceName = i.getInterfaceName();
         this.interfaceRemark = i.getInterfaceRemark();
@@ -36,7 +60,28 @@ public class InterfaceVo {
         this.versionNumber = i.getVersionNumber();
     }
 
-    public String getInterfaceId() {
+    
+    public String getConsumerSys() {
+		return consumerSys;
+	}
+
+	public void setConsumerSys(String consumerSys) {
+		this.consumerSys = consumerSys;
+	}
+
+	public String getProviderSys() {
+		return providerSys;
+	}
+
+
+
+	public void setProviderSys(String providerSys) {
+		this.providerSys = providerSys;
+	}
+
+
+
+	public String getInterfaceId() {
         return interfaceId;
     }
 

@@ -75,9 +75,72 @@ var serviceManager = {
             }
         });
     },
+    getServiceById : function (id, callBack){
+        $.ajax({
+            url: '/service/getServiceById/' + id,
+            type: 'GET',
+            success: function(result) {
+                callBack(result);
+            }
+        });
+    },
+    getServiceByResourceId : function (resourceId, callBack){
+        $.ajax({
+            url: '/service/getServiceByResourceId/' + resourceId,
+            type: 'GET',
+            success: function(result) {
+                callBack(result);
+            }
+        });
+    },
+    getServiceSlaById : function (id, callBack){
+        $.ajax({
+            url: '/service/getServiceSlaById/' + id,
+            type: 'GET',
+            success: function(result) {
+                callBack(result);
+            }
+        });
+    },
+    getServiceOlaById : function (id, callBack){
+        $.ajax({
+            url: '/service/getServiceOlaById/' + id,
+            type: 'GET',
+            success: function(result) {
+                callBack(result);
+            }
+        });
+    },
     exportWSDL : function (id, callBack){
         $.ajax({
             url: '/wsdl/byService/' + id,
+            type: 'GET',
+            success: function(result) {
+                callBack(result);
+            }
+        });
+    },
+    getServiceExtendInfo : function (id, callBack){
+        $.ajax({
+            url: '/service/getServiceExtendInfoByOperationId/' + id,
+            type: 'GET',
+            success: function(result) {
+                callBack(result);
+            }
+        });
+    },
+    getChildSDA : function (id, callBack){
+        $.ajax({
+            url: '/service/getServiceChild/' + id,
+            type: 'GET',
+            success: function(result) {
+                callBack(result);
+            }
+        });
+    },
+    getChildSdaByResourceId : function (id, callBack){
+        $.ajax({
+            url: '/service/getServiceChildByResourceId/' + id,
             type: 'GET',
             success: function(result) {
                 callBack(result);

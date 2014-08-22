@@ -3,6 +3,7 @@ package com.dc.esb.servicegov.vo;
 import com.dc.esb.servicegov.entity.SDANode;
 import com.dc.esb.servicegov.entity.SDANodeProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,8 +16,24 @@ public class SDA {
     private List<SDANodeProperty> properties;
     private SDANode value;
     private List<SDA> childNode;
+    private String xpath;
+    
+    public void addChild(SDA sda){
+    	if(null == childNode){
+    		childNode = new ArrayList<SDA>();
+    	}
+    	childNode.add(sda);
+    }
 
-    public List<SDANodeProperty> getProperties() {
+    public String getXpath() {
+		return xpath;
+	}
+
+	public void setXpath(String xpath) {
+		this.xpath = xpath;
+	}
+
+	public List<SDANodeProperty> getProperties() {
         return properties;
     }
 

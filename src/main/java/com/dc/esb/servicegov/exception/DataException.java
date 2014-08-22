@@ -7,7 +7,12 @@ package com.dc.esb.servicegov.exception;
  * Time: 下午1:31
  */
 public class DataException extends Exception {
-    public DataException(String str) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1658261705262442843L;
+
+	public DataException(String str) {
         super(str);
     }
 

@@ -37,6 +37,121 @@ var serviceTableLayout = [
     }
 ];
 
+var serviceSlaTableLayout = [
+    {
+        "sTitle": "协议ID",
+        "mData": "protocolId"
+    },
+    {
+        "sTitle": "协议值",
+        "mData": "protocolValue"
+    },
+    {
+        "sTitle": "协议描述",
+        "mData": "description"
+    }
+];
+
+var extendsTableLayout = [
+    {
+        "sTitle": "继承序列号",
+        "mData": "extendSeq"
+    },
+    {
+        "sTitle": "父接口ID",
+        "mData": "superInterfaceId"
+    },
+    {
+        "sTitle": "父接口名称",
+        "mData": "superInterfaceName"
+    }
+];
+
+var serviceExtendsTableLayout = [
+    {
+        "sTitle": "继承顺序号",
+        "mData": "extendSeq"
+    },
+    {
+        "sTitle": "继承服务ID",
+        "mData": "superServiceId"
+    },
+    {
+        "sTitle": "继承服务名称",
+        "mData": "superServiceName"
+    }
+];
+
+var interfaceChildTableLayout = [
+	{
+        "sTitle": "序号",
+        "mData": "structIndex"
+    },
+    {
+        "sTitle": "英文名称",
+        "mData": "structName"
+    },
+    {
+        "sTitle": "元数据ID",
+        "mData": "metadataId"
+    },
+    {
+        "sTitle": "中文名称",
+        "mData": "structAlias"
+    },
+    {
+        "sTitle": "类型",
+        "mData": "type"
+    },
+    {
+        "sTitle": "长度",
+        "mData": "length"
+    },
+    {
+        "sTitle": "精度",
+        "mData": "scale"
+    },
+    {
+        "sTitle": "是否必输",
+        "mData": "required"
+    },
+    {
+        "sTitle": "备注",
+        "mData": "remark"
+    }
+];
+
+var serviceChildTableLayout = [
+	{
+        "sTitle": "序号",
+        "mData": "structIndex"
+    },
+    {
+        "sTitle": "英文名称",
+        "mData": "structName"
+    },
+    {
+        "sTitle": "元数据ID",
+        "mData": "metadataId"
+    },
+    {
+        "sTitle": "中文名称",
+        "mData": "structAlias"
+    },
+    {
+        "sTitle": "类型",
+        "mData": "type"
+    },
+    {
+        "sTitle": "是否必输",
+        "mData": "required"
+    },
+    {
+        "sTitle": "备注",
+        "mData": "remark"
+    }
+];
+
 var operationTableLayout = [
     {
         "sTitle": "操作ID",
@@ -83,6 +198,63 @@ var interfaceTableLayout = [
     }
 ];
 
+var exportExcelLayout = [
+    {
+        "sTitle": "接口ID",
+        "mData": "interfaceId"
+    },
+    {
+        "sTitle": "接口名称",
+        "mData": "interfaceName"
+    },
+    {
+        "sTitle": "服务ID",
+        "mData": "superServiceId"
+    },
+    {
+        "sTitle": "服务名称",
+        "mData": "superServiceName"
+    },
+    {
+        "sTitle": "操作ID",
+        "mData": "serviceId"
+    },
+    {
+        "sTitle": "操作名称",
+        "mData": "serviceName"
+    },
+    {
+        "sTitle": "系统ID",
+        "mData": "systemId"
+    },
+    {
+        "sTitle": "系统英文名",
+        "mData": "systemEngName"
+    },
+    {
+        "sTitle": "接口类型",
+        "mData": "interfaceType"
+    },
+    {
+        "sTitle": "状态",
+        "mData": "versionState"
+    },
+    {
+        "sTitle": "上线版本",
+        "mData": "productNo"
+    },
+    {
+        "sTitle": "开发版本",
+        "mData": "versionNo"
+    }
+    ,
+    {
+        "sTitle": "上线日期",
+        "mData": "onlineDate"
+    }
+    
+];
+
 var serviceInvokeTableLayout = [
     {
         "sTitle": "服务ID",
@@ -114,6 +286,37 @@ var serviceInvokeTableLayout = [
     }
 ];
 
+var sirTableLayout = [
+    {
+        "sTitle": "服务ID",
+        "mData": "serviceId"
+    },
+    {
+        "sTitle": "操作ID",
+        "mData": "operationId"
+    },
+    {
+        "sTitle": "接口ID",
+        "mData": "interfaceId"
+    },
+    {
+        "sTitle": "调用方系统",
+        "mData": "consumerSystemAb"
+    },
+    {
+        "sTitle": "提供方系统",
+        "mData": "providerSystemId"
+    },
+    {
+        "sTitle": "经由系统",
+        "mData": "passbySys"
+    },
+    {
+        "sTitle": "调用关系",
+        "mData": "type"
+    }
+];
+
 var systemTableLayout = [
     {
         "sTitle": "系统ID",
@@ -132,3 +335,4 @@ var systemTableLayout = [
         "mData": "systemRemark"
     }
 ];
+

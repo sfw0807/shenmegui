@@ -26,7 +26,7 @@ public class SDANode {
     @Column(name = "STRUCTINDEX")
     private int structIndex;
     @Column(name = "METADATAID")
-    private String metadtaId;
+    private String metadataId;
     @Column(name = "ACTIONID")
     private String actionId;
     @Column(name = "PARENTRESOURCEID")
@@ -78,15 +78,16 @@ public class SDANode {
         this.structIndex = structIndex;
     }
 
-    public String getMetadtaId() {
-        return metadtaId;
-    }
 
-    public void setMetadtaId(String metadtaId) {
-        this.metadtaId = metadtaId;
-    }
+    public String getMetadataId() {
+		return metadataId;
+	}
 
-    public String getActionId() {
+	public void setMetadataId(String metadataId) {
+		this.metadataId = metadataId;
+	}
+
+	public String getActionId() {
         return actionId;
     }
 

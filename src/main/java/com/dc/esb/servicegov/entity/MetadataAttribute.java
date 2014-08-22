@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "SG_MM_MDT_METADATAATTRIBUTES")
 public class MetadataAttribute {
-
+    
     @Column(name = "ATTRIBUTEID")
     private String attributeId;
     @Column(name = "ATTRIBUTENAME")
@@ -26,7 +26,6 @@ public class MetadataAttribute {
     private String actionId;
     @Column(name = "METADATAID")
     private String metadataId;
-
     @Column(name = "RELEASEID")
     private String releaseId;
 
@@ -77,4 +76,21 @@ public class MetadataAttribute {
     public void setReleaseId(String releaseId) {
         this.releaseId = releaseId;
     }
+    
+    @Override
+    public String toString(){
+    	StringBuilder sb = new StringBuilder();
+    	
+    	sb.append("{");
+    	sb.append("metadataId：");
+    	sb.append(this.metadataId);
+    	sb.append(", attributeId：");
+    	sb.append(this.attributeId);
+    	sb.append(",attributeValue：");
+    	sb.append(attributeValue);
+    	sb.append("}");
+    	
+    	return sb.toString();
+    }
+    
 }

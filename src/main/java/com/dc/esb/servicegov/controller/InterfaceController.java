@@ -32,8 +32,8 @@ public class InterfaceController {
     @RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
     private
     @ResponseBody
-    List<Interface> getAllInterfaces() {
-        return interfaceManager.getAllInterfaces();
+    List<InterfaceVo> getAllInterfaces() {
+        return interfaceManager.getAllInterfaceVo();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/byOperationId/{operationId}", headers = "Accept=application/json")

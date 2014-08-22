@@ -38,8 +38,28 @@ public class Interface {
     private String versionState;
     @Column(name = "VERSIONNUMBER")
     private int versionNumber;
+    @Column(name = "VERSINNO")
+    private String devVersion;
+    @Column(name = "ONLINEDATE")
+    private String onlineDate;
 
-    public String getInterfaceId() {
+    public String getOnlineDate() {
+		return onlineDate;
+	}
+
+	public void setOnlineDate(String onlineDate) {
+		this.onlineDate = onlineDate;
+	}
+
+	public String getDevVersion() {
+		return devVersion;
+	}
+
+	public void setDevVersion(String devVersion) {
+		this.devVersion = devVersion;
+	}
+
+	public String getInterfaceId() {
         return interfaceId;
     }
 

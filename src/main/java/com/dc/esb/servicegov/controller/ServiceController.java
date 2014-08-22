@@ -1,8 +1,12 @@
 package com.dc.esb.servicegov.controller;
 
-import com.dc.esb.servicegov.entity.RemainingService;
-import com.dc.esb.servicegov.entity.Service;
+
+import com.dc.esb.servicegov.entity.*;
+import com.dc.esb.servicegov.exception.DataException;
 import com.dc.esb.servicegov.service.impl.ServiceManagerImpl;
+import com.dc.esb.servicegov.service.support.BeanUtils;
+import com.dc.esb.servicegov.vo.SDA;
+import com.dc.esb.servicegov.vo.SDANodeVo;
 import com.dc.esb.servicegov.vo.ServiceInvokeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +30,13 @@ public class ServiceController {
     @Autowired
     private ServiceManagerImpl serviceManager;
 
+    List<SDANodeVo> lstSDA = new ArrayList<SDANodeVo>();
+    private String indentSpace = "";
+    
+    /**
+     * 
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -32,6 +44,11 @@ public class ServiceController {
         return serviceManager.getAllServices();
     }
 
+    /**
+     * 
+     * @param serviceId
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/getInvokeRelation/{serviceId}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -39,6 +56,11 @@ public class ServiceController {
         return serviceManager.getServiceInvokeInfo(serviceId);
     }
 
+    /**
+     * 
+     * @param operationId
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/getByOperationId/{operationId}", headers = "Accept=application/json")
      public
      @ResponseBody
@@ -65,4 +87,119 @@ public class ServiceController {
         List<RemainingService> remainingServices = serviceManager.getRemainingServiceByServiceId(serviceId);
         return (null != remainingServices && remainingServices.size() > 0) ? "1":"2";
     }
+    
+    /**
+     * 
+     * @param resourceId
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/getServiceExtendInfoByOperationId/{resourceId}", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    List<ServiceExtendInfo> getServiceExtendInfoByOperationId(@PathVariable String resourceId) {
+        return serviceManager.getServiceExtendInfoByOperationId(resourceId);
+    }
+    
+    /**
+     * 
+     * @param serviceId
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/getServiceById/{serviceId}", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    List<Service> getServiceById(@PathVariable String serviceId) {
+        return serviceManager.getServiceById(serviceId);
+    }
+    
+    /**
+     * 
+     * @param resourceId
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/getServiceByResourceId/{resourceId}", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    Service getServiceByResourceId(@PathVariable String resourceId) {
+        return serviceManager.getServiceByResourceId(resourceId);
+    }
+    
+    /**
+     * 
+     * @param id
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/getServiceSlaById/{id}", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    List<ServiceSLA> getServiceSlaById(@PathVariable String id) {
+        Service service =  serviceManager.getServiceByResourceId(id);
+        return serviceManager.getServiceSlaById(service.getResourceId());
+    }
+    
+    /**
+     * 
+     * @param id
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/getServiceOlaById/{id}", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    List<ServiceOLA> getServiceOlaById(@PathVariable String id) {
+        Service service =  serviceManager.getServiceByResourceId(id);
+        return serviceManager.getServiceOlaById(service.getResourceId());
+    }
+    
+    /**
+     * 
+     * @param id
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/getServiceChild/{id}", headers = "Accept=application/json")
+	public @ResponseBody
+	List<SDANodeVo> getChildSDAInfo(@PathVariable String id) {
+		try {
+			lstSDA = new ArrayList<SDANodeVo>();
+			Service service = serviceManager.getServiceById(id).get(0);
+			SDA sda =  serviceManager.getSDAofService(service);
+			renderSDA(sda);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		return lstSDA;
+	}
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/getServiceChildByResourceId/{id}", headers = "Accept=application/json")
+	public @ResponseBody
+	List<SDANodeVo> getServiceChildByResourceId(@PathVariable String id) {
+		try {
+			lstSDA = new ArrayList<SDANodeVo>();
+			Service service = serviceManager.getServiceByResourceId(id);
+			SDA sda =  serviceManager.getSDAofService(service);
+			renderSDA(sda);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		return lstSDA;
+	}
+    /**
+     * 
+     * @param sda
+     */
+    private void renderSDA(SDA sda) {
+		SDANode node = sda.getValue();
+		SDANodeVo sdaNodeVo = BeanUtils.sdaNodeToVO(node);
+		sdaNodeVo.setStructName("|--" + node.getStructName());
+		sdaNodeVo.setStructName(indentSpace + sdaNodeVo.getStructName()); 
+		lstSDA.add(sdaNodeVo);
+		if (sda.getChildNode() != null) {
+			List<SDA> childSda = sda.getChildNode();
+			String tmpIndent = indentSpace;
+			indentSpace += "&nbsp;&nbsp;&nbsp;&nbsp;";
+			for (SDA a : childSda) {
+				renderSDA(a);
+			}
+			indentSpace = tmpIndent;
+		}
+	}
 }

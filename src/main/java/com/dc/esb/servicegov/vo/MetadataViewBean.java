@@ -17,6 +17,15 @@ public class MetadataViewBean {
 
     }
 
+    public String getTypeLengthAndScale() {
+    	if (length == null || length.equals("")) {
+    		return type;
+    	} else if (scale == null || "".equals(scale)) {
+    		return type + "(" + length + ")";
+    	} else {
+    		return type + "(" + length + "," + scale + ")";
+    	}
+    }
 
     public String getMetadataId() {
         return metadataId;

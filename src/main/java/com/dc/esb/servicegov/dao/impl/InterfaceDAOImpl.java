@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class InterfaceDAOImpl extends HibernateDAO<Interface, String> {
-
+	
 }

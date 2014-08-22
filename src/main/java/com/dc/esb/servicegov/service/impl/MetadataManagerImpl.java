@@ -1,7 +1,9 @@
 package com.dc.esb.servicegov.service.impl;
 
+import com.dc.esb.servicegov.dao.impl.MetaStructNodeDAOImpl;
 import com.dc.esb.servicegov.dao.impl.MetadataAttributeDAOImpl;
 import com.dc.esb.servicegov.dao.impl.MetadataDAOImpl;
+import com.dc.esb.servicegov.entity.MetaStructNode;
 import com.dc.esb.servicegov.entity.Metadata;
 import com.dc.esb.servicegov.entity.MetadataAttribute;
 import com.dc.esb.servicegov.exception.DataException;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +24,7 @@ import java.util.List;
  * Time: 下午2:03
  */
 @Component
+@Transactional
 public class MetadataManagerImpl {
 
     private static final Log log = LogFactory.getLog(MetadataManagerImpl.class);
@@ -29,7 +33,34 @@ public class MetadataManagerImpl {
     private MetadataDAOImpl metadataDAO;
     @Autowired
     private MetadataAttributeDAOImpl metadataAttributeDAO;
-
+    @Autowired
+    private MetaStructNodeDAOImpl metaStructNodeDAO;
+    
+    public boolean IsPaintNodeEnd(String mid) {
+    	List<MetaStructNode> l = new ArrayList<MetaStructNode>();
+    	l = metaStructNodeDAO.findBy("structId", mid);
+    	if (l.size() == 0)
+    		return true;
+    	return false;
+    }
+    
+    public Metadata getMetadataByMid(String mid){
+    	List<Metadata> list = metadataDAO.findBy("metadataId", mid);
+    	if (list != null) {
+    		return metadataDAO.findBy("metadataId", mid).get(0);
+    	}
+    	return null;
+    }
+    
+    /**
+     * 
+     * @param structId
+     * @return
+     */
+    public List<MetaStructNode> getMetaStructById(String structId) {
+    	return metaStructNodeDAO.findBy("structId", structId);
+    }
+    
     public MetadataViewBean getMetadataById(String id) throws DataException {
         MetadataViewBean metadataViewBean = null;
         List<Metadata> metadatas = metadataDAO.findBy("metadataId", id);

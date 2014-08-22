@@ -1,9 +1,6 @@
 package com.dc.esb.servicegov.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,18 +10,19 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="SG_MM_MDT_METADATA_STRUCTS")
+@IdClass(MetaStructPK.class)
 public class MetaStructNode {
-
-    @Column(name="STRUCTID")
+	
+    @Id
     private String structId;
-    @Column(name="ELEMENTID")
+    @Id
     private String elementId;
     @Column(name="ELEMENTNAME")
     private String elementName;
+    @Column(name="METADATAID")
+    private String metadataId;
     @Column(name="ISREQUIRED")
     private String required;
-    //TOdo this is a mork key
-    @Id
     @Column(name="REMARK")
     private String remark;
 
@@ -67,4 +65,12 @@ public class MetaStructNode {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+	public String getMetadataId() {
+		return metadataId;
+	}
+
+	public void setMetadataId(String metadataId) {
+		this.metadataId = metadataId;
+	}
 }

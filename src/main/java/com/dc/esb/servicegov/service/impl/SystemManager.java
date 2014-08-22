@@ -6,6 +6,7 @@ import com.dc.esb.servicegov.entity.Interface;
 import com.dc.esb.servicegov.entity.System;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * Time: 下午3:25
  */
 @Component
+@Transactional
 public class SystemManager {
     @Autowired
     private SystemDAOImpl systemDAO;
@@ -31,5 +33,9 @@ public class SystemManager {
         String systemId = in.getSysId();
         System system = systemDAO.findUniqueBy("systemId", systemId);
         return system;
+    }
+    
+    public System getSystemById(String systemId) {
+    	return systemDAO.findUniqueBy("systemId", systemId);
     }
 }

@@ -1,6 +1,9 @@
 package com.dc.esb.servicegov.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
 
 /**
  * Created with IntelliJ IDEA.

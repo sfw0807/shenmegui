@@ -23,7 +23,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 import static com.dc.esb.servicegov.service.impl.WSDLConstants.*;
@@ -37,6 +36,7 @@ import static com.dc.esb.servicegov.service.impl.WSDLConstants.*;
 @Component
 public class SpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
     private static final Log log = LogFactory.getLog(SpdbWSDLGenerator.class);
+    private static final String WSDL_DEPLOY_LOCATION = "http://10.112.20.145:8080/Publish/WSDLfilePath/";
     @Autowired
     private ServiceManagerImpl serviceManager;
     @Autowired
@@ -118,8 +118,11 @@ public class SpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
 
             if (null != operations) {
                 for (Service operationDO : operations) {
-
+                	
                     String operationId = operationDO.getServiceId();
+                    if(log.isInfoEnabled()){
+                		log.info("开始导出配置["+operationId+"]");
+                	}
                     String tmpOperationId = handleDupOperationIdIssue(operationId);
                     //Create Rep and Rsp Parts
                     Part bodyReqPart = wsdlDefinition.createPart();
@@ -238,9 +241,10 @@ public class SpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
                 if(!wsdlFile.exists()){
                     wsdlFile.createNewFile();
                 }
-                System.out.println(wsdlFile.getAbsolutePath());
                 wsdlOut = new BufferedOutputStream(new FileOutputStream(wsdlFile));
                 writer.writeWSDL(wsdlDefinition, wsdlOut);
+            }else{
+            	log.error("服务["+serviceId+"]的操作不存在");
             }
 
             ZIPUtils zipUtils = new ZIPUtils();
@@ -295,7 +299,7 @@ public class SpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
             Schema schema = (Schema) extReg.createExtension(Types.class, new QName(XSD_NAMESPACE, "schema", XSD_PREFIX));
             schema.setTargetNamespace("http://esb.spdbbiz.com/services/" + serviceId + "/wsdl");
             SchemaImport schemaImport = schema.createImport();
-            schemaImport.setSchemaLocationURI(serviceId + ".xsd");
+            schemaImport.setSchemaLocationURI(WSDL_DEPLOY_LOCATION + serviceId + ".xsd");
             schemaImport.setNamespaceURI("http://esb.spdbbiz.com/services/" + serviceId);
             schema.addImport(schemaImport);
             types.addExtensibilityElement(schema);

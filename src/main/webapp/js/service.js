@@ -11,8 +11,6 @@ $(function () {
     var asInitVals = [];
 
     var panels = [$("#service_main"), $("#operation_main"), $("#interface_main"), $("#service_invoke_main")];
-
-    //隐藏其他tab
     var hideOthers = function hiderOthers(self) {
 
         for (var i = 0; i < panels.length; i++) {
@@ -33,6 +31,7 @@ $(function () {
         }
         return selectedDatas;
     };
+
 
     //初始化服务Grid的方法
     var initServiceTable = function initServiceTable(result) {

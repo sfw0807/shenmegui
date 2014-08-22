@@ -15,6 +15,24 @@ var interfaceManager = {
             }
         });
     },
+    getViewList: function(callBack) {
+        $.ajax({
+            url: '/excel/list',
+            type: 'GET',
+            success: function(result) {
+                callBack(result);
+            }
+        });
+    },
+    isSysLinked: function(id, callBack) {
+        $.ajax({
+            url: '/excel/isSysLinked/' + id,
+            type: 'GET',
+            success: function(result) {
+                callBack(result);
+            }
+        });
+    },
     getByOperationId: function(id, callBack) {
         $.ajax({
             url: '/interface/byOperationId/' + id,
@@ -65,5 +83,32 @@ var interfaceManager = {
                 callBack(result);
             }
         });
+    },
+    getInterfaceInfo: function(id, callBack) {
+        $.ajax({
+            "url": '/interface/getInterfaceInfo/' + id,
+            "type": 'GET',
+            "success": function(result) {
+                callBack(result);
+            }
+   	 	});
+    },
+    getInterfaceExtendInfo: function(id, callBack) {
+	    $.ajax({
+	        url: '/interface/getInterfaceExtendInfo/' + id,
+	        type: 'GET',
+	        success: function(result) {
+	            callBack(result);
+	        }
+	    });
+    },
+    getChildSDA4IInfo: function(id, callBack) {
+	    $.ajax({
+	        url: '/interface/getInterfaceChildInfo/' + id,
+	        type: 'GET',
+	        success: function(result) {
+	            callBack(result);
+	        }
+	    });
     }
 }
