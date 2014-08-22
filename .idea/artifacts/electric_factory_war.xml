@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="electric_factory:war">
+    <output-path>$PROJECT_DIR$/../Electric_Managment/target</output-path>
+    <root id="archive" name="electric_factory.war">
+      <element id="artifact" artifact-name="electric_factory:war exploded" />
+    </root>
+  </artifact>
+</component>

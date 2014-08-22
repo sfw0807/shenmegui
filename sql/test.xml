@@ -1,0 +1,2098 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root Version="1.0" Build="120" Copyright="(c) Copyright 2001 Bi-Soft, Inc. All rights reserved.">
+    <XContainer name="EISPage1" prefix="EISPage" modelName="EISPage">
+        <XContainer name="EISForm1" prefix="EISForm" modelName="EISForm">
+            <XContainer name="EISPanel2" prefix="EISPanel" modelName="EISPanel">
+                <XObject name="EISLabel5" prefix="EISLabel" modelName="EISLabel">
+                    <Property name="ParentElement" value="true" />
+                    <Property name="Foreground" value="-16777216" />
+                    <Property name="Visible" value="true" />
+                    <Property name="OnDBLClick" value="" />
+                    <Property name="Opaque" value="false" />
+                    <Property name="OnClick" value="" />
+                    <Property name="FontSize" value="90" />
+                    <Property name="OnKeyUp" value="" />
+                    <Property name="OnKeyPress" value="" />
+                    <Property name="ToolTipText" value="" />
+                    <Property name="height" value="170" />
+                    <Property name="Focus" value="" />
+                    <Property name="Click" value="" />
+                    <Property name="LineThrough" value="false" />
+                    <Property name="offsetTop" value="0" />
+                    <Property name="OnBlur" value="" />
+                    <Property name="BackgroundRepeat" value="" />
+                    <Property name="OnMouseMove" value="" />
+                    <Property name="width" value="1740" />
+                    <Property name="OnDropped" value="" />
+                    <Property name="BackgroundPositionY" value="" />
+                    <Property name="FontBold" value="false" />
+                    <Property name="BackgroundPositionX" value="" />
+                    <Property name="TagName" value="true" />
+                    <Property name="BorderWidth" value="0" />
+                    <Property name="OnKeyDown" value="" />
+                    <Property name="OnMouseDown" value="" />
+                    <Property name="BackgroundImage" value="" />
+                    <Property name="VerticalAlignment" value="0" />
+                    <Property name="TextIndent" value="0" />
+                    <Property name="OnMouseUp" value="" />
+                    <Property name="HorizontalAlignment" value="2" />
+                    <Property name="Background" value="-3355444" />
+                    <Property name="Cursor" value="" />
+                    <Property name="BottomLineStyle" value="none" />
+                    <Property name="OnMouseOver" value="" />
+                    <Property name="FontItalic" value="false" />
+                    <Property name="Underline" value="false" />
+                    <Property name="Image" />
+                    <Property name="RightLineStyle" value="none" />
+                    <Property name="LeftLineStyle" value="none" />
+                    <Property name="Blur" value="" />
+                    <Property name="LetterSpacing" value="0" />
+                    <Property name="OnMouseOut" value="" />
+                    <Property name="Location" value="" />
+                    <Property name="OnFocus" value="" />
+                    <Property name="FontFace" value="宋体" />
+                    <Property name="offsetHeight" value="0" />
+                    <Property name="Text" value="&gt;&gt;当前页面&gt;&gt;修改密码" />
+                    <Property name="ObjectType" value="Window" />
+                    <Property name="BackgroundAttachment" value="fixed" />
+                    <Property name="BorderColor" value="-16777216" />
+                    <Property name="LabelFor" value="" />
+                    <Property name="TopLineStyle" value="none" />
+                    <Property name="Ctrl_ID" value="" />
+                    <Property name="offsetLeft" value="0" />
+                    <Property name="offsetWidth" value="0" />
+                    <Property name="y" value="15" />
+                    <Property name="x" value="38" />
+                </XObject>
+                <Property name="ParentElement" value="true" />
+                <Property name="OnMouseUp" value="" />
+                <Property name="Visible" value="true" />
+                <Property name="OnDBLClick" value="" />
+                <Property name="Opaque" value="false" />
+                <Property name="OnClick" value="" />
+                <Property name="Background" value="-3355444" />
+                <Property name="ShowSplitBar" value="false" />
+                <Property name="Clip" value="false" />
+                <Property name="BottomLineStyle" value="none" />
+                <Property name="OnMouseOver" value="" />
+                <Property name="ToolTipText" value="" />
+                <Property name="height" value="210" />
+                <Property name="OnResize" value="" />
+                <Property name="Image" />
+                <Property name="canScroll" value="false" />
+                <Property name="DndEnabled" value="false" />
+                <Property name="Click" value="" />
+                <Property name="offsetTop" value="0" />
+                <Property name="RightLineStyle" value="none" />
+                <Property name="LeftLineStyle" value="none" />
+                <Property name="BackgroundRepeat" value="" />
+                <Property name="OnMouseMove" value="" />
+                <Property name="width" value="2000" />
+                <Property name="OnDropped" value="" />
+                <Property name="BackgroundPositionY" value="" />
+                <Property name="Location" value="North" />
+                <Property name="OnMouseOut" value="" />
+                <Property name="BackgroundPositionX" value="" />
+                <Property name="Title" value="" />
+                <Property name="TagName" value="true" />
+                <Property name="IsCutSource" value="false" />
+                <Property name="BorderWidth" value="0" />
+                <Property name="offsetHeight" value="0" />
+                <Property name="Layout" value="" />
+                <Property name="ObjectType" value="Window" />
+                <Property name="OnMouseDown" value="" />
+                <Property name="OnKeyDown" value="" />
+                <Property name="BackgroundImage" value="" />
+                <Property name="BackgroundAttachment" value="fixed" />
+                <Property name="BorderColor" value="-16777216" />
+                <Property name="TopLineStyle" value="none" />
+                <Property name="Ctrl_ID" value="" />
+                <Property name="offsetWidth" value="0" />
+                <Property name="offsetLeft" value="0" />
+                <Property name="y" value="30" />
+                <Property name="x" value="110" />
+            </XContainer>
+            <XContainer name="EISPanel3" prefix="EISPanel" modelName="EISPanel">
+                <Property name="ParentElement" value="true" />
+                <Property name="OnMouseUp" value="" />
+                <Property name="Visible" value="true" />
+                <Property name="OnDBLClick" value="" />
+                <Property name="Opaque" value="false" />
+                <Property name="OnClick" value="" />
+                <Property name="Background" value="-3355444" />
+                <Property name="ShowSplitBar" value="false" />
+                <Property name="Clip" value="false" />
+                <Property name="BottomLineStyle" value="none" />
+                <Property name="OnMouseOver" value="" />
+                <Property name="ToolTipText" value="" />
+                <Property name="height" value="1940" />
+                <Property name="OnResize" value="" />
+                <Property name="Image" />
+                <Property name="canScroll" value="false" />
+                <Property name="DndEnabled" value="false" />
+                <Property name="Click" value="" />
+                <Property name="offsetTop" value="0" />
+                <Property name="RightLineStyle" value="none" />
+                <Property name="LeftLineStyle" value="none" />
+                <Property name="BackgroundRepeat" value="" />
+                <Property name="OnMouseMove" value="" />
+                <Property name="width" value="200" />
+                <Property name="OnDropped" value="" />
+                <Property name="BackgroundPositionY" value="" />
+                <Property name="Location" value="East" />
+                <Property name="OnMouseOut" value="" />
+                <Property name="BackgroundPositionX" value="" />
+                <Property name="Title" value="" />
+                <Property name="TagName" value="true" />
+                <Property name="IsCutSource" value="false" />
+                <Property name="BorderWidth" value="0" />
+                <Property name="offsetHeight" value="0" />
+                <Property name="Layout" value="" />
+                <Property name="ObjectType" value="Window" />
+                <Property name="OnMouseDown" value="" />
+                <Property name="OnKeyDown" value="" />
+                <Property name="BackgroundImage" value="" />
+                <Property name="BackgroundAttachment" value="fixed" />
+                <Property name="BorderColor" value="-16777216" />
+                <Property name="TopLineStyle" value="none" />
+                <Property name="Ctrl_ID" value="" />
+                <Property name="offsetWidth" value="0" />
+                <Property name="offsetLeft" value="0" />
+                <Property name="y" value="1070" />
+                <Property name="x" value="7570" />
+            </XContainer>
+            <XContainer name="EISPanel4" prefix="EISPanel" modelName="EISPanel">
+                <Property name="ParentElement" value="true" />
+                <Property name="OnMouseUp" value="" />
+                <Property name="Visible" value="true" />
+                <Property name="OnDBLClick" value="" />
+                <Property name="Opaque" value="false" />
+                <Property name="OnClick" value="" />
+                <Property name="Background" value="-3355444" />
+                <Property name="ShowSplitBar" value="false" />
+                <Property name="Clip" value="false" />
+                <Property name="BottomLineStyle" value="none" />
+                <Property name="OnMouseOver" value="" />
+                <Property name="ToolTipText" value="" />
+                <Property name="height" value="1940" />
+                <Property name="OnResize" value="" />
+                <Property name="Image" />
+                <Property name="canScroll" value="false" />
+                <Property name="DndEnabled" value="false" />
+                <Property name="Click" value="" />
+                <Property name="offsetTop" value="0" />
+                <Property name="RightLineStyle" value="none" />
+                <Property name="LeftLineStyle" value="none" />
+                <Property name="BackgroundRepeat" value="" />
+                <Property name="OnMouseMove" value="" />
+                <Property name="width" value="200" />
+                <Property name="OnDropped" value="" />
+                <Property name="BackgroundPositionY" value="" />
+                <Property name="Location" value="West" />
+                <Property name="OnMouseOut" value="" />
+                <Property name="BackgroundPositionX" value="" />
+                <Property name="Title" value="" />
+                <Property name="TagName" value="true" />
+                <Property name="IsCutSource" value="false" />
+                <Property name="BorderWidth" value="0" />
+                <Property name="offsetHeight" value="0" />
+                <Property name="Layout" value="" />
+                <Property name="ObjectType" value="Window" />
+                <Property name="OnMouseDown" value="" />
+                <Property name="OnKeyDown" value="" />
+                <Property name="BackgroundImage" value="" />
+                <Property name="BackgroundAttachment" value="fixed" />
+                <Property name="BorderColor" value="-16777216" />
+                <Property name="TopLineStyle" value="none" />
+                <Property name="Ctrl_ID" value="" />
+                <Property name="offsetWidth" value="0" />
+                <Property name="offsetLeft" value="0" />
+                <Property name="y" value="1380" />
+                <Property name="x" value="140" />
+            </XContainer>
+            <XContainer name="EISPanel6" prefix="EISPanel" modelName="EISPanel">
+                <XContainer name="EISPanel5" prefix="EISPanel" modelName="EISPanel">
+                    <XObject name="EISButton1" prefix="EISButton" modelName="EISButton">
+                        <Property name="ParentElement" value="true" />
+                        <Property name="getAccessKey" value="" />
+                        <Property name="getIsMultiLine" value="" />
+                        <Property name="Foreground" value="-1" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="true" />
+                        <Property name="getClientTop" value="" />
+                        <Property name="getAlign" value="" />
+                        <Property name="OnClick" value="if(EISTextField4_comp.getValue()==&quot;&quot;){\n\talert(&quot;原始密码不能为空！&quot;);\n\tEISTextField4_comp.setFocus();\n\treturn;\n}\nif(EISTextField1_comp.getValue()==&quot;&quot;){\n\talert(&quot;用户密码不能为空！&quot;);\n\tEISTextField1_comp.setFocus();\n\treturn;\n}\n\nvar pwd = EISTextField1_comp.getValue().trim();\nEISTextField1_comp.setValue(pwd);\nif( pwd.replace(/[\\u4e00-\\u9fa5]/g,&quot;  &quot;).length &lt; 6){\n\talert(&quot;用户密码长度至少为6位，请修改！&quot;);\n\treturn false;\n}else if( pwd.replace(/[\\u4e00-\\u9fa5]/g,&quot;  &quot;).length&gt; 20){\n\talert(&quot;用户密码长度最大为20位，请修改！&quot;);\n\treturn false;\n}else if( !checkNumberField( &quot;EISTextField1&quot;, &quot;用户密码&quot; ) ){\n\treturn false;\n}\nif( !pwd.match(/[0-9]/) || !pwd.match(/[a-zA-Z]/) ){\n\talert(&quot;密码应至少同时包含数字和英文字母！&quot;);\n\treturn false;\n}\n\nEISTextField2_comp.setValue(EISTextField2_comp.getValue().trim());\nif(EISTextField1_comp.getValue() != EISTextField2_comp.getValue() ){\n\talert(&quot;两次输入的密码不一致！&quot;);\n\tEISTextField1_comp.setFocus();\n\treturn;\n}\n\nif (EISTextField4_comp.getValue()!=&quot;&quot;) {\n\tloadUrl.setAction(&quot;SG_FRM_COMM/frm_comm_changepwd_check.eis&quot;);\n\tloadUrl.setField(&quot;oldpwd&quot;,EISTextField5_comp.getValue());\n\tloadUrl.setField(&quot;newpwd&quot;,EISTextField4_comp.getValue());\n\tloadUrl.callOnValueOK(m_getValue);\n}\n\n\n\n\n" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="setAccessKey" value="" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="height" value="170" />
+                        <Property name="setDataFormatAs" value="" />
+                        <Property name="setInnerText" value="" />
+                        <Property name="Focus" value="" />
+                        <Property name="Click" value="" />
+                        <Property name="getWidth" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="getSize" value="" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="setDefaultValue" value="" />
+                        <Property name="BackgroundRepeat" value="no-repeat" />
+                        <Property name="AccessKey" value="" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="getIsDisabled" value="" />
+                        <Property name="width" value="550" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="setTabIndex" value="" />
+                        <Property name="FontBold" value="false" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="BackgroundImage" value="SG_IMAGES/BOTTOM_BG.gif" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="getIsContentEditable" value="" />
+                        <Property name="getDisabled" value="" />
+                        <Property name="setName" value="" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="getValue" value="" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="Disable" value="false" />
+                        <Property name="getReadyState" value="" />
+                        <Property name="Type" value="2" />
+                        <Property name="Background" value="-1" />
+                        <Property name="HorizontalAlignment" value="0" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="getDefaultValue" value="" />
+                        <Property name="getType" value="" />
+                        <Property name="getOuterHTML" value="" />
+                        <Property name="setAlign" value="" />
+                        <Property name="Image" />
+                        <Property name="Underline" value="false" />
+                        <Property name="setWidth" value="" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="getDataFormatAs" value="" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="setDisabled" value="" />
+                        <Property name="Blur" value="" />
+                        <Property name="setSize" value="" />
+                        <Property name="TabIndex" value="0" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="Location" value="" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="setValue" value="" />
+                        <Property name="getInnerText" value="" />
+                        <Property name="FontFace" value="宋体" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="setOuterHTML" value="" />
+                        <Property name="Text" value="保存" />
+                        <Property name="ObjectType" value="Form" />
+                        <Property name="BackgroundAttachment" value="scroll" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="getName" value="" />
+                        <Property name="getTabIndex" value="" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="offsetWidth" value="0" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="getClientLeft" value="" />
+                        <Property name="y" value="70" />
+                        <Property name="x" value="2180" />
+                    </XObject>
+                    <XObject name="EISButton2" prefix="EISButton" modelName="EISButton">
+                        <Property name="ParentElement" value="true" />
+                        <Property name="getAccessKey" value="" />
+                        <Property name="getIsMultiLine" value="" />
+                        <Property name="Foreground" value="-1" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="true" />
+                        <Property name="getClientTop" value="" />
+                        <Property name="getAlign" value="" />
+                        <Property name="OnClick" value="" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="setAccessKey" value="" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="height" value="170" />
+                        <Property name="setDataFormatAs" value="" />
+                        <Property name="setInnerText" value="" />
+                        <Property name="Focus" value="" />
+                        <Property name="Click" value="" />
+                        <Property name="getWidth" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="getSize" value="" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="setDefaultValue" value="" />
+                        <Property name="BackgroundRepeat" value="no-repeat" />
+                        <Property name="AccessKey" value="" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="getIsDisabled" value="" />
+                        <Property name="width" value="550" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="setTabIndex" value="" />
+                        <Property name="FontBold" value="false" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="BackgroundImage" value="SG_IMAGES/BOTTOM_BG.gif" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="getIsContentEditable" value="" />
+                        <Property name="getDisabled" value="" />
+                        <Property name="setName" value="" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="getValue" value="" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="Disable" value="false" />
+                        <Property name="getReadyState" value="" />
+                        <Property name="Type" value="1" />
+                        <Property name="Background" value="-1" />
+                        <Property name="HorizontalAlignment" value="0" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="getDefaultValue" value="" />
+                        <Property name="getType" value="" />
+                        <Property name="getOuterHTML" value="" />
+                        <Property name="setAlign" value="" />
+                        <Property name="Image" />
+                        <Property name="Underline" value="false" />
+                        <Property name="setWidth" value="" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="getDataFormatAs" value="" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="setDisabled" value="" />
+                        <Property name="Blur" value="" />
+                        <Property name="setSize" value="" />
+                        <Property name="TabIndex" value="0" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="Location" value="" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="setValue" value="" />
+                        <Property name="getInnerText" value="" />
+                        <Property name="FontFace" value="宋体" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="setOuterHTML" value="" />
+                        <Property name="Text" value="重置" />
+                        <Property name="ObjectType" value="Form" />
+                        <Property name="BackgroundAttachment" value="scroll" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="getName" value="" />
+                        <Property name="getTabIndex" value="" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="offsetWidth" value="0" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="getClientLeft" value="" />
+                        <Property name="y" value="70" />
+                        <Property name="x" value="2930" />
+                    </XObject>
+                    <XObject name="EISButton3" prefix="EISButton" modelName="EISButton">
+                        <Property name="ParentElement" value="true" />
+                        <Property name="getAccessKey" value="" />
+                        <Property name="getIsMultiLine" value="" />
+                        <Property name="Foreground" value="-1" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="true" />
+                        <Property name="getClientTop" value="" />
+                        <Property name="getAlign" value="" />
+                        <Property name="OnClick" value="window.returnValue = &quot;logout&quot;;\nwindow.close();" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="setAccessKey" value="" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="height" value="170" />
+                        <Property name="setDataFormatAs" value="" />
+                        <Property name="setInnerText" value="" />
+                        <Property name="Focus" value="" />
+                        <Property name="Click" value="" />
+                        <Property name="getWidth" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="getSize" value="" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="setDefaultValue" value="" />
+                        <Property name="BackgroundRepeat" value="no-repeat" />
+                        <Property name="AccessKey" value="" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="getIsDisabled" value="" />
+                        <Property name="width" value="550" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="setTabIndex" value="" />
+                        <Property name="FontBold" value="false" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="BackgroundImage" value="SG_IMAGES/BOTTOM_BG.gif" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="getIsContentEditable" value="" />
+                        <Property name="getDisabled" value="" />
+                        <Property name="setName" value="" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="getValue" value="" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="Disable" value="false" />
+                        <Property name="getReadyState" value="" />
+                        <Property name="Type" value="1" />
+                        <Property name="Background" value="-1" />
+                        <Property name="HorizontalAlignment" value="0" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="getDefaultValue" value="" />
+                        <Property name="getType" value="" />
+                        <Property name="getOuterHTML" value="" />
+                        <Property name="setAlign" value="" />
+                        <Property name="Image" />
+                        <Property name="Underline" value="false" />
+                        <Property name="setWidth" value="" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="getDataFormatAs" value="" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="setDisabled" value="" />
+                        <Property name="Blur" value="" />
+                        <Property name="setSize" value="" />
+                        <Property name="TabIndex" value="0" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="Location" value="" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="setValue" value="" />
+                        <Property name="getInnerText" value="" />
+                        <Property name="FontFace" value="宋体" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="setOuterHTML" value="" />
+                        <Property name="Text" value="取消" />
+                        <Property name="ObjectType" value="Form" />
+                        <Property name="BackgroundAttachment" value="scroll" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="getName" value="" />
+                        <Property name="getTabIndex" value="" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="offsetWidth" value="0" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="getClientLeft" value="" />
+                        <Property name="y" value="60" />
+                        <Property name="x" value="1570" />
+                    </XObject>
+                    <XObject name="EISButton4" prefix="EISButton" modelName="EISButton">
+                        <Property name="ParentElement" value="true" />
+                        <Property name="getAccessKey" value="" />
+                        <Property name="getIsMultiLine" value="" />
+                        <Property name="Foreground" value="-1" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="true" />
+                        <Property name="getClientTop" value="" />
+                        <Property name="getAlign" value="" />
+                        <Property name="OnClick" value="if(EISTextField4_comp.getValue()==&quot;&quot;){\n\talert(&quot;原始密码不能为空！&quot;);\n\tEISTextField4_comp.setFocus();\n\treturn;\n}\nif(EISTextField1_comp.getValue()==&quot;&quot;){\n\talert(&quot;用户密码不能为空！&quot;);\n\tEISTextField1_comp.setFocus();\n\treturn;\n}\n\nvar pwd = EISTextField1_comp.getValue().trim();\nEISTextField1_comp.setValue(pwd);\nif( pwd.replace(/[\\u4e00-\\u9fa5]/g,&quot;  &quot;).length &lt; 6){\n\talert(&quot;用户密码长度至少为6位，请修改！&quot;);\n\treturn false;\n}else if( pwd.replace(/[\\u4e00-\\u9fa5]/g,&quot;  &quot;).length &gt; 20){\n\talert(&quot;用户密码长度最大为20位，请修改！&quot;);\n\treturn false;\n}else if( !checkNumberField( &quot;EISTextField1&quot;, &quot;用户密码&quot; ) ){\n\treturn false;\n}\nif( !pwd.match(/[0-9]/) || !pwd.match(/[a-zA-Z]/) ){\n\talert(&quot;密码应至少同时包含数字和英文字母！&quot;);\n\treturn false;\n}\n\nif(EISTextField1_comp.getValue()!=EISTextField2_comp.getValue()){\n\talert(&quot;两次输入的密码不一致！&quot;);\n\tEISTextField1_comp.setFocus();\n\treturn;\n}\n\nif(EISTextField4_comp.getValue()!=&quot;&quot;){\n\tloadUrl.setAction(&quot;SG_FRM_COMM/frm_comm_changepwd_check.eis&quot;);\n\tloadUrl.setField(&quot;oldpwd&quot;,EISTextField5_comp.getValue());\n\tloadUrl.setField(&quot;newpwd&quot;,EISTextField4_comp.getValue());\n\n\tloadUrl.setField(&quot;pageFrom&quot;,  &quot;checkPWD&quot; );\n\tloadUrl.setField(&quot;updateDate&quot;,  EISTextField6_comp.getValue() );\n\tloadUrl.setField(&quot;submitpwd&quot;,   EISTextField1_comp.getValue() );\n\tloadUrl.callOnValueOK(m_checkPWD_getvalue);\n}" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="setAccessKey" value="" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="height" value="170" />
+                        <Property name="setDataFormatAs" value="" />
+                        <Property name="setInnerText" value="" />
+                        <Property name="Focus" value="" />
+                        <Property name="Click" value="" />
+                        <Property name="getWidth" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="getSize" value="" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="setDefaultValue" value="" />
+                        <Property name="BackgroundRepeat" value="no-repeat" />
+                        <Property name="AccessKey" value="" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="getIsDisabled" value="" />
+                        <Property name="width" value="550" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="setTabIndex" value="" />
+                        <Property name="FontBold" value="false" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="BackgroundImage" value="SG_IMAGES/BOTTOM_BG.gif" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="getIsContentEditable" value="" />
+                        <Property name="getDisabled" value="" />
+                        <Property name="setName" value="" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="getValue" value="" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="Disable" value="false" />
+                        <Property name="getReadyState" value="" />
+                        <Property name="Type" value="2" />
+                        <Property name="Background" value="-1" />
+                        <Property name="HorizontalAlignment" value="0" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="getDefaultValue" value="" />
+                        <Property name="getType" value="" />
+                        <Property name="getOuterHTML" value="" />
+                        <Property name="setAlign" value="" />
+                        <Property name="Image" />
+                        <Property name="Underline" value="false" />
+                        <Property name="setWidth" value="" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="getDataFormatAs" value="" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="setDisabled" value="" />
+                        <Property name="Blur" value="" />
+                        <Property name="setSize" value="" />
+                        <Property name="TabIndex" value="0" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="Location" value="" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="setValue" value="" />
+                        <Property name="getInnerText" value="" />
+                        <Property name="FontFace" value="宋体" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="setOuterHTML" value="" />
+                        <Property name="Text" value="确定" />
+                        <Property name="ObjectType" value="Form" />
+                        <Property name="BackgroundAttachment" value="scroll" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="getName" value="" />
+                        <Property name="getTabIndex" value="" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="offsetWidth" value="0" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="getClientLeft" value="" />
+                        <Property name="y" value="60" />
+                        <Property name="x" value="960" />
+                    </XObject>
+                    <Property name="ParentElement" value="true" />
+                    <Property name="OnMouseUp" value="" />
+                    <Property name="Visible" value="true" />
+                    <Property name="OnDBLClick" value="" />
+                    <Property name="Opaque" value="false" />
+                    <Property name="OnClick" value="" />
+                    <Property name="Background" value="-3355444" />
+                    <Property name="ShowSplitBar" value="false" />
+                    <Property name="Clip" value="false" />
+                    <Property name="BottomLineStyle" value="none" />
+                    <Property name="OnMouseOver" value="" />
+                    <Property name="ToolTipText" value="" />
+                    <Property name="height" value="290" />
+                    <Property name="OnResize" value="" />
+                    <Property name="Image" />
+                    <Property name="canScroll" value="false" />
+                    <Property name="DndEnabled" value="false" />
+                    <Property name="Click" value="" />
+                    <Property name="offsetTop" value="0" />
+                    <Property name="RightLineStyle" value="none" />
+                    <Property name="LeftLineStyle" value="none" />
+                    <Property name="BackgroundRepeat" value="" />
+                    <Property name="OnMouseMove" value="" />
+                    <Property name="width" value="4790" />
+                    <Property name="OnDropped" value="" />
+                    <Property name="BackgroundPositionY" value="" />
+                    <Property name="Location" value="Center" />
+                    <Property name="OnMouseOut" value="" />
+                    <Property name="BackgroundPositionX" value="" />
+                    <Property name="Title" value="" />
+                    <Property name="TagName" value="true" />
+                    <Property name="IsCutSource" value="false" />
+                    <Property name="BorderWidth" value="0" />
+                    <Property name="offsetHeight" value="0" />
+                    <Property name="Layout" value="" />
+                    <Property name="ObjectType" value="Window" />
+                    <Property name="OnMouseDown" value="" />
+                    <Property name="OnKeyDown" value="" />
+                    <Property name="BackgroundImage" value="" />
+                    <Property name="BackgroundAttachment" value="fixed" />
+                    <Property name="BorderColor" value="-16777216" />
+                    <Property name="TopLineStyle" value="none" />
+                    <Property name="Ctrl_ID" value="" />
+                    <Property name="offsetWidth" value="0" />
+                    <Property name="offsetLeft" value="0" />
+                    <Property name="y" value="1590" />
+                    <Property name="x" value="170" />
+                </XContainer>
+                <XContainer name="EISPanel1" prefix="EISPanel" modelName="EISPanel">
+                    <XObject name="EISTextField1" prefix="EISTextField" modelName="EISTextField">
+                        <Property name="setReadOnly" value="" />
+                        <Property name="ParentElement" value="true" />
+                        <Property name="ReadOnly" value="false" />
+                        <Property name="Format" value="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+                        <Property name="DataType" value="0" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="true" />
+                        <Property name="OnClick" value="" />
+                        <Property name="getAlign" value="" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="setInnerText" value="" />
+                        <Property name="setDataFormatAs" value="" />
+                        <Property name="Focus" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="Click" value="" />
+                        <Property name="setDefaultValue" value="" />
+                        <Property name="getIsDisabled" value="" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="FontBold" value="false" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="BackgroundImage" value="" />
+                        <Property name="IsPassword" value="true" />
+                        <Property name="getReadOnly" value="" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="getMaxLength" value="" />
+                        <Property name="IsDate" value="false" />
+                        <Property name="Background" value="-590849" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="getDefaultValue" value="" />
+                        <Property name="Underline" value="false" />
+                        <Property name="Image" />
+                        <Property name="getDataFormatAs" value="" />
+                        <Property name="OnChange" value="" />
+                        <Property name="Blur" value="" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="setMaxLength" value="" />
+                        <Property name="setOuterHTML" value="" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="BackgroundAttachment" value="fixed" />
+                        <Property name="getName" value="" />
+                        <Property name="getTabIndex" value="" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="setVcard_name" value="" />
+                        <Property name="getClientLeft" value="" />
+                        <Property name="y" value="960" />
+                        <Property name="x" value="840" />
+                        <Property name="getAccessKey" value="" />
+                        <Property name="Foreground" value="-16777216" />
+                        <Property name="getIsMultiLine" value="" />
+                        <Property name="getClientTop" value="" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="setAccessKey" value="" />
+                        <Property name="height" value="170" />
+                        <Property name="getWidth" value="" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="getSize" value="" />
+                        <Property name="Min" value="" />
+                        <Property name="CanBeBlank" value="true" />
+                        <Property name="WriteQuery" value="sg_frm_comm_changepwd.qry" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="BackgroundRepeat" value="" />
+                        <Property name="AccessKey" value="" />
+                        <Property name="width" value="2000" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="setTabIndex" value="" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="Select" value="" />
+                        <Property name="WriteColumn" value="SG_FRM_USR_ACCOUNT.PASSWORD" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="getDisabled" value="" />
+                        <Property name="getIsContentEditable" value="" />
+                        <Property name="setName" value="" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="getValue" value="" />
+                        <Property name="getReadyState" value="" />
+                        <Property name="Disable" value="false" />
+                        <Property name="Type" value="0" />
+                        <Property name="HorizontalAlignment" value="2" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="getOuterHTML" value="" />
+                        <Property name="getType" value="" />
+                        <Property name="OnSelect" value="" />
+                        <Property name="setAlign" value="" />
+                        <Property name="Max" value="" />
+                        <Property name="setWidth" value="" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="setDisabled" value="" />
+                        <Property name="setSize" value="" />
+                        <Property name="TabIndex" value="0" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="Location" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="setValue" value="" />
+                        <Property name="DisplayName" value="" />
+                        <Property name="FontFace" value="宋体" />
+                        <Property name="getInnerText" value="" />
+                        <Property name="Text" value="">
+                            <Attribute name="format" class="java.lang.String" value="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+                        </Property>
+                        <Property name="ObjectType" value="Form" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="IsNumber" value="false" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="IsOther" value="true" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="offsetWidth" value="0" />
+                    </XObject>
+                    <XObject name="EISTextField2" prefix="EISTextField" modelName="EISTextField">
+                        <Property name="setReadOnly" value="" />
+                        <Property name="ParentElement" value="true" />
+                        <Property name="ReadOnly" value="false" />
+                        <Property name="Format" />
+                        <Property name="DataType" value="0" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="true" />
+                        <Property name="OnClick" value="" />
+                        <Property name="getAlign" value="" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="setInnerText" value="" />
+                        <Property name="setDataFormatAs" value="" />
+                        <Property name="Focus" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="Click" value="" />
+                        <Property name="setDefaultValue" value="" />
+                        <Property name="getIsDisabled" value="" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="FontBold" value="false" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="BackgroundImage" value="" />
+                        <Property name="IsPassword" value="true" />
+                        <Property name="getReadOnly" value="" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="getMaxLength" value="" />
+                        <Property name="IsDate" value="false" />
+                        <Property name="Background" value="-590849" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="getDefaultValue" value="" />
+                        <Property name="Underline" value="false" />
+                        <Property name="Image" />
+                        <Property name="getDataFormatAs" value="" />
+                        <Property name="OnChange" value="" />
+                        <Property name="Blur" value="" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="setMaxLength" value="" />
+                        <Property name="setOuterHTML" value="" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="BackgroundAttachment" value="fixed" />
+                        <Property name="getName" value="" />
+                        <Property name="getTabIndex" value="" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="setVcard_name" value="" />
+                        <Property name="getClientLeft" value="" />
+                        <Property name="y" value="1220" />
+                        <Property name="x" value="840" />
+                        <Property name="getAccessKey" value="" />
+                        <Property name="Foreground" value="-16777216" />
+                        <Property name="getIsMultiLine" value="" />
+                        <Property name="getClientTop" value="" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="setAccessKey" value="" />
+                        <Property name="height" value="170" />
+                        <Property name="getWidth" value="" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="getSize" value="" />
+                        <Property name="Min" value="" />
+                        <Property name="CanBeBlank" value="true" />
+                        <Property name="WriteQuery" value="" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="BackgroundRepeat" value="" />
+                        <Property name="AccessKey" value="" />
+                        <Property name="width" value="2000" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="setTabIndex" value="" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="Select" value="" />
+                        <Property name="WriteColumn" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="getDisabled" value="" />
+                        <Property name="getIsContentEditable" value="" />
+                        <Property name="setName" value="" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="getValue" value="" />
+                        <Property name="getReadyState" value="" />
+                        <Property name="Disable" value="false" />
+                        <Property name="Type" value="0" />
+                        <Property name="HorizontalAlignment" value="2" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="getOuterHTML" value="" />
+                        <Property name="getType" value="" />
+                        <Property name="OnSelect" value="" />
+                        <Property name="setAlign" value="" />
+                        <Property name="Max" value="" />
+                        <Property name="setWidth" value="" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="setDisabled" value="" />
+                        <Property name="setSize" value="" />
+                        <Property name="TabIndex" value="0" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="Location" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="setValue" value="" />
+                        <Property name="DisplayName" value="" />
+                        <Property name="FontFace" value="宋体" />
+                        <Property name="getInnerText" value="" />
+                        <Property name="Text" value="">
+                            <Attribute name="format" class="java.lang.String" value="" />
+                            <Attribute name="column" class="java.lang.String" value="" />
+                        </Property>
+                        <Property name="ObjectType" value="Form" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="IsNumber" value="false" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="IsOther" value="true" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="offsetWidth" value="0" />
+                    </XObject>
+                    <XObject name="EISLabel3" prefix="EISLabel" modelName="EISLabel">
+                        <Property name="ParentElement" value="true" />
+                        <Property name="Foreground" value="-16777216" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="false" />
+                        <Property name="OnClick" value="" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="height" value="170" />
+                        <Property name="Focus" value="" />
+                        <Property name="Click" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="BackgroundRepeat" value="" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="width" value="600" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="FontBold" value="false" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="BackgroundImage" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="HorizontalAlignment" value="4" />
+                        <Property name="Background" value="-3355444" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="Underline" value="false" />
+                        <Property name="Image" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="Blur" value="" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="Location" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="FontFace" value="宋体" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="Text" value="确认密码" />
+                        <Property name="ObjectType" value="Window" />
+                        <Property name="BackgroundAttachment" value="fixed" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="LabelFor" value="" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="offsetWidth" value="0" />
+                        <Property name="y" value="1220" />
+                        <Property name="x" value="200" />
+                    </XObject>
+                    <XObject name="EISLabel2" prefix="EISLabel" modelName="EISLabel">
+                        <Property name="ParentElement" value="true" />
+                        <Property name="Foreground" value="-16777216" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="false" />
+                        <Property name="OnClick" value="" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="height" value="170" />
+                        <Property name="Focus" value="" />
+                        <Property name="Click" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="BackgroundRepeat" value="" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="width" value="600" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="FontBold" value="false" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="BackgroundImage" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="HorizontalAlignment" value="4" />
+                        <Property name="Background" value="-3355444" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="Underline" value="false" />
+                        <Property name="Image" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="Blur" value="" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="Location" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="FontFace" value="宋体" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="Text" value="用户密码" />
+                        <Property name="ObjectType" value="Window" />
+                        <Property name="BackgroundAttachment" value="fixed" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="LabelFor" value="" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="offsetWidth" value="0" />
+                        <Property name="y" value="960" />
+                        <Property name="x" value="200" />
+                    </XObject>
+                    <XObject name="EISTextField3" prefix="EISTextField" modelName="EISTextField">
+                        <Property name="setReadOnly" value="" />
+                        <Property name="ParentElement" value="true" />
+                        <Property name="ReadOnly" value="true" />
+                        <Property name="Format" value="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+                        <Property name="DataType" value="0" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="true" />
+                        <Property name="OnClick" value="" />
+                        <Property name="getAlign" value="" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="setInnerText" value="" />
+                        <Property name="setDataFormatAs" value="" />
+                        <Property name="Focus" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="Click" value="" />
+                        <Property name="setDefaultValue" value="" />
+                        <Property name="getIsDisabled" value="" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="FontBold" value="false" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="BackgroundImage" value="" />
+                        <Property name="IsPassword" value="false" />
+                        <Property name="getReadOnly" value="" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="getMaxLength" value="" />
+                        <Property name="IsDate" value="false" />
+                        <Property name="Background" value="-590849" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="getDefaultValue" value="" />
+                        <Property name="Underline" value="false" />
+                        <Property name="Image" />
+                        <Property name="getDataFormatAs" value="" />
+                        <Property name="OnChange" value="" />
+                        <Property name="Blur" value="" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="setMaxLength" value="" />
+                        <Property name="setOuterHTML" value="" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="BackgroundAttachment" value="fixed" />
+                        <Property name="getName" value="" />
+                        <Property name="getTabIndex" value="" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="setVcard_name" value="" />
+                        <Property name="getClientLeft" value="" />
+                        <Property name="y" value="420" />
+                        <Property name="x" value="840" />
+                        <Property name="getAccessKey" value="" />
+                        <Property name="Foreground" value="-16777216" />
+                        <Property name="getIsMultiLine" value="" />
+                        <Property name="getClientTop" value="" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="setAccessKey" value="" />
+                        <Property name="height" value="170" />
+                        <Property name="getWidth" value="" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="getSize" value="" />
+                        <Property name="Min" value="" />
+                        <Property name="CanBeBlank" value="true" />
+                        <Property name="WriteQuery" value="sg_frm_comm_changepwd.qry" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="BackgroundRepeat" value="" />
+                        <Property name="AccessKey" value="" />
+                        <Property name="width" value="2000" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="setTabIndex" value="" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="Select" value="" />
+                        <Property name="WriteColumn" value="SG_FRM_USR_ACCOUNT.USERID" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="getDisabled" value="" />
+                        <Property name="getIsContentEditable" value="" />
+                        <Property name="setName" value="" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="getValue" value="" />
+                        <Property name="getReadyState" value="" />
+                        <Property name="Disable" value="false" />
+                        <Property name="Type" value="0" />
+                        <Property name="HorizontalAlignment" value="2" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="getOuterHTML" value="" />
+                        <Property name="getType" value="" />
+                        <Property name="OnSelect" value="" />
+                        <Property name="setAlign" value="" />
+                        <Property name="Max" value="" />
+                        <Property name="setWidth" value="" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="setDisabled" value="" />
+                        <Property name="setSize" value="" />
+                        <Property name="TabIndex" value="0" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="Location" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="setValue" value="" />
+                        <Property name="DisplayName" value="" />
+                        <Property name="FontFace" value="宋体" />
+                        <Property name="getInnerText" value="" />
+                        <Property name="Text" value="">
+                            <Attribute name="format" class="java.lang.String" value="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" />
+                            <Attribute name="column" class="java.lang.String" value="SG_FRM_USR_ACCOUNT.USERID" />
+                            <Attribute name="displayIfNull" class="java.lang.String" value="null value" />
+                            <Attribute name="suppressIfNull" class="java.lang.Boolean" value="false" />
+                        </Property>
+                        <Property name="ObjectType" value="Form" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="IsNumber" value="false" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="IsOther" value="true" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="offsetWidth" value="0" />
+                    </XObject>
+                    <XObject name="EISLabel1" prefix="EISLabel" modelName="EISLabel">
+                        <Property name="ParentElement" value="true" />
+                        <Property name="Foreground" value="-16777216" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="false" />
+                        <Property name="OnClick" value="" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="height" value="170" />
+                        <Property name="Focus" value="" />
+                        <Property name="Click" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="BackgroundRepeat" value="" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="width" value="600" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="FontBold" value="false" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="BackgroundImage" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="HorizontalAlignment" value="4" />
+                        <Property name="Background" value="-3355444" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="Underline" value="false" />
+                        <Property name="Image" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="Blur" value="" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="Location" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="FontFace" value="宋体" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="Text" value="用户ID" />
+                        <Property name="ObjectType" value="Window" />
+                        <Property name="BackgroundAttachment" value="fixed" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="LabelFor" value="" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="offsetWidth" value="0" />
+                        <Property name="y" value="420" />
+                        <Property name="x" value="200" />
+                    </XObject>
+                    <XObject name="EISTextField4" prefix="EISTextField" modelName="EISTextField">
+                        <Property name="setReadOnly" value="" />
+                        <Property name="ParentElement" value="true" />
+                        <Property name="ReadOnly" value="false" />
+                        <Property name="Format" />
+                        <Property name="DataType" value="0" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="true" />
+                        <Property name="OnClick" value="" />
+                        <Property name="getAlign" value="" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="setInnerText" value="" />
+                        <Property name="setDataFormatAs" value="" />
+                        <Property name="Focus" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="Click" value="" />
+                        <Property name="setDefaultValue" value="" />
+                        <Property name="getIsDisabled" value="" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="FontBold" value="false" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="BackgroundImage" value="" />
+                        <Property name="IsPassword" value="true" />
+                        <Property name="getReadOnly" value="" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="getMaxLength" value="" />
+                        <Property name="IsDate" value="false" />
+                        <Property name="Background" value="-590849" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="getDefaultValue" value="" />
+                        <Property name="Underline" value="false" />
+                        <Property name="Image" />
+                        <Property name="getDataFormatAs" value="" />
+                        <Property name="OnChange" value="" />
+                        <Property name="Blur" value="" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="setMaxLength" value="" />
+                        <Property name="setOuterHTML" value="" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="BackgroundAttachment" value="fixed" />
+                        <Property name="getName" value="" />
+                        <Property name="getTabIndex" value="" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="setVcard_name" value="" />
+                        <Property name="getClientLeft" value="" />
+                        <Property name="y" value="670" />
+                        <Property name="x" value="840" />
+                        <Property name="getAccessKey" value="" />
+                        <Property name="Foreground" value="-16777216" />
+                        <Property name="getIsMultiLine" value="" />
+                        <Property name="getClientTop" value="" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="setAccessKey" value="" />
+                        <Property name="height" value="170" />
+                        <Property name="getWidth" value="" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="getSize" value="" />
+                        <Property name="Min" value="" />
+                        <Property name="CanBeBlank" value="true" />
+                        <Property name="WriteQuery" value="" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="BackgroundRepeat" value="" />
+                        <Property name="AccessKey" value="" />
+                        <Property name="width" value="2000" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="setTabIndex" value="" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="Select" value="" />
+                        <Property name="WriteColumn" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="getDisabled" value="" />
+                        <Property name="getIsContentEditable" value="" />
+                        <Property name="setName" value="" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="getValue" value="" />
+                        <Property name="getReadyState" value="" />
+                        <Property name="Disable" value="false" />
+                        <Property name="Type" value="0" />
+                        <Property name="HorizontalAlignment" value="2" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="getOuterHTML" value="" />
+                        <Property name="getType" value="" />
+                        <Property name="OnSelect" value="" />
+                        <Property name="setAlign" value="" />
+                        <Property name="Max" value="" />
+                        <Property name="setWidth" value="" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="setDisabled" value="" />
+                        <Property name="setSize" value="" />
+                        <Property name="TabIndex" value="0" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="Location" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="setValue" value="" />
+                        <Property name="DisplayName" value="" />
+                        <Property name="FontFace" value="宋体" />
+                        <Property name="getInnerText" value="" />
+                        <Property name="Text" value="">
+                            <Attribute name="format" class="java.lang.String" value="" />
+                            <Attribute name="column" class="java.lang.String" value="" />
+                        </Property>
+                        <Property name="ObjectType" value="Form" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="IsNumber" value="false" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="IsOther" value="true" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="offsetWidth" value="0" />
+                    </XObject>
+                    <XObject name="EISLabel4" prefix="EISLabel" modelName="EISLabel">
+                        <Property name="ParentElement" value="true" />
+                        <Property name="Foreground" value="-16777216" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="false" />
+                        <Property name="OnClick" value="" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="height" value="170" />
+                        <Property name="Focus" value="" />
+                        <Property name="Click" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="BackgroundRepeat" value="" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="width" value="600" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="FontBold" value="false" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="BackgroundImage" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="HorizontalAlignment" value="4" />
+                        <Property name="Background" value="-3355444" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="Underline" value="false" />
+                        <Property name="Image" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="Blur" value="" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="Location" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="FontFace" value="宋体" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="Text" value="原始密码" />
+                        <Property name="ObjectType" value="Window" />
+                        <Property name="BackgroundAttachment" value="fixed" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="LabelFor" value="" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="offsetWidth" value="0" />
+                        <Property name="y" value="670" />
+                        <Property name="x" value="200" />
+                    </XObject>
+                    <XObject name="EISLabel7" prefix="EISLabel" modelName="EISLabel">
+                        <Property name="ParentElement" value="true" />
+                        <Property name="Foreground" value="-16777216" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="false" />
+                        <Property name="OnClick" value="" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="height" value="150" />
+                        <Property name="Focus" value="" />
+                        <Property name="Click" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="BackgroundRepeat" value="" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="width" value="700" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="FontBold" value="true" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="BackgroundImage" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="HorizontalAlignment" value="2" />
+                        <Property name="Background" value="-3355444" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="Underline" value="false" />
+                        <Property name="Image" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="Blur" value="" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="Location" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="FontFace" value="*宋体" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="Text" value="修改密码" />
+                        <Property name="ObjectType" value="Window" />
+                        <Property name="BackgroundAttachment" value="fixed" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="LabelFor" value="" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="offsetWidth" value="0" />
+                        <Property name="y" value="100" />
+                        <Property name="x" value="170" />
+                    </XObject>
+                    <XObject name="EISImage1" prefix="EISImage" modelName="EISImage">
+                        <Property name="ParentElement" value="true" />
+                        <Property name="getHspace" value="" />
+                        <Property name="Visible" value="true" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="OnClick" value="" />
+                        <Property name="getAlign" value="" />
+                        <Property name="getNameProp" value="" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="setInnerText" value="" />
+                        <Property name="setDataFormatAs" value="" />
+                        <Property name="Focus" value="" />
+                        <Property name="getGalleryImg" value="" />
+                        <Property name="Click" value="" />
+                        <Property name="getFileCreatedDate" value="" />
+                        <Property name="getIsDisabled" value="" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="TagName" value="true" />
+                        <Property name="getFileSize" value="" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="getLoop" value="" />
+                        <Property name="setHspace" value="" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="Target" value="_default" />
+                        <Property name="setGalleryImg" value="" />
+                        <Property name="Image" value="" />
+                        <Property name="getDataFormatAs" value="" />
+                        <Property name="Blur" value="" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="setOuterHTML" value="" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="setLowsrc" value="" />
+                        <Property name="setSrc" value="" />
+                        <Property name="getName" value="" />
+                        <Property name="getTabIndex" value="" />
+                        <Property name="getLowsrc" value="" />
+                        <Property name="getUseMap" value="" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="getClientLeft" value="" />
+                        <Property name="y" value="310" />
+                        <Property name="x" value="140" />
+                        <Property name="getAccessKey" value="" />
+                        <Property name="IsCut" value="false" />
+                        <Property name="getIsMultiLine" value="" />
+                        <Property name="getClientTop" value="" />
+                        <Property name="Maps" />
+                        <Property name="setVspace" value="" />
+                        <Property name="setAccessKey" value="" />
+                        <Property name="height" value="10" />
+                        <Property name="OnLoad" value="" />
+                        <Property name="getWidth" value="" />
+                        <Property name="getFileModifiedDate" value="" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="getSize" value="" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="setType" value="" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="width" value="3000" />
+                        <Property name="setTabIndex" value="" />
+                        <Property name="Source" value="SG_IMAGES/line.gif" />
+                        <Property name="setStart" value="" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="setHeight" value="" />
+                        <Property name="getDisabled" value="" />
+                        <Property name="getIsContentEditable" value="" />
+                        <Property name="setName" value="" />
+                        <Property name="getValue" value="" />
+                        <Property name="getReadyState" value="" />
+                        <Property name="Original" value="false" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="getOuterHTML" value="" />
+                        <Property name="getType" value="" />
+                        <Property name="getHeight" value="" />
+                        <Property name="setAlign" value="" />
+                        <Property name="setWidth" value="" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="getSrc" value="" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="IsMap" value="false" />
+                        <Property name="setDisabled" value="" />
+                        <Property name="Hyperlink" value="" />
+                        <Property name="setSize" value="" />
+                        <Property name="getFileUpdatedDate" value="" />
+                        <Property name="Location" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="setUseMap" value="" />
+                        <Property name="setValue" value="" />
+                        <Property name="getInnerText" value="" />
+                        <Property name="getVspace" value="" />
+                        <Property name="getStart" value="" />
+                        <Property name="ObjectType" value="Window" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="offsetWidth" value="0" />
+                        <Property name="setLoop" value="" />
+                    </XObject>
+                    <XObject name="EISTextField5" prefix="EISTextField" modelName="EISTextField">
+                        <Property name="setReadOnly" value="" />
+                        <Property name="ParentElement" value="true" />
+                        <Property name="ReadOnly" value="false" />
+                        <Property name="Format" />
+                        <Property name="DataType" value="0" />
+                        <Property name="Visible" value="false" />
+                        <Property name="OnDBLClick" value="" />
+                        <Property name="Opaque" value="false" />
+                        <Property name="OnClick" value="" />
+                        <Property name="getAlign" value="" />
+                        <Property name="FontSize" value="90" />
+                        <Property name="ToolTipText" value="" />
+                        <Property name="setInnerText" value="" />
+                        <Property name="setDataFormatAs" value="" />
+                        <Property name="Focus" value="" />
+                        <Property name="LineThrough" value="false" />
+                        <Property name="Click" value="" />
+                        <Property name="setDefaultValue" value="" />
+                        <Property name="getIsDisabled" value="" />
+                        <Property name="OnDropped" value="" />
+                        <Property name="FontBold" value="false" />
+                        <Property name="TagName" value="true" />
+                        <Property name="BorderWidth" value="0" />
+                        <Property name="OnMouseDown" value="" />
+                        <Property name="BackgroundImage" value="" />
+                        <Property name="IsPassword" value="true" />
+                        <Property name="getReadOnly" value="" />
+                        <Property name="OnMouseUp" value="" />
+                        <Property name="getMaxLength" value="" />
+                        <Property name="IsDate" value="false" />
+                        <Property name="Background" value="-3355444" />
+                        <Property name="FontItalic" value="false" />
+                        <Property name="getDefaultValue" value="" />
+                        <Property name="Underline" value="false" />
+                        <Property name="Image" />
+                        <Property name="getDataFormatAs" value="" />
+                        <Property name="OnChange" value="" />
+                        <Property name="Blur" value="" />
+                        <Property name="OnMouseOut" value="" />
+                        <Property name="setMaxLength" value="" />
+                        <Property name="setOuterHTML" value="" />
+                        <Property name="offsetHeight" value="0" />
+                        <Property name="BackgroundAttachment" value="fixed" />
+                        <Property name="getName" value="" />
+                        <Property name="getTabIndex" value="" />
+                        <Property name="Ctrl_ID" value="" />
+                        <Property name="setVcard_name" value="" />
+                        <Property name="getClientLeft" value="" />
+                        <Property name="y" value="670" />
+                        <Property name="x" value="3050" />
+                        <Property name="getAccessKey" value="" />
+                        <Property name="Foreground" value="-16777216" />
+                        <Property name="getIsMultiLine" value="" />
+                        <Property name="getClientTop" value="" />
+                        <Property name="OnKeyUp" value="" />
+                        <Property name="OnKeyPress" value="" />
+                        <Property name="setAccessKey" value="" />
+                        <Property name="height" value="170" />
+                        <Property name="getWidth" value="" />
+                        <Property name="offsetTop" value="0" />
+                        <Property name="getSize" value="" />
+                        <Property name="Min" value="" />
+                        <Property name="CanBeBlank" value="true" />
+                        <Property name="WriteQuery" value="" />
+                        <Property name="OnBlur" value="" />
+                        <Property name="BackgroundRepeat" value="" />
+                        <Property name="AccessKey" value="" />
+                        <Property name="width" value="550" />
+                        <Property name="OnMouseMove" value="" />
+                        <Property name="BackgroundPositionY" value="" />
+                        <Property name="setTabIndex" value="" />
+                        <Property name="BackgroundPositionX" value="" />
+                        <Property name="Select" value="" />
+                        <Property name="WriteColumn" />
+                        <Property name="OnKeyDown" value="" />
+                        <Property name="VerticalAlignment" value="0" />
+                        <Property name="getDisabled" value="" />
+                        <Property name="getIsContentEditable" value="" />
+                        <Property name="setName" value="" />
+                        <Property name="TextIndent" value="0" />
+                        <Property name="getValue" value="" />
+                        <Property name="getReadyState" value="" />
+                        <Property name="Disable" value="false" />
+                        <Property name="Type" value="0" />
+                        <Property name="HorizontalAlignment" value="2" />
+                        <Property name="Cursor" value="" />
+                        <Property name="BottomLineStyle" value="none" />
+                        <Property name="OnMouseOver" value="" />
+                        <Property name="getOuterHTML" value="" />
+                        <Property name="getType" value="" />
+                        <Property name="OnSelect" value="" />
+                        <Property name="setAlign" value="" />
+                        <Property name="Max" value="" />
+                        <Property name="setWidth" value="" />
+                        <Property name="RightLineStyle" value="none" />
+                        <Property name="LeftLineStyle" value="none" />
+                        <Property name="setDisabled" value="" />
+                        <Property name="setSize" value="" />
+                        <Property name="TabIndex" value="0" />
+                        <Property name="LetterSpacing" value="0" />
+                        <Property name="Location" value="" />
+                        <Property name="OnFocus" value="" />
+                        <Property name="setValue" value="" />
+                        <Property name="DisplayName" value="" />
+                        <Property name="FontFace" value="宋体" />
+                        <Property name="getInnerText" value="" />
+                        <Property name="Text" value="">
+                            <Attribute name="format" class="java.lang.String" value="" />
+                            <Attribute name="column" class="java.lang.String" value="SG_FRM_USR_ACCOUNT.PASSWORD" />
+                        </Property>
+                        <Property name="ObjectType" value="Form" />
+                        <Property name="BorderColor" value="-16777216" />
+                        <Property name="IsNumber" value="false" />
+                        <Property name="TopLineStyle" value="none" />
+                        <Property name="IsOther" value="true" />
+                        <Property name="offsetLeft" value="0" />
+                        <Property name="offsetWidth" value="0" />
+                    </XObject>
+                    <Property name="ParentElement" value="true" />
+                    <Property name="OnMouseUp" value="" />
+                    <Property name="Visible" value="true" />
+                    <Property name="OnDBLClick" value="" />
+                    <Property name="Opaque" value="false" />
+                    <Property name="OnClick" value="" />
+                    <Property name="Background" value="-3355444" />
+                    <Property name="ShowSplitBar" value="false" />
+                    <Property name="Clip" value="false" />
+                    <Property name="BottomLineStyle" value="solid" />
+                    <Property name="OnMouseOver" value="" />
+                    <Property name="ToolTipText" value="" />
+                    <Property name="height" value="1490" />
+                    <Property name="OnResize" value="" />
+                    <Property name="Image" />
+                    <Property name="canScroll" value="false" />
+                    <Property name="DndEnabled" value="false" />
+                    <Property name="Click" value="" />
+                    <Property name="offsetTop" value="0" />
+                    <Property name="RightLineStyle" value="solid" />
+                    <Property name="LeftLineStyle" value="solid" />
+                    <Property name="BackgroundRepeat" value="" />
+                    <Property name="OnMouseMove" value="" />
+                    <Property name="width" value="5090" />
+                    <Property name="OnDropped" value="" />
+                    <Property name="BackgroundPositionY" value="" />
+                    <Property name="Location" value="North" />
+                    <Property name="OnMouseOut" value="" />
+                    <Property name="BackgroundPositionX" value="" />
+                    <Property name="Title" value="" />
+                    <Property name="TagName" value="true" />
+                    <Property name="IsCutSource" value="false" />
+                    <Property name="BorderWidth" value="1" />
+                    <Property name="offsetHeight" value="0" />
+                    <Property name="Layout" value="" />
+                    <Property name="ObjectType" value="Window" />
+                    <Property name="OnMouseDown" value="" />
+                    <Property name="OnKeyDown" value="" />
+                    <Property name="BackgroundImage" value="" />
+                    <Property name="BackgroundAttachment" value="fixed" />
+                    <Property name="BorderColor" value="-3355444" />
+                    <Property name="TopLineStyle" value="solid" />
+                    <Property name="Ctrl_ID" value="" />
+                    <Property name="offsetWidth" value="0" />
+                    <Property name="offsetLeft" value="0" />
+                    <Property name="y" value="30" />
+                    <Property name="x" value="140" />
+                </XContainer>
+                <XObject name="EISTextField6" prefix="EISTextField" modelName="EISTextField">
+                    <Property name="setReadOnly" value="" />
+                    <Property name="ParentElement" value="true" />
+                    <Property name="ReadOnly" value="false" />
+                    <Property name="Format" value="yyyy-MM-dd" />
+                    <Property name="DataType" value="0" />
+                    <Property name="Visible" value="false" />
+                    <Property name="OnDBLClick" value="" />
+                    <Property name="Opaque" value="false" />
+                    <Property name="OnClick" value="" />
+                    <Property name="getAlign" value="" />
+                    <Property name="FontSize" value="120" />
+                    <Property name="ToolTipText" value="" />
+                    <Property name="setInnerText" value="" />
+                    <Property name="setDataFormatAs" value="" />
+                    <Property name="Focus" value="" />
+                    <Property name="LineThrough" value="false" />
+                    <Property name="Click" value="" />
+                    <Property name="setDefaultValue" value="" />
+                    <Property name="getIsDisabled" value="" />
+                    <Property name="OnDropped" value="" />
+                    <Property name="FontBold" value="false" />
+                    <Property name="TagName" value="true" />
+                    <Property name="BorderWidth" value="0" />
+                    <Property name="OnMouseDown" value="" />
+                    <Property name="BackgroundImage" value="" />
+                    <Property name="IsPassword" value="false" />
+                    <Property name="getReadOnly" value="" />
+                    <Property name="OnMouseUp" value="" />
+                    <Property name="getMaxLength" value="" />
+                    <Property name="IsDate" value="true" />
+                    <Property name="Background" value="-3355444" />
+                    <Property name="FontItalic" value="false" />
+                    <Property name="getDefaultValue" value="" />
+                    <Property name="Underline" value="false" />
+                    <Property name="Image" />
+                    <Property name="getDataFormatAs" value="" />
+                    <Property name="OnChange" value="" />
+                    <Property name="Blur" value="" />
+                    <Property name="OnMouseOut" value="" />
+                    <Property name="setMaxLength" value="" />
+                    <Property name="setOuterHTML" value="" />
+                    <Property name="offsetHeight" value="0" />
+                    <Property name="BackgroundAttachment" value="fixed" />
+                    <Property name="getName" value="" />
+                    <Property name="getTabIndex" value="" />
+                    <Property name="Ctrl_ID" value="" />
+                    <Property name="setVcard_name" value="" />
+                    <Property name="getClientLeft" value="" />
+                    <Property name="y" value="1960" />
+                    <Property name="x" value="4290" />
+                    <Property name="getAccessKey" value="" />
+                    <Property name="Foreground" value="-16777216" />
+                    <Property name="getIsMultiLine" value="" />
+                    <Property name="getClientTop" value="" />
+                    <Property name="OnKeyUp" value="" />
+                    <Property name="OnKeyPress" value="" />
+                    <Property name="setAccessKey" value="" />
+                    <Property name="height" value="220" />
+                    <Property name="getWidth" value="" />
+                    <Property name="offsetTop" value="0" />
+                    <Property name="getSize" value="" />
+                    <Property name="Min" value="" />
+                    <Property name="CanBeBlank" value="true" />
+                    <Property name="WriteQuery" value="sg_frm_account.qry" />
+                    <Property name="OnBlur" value="" />
+                    <Property name="BackgroundRepeat" value="" />
+                    <Property name="AccessKey" value="" />
+                    <Property name="width" value="1000" />
+                    <Property name="OnMouseMove" value="" />
+                    <Property name="BackgroundPositionY" value="" />
+                    <Property name="setTabIndex" value="" />
+                    <Property name="BackgroundPositionX" value="" />
+                    <Property name="Select" value="" />
+                    <Property name="WriteColumn" value="SG_FRM_USR_ACCOUNT.UPDATEDATE" />
+                    <Property name="OnKeyDown" value="" />
+                    <Property name="VerticalAlignment" value="0" />
+                    <Property name="getDisabled" value="" />
+                    <Property name="getIsContentEditable" value="" />
+                    <Property name="setName" value="" />
+                    <Property name="TextIndent" value="0" />
+                    <Property name="getValue" value="" />
+                    <Property name="getReadyState" value="" />
+                    <Property name="Disable" value="false" />
+                    <Property name="Type" value="0" />
+                    <Property name="HorizontalAlignment" value="2" />
+                    <Property name="Cursor" value="" />
+                    <Property name="BottomLineStyle" value="none" />
+                    <Property name="OnMouseOver" value="" />
+                    <Property name="getOuterHTML" value="" />
+                    <Property name="getType" value="" />
+                    <Property name="OnSelect" value="" />
+                    <Property name="setAlign" value="" />
+                    <Property name="Max" value="" />
+                    <Property name="setWidth" value="" />
+                    <Property name="RightLineStyle" value="none" />
+                    <Property name="LeftLineStyle" value="none" />
+                    <Property name="setDisabled" value="" />
+                    <Property name="setSize" value="" />
+                    <Property name="TabIndex" value="0" />
+                    <Property name="LetterSpacing" value="0" />
+                    <Property name="Location" value="" />
+                    <Property name="OnFocus" value="" />
+                    <Property name="setValue" value="" />
+                    <Property name="DisplayName" value="" />
+                    <Property name="FontFace" value="Dialog" />
+                    <Property name="getInnerText" value="" />
+                    <Property name="Text" value="">
+                        <Attribute name="format" class="java.lang.String" value="yyyy-MM-dd" />
+                        <Attribute name="column" class="java.lang.String" value="" />
+                    </Property>
+                    <Property name="ObjectType" value="Form" />
+                    <Property name="BorderColor" value="-16777216" />
+                    <Property name="IsNumber" value="false" />
+                    <Property name="TopLineStyle" value="none" />
+                    <Property name="IsOther" value="false" />
+                    <Property name="offsetLeft" value="0" />
+                    <Property name="offsetWidth" value="0" />
+                </XObject>
+                <Property name="ParentElement" value="true" />
+                <Property name="OnMouseUp" value="" />
+                <Property name="Visible" value="true" />
+                <Property name="OnDBLClick" value="" />
+                <Property name="Opaque" value="false" />
+                <Property name="OnClick" value="" />
+                <Property name="Background" value="-3355444" />
+                <Property name="ShowSplitBar" value="false" />
+                <Property name="Clip" value="false" />
+                <Property name="BottomLineStyle" value="none" />
+                <Property name="OnMouseOver" value="" />
+                <Property name="ToolTipText" value="" />
+                <Property name="height" value="2220" />
+                <Property name="OnResize" value="" />
+                <Property name="Image" />
+                <Property name="canScroll" value="false" />
+                <Property name="DndEnabled" value="false" />
+                <Property name="Click" value="" />
+                <Property name="offsetTop" value="0" />
+                <Property name="RightLineStyle" value="none" />
+                <Property name="LeftLineStyle" value="none" />
+                <Property name="BackgroundRepeat" value="" />
+                <Property name="OnMouseMove" value="" />
+                <Property name="width" value="6200" />
+                <Property name="OnDropped" value="" />
+                <Property name="BackgroundPositionY" value="" />
+                <Property name="Location" value="Center" />
+                <Property name="OnMouseOut" value="" />
+                <Property name="BackgroundPositionX" value="" />
+                <Property name="Title" value="" />
+                <Property name="TagName" value="true" />
+                <Property name="IsCutSource" value="false" />
+                <Property name="BorderWidth" value="0" />
+                <Property name="offsetHeight" value="0" />
+                <Property name="Layout" value="BorderLayout" />
+                <Property name="ObjectType" value="Window" />
+                <Property name="OnMouseDown" value="" />
+                <Property name="OnKeyDown" value="" />
+                <Property name="BackgroundImage" value="" />
+                <Property name="BackgroundAttachment" value="fixed" />
+                <Property name="BorderColor" value="-16777216" />
+                <Property name="TopLineStyle" value="none" />
+                <Property name="Ctrl_ID" value="" />
+                <Property name="offsetWidth" value="0" />
+                <Property name="offsetLeft" value="0" />
+                <Property name="y" value="430" />
+                <Property name="x" value="790" />
+            </XContainer>
+            <Property name="ErrorPage" />
+            <Property name="dbDelete" />
+            <Property name="Method" />
+            <Property name="ReadQuery" value="sg_frm_comm_changepwd.qry" />
+            <Property name="dbNext" />
+            <Property name="OnSubmit" value="null\n//EISTextField1start\r\n{\r\nvar valueStr = window.document.getElementById(&quot;EISForm1&quot;).EISTextField1.value;\r\n//设定textField或textArea在数据库里的精度\r\n if( valueStr.replace(/[\\u4e00-\\u9fa5]/g,&quot;  &quot;).length&gt;200)\r\n{\r\nalert(&quot;信息长度大于数据库的容量，信息可能丢失！！&quot;);\r\nreturn false;\r\n}\r\n}\r\n//*********以上是系统生成的代码*********\r\n//EISTextField1end\r\n\r\n\r\n\r\n\n//EISTextField6start\r\n{\r\nvar valueStr = window.document.getElementById(&quot;EISForm1&quot;).EISTextField6.value;\r\n//设定textField或textArea在数据库里的精度\r\n if( valueStr.replace(/[\\u4e00-\\u9fa5]/g,&quot;  &quot;).length&gt;7)\r\n{\r\nalert(&quot;信息长度大于数据库的容量，信息可能丢失！！&quot;);\r\nreturn false;\r\n}\r\n//有效性 时间验证\r\n if( !(valueStr.replace(/^\\s+|\\s+$/g,&apos;&apos;)==&apos;&apos;))\r\n{\r\nvar r = /^(\\d{1,4})-(\\d{1,2})-(\\d{1,2})$/;\r\nvar a = valueStr.match(r);\r\n if( a == null )\r\n{\r\nalert(&quot;输入的参数不是时间格式&quot;);\r\nreturn false;\r\n}\r\nvar d= new Date(a[1], a[2]-1, a[3]);\r\n if( a[2]&gt;12 || a[3]&gt;31 )\r\n{\r\nalert(&quot;输入的时间格式不对&quot;);\r\nreturn false;\r\n}\r\n}\r\n}\r\n//*********以上是系统生成的代码*********\r\n//EISTextField6end\r\n\r\n\r\n\r\n" />
+            <Property name="dbUpdateFirst" />
+            <Property name="dbInsert" />
+            <Property name="getType" />
+            <Property name="Target" />
+            <Property name="height" type="Unit" value="6000" />
+            <Property name="setField" />
+            <Property name="Action" />
+            <Property name="dbDeleteNext" />
+            <Property name="length" />
+            <Property name="OnReset" value="" />
+            <Property name="HiddenFields" />
+            <Property name="elements" />
+            <Property name="dbUpdateNext" />
+            <Property name="ChangeQuery" value="">
+                <ObjectItem class="java.util.Vector">
+                    <ObjectItem class="com.bis.impls.eis.EISCondition">
+                        <Item name="ReadQuery" value="sg_frm_comm_changepwd.qry" class="java.lang.String" />
+                        <Item name="ReadColumn" value="SG_FRM_USR_ACCOUNT.USERID" class="java.lang.String" />
+                        <Item name="WriteQuery" value="sg_frm_comm_changepwd.qry" class="java.lang.String" />
+                        <Item name="WriteColumn" value="SG_FRM_USR_ACCOUNT.USERID" class="java.lang.String" />
+                        <Item name="Operator" value="=" class="java.lang.String" />
+                    </ObjectItem>
+                </ObjectItem>
+            </Property>
+            <Property name="dbUpdatePrev" />
+            <Property name="SuccessPage" value="SG_FRM_COMM/frm_comm_changepwd_success.eis" />
+            <Property name="width" type="Unit" value="8000" />
+            <Property name="dbLast" />
+            <Property name="doRefresh" />
+            <Property name="dbUpdate" />
+            <Property name="setParameterNull" />
+            <Property name="setParameter" />
+            <Property name="doSubmit" />
+            <Property name="dbFirst" />
+            <Property name="dbUpdateLast" />
+            <Property name="getURL" />
+            <Property name="Ctrl_ID" />
+            <Property name="y" type="Unit" value="0" />
+            <Property name="dbPrev" />
+            <Property name="x" type="Unit" value="0" />
+        </XContainer>
+        <Property name="Headers" />
+        <Property name="SplitBarWidth" value="0" />
+        <Property name="FormulaPool" value="">
+            <ObjectItem class="com.bis.impls.formula.xformula.XFormulae" value="" />
+            <XContainer name="" prefix="Formulae" modelName="Formulae">
+                <XObject name="" prefix="Formula" modelName="Formula">
+                    <Property name="Parameters" />
+                    <Property name="Description" value="执行主查询之前" />
+                    <Property name="Arguments" />
+                    <Property name="OLAPResource" value="true" />
+                    <Property name="ReturnType" value="INTEGER" />
+                    <Property name="IsAggregate" value="false" />
+                    <Property name="Group" />
+                    <Property name="Name" value="beforeMainQuery" />
+                    <Property name="IsValid" value="true" />
+                    <Property name="Precision" value="0" />
+                    <Property name="ArgumentsMap" />
+                    <Property name="CalculationPoint" value="0" />
+                    <Property name="Scale" value="0" />
+                    <Property name="Content" value="LogUtil.addLog( this,&quot;sg_frm_comm.con&quot;); \ncom.bis.interfaces.security.IUser user=(com.bis.interfaces.security.IUser)request.getSession().getValue(&quot;com.bis.user&quot;);\nif (user!=null){\n   v_userid =user.getName();\n}\nv_page_from = EISTools.getField(  this,  &quot;page_from&quot;);\nSystem.out.println(&quot;@@@@@@==============&quot;+v_page_from);\nEISTools.setParameterValue( this, &quot;p_userid&quot;,v_userid) ; \n\nreturn 0;" />
+                    <Property name="WhilePaging" value="false" />
+                    <Property name="InUse" value="true" />
+                </XObject>
+                <XObject name="" prefix="Formula" modelName="Formula">
+                    <Property name="Parameters" />
+                    <Property name="Description" value="执行数据库动作之前" />
+                    <Property name="Arguments" />
+                    <Property name="OLAPResource" value="true" />
+                    <Property name="ReturnType" value="INTEGER" />
+                    <Property name="IsAggregate" value="false" />
+                    <Property name="Group" />
+                    <Property name="Name" value="beforeRun" />
+                    <Property name="IsValid" value="true" />
+                    <Property name="Precision" value="0" />
+                    <Property name="ArgumentsMap" />
+                    <Property name="CalculationPoint" value="0" />
+                    <Property name="Scale" value="0" />
+                    <Property name="Content" value="if( _sysVarType == this.TYPE_UPDATE )\n{\n    String password =  com.dc.common.utils.MD5Util.encrypt(EISTextField1.getValue());\n    EISTextField1.setValue(password);\n    \n}\n\nreturn 0;" />
+                    <Property name="WhilePaging" value="false" />
+                    <Property name="InUse" value="true" />
+                </XObject>
+                <XObject name="" prefix="Formula" modelName="Formula">
+                    <Property name="Parameters" />
+                    <Property name="Description" value="执行数据库动作之后" />
+                    <Property name="Arguments" />
+                    <Property name="OLAPResource" value="true" />
+                    <Property name="ReturnType" value="INTEGER" />
+                    <Property name="IsAggregate" value="false" />
+                    <Property name="Group" />
+                    <Property name="Name" value="submited" />
+                    <Property name="IsValid" value="true" />
+                    <Property name="Precision" value="0" />
+                    <Property name="ArgumentsMap" />
+                    <Property name="CalculationPoint" value="0" />
+                    <Property name="Scale" value="0" />
+                    <Property name="Content" value="EISOtherTools.reloadRealm( ) ;\nreturn 0;" />
+                    <Property name="WhilePaging" value="false" />
+                    <Property name="InUse" value="true" />
+                </XObject>
+                <XObject name="" prefix="Formula" modelName="Formula">
+                    <Property name="Parameters" />
+                    <Property name="Description" value="创建页面之前" />
+                    <Property name="Arguments" />
+                    <Property name="OLAPResource" value="true" />
+                    <Property name="ReturnType" value="INTEGER" />
+                    <Property name="IsAggregate" value="false" />
+                    <Property name="Group" />
+                    <Property name="Name" value="perRecord" />
+                    <Property name="IsValid" value="true" />
+                    <Property name="Precision" value="0" />
+                    <Property name="ArgumentsMap" />
+                    <Property name="CalculationPoint" value="0" />
+                    <Property name="Scale" value="0" />
+                    <Property name="Content" value="//v_p_userid =request.getParameter(&quot;&quot;) ;\nEISTextField6.setValue( TimeUtil.format( new java.util.Date() ,  &quot;yyyy-MM-dd&quot;)); \nSystem.out.println(&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;:&quot;+TimeUtil.format( new java.util.Date() ,  &quot;yyyy-MM-dd&quot;));\nreturn 0;" />
+                    <Property name="WhilePaging" value="false" />
+                    <Property name="InUse" value="true" />
+                </XObject>
+                <XObject name="" prefix="Formula" modelName="Formula">
+                    <Property name="Parameters" />
+                    <Property name="Description" value="运行结束" />
+                    <Property name="Arguments" />
+                    <Property name="OLAPResource" value="true" />
+                    <Property name="ReturnType" value="INTEGER" />
+                    <Property name="IsAggregate" value="false" />
+                    <Property name="Group" />
+                    <Property name="Name" value="afterRun" />
+                    <Property name="IsValid" value="true" />
+                    <Property name="Precision" value="0" />
+                    <Property name="ArgumentsMap" />
+                    <Property name="CalculationPoint" value="0" />
+                    <Property name="Scale" value="0" />
+                    <Property name="Content" value="return 0;" />
+                    <Property name="WhilePaging" value="false" />
+                    <Property name="InUse" value="true" />
+                </XObject>
+                <Property name="Variables" value="">
+                    <ObjectItem class="java.util.Vector">
+                        <ObjectItem class="com.bis.impls.formula.xformula.XVariable">
+                            <Item name="Name" value="v_userid" class="java.lang.String" />
+                            <Item name="Type" value="String" class="java.lang.String" />
+                            <Item name="Value" value="&quot;null&quot;" class="java.lang.String" />
+                        </ObjectItem>
+                        <ObjectItem class="com.bis.impls.formula.xformula.XVariable">
+                            <Item name="Name" value="v_page_from" class="java.lang.String" />
+                            <Item name="Type" value="String" class="java.lang.String" />
+                            <Item name="Value" value="&quot;&quot;" class="java.lang.String" />
+                        </ObjectItem>
+                    </ObjectItem>
+                </Property>
+                <Property name="Type" value="2" />
+                <Property name="Imports" />
+                <Property name="Package" />
+                <Property name="MD" value="-1" />
+            </XContainer>
+        </Property>
+        <Property name="Variables" value="">
+            <ObjectItem class="java.util.Vector">
+                <ObjectItem class="com.bis.impls.formula.xformula.XVariable">
+                    <Item name="Name" value="loadUrl" class="java.lang.String" />
+                    <Item name="Type" value="URI" class="java.lang.String" />
+                    <Item name="Value" value="new URI()" class="java.lang.String" />
+                </ObjectItem>
+            </ObjectItem>
+        </Property>
+        <Property name="OnMouseUp" />
+        <Property name="ScriptFiles" value="">
+            <ObjectItem class="java.util.Vector">
+                <Item value="jquery.js" class="java.lang.String" />
+                <Item value="CheckFieldUtil.js" class="java.lang.String" />
+            </ObjectItem>
+        </Property>
+        <Property name="IncludeMessager" value="false" />
+        <Property name="Methods" value="">
+            <ObjectItem class="java.util.Vector">
+                <ObjectItem class="com.bis.impls.eis.script.XMethod" value="">
+                    <XObject name="EISMethod1" prefix="EISMethod" modelName="EISMethod">
+                        <Property name="Name" value="m_getValue" />
+                        <Property name="Arguments" />
+                        <Property name="Valid" value="false" />
+                        <Property name="ReturnType" />
+                        <Property name="Content" value="var field = loadUrl.getValue(&quot;v_checkVector&quot;) ;\n\nif(field[0] == 0){\n     alert(&quot;原始密码输入错误！&quot;);\n     EISTextField4_comp.setFocus();\n     return  false;\n}else{\n     db_update(window.EISForm1);\n}\n" />
+                    </XObject>
+                </ObjectItem>
+                <ObjectItem class="com.bis.impls.eis.script.XMethod" value="">
+                    <XObject name="EISMethod2" prefix="EISMethod" modelName="EISMethod">
+                        <Property name="Name" value="m_checkPWD_getvalue" />
+                        <Property name="Arguments" />
+                        <Property name="Valid" value="false" />
+                        <Property name="ReturnType" />
+                        <Property name="Content" value="var field = loadUrl.getValue(&quot;v_checkVector&quot;) ;\n\nif(field[0] == 0){\n     alert(&quot;原始密码输入错误！&quot;);\n     EISTextField4_comp.setFocus();\n     return  false;\n}else{\n     window.returnValue = &quot;success&quot;;\n     alert(&quot;密码修改成功&quot;);\n     window.close();\n}\n" />
+                    </XObject>
+                </ObjectItem>
+            </ObjectItem>
+        </Property>
+        <Property name="Opaque" value="false" />
+        <Property name="OnUnload" />
+        <Property name="SplitBorderWidth" />
+        <Property name="SplitBorderColor" value="-4144960" />
+        <Property name="TopMargin" value="0" />
+        <Property name="ShowSplitBar" value="false" />
+        <Property name="OnKeyUp" />
+        <Property name="OnKeyPress" />
+        <Property name="BackgroundColor" />
+        <Property name="BkImageRepeat" value="0" />
+        <Property name="close" />
+        <Property name="OnMouseOver" />
+        <Property name="height" value="0" />
+        <Property name="OnLoad" value="EISTextField3_comp.setValue(v_userid );\nEISTextField3_comp.setDisabled(true);\nif( v_page_from == &quot;checkPWD&quot; ){\n\twindow.returnValue = &quot;logout&quot;;\n\tEISButton1_comp.setStyleDisplay(&quot;none&quot;);\n\tEISButton2_comp.setStyleDisplay(&quot;none&quot;);\n}else{\n\tEISButton3_comp.setStyleDisplay(&quot;none&quot;);\n\tEISButton4_comp.setStyleDisplay(&quot;none&quot;);\n}" />
+        <Property name="OnResize" />
+        <Property name="Width" value="8000" />
+        <Property name="URL" />
+        <Property name="OnBlur" />
+        <Property name="SplitbarColor" value="-4144960" />
+        <Property name="RightMargin" value="0" />
+        <Property name="LeftMargin" value="0" />
+        <Property name="width" value="0" />
+        <Property name="OnMouseOut" />
+        <Property name="Height" value="6000" />
+        <Property name="OnFocus" />
+        <Property name="Title" value="密码修改" />
+        <Property name="FunctionPool" />
+        <Property name="Layout" value="BorderLayout" />
+        <Property name="OnMouseDown" />
+        <Property name="OnKeyDown" />
+        <Property name="BackgroundImage" />
+        <Property name="Links" />
+        <Property name="BottomMargin" value="0" />
+        <Property name="y" value="0" />
+        <Property name="x" value="0" />
+    </XContainer>
+</root>
+
