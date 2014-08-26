@@ -1,32 +1,41 @@
 package com.dc.esb.servicegov.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Administrator
- * Date: 14-5-27
- * Time: 上午10:36
+ *
+ * @author: Vincent Fan
+ * Date: 14-8-22
+ * Time: 下午4:39
  */
+
 @Entity
-@Table(name = "SERVICE")
-public class Service {
+@Table(name = "OPERATION")
+@IdClass(OperationPK.class)
+public class Operation {
     @Id
-    @Column(name = "SERVICE_ID")
+    @Column(name="OPERATION_ID")
+    private String operationId;
+    @Id
+    @Column(name="SERVICE_ID")
     private String serviceId;
-    @Column(name = "SERVICE_NAME")
-    private String serviceName;
-    @Column(name="SERVICE_REMARK")
+    @Column(name="OPERATION_NAME")
+    private String operationName;
+    @Column (name="REMARK")
     private String remark;
-    @Column(name="CATEGORY_ID")
-    private String categoryId;
     @Column(name="VERSION")
     private String version;
     @Column(name="STATE")
     private String state;
+
+    public String getOperationId() {
+        return operationId;
+    }
+
+    public void setOperationId(String operationId) {
+        this.operationId = operationId;
+    }
 
     public String getServiceId() {
         return serviceId;
@@ -36,12 +45,12 @@ public class Service {
         this.serviceId = serviceId;
     }
 
-    public String getServiceName() {
-        return serviceName;
+    public String getOperationName() {
+        return operationName;
     }
 
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
+    public void setOperationName(String operationName) {
+        this.operationName = operationName;
     }
 
     public String getRemark() {
@@ -50,14 +59,6 @@ public class Service {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public String getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
     }
 
     public String getVersion() {
