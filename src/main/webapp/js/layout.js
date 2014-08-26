@@ -17,6 +17,32 @@ var oLanguage = {
     },
     sInfo: "第 _START_ 到 _END_ 条记录 共 _TOTAL_ 条"
 };
+var sisTableLayout = [
+	{
+        "sTitle": "系统简称",
+        "mData": "systemAB"
+    },
+  	{
+        "sTitle": "系统名称",
+        "mData": "systemName"
+    },
+    {
+        "sTitle": "提供服务数",
+        "mData": "provideServiceNum"
+    },
+    {
+        "sTitle": "提供操作数",
+        "mData": "provideOperationNum"
+    },
+    {
+        "sTitle": "调用服务数",
+        "mData": "consumeServiceNum"
+    },
+    {
+        "sTitle": "调用操作数",
+        "mData": "consumeOperationNum"
+    }
+];
 
 var serviceTableLayout = [
     {

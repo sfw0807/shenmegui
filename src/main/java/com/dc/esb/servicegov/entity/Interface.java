@@ -12,25 +12,54 @@ import javax.persistence.Table;
  * Date: 14-6-9
  * Time: 上午11:37
  */
-
 @Entity
-@Table(name = "INTERFACE")
+@Table(name = "SG_MM_ASM_ADDTIONALSTRUCTURE")
 public class Interface {
     @Id
-    @Column(name = "INTERFACE_ID")
+    @Column(name = "INTERFACEID")
     private String interfaceId;
-    @Column(name = "INTERFACE_NAME")
+    @Column(name = "INTERFACENAME")
     private String interfaceName;
-    @Column(name = "REMARK")
-    private String remark;
-    @Column(name = "ECODE")
-    private String ecode;
-    @Column(name = "VERSION")
-    private String version;
-    @Column(name = "STATE")
-    private String state;
+    @Column(name = "INTERFACEREMARK")
+    private String interfaceRemark;
+    @Column(name = "INTERFACETYPE")
+    private String interfaceType;
+    @Column(name = "SERVICEID")
+    private String serviceId;
+    @Column(name = "RESOURCEID")
+    private String resoutceId;
+    @Column(name = "INTERFACEMEGTYPE")
+    private String interfaceMsgType;
+    @Column(name = "SYSID")
+    private String sysId;
+    @Column(name = "ACTIONID")
+    private String actionId;
+    @Column(name = "VERSIONSTATE")
+    private String versionState;
+    @Column(name = "VERSIONNUMBER")
+    private int versionNumber;
+    @Column(name = "VERSINNO")
+    private String devVersion;
+    @Column(name = "ONLINEDATE")
+    private String onlineDate;
 
-    public String getInterfaceId() {
+    public String getOnlineDate() {
+		return onlineDate;
+	}
+
+	public void setOnlineDate(String onlineDate) {
+		this.onlineDate = onlineDate;
+	}
+
+	public String getDevVersion() {
+		return devVersion;
+	}
+
+	public void setDevVersion(String devVersion) {
+		this.devVersion = devVersion;
+	}
+
+	public String getInterfaceId() {
         return interfaceId;
     }
 
@@ -46,35 +75,75 @@ public class Interface {
         this.interfaceName = interfaceName;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getInterfaceRemark() {
+        return interfaceRemark;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setInterfaceRemark(String interfaceRemark) {
+        this.interfaceRemark = interfaceRemark;
     }
 
-    public String getEcode() {
-        return ecode;
+    public String getInterfaceType() {
+        return interfaceType;
     }
 
-    public void setEcode(String ecode) {
-        this.ecode = ecode;
+    public void setInterfaceType(String interfaceType) {
+        this.interfaceType = interfaceType;
     }
 
-    public String getVersion() {
-        return version;
+    public String getServiceId() {
+        return serviceId;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
     }
 
-    public String getState() {
-        return state;
+    public String getResoutceId() {
+        return resoutceId;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setResoutceId(String resoutceId) {
+        this.resoutceId = resoutceId;
+    }
+
+    public String getInterfaceMsgType() {
+        return interfaceMsgType;
+    }
+
+    public void setInterfaceMsgType(String interfaceMsgType) {
+        this.interfaceMsgType = interfaceMsgType;
+    }
+
+    public String getSysId() {
+        return sysId;
+    }
+
+    public void setSysId(String sysId) {
+        this.sysId = sysId;
+    }
+
+    public String getActionId() {
+        return actionId;
+    }
+
+    public void setActionId(String actionId) {
+        this.actionId = actionId;
+    }
+
+    public String getVersionState() {
+        return versionState;
+    }
+
+    public void setVersionState(String versionState) {
+        this.versionState = versionState;
+    }
+
+    public int getVersionNumber() {
+        return versionNumber;
+    }
+
+    public void setVersionNumber(int versionNumber) {
+        this.versionNumber = versionNumber;
     }
 }

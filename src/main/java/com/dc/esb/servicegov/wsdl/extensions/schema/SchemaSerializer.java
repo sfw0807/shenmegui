@@ -1,6 +1,8 @@
 
 package com.dc.esb.servicegov.wsdl.extensions.schema;
 
+import static com.dc.esb.servicegov.wsdl.extensions.schema.SchemaConstants.*;
+
 import com.dc.esb.servicegov.wsdl.Constants;
 import com.dc.esb.servicegov.wsdl.util.xml.DOMUtils;
 
@@ -17,8 +19,6 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
-
-import static com.dc.esb.servicegov.wsdl.extensions.schema.SchemaConstants.*;
 
 /**
  * This class is used to serialize Schema instances

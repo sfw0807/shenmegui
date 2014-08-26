@@ -1,5 +1,7 @@
 package com.dc.esb.servicegov.wsdl.extensions.soap12;
 
+import com.dc.esb.servicegov.wsdl.extensions.soap12.SOAP12Constants;
+
 import javax.wsdl.extensions.soap12.SOAP12Body;
 import javax.xml.namespace.QName;
 import java.util.List;

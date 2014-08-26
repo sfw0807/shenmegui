@@ -1,7 +1,8 @@
 package com.dc.esb.servicegov.entity;
 
-import javax.persistence.Embeddable;
 import java.io.Serializable;
+
+import javax.persistence.Embeddable;
 
 @Embeddable
 public class MetaStructPK implements Serializable{

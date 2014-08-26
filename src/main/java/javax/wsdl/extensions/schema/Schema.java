@@ -7,6 +7,7 @@ import javax.wsdl.extensions.ExtensibilityElement;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 /**
  * Represents a schema element.

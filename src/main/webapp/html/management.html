@@ -37,7 +37,43 @@
         }
     </style>
     <script>
+
+
         $(function () {
+
+
+
+//            var serviceTree = [
+//                {
+//                    title: "非金融类",
+//                    isFolder: true,
+//                    key: "非金融类",
+//                    children: [
+//                        {
+//                            isFolder: true,
+//                            title: "S010010001"
+//                        }
+//                    ]
+//                },
+//                {
+//                    title: "金融类",
+//                    isFolder: true,
+//                    key: "金融类",
+//                    children: [
+//                        {
+//                            title: "S120010001",
+//                            isFolder: true,
+//                            children: [
+//                                {title: "AcctOpt"}
+//                            ]
+//                        },
+//                        {
+//                            isFolder: true,
+//                            title: "S120010001"
+//                        }
+//                    ]
+//                }
+//            ];
             $("#accordion-resizer").resizable({
                 minHeight: 500,
                 minWidth: 200,
@@ -45,10 +81,12 @@
                     $("#accordion").accordion("refresh");
                 }
             });
+
+
             $.ajax({
                 url: '/menu/tree/',
                 type: 'GET',
-                success: function (result) {
+                success: function(result) {
                     var serviceTree = result;
                     $("#tree").dynatree({
                         imagePath: "/js/jquery.dynatree/skin-vista/",
@@ -61,10 +99,12 @@
                     tabContent = $("#tab_content"),
                     tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>",
                     tabCounter = 2;
+
         });
     </script>
 </head>
 <body>
+
 
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
@@ -95,7 +135,9 @@
     <div class="row-fluid">
         <div class="span3" id="accordion-resizer" style="height:50em;margin:0em;padding: 0em">
             <div class="well sidebar-nav" style="height:95%">
-                <div id="tree" style="height:100%"></div>
+                <div id="tree" style="height:100%">
+
+                </div>
             </div>
             <!--/.well -->
         </div>
@@ -103,20 +145,33 @@
         <div class="span9">
             <div id="tabs" style="width: 100%;margin:0em;padding: 0em">
                 <ul>
-                    <li><a href="/html/service.html">服务管理</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span>
+                    <li><a href="#tabs-1">Nunc tincidunt</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span>
                     </li>
                 </ul>
+                <div id="tabs-1">
+                    <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec
+                        sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et
+                        lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis
+                        ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis
+                        aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci
+                        tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+                </div>
             </div>
 
         </div>
         <!--/span-->
     </div>
     <!--/row-->
+
     <hr>
+
     <footer>
-        <p>&copy; Vincent 2014</p>
+        <p>&copy; Company 2013</p>
     </footer>
+
 </div>
 <!--/.fluid-container-->
+
+
 </body>
 </html>

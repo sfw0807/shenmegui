@@ -1,12 +1,14 @@
 package com.dc.esb.servicegov.controller;
 
 
-import com.dc.esb.servicegov.entity.*;
-import com.dc.esb.servicegov.exception.DataException;
+import com.dc.esb.servicegov.entity.RemainingService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.dc.esb.servicegov.entity.RemainingService;
+import com.dc.esb.servicegov.entity.Service;
 import com.dc.esb.servicegov.service.impl.ServiceManagerImpl;
-import com.dc.esb.servicegov.service.support.BeanUtils;
-import com.dc.esb.servicegov.vo.SDA;
-import com.dc.esb.servicegov.vo.SDANodeVo;
 import com.dc.esb.servicegov.vo.ServiceInvokeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,8 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.dc.esb.servicegov.entity.SDANode;
+import com.dc.esb.servicegov.entity.Service;
+import com.dc.esb.servicegov.entity.ServiceExtendInfo;
+import com.dc.esb.servicegov.entity.ServiceOLA;
+import com.dc.esb.servicegov.entity.ServiceSLA;
+import com.dc.esb.servicegov.exception.DataException;
+import com.dc.esb.servicegov.service.impl.ServiceManagerImpl;
+import com.dc.esb.servicegov.service.support.BeanUtils;
+import com.dc.esb.servicegov.vo.SDA;
+import com.dc.esb.servicegov.vo.SDANode4IVo;
+import com.dc.esb.servicegov.vo.SDANodeVo;
+import com.dc.esb.servicegov.vo.ServiceInvokeVo;
 
 /**
  * Created with IntelliJ IDEA.
@@ -126,7 +138,7 @@ public class ServiceController {
     
     /**
      * 
-     * @param id
+     * @param serviceId
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/getServiceSlaById/{id}", headers = "Accept=application/json")
@@ -139,7 +151,7 @@ public class ServiceController {
     
     /**
      * 
-     * @param id
+     * @param serviceId
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/getServiceOlaById/{id}", headers = "Accept=application/json")

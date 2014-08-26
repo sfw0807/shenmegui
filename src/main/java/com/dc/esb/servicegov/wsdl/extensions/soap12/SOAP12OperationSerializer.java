@@ -1,6 +1,7 @@
 package com.dc.esb.servicegov.wsdl.extensions.soap12;
 
 import com.dc.esb.servicegov.wsdl.Constants;
+import com.dc.esb.servicegov.wsdl.extensions.soap12.SOAP12Constants;
 import com.dc.esb.servicegov.wsdl.util.xml.DOMUtils;
 import org.w3c.dom.Element;
 

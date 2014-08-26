@@ -22,11 +22,11 @@ public class TreeNode {
         this.title = title;
     }
 
-    public String getIsFolder() {
+    public String getFolder() {
         return isFolder;
     }
 
-    public void setIsFolder(String folder) {
+    public void setFolder(String folder) {
         isFolder = folder;
     }
 

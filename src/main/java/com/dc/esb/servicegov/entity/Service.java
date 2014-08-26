@@ -12,21 +12,35 @@ import javax.persistence.Table;
  * Time: 上午10:36
  */
 @Entity
-@Table(name = "SERVICE")
+@Table(name = "SG_MM_MSM_SERVICE")
 public class Service {
     @Id
-    @Column(name = "SERVICE_ID")
+    @Column(name = "SERVICEID")
     private String serviceId;
-    @Column(name = "SERVICE_NAME")
+    @Column(name = "SERVICENAME")
     private String serviceName;
-    @Column(name="SERVICE_REMARK")
-    private String remark;
-    @Column(name="CATEGORY_ID")
-    private String categoryId;
-    @Column(name="VERSION")
-    private String version;
-    @Column(name="STATE")
+    @Column(name = "SVRREMARK")
+    private String serviceRemark;
+    @Column(name = "MODIFYUSERID")
+    private String modifyUser;
+    @Column(name = "STATE")
     private String state;
+    @Column(name = "RESOURCEID")
+    private String resourceId;
+    @Column(name = "VERSIONSTATE")
+    private String versionState;
+    @Column(name = "ACTIONID")
+    private String actionId;
+    @Column(name = "TYPE")
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getServiceId() {
         return serviceId;
@@ -44,28 +58,20 @@ public class Service {
         this.serviceName = serviceName;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getServiceRemark() {
+        return serviceRemark;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setServiceRemark(String serviceRemark) {
+        this.serviceRemark = serviceRemark;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getModifyUser() {
+        return modifyUser;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
+    public void setModifyUser(String modifyUser) {
+        this.modifyUser = modifyUser;
     }
 
     public String getState() {
@@ -74,5 +80,29 @@ public class Service {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public String getVersionState() {
+        return versionState;
+    }
+
+    public void setVersionState(String versionState) {
+        this.versionState = versionState;
+    }
+
+    public String getActionId() {
+        return actionId;
+    }
+
+    public void setActionId(String actionId) {
+        this.actionId = actionId;
     }
 }

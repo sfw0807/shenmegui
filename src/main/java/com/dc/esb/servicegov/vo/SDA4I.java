@@ -1,10 +1,10 @@
 package com.dc.esb.servicegov.vo;
 
-import com.dc.esb.servicegov.entity.SDANode4I;
-import com.dc.esb.servicegov.entity.SDANodeProperty;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.dc.esb.servicegov.entity.SDANode4I;
+import com.dc.esb.servicegov.entity.SDANodeProperty;
 
 /**
  * Created with IntelliJ IDEA.

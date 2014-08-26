@@ -1,5 +1,10 @@
 package com.dc.esb.servicegov.vo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Administrator

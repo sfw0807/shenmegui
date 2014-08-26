@@ -41,7 +41,7 @@ public class TreeMenuManagerImpl {
             String topCategoryName = topCategory.getGroupName();
             TreeNode treeNode = new TreeNode();
             treeNode.setTitle(topCategoryName);
-            treeNode.setIsFolder("true");
+            treeNode.setFolder("true");
             List<ServiceCategory> subCategories = serviceCategoryManager.getSubCategories(topCategory);
             if(null != subCategories && subCategories.size() > 0){
                 List<TreeNode> subCategoryTreeNodes = new ArrayList<TreeNode>();
@@ -51,7 +51,7 @@ public class TreeMenuManagerImpl {
                     }
                     TreeNode subCategoryTreeNode = new TreeNode();
                     subCategoryTreeNode.setTitle(subCategory.getGroupName());
-                    subCategoryTreeNode.setIsFolder("true");
+                    subCategoryTreeNode.setFolder("true");
                     List<Service> operations = serviceCategoryManager.getServicesByCategory(subCategory.getGroupId());
                     if(null != operations && operations.size() > 0){
                         List<Service> services = new ArrayList<Service>();

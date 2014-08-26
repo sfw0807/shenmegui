@@ -21,8 +21,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -127,7 +127,7 @@ public class OperationPdfGenerator implements PdfGenerator<List<Service>> {
         log.error("gen operation title:" + service.getServiceId() +",time:"+(t2-t1));
         renderSDA(service, document, operationSection);
         long t3 = System.currentTimeMillis();
-        log.error("gen operation body:" + service.getServiceId() + ",time:" + (t3 - t1));
+        log.error("gen operation body:" + service.getServiceId() +",time:"+(t3-t1));
     }
 
     private Section renderTitle(Service service, Document document, Section section) throws Exception {

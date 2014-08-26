@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentFactory;
+import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -92,8 +93,6 @@ public class StandardPackerParserGenerator implements PackerParserGenerator<Cont
     }
 
     private Document paintInParser(){
-        Document doc = DocumentFactory.getInstance().createDocument();
-//        doc.addElement();
         return null;
     }
 
