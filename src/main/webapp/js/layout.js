@@ -272,8 +272,7 @@ var exportExcelLayout = [
     {
         "sTitle": "开发版本",
         "mData": "versionNo"
-    }
-    ,
+    },
     {
         "sTitle": "上线日期",
         "mData": "onlineDate"

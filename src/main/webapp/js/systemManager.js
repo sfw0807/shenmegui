@@ -61,10 +61,9 @@ var systemManager = {
         $.ajax({
             url: '/system/getInvokeRelation/' + id,
             type: 'GET',
-            type: 'GET',
             success: function(result) {
                 callBack(result);
             }
         });
     }
-}
+};

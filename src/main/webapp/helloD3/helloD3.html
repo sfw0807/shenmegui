@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="bootstrap.min.css" rel="stylesheet"/>
+    <script src="d3.js"></script>
+    <style>
+        .axis path, .axis line {
+            fill:none;
+            stroke:#eee;
+            shape-rendreing : crispEdges;
+        }
+        .axis text {
+            font-size : 11px;
+        }
+        .bar {
+            fill : steelblue;
+        }
+    </style>
+</head>
+<body>
+<div id="graph" class="span12"></div>
+<script>
+    var data = [
+        {
+            "bucket": 1,
+            "N": 1
+        },
+        {
+            "bucket": 2,
+            "N": 3
+        },
+        {
+            "bucket": 3,
+            "N": 2
+        },
+        {
+            "bucket": 4,
+            "N": 2
+        },
+        {
+            "bucket": 5,
+            "N": 2
+        },
+        {
+            "bucket": 6,
+            "N": 7
+        },
+        {
+            "bucket": 8,
+            "N": 11
+        },
+        {
+            "bucket": 9,
+            "N": 7
+        },
+        {
+            "bucket": 10,
+            "N": 6
+        },
+        {
+            "bucket": 11,
+            "N": 7
+        },
+        {
+            "bucket": 12,
+            "N": 12
+        },
+        {
+            "bucket": 13,
+            "N": 8
+        },
+        {
+            "bucket": 14,
+            "N": 5
+        },
+        {
+            "bucket": 15,
+            "N": 4
+        },
+        {
+            "bucket": 16,
+            "N": 2
+        }
+    ];
+    var width = 800, height = 300, pad = 20, left_pad = 100;
+    var x = d3.scale.ordinal().rangeBands([left_pad, width - pad], 0.1);
+    var y = d3.scale.linear().range([height - pad, pad]);
+    console.log(x);
+    console.log(y);
+    var xAxis = d3.svg.axis().scale(x).orient("bottom");
+    console.log(xAxis);
+    var yAxis = d3.svg.axis().scale(y).orient("left");
+    var svg = d3.select('#graph').append("svg").attr("width", width).attr("height", height);
+    //        d3.json('/helloD3/helloworld.json', function(data){
+    //
+    //        });
+
+    x.domain(data.map(function (d) {
+        return d.bucket;
+    }));
+//    y.domain(data.map(function (d) {
+//        return d.N;
+//    }));
+    y.domain([
+        0,
+        d3.max(data, function(d){
+            return d.N;
+        })
+    ])
+    svg.append("g").attr("class", "axis").attr("transform", "translate(0, " + (height - pad) + ")")
+            .call(xAxis);
+    svg.append("g").attr("class", "axis")
+            .attr("transform", "translate("+(left_pad - pad)+",0)")
+            .call(yAxis);
+    svg.selectAll("rect").data(data).enter()
+            .append("rect").attr("class", 'bar')
+            .attr('x', function (d) {
+                return x(d.bucket);
+            })
+            .attr("width", x.rangeBand())
+            .attr('y', function(d){
+                console.log(y(d.N));
+                return y(d.N);
+            }).attr("height", function (d) {
+               return height - pad - y(d.N);
+            });
+</script>
+</body>
+</html>

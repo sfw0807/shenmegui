@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="/js/jquery-ui/js/jquery-1.10.2.js"></script>
+    <script>
+        var test = {
+            "haha" : "lalla",
+            "version": "1.1.1",
+            "hehe": "nana"
+        };
+        var callBack = function callBack() {
+            console.log("hehe");
+        };
+        $.ajax({
+            "type": "POST",
+            "contentType": "application/json; charset=utf-8",
+            "url": "/invokeInfo/test",
+            "data": JSON.stringify(test),
+            "dataType": "json",
+            "success": function(result) {
+                callBack(result);
+            }
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

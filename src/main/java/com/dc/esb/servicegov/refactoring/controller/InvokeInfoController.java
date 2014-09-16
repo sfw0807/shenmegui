@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.dc.esb.servicegov.refactoring.entity.InvokeInfo;
 import com.dc.esb.servicegov.refactoring.service.impl.InvokeInfoManagerImpl;
@@ -44,7 +41,7 @@ public class InvokeInfoController {
 		return tableViewBean;
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/invokeinfo/all", headers = "Accept=application/json")
+	@RequestMapping(method = RequestMethod.GET, value = "/all", headers = "Accept=application/json")
 	public 
 	@ResponseBody List<InvokeInfo>
 	getAllInvokeInfo(){
@@ -52,6 +49,16 @@ public class InvokeInfoController {
 		invokeInfos = invokeInfoManager.getInvokeInfos();
 		return invokeInfos;
 	}
-	
-	
+
+    @RequestMapping(method = RequestMethod.POST, value = "/test", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    void addAmmeter(@RequestBody Test ammeter) {
+        System.out.println(ammeter);
+    }
+
+
+
+
+
 }

@@ -57,12 +57,10 @@ public class InvokeInfoDAOImpl extends HibernateDAO<InvokeInfo, InvokeInfoPK> {
 		hqlStr.append(InvokeInfo.class.getName());
 		hqlStr.append(" g where g.");
 		hqlStr.append(sc.getField());
-		hqlStr.append("='");
-		hqlStr.append(sc.getFieldValue());
-		hqlStr.append("'");
+		hqlStr.append("=:fieldValue");
 		try {
 			Query query = getSession().createQuery(hqlStr.toString());
-//			query.setParameter("fieldValue", sc.getFieldValue());
+			query.setParameter("fieldValue", sc.getFieldValue());
 			List countlist = query.list();
 			if(countlist.size() > 0){
 				count = (Long) countlist.get(0);
@@ -114,12 +112,10 @@ public class InvokeInfoDAOImpl extends HibernateDAO<InvokeInfo, InvokeInfoPK> {
 		hqlStr.append(InvokeInfo.class.getName());
 		hqlStr.append(" g where g.");
 		hqlStr.append(sc.getField());
-		hqlStr.append("='");
-		hqlStr.append(sc.getFieldValue());
-		hqlStr.append("'");
+		hqlStr.append("=:fieldValue");
 		try {
 			Query query = getSession().createQuery(hqlStr.toString());
-//			query.setParameter("fieldValue", sc.getFieldValue());
+			query.setParameter("fieldValue", sc.getFieldValue());
 			List countlist = query.list();
 			count = (Long) countlist.get(0);
 		} catch (Exception e) {
