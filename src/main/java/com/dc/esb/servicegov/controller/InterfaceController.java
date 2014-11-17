@@ -29,14 +29,16 @@ public class InterfaceController {
     @Autowired
     private SystemManager systemManager;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
+    @SuppressWarnings("unused")
+	@RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
     private
     @ResponseBody
     List<InterfaceVo> getAllInterfaces() {
         return interfaceManager.getAllInterfaceVo();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/byOperationId/{operationId}", headers = "Accept=application/json")
+    @SuppressWarnings("unused")
+	@RequestMapping(method = RequestMethod.GET, value = "/byOperationId/{operationId}", headers = "Accept=application/json")
     private
     @ResponseBody
     List<InterfaceVo> getInterfacesByOperationId(@PathVariable String operationId) {

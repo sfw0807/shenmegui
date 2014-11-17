@@ -1,8 +1,12 @@
 package com.dc.esb.servicegov.refactoring.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 //SERVICE_ID    	VARCHAR(255) NOT NULL PRIMARY KEY,
@@ -14,7 +18,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="SERVICE")
-public class Service {
+public class Service implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name="SERVICE_ID")
 	private String serviceId;
@@ -28,7 +36,20 @@ public class Service {
 	private String version;
 	@Column(name="STATE")
 	private String state;
+	@Column(name="MODIFYUSER")
+	private String modifyUser;
+	@Column(name="UPDATETIME")
+	private String updateTime;
+	@ManyToOne(targetEntity=ServiceCategory.class)
+	@JoinColumn(name="CATEGORY_ID",referencedColumnName="CATEGORY_ID",insertable=false,updatable=false)
+	private ServiceCategory serviceCategory;
 	
+	public ServiceCategory getServiceCategory() {
+		return serviceCategory;
+	}
+	public void setServiceCategory(ServiceCategory serviceCategory) {
+		this.serviceCategory = serviceCategory;
+	}
 	public String getServiceId() {
 		return serviceId;
 	}
@@ -64,5 +85,17 @@ public class Service {
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	public String getModifyUser() {
+		return modifyUser;
+	}
+	public void setModifyUser(String modifyUser) {
+		this.modifyUser = modifyUser;
+	}
+	public String getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
 	}
 }

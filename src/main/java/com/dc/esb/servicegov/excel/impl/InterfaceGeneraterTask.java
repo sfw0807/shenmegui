@@ -395,17 +395,17 @@ public class InterfaceGeneraterTask implements ExcelGenerateTask {
 		MappingExcelUtils.fillCell(0, 0, "交易码", contentSheet, headCellStyle);
 		MappingExcelUtils.fillCell(0, 1, mVo.getInterfaceId(), contentSheet, cellStyle);
 		MappingExcelUtils.fillCell(0, 6, "服务名称", contentSheet, headCellStyle);
-//		MappingExcelUtils.fillCell(0, 7, mVo.getServiceName() + "(" + mVo.getServiceId() + ")",
-//				contentSheet, bodyCellStyle);
+		MappingExcelUtils.fillCell(0, 7, mVo.getServiceName() + "(" + mVo.getServiceId() + ")",
+				contentSheet, bodyCellStyle);
 		MappingExcelUtils.fillCell(1, 0, "交易名称", contentSheet, headCellStyle);
 		MappingExcelUtils.fillCell(1, 1, mVo.getInterfaceName(), contentSheet, cellStyle);
 		MappingExcelUtils.fillCell(1, 6, "服务操作名称", contentSheet, headCellStyle);
-//		MappingExcelUtils.fillCell(1, 7, mVo.getOperationId() + mVo.getOperationName(),
-//				contentSheet, bodyCellStyle);
+		MappingExcelUtils.fillCell(1, 7, mVo.getOperationId() + mVo.getOperationName(),
+				contentSheet, bodyCellStyle);
 		MappingExcelUtils.fillCell(2, 6, "服务描述", contentSheet, headCellStyle);
-//		MappingExcelUtils.fillCell(2, 7, mVo.getServiceRemark(), contentSheet, bodyCellStyle);
+		MappingExcelUtils.fillCell(2, 7, mVo.getServiceRemark(), contentSheet, bodyCellStyle);
 		MappingExcelUtils.fillCell(3, 6, "服务操作描述", contentSheet, headCellStyle);
-//		MappingExcelUtils.fillCell(3, 7, mVo.getOperationRemark(), contentSheet, bodyCellStyle);
+		MappingExcelUtils.fillCell(3, 7, mVo.getOperationRemark(), contentSheet, bodyCellStyle);
 		MappingExcelUtils.fillCell(4, 0, "原始接口", contentSheet, headCellStyle);
 		MappingExcelUtils.fillCell(4, 6, "SPDBSD", contentSheet, headCellStyle);
 
@@ -460,8 +460,8 @@ public class InterfaceGeneraterTask implements ExcelGenerateTask {
 				c = sheet.getRow(i).getCell(5);
 				if (c == null) {
 					c = sheet.getRow(i).createCell(5);
-					c.setCellStyle(cellStyleMaroon);
 				}
+				c.setCellStyle(cellStyleMaroon);
 			}
 		}
 		

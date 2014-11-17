@@ -6,63 +6,107 @@
  * To change this template use File | Settings | File Templates.
  */
 var operationManager = {
-    getAll: function(callBack) {
+    getOperation: function(operationId,serviceId,callBack) {
         $.ajax({
-            url: '/operation/list',
+            url: '../operationInfo/getOperation/'+serviceId+operationId,
             type: 'GET',
             success: function(result) {
                 callBack(result);
             }
         });
     },
-    getByServiceId: function(id, callBack) {
+    getSDAInfoByOperationId: function(operationId,serviceId,callBack) {
         $.ajax({
-            url: '/operation/byServiceId/' + id,
+            url: '../operationInfo/getSDAInfoByOperationId/'+serviceId+operationId,
             type: 'GET',
             success: function(result) {
                 callBack(result);
             }
         });
     },
-    getById: function(id, callBack) {
+    getSLAByOperationId: function(operationId,serviceId, callBack) {
         $.ajax({
-            url: '/operation/list/' + id,
+            url: '../operationInfo/getSLAByOperationId/' +serviceId+operationId,
             type: 'GET',
             success: function(result) {
                 callBack(result);
             }
         });
     },
-    deleteById: function(id, callBack) {
+    getOLAByOperationId: function(operationId,serviceId, callBack) {
         $.ajax({
-            url: '/operation/delete/' + id,
+            url: '../operationInfo/getOLAByOperationId/' +serviceId+operationId,
             type: 'GET',
             success: function(result) {
                 callBack(result);
             }
         });
     },
-    modify: function(service, callBack) {
+    saveOperationDef: function(operation) {
         $.ajax({
             "type": "POST",
             "contentType": "application/json; charset=utf-8",
-            "url": "/operation/list",
-            "data": JSON.stringify(service),
+            "url": "../operationInfo/addOperation",
+            "data": JSON.stringify(operation),
             "dataType": "json",
             "success": function(result) {
-                callBack(result);
+                if(result){
+                  alert('保存成功!');
+                  window.location.href="operationInfoById.jsp?operationId='"+operation.operationId+"'&serviceId='"+operation.serviceId+"'&version='"+operation.version+"'&publishVersion=''&publishDate=''";
+                }else{
+                  alert('保存失败!');
+                }
             }
         });
     },
-    add: function (service, callBack) {
+    saveOperationSDA: function (sda) {
         $.ajax({
             "type": "POST",
             "contentType": "application/json; charset=utf-8",
-            "url": "/operation/list",
-            "data": JSON.stringify(service),
+            "url": "../operationInfo/addSDA",
+            "data": JSON.stringify(sda),
             "dataType": "json",
             "success": function(result) {
-                callBack(result);
+        		if(result){
+        			alert("保存成功");
+        			window.location.reload();
+        		}else{
+        			alert("保存失败");
+        		}
+            }
+        });
+    },
+    saveOperationSLA: function (sla) {
+        $.ajax({
+            "type": "POST",
+            "contentType": "application/json; charset=utf-8",
+            "url": "../operationInfo/addSLA",
+            "data": JSON.stringify(sla),
+            "dataType": "json",
+            "success": function(result) {
+        		if(result){
+        			alert("保存成功");
+        			window.location.reload();
+        		}else{
+        			alert("保存失败");
+        		}
+            }
+        });
+    },
+    saveOperationOLA: function(ola) {
+        $.ajax({
+            "type": "POST",
+            "contentType": "application/json; charset=utf-8",
+            "url": "../operationInfo/addOLA",
+            "data": JSON.stringify(ola),
+            "dataType": "json",
+            "success": function(result) {
+        		if(result){
+        			alert("保存成功");
+        			window.location.reload();
+        		}else{
+        			alert("保存失败");
+        		}
             }
         });
     }

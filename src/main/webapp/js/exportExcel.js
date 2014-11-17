@@ -4,6 +4,8 @@
 		$(function () {
 			$('#operateId').val('');
 			$('#ecode').val('');
+			$('#operateId').attr("disabled", true);
+			$('#ecode').attr("disabled", true);
 			//初始化服务Grid的方法
 		    var initInterfaceTable = function initInterfaceTable(result) {
 		        //初始化对Grid的操作事件
@@ -38,31 +40,20 @@
 		            "aoColumns": exportExcelLayout,
 		            "aoColumnDefs": [
 		            
-		                {
-		                    "mRender": function (data, type, row) {
-		                        if (data == "0") {
-		                            return "调用方";
-		                        }
-		                        if (data == "1") {
-		                            return "提供方";
-		                        }
-		                    },
-		                    "aTargets": [ 8 ]
-		                },
-		                
 		                { "sClass": "center", "aTargets": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] }
 		                
 		            ],
-		            //"bJQueryUI": true,
-		             "bJQueryUI": true,
+		            "bJQueryUI": true,
 					"bAutoWidth" : true,
-		            "bAutoWidth": true,
-		            "sPaginationType": "full_numbers",
-		            "oLanguage": oLanguage,
+					"bScrollCollapse" : "full_numbers",
+					"bPaginate" : true,
+					"bSort" : true,
+					"oLanguage" : oLanguage,
 		            "fnDrawCallback": function () {
 		                columnClickEventInit();
 		            }
 		        });
+		        tables["interfaceTable"].fnAdjustColumnSizing();
 		    };
 			
 			 //初始化操作Grid的搜索框
@@ -91,9 +82,34 @@
 			interfaceManager.getViewList(initInterfaceTable);
 			
 			$('#exportType').change(function (){
-				if($(this).val() == 'multi')
+				if($(this).val() == 'multi') {
+					$('.ui-combobox:eq(0) input').val('---请选择---');
+					$('#systd').find('*').each(
+						function(){
+							$(this).attr("disabled",true);
+						}
+					);
 					return ;
+				}
 				// 清空input
+				$('#system').attr("disabled", false);
+				$('#ecode').val('');
+				$('#operateId').val('');
+				$('#systd').find('*').each(
+						function(){
+							$(this).attr("disabled",false);
+						}
+					);
+				$("#interfaceTable tbody").find('tr').each(function(){
+					if ($(this).hasClass("row_selected")) {
+						$(this).toggleClass("row_selected");
+					}
+				});
+			});
+			
+			$('#reset').button().click(function () {
+				$('.ui-combobox:eq(0) input').val('---请选择---');
+				$('#system').val('');
 				$('#ecode').val('');
 				$('#operateId').val('');
 				$("#interfaceTable tbody").find('tr').each(function(){
@@ -126,14 +142,14 @@
 					});
 				}
 				
-			    $.fileDownload("/excel/byInterfaceId/" + params, {
+			    $.fileDownload("../excel/byInterfaceId/" + params, {
             	});
 			    
 			});
 			
 			var result = 
 			    $.ajax({
-			        url: '/excel/getAllSystem',
+			        url: '../excel/getAllSystem',
 			        type: 'GET',
 			        success: function(result) {
 			            initSelect(result);
@@ -210,7 +226,8 @@
 							}
 						}
 					})
-					.addClass( "ui-widget ui-widget-content ui-corner-left" );
+					.addClass( "ui-widget ui-widget-content ui-corner-left" )
+					.css("background","white");
 
 				input.data( "autocomplete" )._renderItem = function( ul, item ) {
 					return $( "<li></li>" )

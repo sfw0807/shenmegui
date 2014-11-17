@@ -38,10 +38,6 @@ public class InterfaceManager {
     public List<Interface> getAllInterfaces() {
         return interfaceDAO.getAll();
     }
-    
-    public List<Interface> getInterfaceById(String interfaceId){
-    	return interfaceDAO.findBy("interfaceId", interfaceId);
-    }
 
     public List<Interface> getInterfacesByOperation(String operationId) {
         List<Interface> interfaces = null;

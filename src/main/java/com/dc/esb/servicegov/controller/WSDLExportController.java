@@ -38,11 +38,10 @@ public class WSDLExportController {
     @Autowired
     private InterfaceManager interfaceManager;
 
-
     @RequestMapping(method = RequestMethod.GET, value = "/byService/{id}", headers = "Accept=application/json")
-    public
-    @ResponseBody
-    boolean exportService(HttpServletRequest request, HttpServletResponse response, @PathVariable String id) {
+     public
+     @ResponseBody
+     boolean exportService(HttpServletRequest request, HttpServletResponse response, @PathVariable String id) {
         InputStream in = null;
         OutputStream out = null;
         boolean success = false;
@@ -94,7 +93,6 @@ public class WSDLExportController {
         return success;
     }
 
-
     @RequestMapping(method = RequestMethod.GET, value = "/byInterface/{id}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -104,8 +102,8 @@ public class WSDLExportController {
         boolean success = false;
         try {
             Service service = interfaceManager.getServiceByInterfaceId(id);
-            if (log.isDebugEnabled()) {
-                log.debug("使用接口[" + id + "]查找到服务[" + service.getServiceId() + "]开始导出WSDL");
+            if(log.isDebugEnabled()){
+                log.debug("使用接口["+id+"]查找到服务["+service.getServiceId()+"]开始导出WSDL");
             }
             File wsdlZip = spdbWSDLGenerator.generate(service.getServiceId());
             if (null == wsdlZip) {
@@ -155,7 +153,6 @@ public class WSDLExportController {
 
     /**
      * check WSDL Version return "1" for remaining services and "2" for new services
-     *
      * @param serviceId
      * @return
      */
@@ -164,19 +161,18 @@ public class WSDLExportController {
     @ResponseBody
     String checkWSDLVersionByService(@PathVariable String serviceId) {
         List<Service> services = serviceManager.getServiceById(serviceId);
-        if (null == services) {
+        if(null == services){
             return "0";
         }
-        if (services.size() == 0) {
+        if(services.size() == 0){
             return "0";
         }
         List<RemainingService> remainingServices = serviceManager.getRemainingServiceByServiceId(serviceId);
-        return (null != remainingServices && remainingServices.size() > 0) ? "1" : "2";
+        return (null != remainingServices && remainingServices.size() > 0) ? "1":"2";
     }
 
     /**
      * check WSDL Version return "1" for remaining services and "2" for new services  "0" for error
-     *
      * @param interfaceId
      * @return
      */
@@ -186,14 +182,14 @@ public class WSDLExportController {
     String checkWSDLVersionByInterface(@PathVariable String interfaceId) throws DataException {
         Service service = interfaceManager.getServiceByInterfaceId(interfaceId);
         List<Service> services = serviceManager.getServiceById(service.getServiceId());
-        if (null == services) {
+        if(null == services){
             return "0";
         }
-        if (services.size() == 0) {
+        if(services.size() == 0){
             return "0";
         }
         List<RemainingService> remainingServices = serviceManager.getRemainingServiceByServiceId(service.getServiceId());
-        return (null != remainingServices && remainingServices.size() > 0) ? "1" : "2";
+        return (null != remainingServices && remainingServices.size() > 0) ? "1":"2";
     }
 
 }

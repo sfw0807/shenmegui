@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.dc.esb.servicegov.entity.RelationView;
 import com.dc.esb.servicegov.entity.System;
 import com.dc.esb.servicegov.excel.impl.ESBMappingExcelGenerator;
 import com.dc.esb.servicegov.exception.DataException;
 import com.dc.esb.servicegov.service.impl.ServiceManagerImpl;
+import com.dc.esb.servicegov.vo.RelationNewVO;
 
 @Controller
 @RequestMapping("/excel")
@@ -47,8 +47,9 @@ public class ExcelExportController {
     
     @RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
 	public @ResponseBody
-	List<RelationView> getViewList() {
-		return serviceManager.getRelationViewList();
+	List<RelationNewVO> getViewList() {
+//		return serviceManager.getRelationViewList();
+		return serviceManager.getRelationViewListNew();
 	}
     
     

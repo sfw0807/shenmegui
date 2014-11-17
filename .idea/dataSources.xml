@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="58101217">
+    <data-source source="LOCAL" name="DB2 - esbsg@localhost" uuid="bf2c976f-8748-47bf-8560-3edf2e23d4b2">
+      <driver-ref>db2</driver-ref>
+      <jdbc-driver>com.ibm.db2.jcc.DB2Driver</jdbc-driver>
+      <jdbc-url>jdbc:db2://localhost:50000/esbsg</jdbc-url>
+      <user-name>db2admin</user-name>
+      <user-password>dfcedfc8df98dfcbdfcedfc7dfc3dfc4</user-password>
+      <driver-properties>
+        <property name="retrieveMessagesFromServerOnGetMessage" value="true" />
+      </driver-properties>
+      <libraries />
+    </data-source>
+  </component>
+</project>
+

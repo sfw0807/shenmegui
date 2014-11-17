@@ -14,10 +14,8 @@ import com.dc.esb.servicegov.entity.InterfaceExtendInfo;
 import com.dc.esb.servicegov.entity.SDANode4I;
 import com.dc.esb.servicegov.exception.DataException;
 import com.dc.esb.servicegov.service.impl.ServiceManagerImpl;
-import com.dc.esb.servicegov.service.support.BeanUtils;
 import com.dc.esb.servicegov.vo.InterfaceVo;
 import com.dc.esb.servicegov.vo.SDA4I;
-import com.dc.esb.servicegov.vo.SDANode4IVo;
 
 @Controller
 @RequestMapping("/interface")
@@ -25,9 +23,8 @@ public class InterfaceShowController {
 	
 	@Autowired
 	private ServiceManagerImpl serviceManager;
-	private String indentSpace = "";
-	
-	List<SDANode4IVo> lstSDA4I = new ArrayList<SDANode4IVo>();
+	  
+	List<SDANode4I> lstSDA4I = new ArrayList<SDANode4I>();
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/getInterfaceInfo/{id}", headers = "Accept=application/json")
 	public @ResponseBody
@@ -45,9 +42,9 @@ public class InterfaceShowController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/getInterfaceChildInfo/{id}", headers = "Accept=application/json")
 	public @ResponseBody
-	List<SDANode4IVo> getChildSDA4IInfo(@PathVariable String id) {
+	List<SDANode4I> getChildSDA4IInfo(@PathVariable String id) {
 		try {
-			lstSDA4I = new ArrayList<SDANode4IVo>();
+			lstSDA4I = new ArrayList<SDANode4I>();
 			SDA4I sda =  serviceManager.getSDA4IofInterfaceId(id);
 			renderSDA4I(sda);
 		} catch (DataException e) {
@@ -57,20 +54,13 @@ public class InterfaceShowController {
 	}
 	
 	public void renderSDA4I(SDA4I sda) {
-		
 		SDANode4I node = sda.getValue();
-		SDANode4IVo sdaNode4IVo = BeanUtils.sdaNode4IToVO(node);
-		sdaNode4IVo.setStructName("|--" + node.getStructName());
-		sdaNode4IVo.setStructName(indentSpace + sdaNode4IVo.getStructName()); 
-		lstSDA4I.add(sdaNode4IVo);
+		lstSDA4I.add(node);
 		if (sda.getChildNode() != null) {
-			String tmpIndent = indentSpace;
-			indentSpace += "&nbsp;&nbsp;&nbsp;&nbsp;";
 			List<SDA4I> childSda = sda.getChildNode();
 			for (SDA4I a : childSda) {
 				renderSDA4I(a);
 			}
-			indentSpace = tmpIndent;
 		}
 	}
 }

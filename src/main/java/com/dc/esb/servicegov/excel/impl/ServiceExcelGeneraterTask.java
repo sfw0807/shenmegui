@@ -334,12 +334,12 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 	private void printHeader(RelationVo r,
 			Sheet contentSheet, MappingExcelIndexVo mVo) {
 		MappingExcelUtils.fillCell(0, 0, "交易码", contentSheet, headCellStyle);
-//		MappingExcelUtils.fillCell(0, 1, mVo.getInterfaceId(), contentSheet, bodyCellStyle);
+		MappingExcelUtils.fillCell(0, 1, mVo.getInterfaceId(), contentSheet, bodyCellStyle);
 		MappingExcelUtils.fillCell(0, 6, "服务名称", contentSheet, headCellStyle);
 		MappingExcelUtils.fillCell(0, 7, mVo.getServiceName() + "(" + mVo.getServiceId() + ")",
 				contentSheet, cellStyle);
 		MappingExcelUtils.fillCell(1, 0, "交易名称", contentSheet, headCellStyle);
-//		MappingExcelUtils.fillCell(1, 1, mVo.getInterfaceName(), contentSheet, cellStyle);
+		MappingExcelUtils.fillCell(1, 1, mVo.getInterfaceName(), contentSheet, cellStyle);
 		MappingExcelUtils.fillCell(1, 6, "服务操作名称", contentSheet, headCellStyle);
 		MappingExcelUtils.fillCell(1, 7, mVo.getOperationId() + mVo.getOperationName(),
 				contentSheet, cellStyle);

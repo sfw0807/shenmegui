@@ -8,7 +8,7 @@
 var systemManager = {
     getAll: function(callBack) {
         $.ajax({
-            url: '/system/list',
+            url: '../system/list',
             type: 'GET',
             success: function(result) {
                 callBack(result);
@@ -17,7 +17,7 @@ var systemManager = {
     },
     getById: function(id, callBack) {
         $.ajax({
-            url: '/system/list/' + id,
+            url: '../system/list/' + id,
             type: 'GET',
             success: function(result) {
                 callBack(result);
@@ -26,7 +26,7 @@ var systemManager = {
     },
     deleteById: function(id, callBack) {
         $.ajax({
-            url: '/system/delete/' + id,
+            url: '../system/delete/' + id,
             type: 'GET',
             success: function(result) {
                 callBack(result);
@@ -37,7 +37,7 @@ var systemManager = {
         $.ajax({
             "type": "POST",
             "contentType": "application/json; charset=utf-8",
-            "url": "/system/list",
+            "url": "../system/list",
             "data": JSON.stringify(service),
             "dataType": "json",
             "success": function(result) {
@@ -49,7 +49,7 @@ var systemManager = {
         $.ajax({
             "type": "POST",
             "contentType": "application/json; charset=utf-8",
-            "url": "/system/list",
+            "url": "../system/list",
             "data": JSON.stringify(service),
             "dataType": "json",
             "success": function(result) {
@@ -59,11 +59,22 @@ var systemManager = {
     },
     getInvokeInfoById: function(id, callBack) {
         $.ajax({
-            url: '/system/getInvokeRelation/' + id,
+            url: '../system/getInvokeRelation/' + id,
+            type: 'GET',
+            type: 'GET',
+            success: function(result) {
+                callBack(result);
+            }
+        });
+    },
+    getServiceDevProgress: function(callBack) {
+        $.ajax({
+            url: '../serviceDevInfo/serviceDevProgress/',
+            type: 'GET',
             type: 'GET',
             success: function(result) {
                 callBack(result);
             }
         });
     }
-};
+}

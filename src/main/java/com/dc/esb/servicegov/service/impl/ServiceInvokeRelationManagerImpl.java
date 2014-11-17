@@ -18,6 +18,6 @@ public class ServiceInvokeRelationManagerImpl {
 	
 	
 	public List<ServiceInvokeRelation> getDupRealtion(){
-		return serviceInvokeRelationDAO.getDupRelation();
+		return null;
 	}
 }

@@ -18,6 +18,7 @@ import com.dc.esb.servicegov.dao.impl.InterfaceExtendInfoDAO;
 import com.dc.esb.servicegov.dao.impl.MetadataAttributeDAOImpl;
 import com.dc.esb.servicegov.dao.impl.MetadataDAOImpl;
 import com.dc.esb.servicegov.dao.impl.RelationViewDAOImpl;
+import com.dc.esb.servicegov.dao.impl.RelationViewNewDAOImpl;
 import com.dc.esb.servicegov.dao.impl.RemainingServiceDAOImpl;
 import com.dc.esb.servicegov.dao.impl.SDANode4IDAOImpl;
 import com.dc.esb.servicegov.dao.impl.SDANodeDAOImpl;
@@ -33,6 +34,7 @@ import com.dc.esb.servicegov.entity.InterfaceExtendInfo;
 import com.dc.esb.servicegov.entity.Metadata;
 import com.dc.esb.servicegov.entity.MetadataAttribute;
 import com.dc.esb.servicegov.entity.RelationView;
+import com.dc.esb.servicegov.entity.RelationViewNew;
 import com.dc.esb.servicegov.entity.RemainingService;
 import com.dc.esb.servicegov.entity.SDANode;
 import com.dc.esb.servicegov.entity.SDANode4I;
@@ -46,6 +48,7 @@ import com.dc.esb.servicegov.entity.System;
 import com.dc.esb.servicegov.exception.DataException;
 import com.dc.esb.servicegov.vo.InterfaceVo;
 import com.dc.esb.servicegov.vo.MetadataViewBean;
+import com.dc.esb.servicegov.vo.RelationNewVO;
 import com.dc.esb.servicegov.vo.RelationVo;
 import com.dc.esb.servicegov.vo.SDA;
 import com.dc.esb.servicegov.vo.SDA4I;
@@ -89,9 +92,48 @@ public class ServiceManagerImpl {
 	private ServiceOlaDAOImpl serviceOlaDAO;
 	@Autowired
 	private RelationViewDAOImpl relationDAO;
+	@Autowired
+	private RelationViewNewDAOImpl relationNewDAO;
 
 	public List<RelationView> getRelationViewList() {
 		return relationDAO.getAll();
+	}
+	
+	public List<RelationNewVO> getRelationViewListNew() {
+		List<RelationNewVO> lstVO = new ArrayList<RelationNewVO>();
+		Map<String, RelationNewVO> map = new HashMap<String, RelationNewVO>();
+		List<RelationViewNew> lst = relationNewDAO.getAll();
+		Iterator<RelationViewNew> it = lst.iterator();
+		while(it.hasNext()) {
+			RelationViewNew r = it.next();
+			RelationNewVO vo = new RelationNewVO(r);
+			String ecode = vo.getEcode();
+			if (map.containsKey(ecode)) {
+				RelationNewVO o = map.get(ecode);
+				if (!o.getConsumerSys().contains(vo.getConsumerSys())) {
+					o.setConsumerSys(o.getConsumerSys() 
+							+ "、" + vo.getConsumerSys());
+				}
+				if (!o.getSourceSys().contains(vo.getSourceSys())) {
+					o.setSourceSys(o.getSourceSys()+"、"+ vo.getSourceSys());
+				}
+				
+			} else {
+				map.put(ecode, vo);
+			}
+		}
+		
+		for (Map.Entry<String, RelationNewVO> e : map.entrySet()) {
+			lstVO.add(e.getValue());
+		}
+//		Iterator<RelationNewVO> ito = lstVO.iterator();
+//		while(ito.hasNext()) {
+//			RelationNewVO r = ito.next();
+//			if (r.getConsumerSys().contains("ZHIPP")) {
+//				r.setSourceSys(sourceSys)
+//			}
+//		}
+		return lstVO;
 	}
 	
 	public List<ServiceSLA> getServiceSlaById(String id) {
@@ -752,5 +794,20 @@ public class ServiceManagerImpl {
 			}
 		}
 		return metadataViewBean;
+	}
+
+	/**
+	 * 检查是否存在SDA
+	 * @param operationId
+	 * @return
+	 */
+	@Transactional
+	public boolean checkSdaExists(String operationId){
+		boolean flag = true;
+		List<SDANode> list = sdaNodeDAO.findBy("serviceId", operationId);
+		if(list == null || list.size() <= 0 || list.size() == 5){
+			flag = false;
+		}
+		return flag;
 	}
 }

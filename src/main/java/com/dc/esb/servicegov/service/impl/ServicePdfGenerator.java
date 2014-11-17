@@ -68,6 +68,7 @@ public class ServicePdfGenerator implements PdfGenerator<List<Service>> {
                             log.error(errorMsg, e);
                             throw e;
                         }
+
                     }
                 } finally {
                     document.close();
@@ -86,10 +87,7 @@ public class ServicePdfGenerator implements PdfGenerator<List<Service>> {
     public void generate(List<Service> services, Document document, Section section) throws Exception {
         for (Service service : services) {
             try {
-            	long t1 = System.currentTimeMillis();
                 render(service, document, section);
-                long t2 = System.currentTimeMillis();
-                log.error("gen service:" + service.getServiceId() +",time:"+(t2-t1));
             } catch (Exception e) {
                 String errorMsg = "为服务[" + service.getServiceId() + "]创建pdf时失败！";
                 log.error(errorMsg);
@@ -114,7 +112,9 @@ public class ServicePdfGenerator implements PdfGenerator<List<Service>> {
         subSection.setBookmarkTitle(serviceId + "(" + serviceName + ")");
         subSection.setBookmarkOpen(false);
         subSection.setNumberStyle(Section.NUMBERSTYLE_DOTTED_WITHOUT_FINAL_DOT);
+//        section.add(serviceTitlePhrase);
         paragraph.setSpacingAfter(10);
+//        document.add(paragraph);
         String serviceRemark = service.getServiceRemark();
         //添加功能描述
         serviceRemark = serviceRemark == null ? "尚无关于服务的描述。" : serviceRemark;
@@ -125,6 +125,7 @@ public class ServicePdfGenerator implements PdfGenerator<List<Service>> {
         PdfUtils.renderInLine(serviceRemark, descPhrase, PdfUtils.ST_SONG_MIDDLE_FONT);
         Paragraph descParagraph = new Paragraph(descPhrase);
         subSection.add(descParagraph);
+//        document.add(descParagraph);
         //添加场景说明
         List<Service> operations = serviceManager.getOpertions(serviceId);
         if (null != operations) {
@@ -133,6 +134,7 @@ public class ServicePdfGenerator implements PdfGenerator<List<Service>> {
             PdfUtils.renderInLine(":", opDescTitlePhrase, PdfUtils.NORMAL_MIDDLE_FONT);
             Paragraph opDescTitleParagraph = new Paragraph(opDescTitlePhrase);
             subSection.add(opDescTitleParagraph);
+//            document.add(opDescTitleParagraph);
 
         }
         operationPdfGenerator.generate(operations, document, subSection);

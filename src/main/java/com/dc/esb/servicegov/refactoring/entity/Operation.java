@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 //OPERATION_ID  	VARCHAR(255) NOT NULL,
@@ -29,6 +32,15 @@ public class Operation {
 	private String version;
 	@Column(name="STATE")
 	private String state;
+	@Column(name="MODIFYUSER")
+	private String modifyUser;
+	@Column(name="UPDATETIME")
+	private String updateTime;
+	@ManyToOne(targetEntity=Service.class)
+	@JoinColumns({
+		@JoinColumn(name="SERVICE_ID",referencedColumnName="SERVICE_ID",insertable=false,updatable=false)
+	})
+	private Service service;
 	public String getOperationId() {
 		return operationId;
 	}
@@ -64,5 +76,71 @@ public class Operation {
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	public String getModifyUser() {
+		return modifyUser;
+	}
+	public void setModifyUser(String modifyUser) {
+		this.modifyUser = modifyUser;
+	}
+	public String getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+	public Service getService() {
+		return service;
+	}
+	public void setService(Service service) {
+		this.service = service;
+	}
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((operationId == null) ? 0 : operationId.hashCode());
+		result = prime * result
+				+ ((operationName == null) ? 0 : operationName.hashCode());
+		result = prime * result + ((remark == null) ? 0 : remark.hashCode());
+		result = prime * result
+				+ ((serviceId == null) ? 0 : serviceId.hashCode());
+		result = prime * result + ((state == null) ? 0 : state.hashCode());
+		return result;
+	}
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Operation other = (Operation) obj;
+		if (operationId == null) {
+			if (other.operationId != null)
+				return false;
+		} else if (!operationId.equals(other.operationId))
+			return false;
+		if (operationName == null) {
+			if (other.operationName != null)
+				return false;
+		} else if (!operationName.equals(other.operationName))
+			return false;
+		if (remark == null) {
+			if (other.remark != null)
+				return false;
+		} else if (!remark.equals(other.remark))
+			return false;
+		if (serviceId == null) {
+			if (other.serviceId != null)
+				return false;
+		} else if (!serviceId.equals(other.serviceId))
+			return false;
+		if (state == null) {
+			if (other.state != null)
+				return false;
+		} else if (!state.equals(other.state))
+			return false;
+		return true;
 	}
 }

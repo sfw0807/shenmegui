@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -101,6 +100,7 @@ public class OperationPdfGenerator implements PdfGenerator<List<Service>> {
     public void generate(List<Service> services, Document document, Section section) throws Exception {
         for (Service service : services) {
             try {
+
                 render(service, document, section);
             } catch (Exception e) {
                 String errorMsg = "为操作[" + service.getServiceId() + ":" + service.getServiceName() + "]创建pdf时失败！";
@@ -109,28 +109,35 @@ public class OperationPdfGenerator implements PdfGenerator<List<Service>> {
             }
         }
     }
-    
-    private class operationRenderProcess implements Callable{
-
-		@Override
-		public Object call() throws Exception {
-			// TODO Auto-generated method stub
-			return null;
-		}
-    	
-    }
 
     private void render(Service service, Document document, Section section) throws Exception {
-    	long t1 = System.currentTimeMillis();
         Section operationSection = renderTitle(service, document, section);
-        long t2 = System.currentTimeMillis();
-        log.error("gen operation title:" + service.getServiceId() +",time:"+(t2-t1));
         renderSDA(service, document, operationSection);
-        long t3 = System.currentTimeMillis();
-        log.error("gen operation body:" + service.getServiceId() +",time:"+(t3-t1));
     }
 
     private Section renderTitle(Service service, Document document, Section section) throws Exception {
+
+//        String serviceId = service.getServiceId();
+//        String serviceName = service.getServiceName();
+//        try {
+//            Phrase operationTitlePhrase = new Phrase();
+//            PdfUtils.renderInLine("操作", operationTitlePhrase, PdfUtils.ST_SONG_MIDDLE_BOLD_FONT);
+//            PdfUtils.renderInLine(":",operationTitlePhrase,PdfUtils.NORMAL_MIDDLE_BOLD_FONT);
+//            PdfUtils.renderInLine(serviceId,operationTitlePhrase,PdfUtils.NORMAL_MIDDLE_BOLD_FONT);
+//            PdfUtils.renderInLine("(",operationTitlePhrase,PdfUtils.NORMAL_MIDDLE_BOLD_FONT);
+//            PdfUtils.renderInLine(serviceName, operationTitlePhrase, PdfUtils.ST_SONG_MIDDLE_BOLD_FONT);
+//            PdfUtils.renderInLine(")",operationTitlePhrase,PdfUtils.NORMAL_MIDDLE_BOLD_FONT);
+//            Paragraph titleParagraph = new Paragraph(operationTitlePhrase);
+//            titleParagraph.setFirstLineIndent(10);
+//            document.add(titleParagraph);
+//            Paragraph br =  new Paragraph();
+//            PdfUtils.renderLatinInBlock("", br);
+//            document.add(br);
+//        } catch (Exception e) {
+//            String errorMsg = "渲染服务名称[" + serviceId + serviceName + "]失败！";
+//            log.error(errorMsg, e);
+//            throw e;
+//        }
         String operationId = service.getServiceId();
         String operationName = service.getServiceName();
         Section operationSection = null;
@@ -167,10 +174,7 @@ public class OperationPdfGenerator implements PdfGenerator<List<Service>> {
 
     private void renderSDA(Service service, Document document, Section section) throws Exception {
         try {
-        	long startTime = System.currentTimeMillis();
             SDA sda = serviceManager.getSDAofService(service);
-            long endTime = System.currentTimeMillis();
-            log.info("get SDA in ["+ (endTime - startTime) + "]");
             PdfPTable table = new PdfPTable(6);
             PdfPCell thCell = new PdfPCell();
 
@@ -178,6 +182,8 @@ public class OperationPdfGenerator implements PdfGenerator<List<Service>> {
             operationPhrase.add(new Phrase("操作", PdfUtils.ST_SONG_SMALL_BOLD_FONT));
             operationPhrase.add(new Phrase(":" + service.getServiceId(), PdfUtils.TABLE_BOLD_FONT));
             PdfUtils.renderTableHeader(operationPhrase, thCell);
+//            PdfUtils.renderChineseTableHeader("服务", thCell);
+
             thCell.setColspan(6);
             table.addCell(thCell);
             PdfPCell headerENcell = new PdfPCell();

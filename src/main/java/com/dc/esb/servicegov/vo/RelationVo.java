@@ -1,18 +1,21 @@
 package com.dc.esb.servicegov.vo;
 
 import com.dc.esb.servicegov.entity.ServiceInvokeRelation;
+import com.dc.esb.servicegov.refactoring.entity.SvcAsmRelateView;
 
 public class RelationVo {
 
 	private String recordId;
 	private String providerSystemId;
 	private String consumerSystemAb;
+	private String providerSystemAb;
 	private String serviceId;
 	private String operationId;
 	private String type;
 	private String interfaceId;
 	private String functionType;
 	private String passbySys;
+	private String msgType;
 
 	public RelationVo(ServiceInvokeRelation sr) {
 		this.recordId = sr.getRecordId();
@@ -26,6 +29,30 @@ public class RelationVo {
 		this.passbySys = sr.getPassbySys();
 	}
 	
+	public RelationVo(SvcAsmRelateView sr) {
+		this.providerSystemAb = sr.getPrdSysAB();
+		this.providerSystemId = sr.getPrdSysID();
+		this.consumerSystemAb = sr.getCsmSysAB();
+		this.serviceId = sr.getServiceId();
+		this.operationId = sr.getOperationId();
+		this.interfaceId = sr.getInterfaceId();
+		if (null == sr.getPassbySysAB()) {
+			this.passbySys = "";
+		} else {
+			this.passbySys = sr.getPassbySysAB();
+		}
+		this.type = sr.getDirection();
+		this.msgType = sr.getProvideMsgType();
+	}
+	
+	public String getMsgType() {
+		return msgType;
+	}
+
+	public void setMsgType(String msgType) {
+		this.msgType = msgType;
+	}
+
 	public String getRecordId() {
 		return recordId;
 	}
@@ -40,6 +67,14 @@ public class RelationVo {
 
 	public void setProviderSystemId(String providerSystemId) {
 		this.providerSystemId = providerSystemId;
+	}
+
+	public String getProviderSystemAb() {
+		return providerSystemAb;
+	}
+
+	public void setProviderSystemAb(String providerSystemAb) {
+		this.providerSystemAb = providerSystemAb;
 	}
 
 	public String getConsumerSystemAb() {

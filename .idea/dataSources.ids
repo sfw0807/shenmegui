@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source source="LOCAL" name="DB2 - esbsg@localhost" uuid="bf2c976f-8748-47bf-8560-3edf2e23d4b2">
+    <database-info product="DB2/NT64" version="SQL10010" jdbc-version="3.0" driver-name="IBM DB2 JDBC Universal Driver Architecture" driver-version="3.1.57">
+      <extra-name-characters>@#</extra-name-characters>
+      <identifier-quote-string>&quot;</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact"/>
+  </data-source>
+</component>

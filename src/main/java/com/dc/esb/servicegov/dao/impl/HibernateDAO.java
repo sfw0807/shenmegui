@@ -1,7 +1,15 @@
 package com.dc.esb.servicegov.dao.impl;
 
-import com.dc.esb.servicegov.util.ReflectionUtils;
-import org.hibernate.*;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
@@ -13,10 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import com.dc.esb.servicegov.util.ReflectionUtils;
 
 /**
  * 封装Hibernate原生API的DAO泛型基类.
@@ -81,12 +86,21 @@ public class HibernateDAO<T, PK extends Serializable> {
     }
 
     /**
+     * 保存新增的对象.
+     */
+    public void insert(final T entity) {
+        Assert.notNull(entity, "entity不能为空");
+        getSession().save(entity);
+        logger.debug("insert entity: {}", entity);
+    }
+    
+    /**
      * 保存新增或修改的对象.
      */
     public void save(final T entity) {
         Assert.notNull(entity, "entity不能为空");
         getSession().saveOrUpdate(entity);
-        logger.debug("save entity: {}", entity);
+        logger.debug("save or update entity: {}", entity);
     }
 
     /**
@@ -98,6 +112,17 @@ public class HibernateDAO<T, PK extends Serializable> {
         Assert.notNull(entity, "entity不能为空");
         getSession().delete(entity);
         logger.debug("delete entity: {}", entity);
+    }
+    
+    /**
+     * 删除ENTITY LIST
+     * @param list
+     */
+    public void delete(final List<T> list) {
+    	Assert.notNull(list, "list不能为空");
+    	for (T entity : list) {
+    		delete(entity);
+    	}
     }
 
     /**

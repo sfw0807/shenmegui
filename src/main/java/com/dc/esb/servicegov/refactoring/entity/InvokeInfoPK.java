@@ -8,6 +8,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class InvokeInfoPK implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4525187039122019005L;
 	@Column(name = "SERVICE_ID")
 	private String serviceId;
 	@Column(name = "OPERATION_ID")
@@ -103,7 +107,5 @@ public class InvokeInfoPK implements Serializable{
 	public void setConsumeSysId(String consumeSysId) {
 		this.consumeSysId = consumeSysId;
 	}
-	
-	
 
 }

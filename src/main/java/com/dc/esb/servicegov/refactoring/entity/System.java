@@ -18,7 +18,12 @@ public class System {
 	private String systemName;
 	@Column(name="REMARK")
 	private String remark;
-	
+	@Column(name="MODIFYUSER")
+	private String modifyUser;
+	@Column(name="UPDATETIME")
+	private String updateTime;
+	@Column(name="FIRST_PUBLISH_DATE")
+	private String firstPublishDate;
 	public String getSystemId() {
 		return systemId;
 	}
@@ -42,5 +47,23 @@ public class System {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public String getModifyUser() {
+		return modifyUser;
+	}
+	public void setModifyUser(String modifyUser) {
+		this.modifyUser = modifyUser;
+	}
+	public String getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+	public String getFirstPublishDate() {
+		return firstPublishDate;
+	}
+	public void setFirstPublishDate(String firstPublishDate) {
+		this.firstPublishDate = firstPublishDate;
 	}
 }

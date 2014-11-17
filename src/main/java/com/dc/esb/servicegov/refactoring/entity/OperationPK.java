@@ -8,6 +8,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class OperationPK implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4475847273526716383L;
 	@Column(name="OPERATION_ID")
 	private String operationId;
 	@Column(name="SERVICE_ID")
@@ -47,9 +51,4 @@ public class OperationPK implements Serializable{
         }
         return hashCode;
     }
-    
-    @Override
-	public String toString() {
-		return this.serviceId + ":" + this.operationId;
-	}
 }

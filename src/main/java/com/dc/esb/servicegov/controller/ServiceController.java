@@ -24,10 +24,7 @@ import com.dc.esb.servicegov.entity.ServiceOLA;
 import com.dc.esb.servicegov.entity.ServiceSLA;
 import com.dc.esb.servicegov.exception.DataException;
 import com.dc.esb.servicegov.service.impl.ServiceManagerImpl;
-import com.dc.esb.servicegov.service.support.BeanUtils;
 import com.dc.esb.servicegov.vo.SDA;
-import com.dc.esb.servicegov.vo.SDANode4IVo;
-import com.dc.esb.servicegov.vo.SDANodeVo;
 import com.dc.esb.servicegov.vo.ServiceInvokeVo;
 
 /**
@@ -42,8 +39,7 @@ public class ServiceController {
     @Autowired
     private ServiceManagerImpl serviceManager;
 
-    List<SDANodeVo> lstSDA = new ArrayList<SDANodeVo>();
-    private String indentSpace = "";
+    List<SDANode> lstSDA = new ArrayList<SDANode>();
     
     /**
      * 
@@ -169,9 +165,9 @@ public class ServiceController {
      */
     @RequestMapping(method = RequestMethod.GET, value = "/getServiceChild/{id}", headers = "Accept=application/json")
 	public @ResponseBody
-	List<SDANodeVo> getChildSDAInfo(@PathVariable String id) {
+	List<SDANode> getChildSDAInfo(@PathVariable String id) {
 		try {
-			lstSDA = new ArrayList<SDANodeVo>();
+			lstSDA = new ArrayList<SDANode>();
 			Service service = serviceManager.getServiceById(id).get(0);
 			SDA sda =  serviceManager.getSDAofService(service);
 			renderSDA(sda);
@@ -183,9 +179,9 @@ public class ServiceController {
     
     @RequestMapping(method = RequestMethod.GET, value = "/getServiceChildByResourceId/{id}", headers = "Accept=application/json")
 	public @ResponseBody
-	List<SDANodeVo> getServiceChildByResourceId(@PathVariable String id) {
+	List<SDANode> getServiceChildByResourceId(@PathVariable String id) {
 		try {
-			lstSDA = new ArrayList<SDANodeVo>();
+			lstSDA = new ArrayList<SDANode>();
 			Service service = serviceManager.getServiceByResourceId(id);
 			SDA sda =  serviceManager.getSDAofService(service);
 			renderSDA(sda);
@@ -200,18 +196,12 @@ public class ServiceController {
      */
     private void renderSDA(SDA sda) {
 		SDANode node = sda.getValue();
-		SDANodeVo sdaNodeVo = BeanUtils.sdaNodeToVO(node);
-		sdaNodeVo.setStructName("|--" + node.getStructName());
-		sdaNodeVo.setStructName(indentSpace + sdaNodeVo.getStructName()); 
-		lstSDA.add(sdaNodeVo);
+		lstSDA.add(node);
 		if (sda.getChildNode() != null) {
 			List<SDA> childSda = sda.getChildNode();
-			String tmpIndent = indentSpace;
-			indentSpace += "&nbsp;&nbsp;&nbsp;&nbsp;";
 			for (SDA a : childSda) {
 				renderSDA(a);
 			}
-			indentSpace = tmpIndent;
 		}
 	}
 }

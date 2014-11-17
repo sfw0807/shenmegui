@@ -3,6 +3,7 @@ package com.dc.esb.servicegov.refactoring.vo;
 public class SystemInvokeServiceInfo {
 	private String systemAB;
 	private String systemName;
+	private String firstPublishDate;
 	private String provideServiceNum;
 	private String consumeServiceNum;
 	private String provideOperationNum;
@@ -42,6 +43,12 @@ public class SystemInvokeServiceInfo {
 	}
 	public void setConsumeOperationNum(String consumeOperationNum) {
 		this.consumeOperationNum = consumeOperationNum;
+	}
+	public String getFirstPublishDate() {
+		return firstPublishDate;
+	}
+	public void setFirstPublishDate(String firstPublishDate) {
+		this.firstPublishDate = firstPublishDate;
 	}
 	
 	

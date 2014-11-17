@@ -589,11 +589,14 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 				e.printStackTrace();
 				log.info("Exception at paint SDANode, metadataId:" + metadataId);
 			}
-		  // type为空remak为Start的 是struct节点 - -#
+		  // type为空remak为Start的 是struct节点 - -#  
 		} else if (type.equalsIgnoreCase("struct") || (type.equals("") && n.getRemark().equalsIgnoreCase("Start"))) {
 			Map<String, SDANode> map = new HashMap<String, SDANode>();
 			map.put(n.getStructName(), n);
-			lstStructName.add(map);
+			// remak为Start的 不画struct sheet
+			if (!n.getRemark().equalsIgnoreCase("Start")) {
+				lstStructName.add(map);
+			}
 			MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
 			MappingExcelUtils.fillCell(temprow, 6, n.getStructName(), arrayCellStyle);
 			MappingExcelUtils.fillCell(temprow, 7, "Struct", arrayCellStyle);
