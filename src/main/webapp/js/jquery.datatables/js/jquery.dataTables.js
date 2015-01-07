@@ -400,43 +400,46 @@
 				for ( i=aoColDefs.length-1 ; i>=0 ; i-- )
 				{
 					/* Each definition can target multiple columns, as it is an array */
-					var aTargets = aoColDefs[i].aTargets;
-					if ( !$.isArray( aTargets ) )
-					{
-						_fnLog( oSettings, 1, 'aTargets must be an array of targets, not a '+(typeof aTargets) );
-					}
-		
-					for ( j=0, jLen=aTargets.length ; j<jLen ; j++ )
-					{
-						if ( typeof aTargets[j] === 'number' && aTargets[j] >= 0 )
-						{
-							/* Add columns that we don't yet know about */
-							while( oSettings.aoColumns.length <= aTargets[j] )
-							{
-								_fnAddColumn( oSettings );
-							}
-		
-							/* Integer, basic index */
-							fn( aTargets[j], aoColDefs[i] );
-						}
-						else if ( typeof aTargets[j] === 'number' && aTargets[j] < 0 )
-						{
-							/* Negative integer, right to left column counting */
-							fn( oSettings.aoColumns.length+aTargets[j], aoColDefs[i] );
-						}
-						else if ( typeof aTargets[j] === 'string' )
-						{
-							/* Class name matching on TH element */
-							for ( k=0, kLen=oSettings.aoColumns.length ; k<kLen ; k++ )
-							{
-								if ( aTargets[j] == "_all" ||
-								     $(oSettings.aoColumns[k].nTh).hasClass( aTargets[j] ) )
-								{
-									fn( k, aoColDefs[i] );
-								}
-							}
-						}
-					}
+                    if(aoColDefs[i]){
+                        var aTargets = aoColDefs[i].aTargets;
+                        if ( !$.isArray( aTargets ) )
+                        {
+                            _fnLog( oSettings, 1, 'aTargets must be an array of targets, not a '+(typeof aTargets) );
+                        }
+
+                        for ( j=0, jLen=aTargets.length ; j<jLen ; j++ )
+                        {
+                            if ( typeof aTargets[j] === 'number' && aTargets[j] >= 0 )
+                            {
+                                /* Add columns that we don't yet know about */
+                                while( oSettings.aoColumns.length <= aTargets[j] )
+                                {
+                                    _fnAddColumn( oSettings );
+                                }
+
+                                /* Integer, basic index */
+                                fn( aTargets[j], aoColDefs[i] );
+                            }
+                            else if ( typeof aTargets[j] === 'number' && aTargets[j] < 0 )
+                            {
+                                /* Negative integer, right to left column counting */
+                                fn( oSettings.aoColumns.length+aTargets[j], aoColDefs[i] );
+                            }
+                            else if ( typeof aTargets[j] === 'string' )
+                            {
+                                /* Class name matching on TH element */
+                                for ( k=0, kLen=oSettings.aoColumns.length ; k<kLen ; k++ )
+                                {
+                                    if ( aTargets[j] == "_all" ||
+                                        $(oSettings.aoColumns[k].nTh).hasClass( aTargets[j] ) )
+                                    {
+                                        fn( k, aoColDefs[i] );
+                                    }
+                                }
+                            }
+                        }
+                    }
+
 				}
 			}
 		

@@ -248,11 +248,12 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 		this.lastIndex = 0;
 	}
 	
-	/**
-	 * 生成 MappingExcelIndexVo
-	 * @param ServiceInvokeRelation r
-	 * @return
-	 */
+
+    /**
+     * 生成 MappingExcelIndexVo
+     * @param r
+     * @return
+     */
 	private MappingExcelIndexVo createMappingExcelIndexVo(
 			RelationVo r) {
 		MappingExcelIndexVo mVo = new MappingExcelIndexVo();
@@ -290,11 +291,12 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 		return mVo;
 	}
 	
-	/**
-	 * CREATE & PAINT INDEX
-	 * @param ServiceInvokeRelation r
-	 * @param MappingExcelIndexVo mVo
-	 */
+    /**
+     * CREATE & PAINT INDEX
+     *
+     * @param r
+     * @param mVo
+     */
 	private  void printIndexInfo(RelationVo r, MappingExcelIndexVo mVo) {
 		synchronized(getClass()){
 			Sheet indexSheet = wb.getSheet("INDEX");
@@ -357,12 +359,13 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 		MappingExcelUtils.fillCell(rowAdded, 9, mVo.getMsgType(), bodyCellStyle);
 	}
 	
-	/**
-	 * PAINT SHEET2 HEADER
-	 * @param ServiceInvokeRelation r
-	 * @param Sheet contentSheet
-	 * @param MappingExcelIndexVo mVo
-	 */
+    /**
+     * PAINT SHEET2 HEADER
+     *
+     * @param r
+     * @param contentSheet
+     * @param mVo
+     */
 	private void printHeader(RelationVo r,
 			Sheet contentSheet, MappingExcelIndexVo mVo) {
 		MappingExcelUtils.fillCell(0, 0, "交易码", contentSheet, headCellStyle);
@@ -438,7 +441,7 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 		if (paintEnd) {
 		
 			// PAINT ARRAY END
-			if (type.equalsIgnoreCase("array")) {
+			if ("array".equalsIgnoreCase(type)) {
 				Row temprow = sheet2.createRow(i);
 				i++;
 				MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
@@ -448,7 +451,7 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 				MappingExcelUtils.fillCell(temprow, 9, "End", arrayCellStyle);
 				
 				// 非SOAP
-				if (!r.getType().equalsIgnoreCase("SOAP")) {
+				if (!"SOAP".equalsIgnoreCase(r.getType())) {
 					IDA s = null;
 					s = sda4Imap.get(sda.getXpath());
 					if (s != null) {
@@ -465,7 +468,7 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 				} else {
 						paintSDA4IEmptyArray(temprow);
 				}
-			} else if (type.equalsIgnoreCase("struct") || (type.equals("") && node.getRemark().equalsIgnoreCase("Start"))) {
+			} else if ("struct".equalsIgnoreCase(type) || ("".equals(type) && "Start".equalsIgnoreCase(node.getRemark()))) {
 				
 				Row temprow = sheet2.createRow(i);
 				i++;
@@ -475,7 +478,7 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 				MappingExcelUtils.fillCell(temprow, 8, alias, arrayCellStyle);
 				MappingExcelUtils.fillCell(temprow, 9, "End", arrayCellStyle);
 				
-				if (!r.getType().equalsIgnoreCase("SOAP")) {
+				if (!"SOAP".equalsIgnoreCase(r.getType())) {
 					IDA s = null;
 					s = sda4Imap.get(sda.getXpath());
 					if (s != null) {
@@ -510,16 +513,18 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 			}
 		}
 	}
-	/**
-	 * 
-	 * @param SDANode n
-	 * @param xpath
-	 */
+
+    /**
+     *
+     * @param n
+     * @param xpath
+     */
 	public void paintSDANode(SDA n, String xpath) {
 		Row temprow=sheet2.createRow(i);
-		String structName = n.getStructId().trim();
+		String structName = n.getStructId() == null ? "" :n.getStructId().trim();
 		String type = n.getType();
-		String metadataId = n.getMetadataId().trim();
+
+		String metadataId = n.getMetadataId() == null ? "" :n.getMetadataId().trim();
 		String alias = "";
 		if (structName.equals("SvcBody")) {
 			return ;
@@ -565,7 +570,7 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 //		}
 		
 		
-		if (type.equalsIgnoreCase("array")) {
+		if ("array".equalsIgnoreCase(type)) {
 			try {
 
 				// 画出Array开始节点
@@ -604,11 +609,11 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 				log.info("Exception at paint SDANode, metadataId:" + metadataId);
 			}
 		  // type为空remak为Start的 是struct节点 - -#  
-		} else if (type.equalsIgnoreCase("struct") || (type.equals("") && n.getRemark().equalsIgnoreCase("Start"))) {
+		} else if ("struct".equalsIgnoreCase(type) || ("".equals(type) && "Start".equalsIgnoreCase(n.getRemark()))) {
 			Map<String, SDA> map = new HashMap<String, SDA>();
 			map.put(n.getStructId(), n);
 			// remak为Start的 不画struct sheet
-			if (!n.getRemark().equalsIgnoreCase("Start")) {
+			if (!"Start".equalsIgnoreCase(n.getRemark())) {
 				lstStructName.add(map);
 			}
 			MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
@@ -640,7 +645,7 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 		}
 		try {
 			// Normal painting
-			String mmid = n.getMetadataId().trim();
+			String mmid = n.getMetadataId() == null ? "" :n.getMetadataId().trim();
 			if ("".equals(mmid) || null == mmid)
 				return ;
 			MetadataViewBean metadata = serviceManager.getMetadataById(mmid);
@@ -670,14 +675,16 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * 写入左侧接口数据
-	 * @param SDANode4I n
-	 */
+
+    /**
+     * 写入左侧接口数据
+     *
+     * @param n
+     */
 	public void paintSDANode4I2(IDA n) {
 		Row temprow=sheet2.getRow(i);
 		String structName = n.getStructName();
-		if (structName.equals("SvcBody")||structName.equals("request")||structName.equals("response")) 
+		if ("SvcBody".equals(structName)||"request".equals(structName)||"response".equals(structName))
 			return ;
 		if (temprow == null )
 			temprow = sheet2.createRow(i);

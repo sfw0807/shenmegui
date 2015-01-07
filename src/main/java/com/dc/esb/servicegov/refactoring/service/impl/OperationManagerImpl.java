@@ -67,7 +67,7 @@ public class OperationManagerImpl implements OperationManager {
 				operationVO.setServiceName(operation.getService().getServiceName());
 				operationVO.setVersion(operation.getVersion());
 				operationVO.setState(operation.getState());
-				operationVO.setRemark(operation.getRemark().trim());
+				operationVO.setRemark(operation.getRemark()== null ? "" : operation.getRemark().trim());
 				operationVO.setPublishVersion("");
 				operationVO.setPublishDate("");	
 //				List pubList = operationDao.getPublishInfo(operation.getOperationId());

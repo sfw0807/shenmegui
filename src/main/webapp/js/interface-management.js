@@ -19,13 +19,13 @@ $(function() {
 			"aoColumnDefs" : [
 				{
 					"sClass" : "center",
-					"aTargets" : [ 0, 2, 4, 5, 6, 7, 8, 9]
+					"aTargets" : [ 0, 2, 4, 5, 6, 7, 8]
 				},
 				{
 					"mRender" : function ( data, type, row ) {
 						return '<a href="interfaceEdit.html?ecode='+row['ecode']+ '" target=_blank>' + '修改' + '</a>';
 					},
-					"aTargets" : [9]
+					"aTargets" : [8]
 				},
 				
 			],
