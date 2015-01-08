@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ProjectModuleManager">
-    <modules />
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../MyPages/MyPages.iml" filepath="$PROJECT_DIR$/../MyPages/MyPages.iml" />
+      <module fileurl="file://$PROJECT_DIR$/servicegov.iml" filepath="$PROJECT_DIR$/servicegov.iml" />
+    </modules>
   </component>
 </project>
 

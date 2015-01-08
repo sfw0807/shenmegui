@@ -42,7 +42,7 @@
 		<property name="testWhileIdle" value="true" />
 		<property name="testOnBorrow" value="false" />
 		<property name="testOnReturn" value="false" />
-		<property name="validationQuery" value="SELECT COUNT(1) FROM SG_COM_LABEL" />
+		<property name="validationQuery" value="select count(1) from SERVICE" />
 		<property name="timeBetweenEvictionRunsMillis" value="30000" />
 		<property name="numTestsPerEvictionRun" value="100" />
 	</bean>

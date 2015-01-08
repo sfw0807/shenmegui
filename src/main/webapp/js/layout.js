@@ -754,11 +754,11 @@ var operationTableLayout = [
         "mData": "publishDate"
 	},
 	{
-        "sTitle": "动作",
+        "sTitle": "<nobr>动作</nobr>",
         "mData": "operationId"
 	},
 	{
-        "sTitle": "历史",
+        "sTitle": "<nobr>历史</nobr>",
         "mData": "operationId"
 	},
 	{
