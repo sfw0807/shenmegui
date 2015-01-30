@@ -30,9 +30,11 @@ $(function() {
 	var provideMsgInfo = hrefparam.split("&")[3];
 	var provideMsgType = provideMsgInfo.split("=")[1];	
 	var consumeMsgInfo = hrefparam.split("&")[4];
-	var consumeMsgType = consumeMsgInfo.split("=")[1];	
+	var consumeMsgType = consumeMsgInfo.split("=")[1];
+	$('#consumeMsgType').val(consumeMsgType);	
 	var throughInfo = hrefparam.split("&")[5];
-	var through = throughInfo.split("=")[1];	
+	var through = throughInfo.split("=")[1];
+	$('#through').val(through);	
 	if(through=="Y"){
 		through="是";
 	}else if(through=="N"){
@@ -54,6 +56,8 @@ $(function() {
 		state="投产验证"
 	}else if(state=="online"){
 		state="上线"
+	}else{
+	    state="下线"
 	}
 	var onlineVersionInfo = hrefparam.split("&")[7];
 	var onlineVersion = onlineVersionInfo.split("=")[1];	
@@ -61,6 +65,8 @@ $(function() {
 	var onlineDate = onlineDateInfo.split("=")[1];
 	var privodeSysInfo = hrefparam.split("&")[9];
 	var privodeSysAb = privodeSysInfo.split("=")[1];
+	var direction = hrefparam.split("&")[10].split("=")[1];
+	$('#direction').val(direction);
 //	var params = {
 //		operationId:operationId,
 //		serviceId:serviceId,
@@ -70,6 +76,7 @@ $(function() {
 //    };	
 	var params=[operationId,serviceId,interfaceId,provideMsgType,consumeMsgType];
 	var initconsumerTable = function initconsumerTable(result) {
+	  
 		//初始化对Grid的操作事件
 		var columnClickEventInit = function columnClickEventInit() {
 			$("#consumerTable tbody tr").unbind("click");
@@ -149,8 +156,35 @@ $(function() {
         
 	$("#addConsumer").click(function (){
 		var sysId = $("#system").val();
+		var newConsumeMsgType = $('#consumeMsgType').val();
+		var newThrough = $('#through').val();
+		var newDirection =  $('#direction').val();
 		var params=[operationId,serviceId,interfaceId,provideMsgType,
-			consumeMsgType,through,state,onlineVersion,onlineDate,sysId,privodeSysAb];
-		consumerManager.addConsumer(params);
+			consumeMsgType,through,state,onlineVersion,onlineDate,sysId,privodeSysAb,newConsumeMsgType,newThrough,newDirection];
+	    // 检查调用方是否存在
+	    var duplicateFlag = false;
+	    $("#consumerTable tbody tr").each(function(){
+	        var tempConsumeId = $(this).find("td").eq(0).text();
+            if( tempConsumeId == sysId){
+                duplicateFlag = true;
+            }
+        }); 
+        if(duplicateFlag){
+	        alert('调用方系统已经存在,不能重复添加!');
+	        return false;
+        }
+	    function callBack(result){
+	        if(result){
+	            alert("新增成功!");
+	            if (tables["consumerTable"]) {
+			        tables["consumerTable"].fnDestroy();
+			    }
+	            consumerManager.getConsumer(params,initconsumerTable);
+	        }
+	        else{
+	            alert("新增失败!");
+	        }
+	    }
+		consumerManager.addConsumer(params, callBack);
 	});
 });

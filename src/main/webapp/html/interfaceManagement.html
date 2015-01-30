@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -61,42 +60,6 @@
   </head>
   
   <body>
-  	<div class="ui-widget-header" style="margin-bottom:0.5em;padding:0.2em;width:100%">
-  	<table border='0'>
-  		<tr style="width:100%">
-  			<td style="width:30%">
-				系统:
-				<select id="system">
-					<option value='全部'>--全部--</option>
-				</select>
-			</td>
-			<td  style="width:50%">
-		        <!-- 是否穿透 -->
-		         <label>是否穿透:</label>
-				<select id='through'>
-					<option value='全部'>全部</option>
-					<option value='是'>是</option>
-					<option value='否'>否</option>
-				</select>		
-			</td>	
-			<!-- 
-				<td style="width:65%">
-					版本状态:
-					<select id='state'>
-						<option value='全部'>全部</option>
-						<option value='服务定义'>服务定义</option>
-						<option value='开发'>开发</option>
-						<option value='联调测试'>联调测试</option>
-						<option value='SIT测试'>SIT测试</option>
-						<option value='UAT测试'>UAT测试</option>
-						<option value='投产验证'>投产验证</option>
-						<option value='上线'>上线</option>
-					</select>
-				</td>
-			 -->
-		</tr>
-		</table>
-    </div>
     <div class="ui-widget-header" style="margin-bottom:0.5em;padding:0.2em;">
 		<!-- <input type='button' id='query' value='查询'></input> -->
 		<input type='button' id='add' value='新增'></input>
@@ -110,14 +73,12 @@
              <tr>
                 <th><input type="text" name="ecode" value="接口ID" class="search_init"/></th>
                 <th><input type="text" name="interface_NAME" value="接口名称" class="search_init"/></th>
-                <th><input type="text" name="direction" value="接口类型" class="search_init"/></th>
                 <th><input type="text" name="operation_ID" value="操作ID" class="search_init"/></th>
+                <th><input type="text" name="service_ID" value="服务ID" class="search_init"/></th>
                 <th><input type="text" name="consumer_SYSAB" value="调用系统" class="search_init"/></th>
                 <th><input type="text" name="consumer_SYSNAME" value="调用系统名称" class="search_init"/></th>
                 <th><input type="text" name="provider_SYSAB" value="提供系统" class="search_init"/></th>
                 <th><input type="text" name="provider_SYSNAME" value="提供系统名称" class="search_init"/></th>
-                <th><input type="text" name="through" value="是否穿透" class="search_init"/></th>
-                <th><input type="text" name="modify" value="修改" class="search_init"/></th>
              </tr>
           </tfoot>
 	</table>

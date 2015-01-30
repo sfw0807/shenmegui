@@ -24,8 +24,8 @@ import java.util.Vector;
  * This class is used to serialize Schema instances
  * into the PrintWriter.
  *
- * @see SchemaImpl
- * @see SchemaDeserializer
+ * @see com.dc.esb.servicegov.refactoring.wsdl.extensions.schema.SchemaImpl
+ * @see com.dc.esb.servicegov.refactoring.wsdl.extensions.schema.SchemaDeserializer
  */
 public class SchemaSerializer implements ExtensionSerializer, Serializable {
     public static final long serialVersionUID = 1;

@@ -19,6 +19,7 @@ import com.dc.esb.servicegov.refactoring.service.UserManager;
 public class UserManagerImpl implements UserManager {
 	
 	private Log log = LogFactory.getLog(UserManagerImpl.class);
+	private static final String INIT_PASSWORD = "spdb1234";
 	
 	@Autowired
 	private UserDAOImpl userDAO;
@@ -71,5 +72,49 @@ public class UserManagerImpl implements UserManager {
 			return lst.get(0);
 		} 
 		return null;
+	}
+
+	@Override
+	public boolean checkOldPwd(String userId, String password) {
+		// TODO Auto-generated method stub
+		try {
+			User user = userDAO.findUniqueBy("name", userId);
+			if (user.getPassword().equals(password)) {
+				return true;
+			}
+		} catch (Exception e) {
+			log.error("检查旧密码是否相同是出现数据库查询异常!", e);
+			return false;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean updatePwd(String userId, String password) {
+		// TODO Auto-generated method stub
+		try {
+			log.info("update password with userName: " + userId);
+			User user = userDAO.findUniqueBy("name", userId);
+			user.setPassword(password);
+			userDAO.save(user);
+		} catch (Exception e) {
+			log.error("修改新密码是出现错误!", e);
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean resetPwd(String userId) {
+		// TODO Auto-generated method stub
+		try {
+			User user = userDAO.findUniqueBy("name", userId);
+			user.setPassword(INIT_PASSWORD);
+			userDAO.save(user);
+		} catch (Exception e) {
+			log.error("重置密码过程中出现错误!", e);
+			return false;
+		}
+		return true;
 	}
 }

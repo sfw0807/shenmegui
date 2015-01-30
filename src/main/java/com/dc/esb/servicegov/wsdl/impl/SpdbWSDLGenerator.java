@@ -291,7 +291,6 @@ public class SpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
             wsdlDefinition.addNamespace(SOAP_NC_PREFIX, SOAP_NC_NAMESPACE);
             wsdlDefinition.addNamespace(XSD_PREFIX, XSD_NAMESPACE);
             wsdlDefinition.addNamespace("s", "http://esb.spdbbiz.com/services/" + serviceId);
-            wsdlDefinition.addNamespace("d", "http://esb.spdbbiz.com/services/" + serviceId + "/metadata");
         } catch (Exception e) {
             //Todo
             log.error(e, e);

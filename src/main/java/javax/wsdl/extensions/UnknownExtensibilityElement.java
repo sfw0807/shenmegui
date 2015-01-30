@@ -12,8 +12,8 @@ import javax.xml.namespace.QName;
  * This class is used to wrap arbitrary elements.
  *
  * @author Matthew J. Duftler (duftler@us.ibm.com)
- * @see UnknownExtensionSerializer
- * @see UnknownExtensionDeserializer
+ * @see javax.wsdl.extensions.UnknownExtensionSerializer
+ * @see javax.wsdl.extensions.UnknownExtensionDeserializer
  */
 public class UnknownExtensibilityElement implements ExtensibilityElement,
         java.io.Serializable {

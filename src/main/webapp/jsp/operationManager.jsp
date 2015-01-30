@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include  file= "/jsp/header/header.jsp"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -13,25 +14,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
-		<link rel="stylesheet"
-			href="<%=path%>/themes/smoothness/jquery-ui-1.8.4.custom.css" />
-		<link rel="stylesheet" href="<%=path%>/css/index.css" />
-		<script src="<%=path%>/js/jquery-ui/js/jquery-1.10.2.js"></script>
-	    <script src="<%=path%>/js/jquery.ui.core.js"></script>
-	    <script src="<%=path%>/js/jquery.ui.widget.js"></script>
-	    <script src="<%=path%>/js/jquery.ui.button.js"></script>
-	    <script src="<%=path%>/js/jquery.ui.position.js"></script>
-	    <script src="<%=path%>/js/jquery.ui.autocomplete.js"></script>
-       <script src="<%=path%>/js/jquery-ui-tabs.js"></script>
-       <script src="<%=path%>/js/jquery.ui.button.js"></script>
-       <script src='<%=path%>/js/jquery.datatables/js/jquery.dataTables.js' type="text/javascript"></script>
-		<link rel='stylesheet' type='text/css'
-			href='<%=path%>/js/jquery.datatables/css/jquery.dataTables.css' />
+		<link rel="stylesheet" href="<%=path %>/themes/smoothness/jquery-ui-1.8.4.custom.css" />
+		<link rel="stylesheet" href="<%=path %>/css/demos.css" />
+		<script src="<%=path %>/js/jquery.bgiframe-2.1.2.js"></script>
+	    <script src="<%=path %>/js/jquery.ui.core.js"></script>
+	    <script src="<%=path %>/js/jquery.ui.widget.js"></script>
+	    <script src="<%=path %>/js/jquery.ui.mouse.js"></script>
+	    <script src="<%=path %>/js/jquery.ui.button.js"></script>
+	    <script src="<%=path %>/js/jquery.ui.position.js"></script>
+	    <script src="<%=path %>/js/jquery.ui.autocomplete.js"></script>
+	    <script src="<%=path %>/js/jquery.ui.draggable.js"></script>
+	    <script src="<%=path %>/js/jquery.ui.resizable.js"></script>
+	    <script src="<%=path %>/js/jquery.ui.dialog.js"></script>
+	    <script src="<%=path %>/js/jquery.effects.core.js"></script>
+        <script src="<%=path %>/js/jquery-ui-tabs.js"></script>
+        <script src="<%=path %>/js/combo-box.js"></script>
+        <script src='<%=path %>/js/jquery.datatables/js/jquery.dataTables.js' type="text/javascript"></script>
+		<link rel='stylesheet' type='text/css' href='<%=path %>/js/jquery.datatables/css/jquery.dataTables.css' />
 		<script src="<%=path%>/js/jquery.fileDownload.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/layout.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/operationAllManager.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/operationAll.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/json/json2.js" type="text/javascript"></script>
+        <link href="<%=path%>/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="<%=path%>/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+		<link rel="stylesheet" href="<%=path %>/css/index.css" />
 		<style>
 			.ui-menu {
 				position: absolute;
@@ -68,7 +75,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	</head>
 	<body>
-		<div id="tabs" style="width: 100%">
+    <!-- /.navbar -->
+    </div>
+		<div id="tabs" style="width: 100%;">
 			<ul>
 				<li id='tab0'>
 					<a href='#tabs-0'>操作管理</a>
@@ -82,6 +91,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input type = "button" value="发布" id="deployOperation" />
 				<input type = "button" value="重定义" id="redefOperation" />
 				<input type = "button" value="上线" id="publishOperation" />
+				<input type = "button" value="提交审核" id="submit" />
+                <input type='button' id='checkAll' value='全选'></input>
+                <input type='button' id='toggleAll' value='反选'></input>
 			</div>
 			<table cellpadding="0" cellspacing="0" border="0" class="display" id="operationTable">
 					<tfoot>

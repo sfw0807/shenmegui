@@ -41,8 +41,8 @@ public class PublishInfoManagerImpl implements PublishInfoManager {
 	}
 
 	
-	public List<SvcAsmRelateInfoVO> getAllExportDatasByOnlineDate(String onlineDate) {
-		List<Map<String,String>> mapList = publishInfoDAO.getAllExportDatasByOnlineDate(onlineDate);
+	public List<SvcAsmRelateInfoVO> getAllExportDatasByOnlineDate(String onlineDate, String prdMsgType, String csmMsgType) {
+		List<Map<String,String>> mapList = publishInfoDAO.getAllExportDatasByOnlineDate(onlineDate, prdMsgType, csmMsgType);
 		List<SvcAsmRelateInfoVO> results = new ArrayList<SvcAsmRelateInfoVO>();
 		for(Map<String,String> map : mapList){
 			SvcAsmRelateInfoVO vo = new SvcAsmRelateInfoVO();
@@ -74,9 +74,13 @@ public class PublishInfoManagerImpl implements PublishInfoManager {
 					flag = false;
 					if(tempVo.getConsumeSysInfo().indexOf("、") < 0){
 					   String sourceConsumer = tempVo.getConsumeSysInfo().substring(0,tempVo.getConsumeSysInfo().indexOf("/"));
-					   tempVo.setConsumeSysInfo(sourceConsumer + "、" + map.get("CSMSYSAB"));
+					   if( map.get("CSMSYSAB") != null && !sourceConsumer.contains(map.get("CSMSYSAB"))){
+					       tempVo.setConsumeSysInfo(sourceConsumer + "、" + map.get("CSMSYSAB"));
+					   }
 					}else{
-					   tempVo.setConsumeSysInfo(tempVo.getConsumeSysInfo() + "、" + map.get("CSMSYSAB"));
+					   if( map.get("CSMSYSAB") != null && !tempVo.getConsumeSysInfo().contains(map.get("CSMSYSAB"))){
+					       tempVo.setConsumeSysInfo(tempVo.getConsumeSysInfo() + "、" + map.get("CSMSYSAB"));
+					   }
 					}
 					break;
 				}
@@ -87,6 +91,33 @@ public class PublishInfoManagerImpl implements PublishInfoManager {
 		}
 		// TODO Auto-generated method stub
 		return results;
+	}
+
+
+	@Override
+	public List<String> getAddServiceIdsOrOperationIds(
+			String onlineDate, String prdMsgType, String csmMsgType,
+			String spFlag) {
+		// TODO Auto-generated method stub
+		return publishInfoDAO.getAddServiceIdsOrOperationIds(onlineDate, prdMsgType, csmMsgType, spFlag);
+	}
+
+
+	@Override
+	public List<String> getModifyServiceIdsOrOperationIds(
+			String onlineDate, String prdMsgType, String csmMsgType,
+			String spFlag) {
+		// TODO Auto-generated method stub
+		return publishInfoDAO.getModifyServiceIdsOrOperationIds(onlineDate, prdMsgType, csmMsgType, spFlag);
+	}
+
+
+	@Override
+	public List<String> getPublishServiceIdsOrOperationIds(
+			String onlineDate, String prdMsgType, String csmMsgType,
+			String spFlag) {
+		// TODO Auto-generated method stub
+		return publishInfoDAO.getPublishServiceIdsOrOperationIds(onlineDate, prdMsgType, csmMsgType, spFlag);
 	}
 
 	

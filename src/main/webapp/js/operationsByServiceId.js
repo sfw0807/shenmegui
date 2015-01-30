@@ -1,6 +1,14 @@
 $(function() {
     // 获取元数据ID参数
-    var id = window.dialogArguments;
+    var isChrome = (navigator.appVersion.indexOf("Chrome") != -1) ? true : false;
+    var id;
+    if(isChrome){
+        var href = window.location.href;
+        id = href.split("=")[1];
+    }else{
+        id = window.dialogArguments;
+    }
+
 	var tables = {};
 	var asInitVals = new Array();
 	$('#tabs').tabs();

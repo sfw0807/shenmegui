@@ -24,6 +24,7 @@ import com.dc.esb.servicegov.refactoring.entity.Operation;
 import com.dc.esb.servicegov.refactoring.entity.SDA;
 import com.dc.esb.servicegov.refactoring.entity.SLA;
 import com.dc.esb.servicegov.refactoring.service.OperationManager;
+import com.dc.esb.servicegov.refactoring.util.AuditUtil;
 import com.dc.esb.servicegov.refactoring.vo.OperationInfoVO;
 import com.dc.esb.servicegov.refactoring.vo.SDAVO;
 
@@ -67,7 +68,8 @@ public class OperationManagerImpl implements OperationManager {
 				operationVO.setServiceName(operation.getService().getServiceName());
 				operationVO.setVersion(operation.getVersion());
 				operationVO.setState(operation.getState());
-				operationVO.setRemark(operation.getRemark()== null ? "" : operation.getRemark().trim());
+				operationVO.setAudit(operation.getAudit());
+				operationVO.setRemark((operation.getRemark()!=null)?operation.getRemark().trim():"");
 				operationVO.setPublishVersion("");
 				operationVO.setPublishDate("");	
 //				List pubList = operationDao.getPublishInfo(operation.getOperationId());
@@ -180,7 +182,7 @@ public class OperationManagerImpl implements OperationManager {
 		Map<String,String> paramMap = new HashMap<String,String>();
 		paramMap.put("operationId", operationId);
 		paramMap.put("serviceId", serviceId);
-		List<SDA> sdaList = sdaDao.findBy(paramMap);
+		List<SDA> sdaList = sdaDao.findBy(paramMap,"seq");
 		return sdaList;
 	}
 	public boolean deployOperation(String operationId, String serviceId) {
@@ -212,5 +214,57 @@ public class OperationManagerImpl implements OperationManager {
 		boolean slaFlag = slaHistoryDao.saveHistoryVersion(getSLAByOperationId(operationId, serviceId));
 		boolean olaFlag = olaHistoryDao.saveHistoryVersion(getOLAByOperationId(operationId, serviceId));
 		return operationFlag&&sdaFlag&&slaFlag&&olaFlag;
+	}
+
+	@Override
+	public List<Operation> getAuditOperation() {
+		// TODO Auto-generated method stub
+		return operationDao.findBy("auditState", "1");
+	}
+
+	@Override
+	public boolean auditOperation(String operationId, String serviceId,
+			String auditState) {
+		// TODO Auto-generated method stub
+		Operation operation = this.getOperation(operationId, serviceId);
+		if(operation == null){
+			log.error("审核的操作不存在!");
+			return false;
+		}
+		else{
+		    operation.setAuditState(auditState);
+		    operationDao.save(operation);
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean submitOperation(String operationId, String serviceId) {
+		// TODO Auto-generated method stub
+		Operation operation = this.getOperation(operationId, serviceId);
+		if(operation == null){
+			log.error("审核的操作不存在!");
+			return false;
+		}
+		else{
+		    operation.setAuditState(AuditUtil.submit);
+		    operationDao.save(operation);
+		}
+		return true;
+	}
+
+	@Override
+	public boolean checkOperationPassed(String operationId, String serviceId) {
+		// TODO Auto-generated method stub
+		Operation operation = this.getOperation(operationId, serviceId);
+		if(operation == null){
+			log.error("审核的操作不存在!");
+		}
+		else{
+			if(AuditUtil.passed.equals(operation.getAuditState())){
+				return true;
+			}
+		}
+		return false;
 	}
 }

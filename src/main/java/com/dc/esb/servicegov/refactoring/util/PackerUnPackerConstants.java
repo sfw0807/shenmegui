@@ -12,4 +12,5 @@ public class PackerUnPackerConstants {
 	public static final String CONSUMER = "0";
 	public static final String REQ_LABEL = "request";
 	public static final String RSP_LABEL = "response";
+	public static final String SVCBODY_LABEL = "SvcBody";
 }

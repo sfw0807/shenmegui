@@ -29,8 +29,12 @@ var sisTableLayout = [
         "mData": "systemName"
     },
     {
-        "sTitle": "首次上线日期",
+        "sTitle": "首次上线日期(提供方)",
         "mData": "firstPublishDate"
+    },
+    {
+        "sTitle": "首次上线日期(调用方)",
+        "mData": "secondPublishDate"
     },
     {
         "sTitle": "提供服务数",
@@ -49,6 +53,30 @@ var sisTableLayout = [
         "mData": "consumeOperationNum"
     }
 	
+];
+
+var logTableLayout = [
+	
+    {
+        "sTitle": "用户名称",
+        "mData": "user.name"
+    },
+    {
+        "sTitle": "组织ID",
+        "mData": "user.orgId"
+    },
+    {
+        "sTitle": "操作",
+        "mData": "function.name"
+    },
+    {
+        "sTitle": "时间",
+        "mData": "time"
+    },
+    {
+        "sTitle": "日志详情",
+        "mData": "detail"
+    }
 ];
 
 var publishInfoTableLayout = [
@@ -86,12 +114,12 @@ var publishInfoTableLayout = [
 var serviceDevProgressTableLayout = [
 
 	{
-        "sTitle": "系统名称",
-        "mData": "systemName"
-    },
-    {
         "sTitle": "系统英文名称",
         "mData": "systemAb"
+    },
+	{
+        "sTitle": "系统名称",
+        "mData": "systemName"
     },
     {
         "sTitle": "服务定义",
@@ -138,6 +166,10 @@ var interfaceManagementTableLayout = [
         "mData": "operation_ID"
     },
     {
+        "sTitle": "服务ID",
+        "mData": "service_ID"
+    },
+    {
         "sTitle": "调用系统",
         "mData": "consumer_SYSAB"
     },
@@ -152,14 +184,6 @@ var interfaceManagementTableLayout = [
     {
         "sTitle": "提供系统名称",
         "mData": "provider_SYSNAME"
-    },
-    {
-        "sTitle": "是否穿透",
-        "mData": "through"
-    },
-    {
-        "sTitle": "修改",
-        "mData": ""
     }
 ];
 
@@ -742,6 +766,10 @@ var operationTableLayout = [
         "mData": "state"
 	},
 	{
+        "sTitle": "审核状态",
+        "mData": "audit.state"
+    },
+	{
         "sTitle": "开发版本",
         "mData": "version"
 	},
@@ -754,11 +782,11 @@ var operationTableLayout = [
         "mData": "publishDate"
 	},
 	{
-        "sTitle": "<nobr>动作</nobr>",
+        "sTitle": "动作",
         "mData": "operationId"
 	},
 	{
-        "sTitle": "<nobr>历史</nobr>",
+        "sTitle": "历史",
         "mData": "operationId"
 	},
 	{
@@ -880,9 +908,13 @@ var serviceInfoTableLayout = [
         "mData": "state"
     },
     {
-        "sTitle": "操作用户",
-        "mData": "modifyUser"
+        "sTitle": "审核状态",
+        "mData": "audit.state"
     },
+//    {
+//        "sTitle": "操作用户",
+//        "mData": "modifyUser"
+//    },
     {
         "sTitle": "更新时间",
         "mData": "updateTime"
@@ -936,8 +968,12 @@ var systemInfoTableLayout = [
         "mData": "remark"
     },
     {
-        "sTitle": "首次上线日期",
+        "sTitle": "首次上线日期(提供方)",
         "mData": "firstPublishDate"
+    },
+    {
+        "sTitle": "首次上线日期(调用方)",
+        "mData": "secondPublishDate"
     }
 ];
 var serviceCategoryTableLayout = [
@@ -1058,10 +1094,6 @@ var protocolInfoTableLayout =[
         "mData": "msgType"
 	},
 	{
-        "sTitle": "超时时间",
-        "mData": "timeout"
-	},
-	{
         "sTitle": "系统类型",
         "mData": "sysType"
 	},
@@ -1072,19 +1104,7 @@ var protocolInfoTableLayout =[
 	{
         "sTitle": "mac校验",
         "mData": "macFlag"
-	},
-	{
-        "sTitle": "并发数",
-        "mData": "currentTimes"
-	},
-	{
-        "sTitle": "承诺平均响应时间(S)",
-        "mData": "avgResTime"
-	},
-	{
-        "sTitle": "承诺成功率(%)",
-        "mData": "successRate"
-    }
+	}
 ];
 var invokeTableLayout = [
     {
@@ -1100,12 +1120,28 @@ var invokeTableLayout = [
         "mData": "interfaceInfo"
     },
     {
-        "sTitle": "提供方报文类型",
-        "mData": "provideMsgType"
+        "sTitle": "源系统简称/名称",
+        "mData": "consumeSysInfo"
+    },
+    {
+        "sTitle": "调用方系统简称/名称",
+        "mData": "passbySysInfo"
+    },
+    {
+        "sTitle": "提供方系统简称/名称",
+        "mData": "provideSysInfo"
     },
     {
         "sTitle": "调用方报文类型",
         "mData": "consumeMsgType"
+    },
+    {
+        "sTitle": "提供方报文类型",
+        "mData": "provideMsgType"
+    },
+    {
+        "sTitle": "接口方向",
+        "mData": "direction"
     },
     {
         "sTitle": "是否穿透",
@@ -1125,18 +1161,6 @@ var invokeTableLayout = [
     },
     {
         "sTitle": "备注",
-        "mData": "field"
-    },
-    {
-        "sTitle": "提供方",
-        "mData": "provideSysInfo"
-    },
-    {
-        "sTitle": "调用方",
-        "mData": "field"
-    },
-    {
-        "sTitle": "动作",
         "mData": "field"
     }
 ];
@@ -1324,4 +1348,312 @@ var OrgTableLayout = [
         "sTitle": "机构状态",
         "mData": "orgStatus"
     }
+];
+var auditOperationTableLayout = [
+	{
+        "sTitle": "操作ID",
+        "mData": "operationId"
+	},
+	{
+        "sTitle": "操作名称",
+        "mData": "operationName"
+	},
+	{
+        "sTitle": "服务ID",
+        "mData": "serviceId"
+	},
+	{
+        "sTitle": "服务名称",
+        "mData": "service.serviceName"
+	},
+	{
+        "sTitle": "开发版本",
+        "mData": "version"
+	},
+	{
+        "sTitle": "审核状态",
+        "mData": "audit.state"
+    },
+	{
+        "sTitle": "动作",
+        "mData": "operationId"
+	}
+];
+var auditServiceInfoTableLayout = [
+    {
+        "sTitle": "服务ID",
+        "mData": "serviceId"
+    },
+  	{
+        "sTitle": "服务名称",
+        "mData": "serviceName"
+    },
+    {
+        "sTitle": "开发版本",
+        "mData": "version"
+    },
+    {
+        "sTitle": "审核状态",
+        "mData": "audit.state"
+    },
+    {
+        "sTitle": "操作用户",
+        "mData": "modifyUser"
+    }
+];
+var passwordTableLayout = [
+    {
+        "sTitle": "用户名",
+        "mData": "name"
+    },
+  	{
+        "sTitle": "所属角色",
+        "mData": "role"
+    },
+    {
+        "sTitle": "所属机构",
+        "mData": "org"
+    },
+    {
+        "sTitle": "最后更新时间",
+        "mData": "lastdate"
+    },
+    {
+        "sTitle": "用户状态",
+        "mData": "status"
+    }
+];
+var publishTotalViewTableLayout = [
+    {
+        "sTitle": "投产次数",
+        "mData": "countOfPublishTimes"
+    },
+  	{
+        "sTitle": "提供方数量",
+        "mData": "countOfProviderSys"
+    },
+    {
+        "sTitle": "调用方数量",
+        "mData": "countOfConsumerSys"
+    },
+    {
+        "sTitle": "投产服务数量",
+        "mData": "countOfService"
+    },
+    {
+        "sTitle": "投产操作数量",
+        "mData": "countOfOperation"
+    },
+    {
+        "sTitle": "服务修订次数",
+        "mData": "countOfModifyTimes"
+    },
+    {
+        "sTitle": "服务下线数量",
+        "mData": "countOfOffLine"
+    },
+    {
+        "sTitle": "服务删除数量",
+        "mData": "countOfDeletedService"
+    }
+];
+var auditIdaTableLayout = [
+	{
+        "sTitle": "序号",
+        "mData": "seq"
+    },
+    {
+        "sTitle": "英文名称",
+        "mData": "structName"
+    },
+    {
+        "sTitle": "元数据ID",
+        "mData": "metadataId"
+    },
+    {
+        "sTitle": "中文名称",
+        "mData": "structAlias"
+    },
+    {
+        "sTitle": "类型",
+        "mData": "type"
+    },
+    {
+        "sTitle": "长度",
+        "mData": "length"
+    },
+    {
+        "sTitle": "规模",
+        "mData": "scale"
+    },
+    {
+        "sTitle": "是否必输",
+        "mData": "required"
+    },
+    {
+        "sTitle": "备注",
+        "mData": "remark"
+    }
+];
+var batchExportTableLayout = [
+	{
+        "sTitle": "服务Id",
+        "mData": "serviceId"
+    },
+    {
+        "sTitle": "操作Id",
+        "mData": "operationId"
+    },
+    {
+        "sTitle": "交易代码",
+        "mData": "interfaceId"
+    },
+    {
+        "sTitle": "提供方",
+        "mData": "provideSys"
+    },
+    {
+        "sTitle": "提供报文类型",
+        "mData": "provideMsgType"
+    },
+    {
+        "sTitle": "调用报文类型",
+        "mData": "consumeMsgType"
+    },
+    {
+        "sTitle": "是否穿透",
+        "mData": "through"
+    }
+];
+var tranLinkTableLayout = [
+    {
+        "sTitle": "交易代码",
+        "mData": "TRANCODE"
+    },
+    {
+        "sTitle": "交易名称",
+        "mData": "TRANNANE"
+    },
+    {
+        "sTitle": "提供方",
+        "mData": "PROVIDER"
+    },
+    {
+        "sTitle": "调用方",
+        "mData": "CONSUMER"
+    },
+    {
+        "sTitle": "调用方报文格式",
+        "mData": "CONSUMERMSGTYPE"
+    },
+    {
+        "sTitle": "交易链路",
+        "mData": "TRANCODE"
+    }
+];
+var tranCountTableLayout =[
+	{
+        "sTitle": "系统",
+        "mData": "name"
+    },
+    {
+        "sTitle": "提供交易数量",
+        "mData": "ptrancount"
+    },
+    {
+        "sTitle": "调用交易数量",
+        "mData": "ctrancount"
+    }
+];
+var AllTranProviderTableLayout = [
+    {
+        "sTitle": "交易代码",
+        "mData": "TRANCODE"
+    },
+    {
+        "sTitle": "交易名称",
+        "mData": "TRANNANE"
+    },
+    {
+        "sTitle": "提供方",
+        "mData": "PROVIDER"
+    },
+    {
+        "sTitle": "提供方报文格式",
+        "mData": "PROVIDERMSGTYPE"
+    },
+    {
+        "sTitle": "负责人",
+        "mData": "CHARGER"
+    },
+    {
+        "sTitle": "备注",
+        "mData": "REMARK"
+    }
+];
+var AllTranConsumerTableLayout = [
+    {
+        "sTitle": "交易代码",
+        "mData": "TRANCODE"
+    },
+    {
+        "sTitle": "交易名称",
+        "mData": "TRANNANE"
+    },
+    {
+        "sTitle": "调用方",
+        "mData": "CONSUMER"
+    },
+    {
+        "sTitle": "经由系统",
+        "mData": "PASSEDSYS"
+    },
+    {
+        "sTitle": "提供方",
+        "mData": "PROVIDER"
+    },
+    {
+        "sTitle": "调用方报文格式",
+        "mData": "CONSUMERMSGTYPE"
+    },
+    {
+        "sTitle": "前台交易码",
+        "mData": "FRONTTRANCODE"
+    },
+    {
+        "sTitle": "负责人",
+        "mData": "CHARGER"
+    },
+    {
+        "sTitle": "备注",
+        "mData": "REMARK"
+    }
+];
+var publishOperationsTableLayout = [
+	{
+        "sTitle": "操作ID",
+        "mData": "operationId"
+	},
+	{
+        "sTitle": "操作名称",
+        "mData": "operationName"
+	},
+	{
+        "sTitle": "服务ID",
+        "mData": "serviceId"
+	},
+	{
+        "sTitle": "服务名称",
+        "mData": "service.serviceName"
+	}
+];
+var publishServicesTableLayout = [
+	{
+        "sTitle": "服务ID",
+        "mData": "serviceId"
+	},
+	{
+        "sTitle": "服务名称",
+        "mData": "serviceName"
+	}
 ];

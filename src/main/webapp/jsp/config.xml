@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system>
+	<node name="FES" label="FES" x="700" y="50" des="新一代网点平台系统"  url="#"/>
+	<node name="PLBS" label="PLBS" x="700" y="150" des="零售信贷服务系统"  url="#"/>
+	<node name="TMS" label="TMS" x="700" y="250" des="企业财资管理平台"  url="#"/>
+	<node name="BIP" label="BIP" x="700" y="350" des="业务集成平台"  url="#"/>
+	<node name="ECIF" label="ECIF" x="700" y="450" des="企业级客户信息管理系统"  url="#"/>
+	<node name="MMPP" label="MMPP" x="700" y="550" des="代客及代理业务处理平台"  url="#"/>
+	<node name="CMIS" label="CMIS" x="700" y="650" des="抵质押品管理系统"  url="#"/>
+	<node name="OIMS" label="OIMS" x="700" y="750" des="机构管理系统"  url="#"/>
+	<node name="GMP" label="GMP" x="700" y="850" des="金融市场交易管理平台"  url="#"/>
+	<node name="ESB" label="ESB" x="500" y="450" des="企业服务总线"  url="#"/>
+	<node name="SOP" label="SOP" x="300" y="450" des="核心业务系统"  url="#"/>
+	<line fromName="ESB" toName="SOP"  des="ESB调用SOP" />
+	<line fromName="FES" toName="ESB"  des="FES调用ESB" />
+	<line fromName="PLBS" toName="ESB"  des="PLBS调用ESB" />
+	<line fromName="TMS" toName="ESB"  des="TMS调用ESB" />
+	<line fromName="BIP" toName="ESB"  des="BIP调用ESB" />
+	<line fromName="ECIF" toName="ESB"  des="ECIF调用ESB" />
+	<line fromName="MMPP" toName="ESB"  des="MMPP调用ESB" />
+	<line fromName="CMIS" toName="ESB"  des="CMIS调用ESB" />
+	<line fromName="OIMS" toName="ESB"  des="OIMS调用ESB" />
+	<line fromName="GMP" toName="ESB"  des="GMP调用ESB" />
+</system>

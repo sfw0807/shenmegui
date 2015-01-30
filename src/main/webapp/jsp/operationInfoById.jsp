@@ -7,35 +7,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>opertationInfoById.jsp</title>
-    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-    <meta http-equiv="description" content="this is my page">
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    
-    <!--<link rel="stylesheet" type="text/css" href="./styles.css">--><!--
-		
-		<link rel="stylesheet" href="/themes/smoothness/jquery-ui-1.8.4.custom.css" />
-		<link rel="stylesheet" href="/css/index.css" />
-		<script src="/js/jquery-ui/js/jquery-1.10.2.js"></script>
-		<script src="/js/jquery-1.8.2.js"></script>	
-		<script src="/js/jquery-ui-tabs.js"></script>
-		<script src='/js/jquery.datatables/js/jquery.dataTables.js' type="text/javascript"></script>
-		<link rel='stylesheet' type='text/css' href='/js/jquery.datatables/css/jquery.dataTables.css' />
-		
-		<script src="/js/jquery.ui.core.js"></script>
-		<script src="/js/jquery.ui.widget.js"></script>
-		<script src="/js/jquery.ui.datepicker.js"></script>
-		-->
+	    <title>opertationInfoById.jsp</title>
+	    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	    <meta http-equiv="description" content="this is my page">
+	    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" href="<%=path%>/themes/smoothness/jquery-ui-1.8.4.custom.css" />
 		<link rel="stylesheet" href="<%=path%>/js/jquery-ui/development-bundle/themes/base/jquery.ui.all.css" />
 		<link rel="stylesheet" href="<%=path%>/css/index.css" />
-		
 		<script src="<%=path%>/js/jquery-ui/js/jquery-1.10.2.js"></script>
 		<script src="<%=path%>/js/jquery-1.8.2.js"></script>
 		<script src="<%=path%>/js/jquery-ui-tabs.js"></script>
 		<script src='<%=path%>/js/jquery.datatables/js/jquery.dataTables.js' type="text/javascript"></script>
 		<link rel='stylesheet' type='text/css' href='<%=path%>/js/jquery.datatables/css/jquery.dataTables.css' />
-		
 		<script src="<%=path%>/js/jquery.ui.core.js"></script>
 		<script src="<%=path%>/js/jquery.ui.widget.js"></script>
 		<script src="<%=path%>/js/jquery.ui.datepicker.js"></script>
@@ -70,19 +53,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</ul>
 			<div id="tabs-0">
 				<div class="ui-widget-header" style="margin-bottom: 0.5em;padding: 0.2em;">
-					<input  type = "button" value="编辑" id="editOperationDef" />
-					<input  type = "button" value="保存" id="saveOperationDef" />
+					<input  type = "button" value="保存" id="saveOperationDef" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false"/>
 				</div>
-				<table style="width:50%" id="operationTable">
-					<tr>
-						<td><label style="width:16%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;操作ID:</label><input type="text" id="operationId" value="" style="width:80%" disabled="true"/></td>
-						<td><label style="width:19%">&nbsp;&nbsp;&nbsp;服务ID:</label><input type="text" id="serviceId" value="" style="width:80%" disabled="true" /></td>
-					</tr>	
-					<tr>
-						<td><label style="width:16%">&nbsp;&nbsp; 操作名称:</label><input type="text" id="operationName" value="" style="width:80%"/></td>
-						<td>
-						<label style="width:19%">&nbsp;&nbsp; 操作状态:</label>
-						<!--<input type="text" id="state" value="" style="width:80%"  disabled="true"/>-->
+						<label style="width:8%">操作编号:</label><input type="text" id="operationId" value="" style="width:20%" disabled="true"/><br>
+						<label style="width:8%">服务编号:</label><input type="text" id="serviceId" value="" style="width:20%" disabled="true" /><br>
+						<label style="width:8%">操作名称:</label><input type="text" id="operationName" value="" style="width:20%" /><br>
+						<label style="width:8%">操作状态:</label>
 						<select id="state" class="text ui-widget-content ui-corner-all" >
                              <option value="服务定义">服务定义</option>
                              <option value="开发" >开发</option>
@@ -91,24 +67,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                              <option value="uat测试" >uat测试</option>
                              <option value="投产验证" >投产验证</option>
                              <option value="上线" >上线</option>
-                         </select>						
-						</td>
-					</tr>	
-					<tr>
-						<td><label style="width:16%"> &nbsp;&nbsp; 操作描述:</label><input type="text" id="operationRemark" value="" style="width:80%;position:relative;z-index:10000" /></td>
-					</tr>
-					<tr>
-						<td><label style="width:16%">开发版本号:</label><input type="text" id="version" value="" style="width:80%" disabled="true"/></td><!--
-						<td><label style="width:19%">上线版本号:</label><input type="text" id="publishVersion" value="" style="width:80%"  disabled="true"/></td>
-					--></tr><!--	
-		
-					<tr>
-						<td><label style="width:16%"> &nbsp;&nbsp; 上线时间:</label><input type="text" id="publishDate" value="" style="width:80%;position:relative;z-index:10000" disabled="true"/></td>
-					</tr>
-				--></table>
+                         </select><br>					
+						<label style="width:8%">操作描述:</label><input type="text" id="operationRemark" value="" style="width:20%;position:relative;z-index:10000" /><br>
+						<label style="width:8%">开发版本:</label><input type="text" id="version" value="" style="width:20%" disabled="true"/>
 			</div>
 			
-			<div id="tabs-1">
+			<div id="tabs-1"><%--
 				<div class="ui-widget-header" style="margin-bottom: 0.5em;padding: 0.2em;">
 					<input  type = "button" value="编辑节点" id="editChildOperationSDA" />
 					<input  type = "button" value="添加子节点" id="addChildOperationSDA" />
@@ -128,23 +92,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		              </tr>
 		           </tfoot>
 				</table>
+				--%>
+				<div class="ui-widget-header" style="margin-bottom: 0.5em;padding: 0.2em;">
+					<input  type = "button" value="查看SDA" id="seesda" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false" />
+				</div>
 			</div>
 			
 			<div id="tabs-2">
 				<div class="ui-widget-header" style="margin-bottom: 0.5em;padding: 0.2em;">
-					<input  type = "button" value="编辑" id="editOperationSLA" />
-					<input  type = "button" value="添加" id="addOperationSLA" />
-					<input  type = "button" value="删除" id="deleteOperationSLA" />
-					<input  type = "button" value="保存" id="saveOperationSLA" />
+					<input  type = "button" value="编辑" id="editOperationSLA" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false"/>
+					<input  type = "button" value="添加" id="addOperationSLA" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false"/>
+					<input  type = "button" value="删除" id="deleteOperationSLA" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false"/>
+					<input  type = "button" value="保存" id="saveOperationSLA" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false"/>
 				</div>
 				<table cellpadding="0" cellspacing="0" border="0" class="display" id="operationSlaTable">
 				   <tfoot>
 		              <tr>
-		              <!--
-		                 <th><input type="text" id="slaName" name="slaName" value="属性ID" class="search_init"/></th>
-		                 <th><input type="text" id="slaValue" name="slaValue" value="属性值" class="search_init"/></th>
-		                 <th><input type="text" id="slaRemark" name="slaRemark" value="备注" class="search_init"/></th>
-		              -->
 		              </tr>
 		           </tfoot>
 				</table>
@@ -152,10 +115,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			<div id="tabs-3">
 				<div class="ui-widget-header" style="margin-bottom: 0.5em;padding: 0.2em;">
-					<input  type = "button" value="编辑" id="editOperationOLA" />
-					<input  type = "button" value="添加" id="addOperationOLA" />
-					<input  type = "button" value="删除" id="deleteOperationOLA" />
-					<input  type = "button" value="保存" id="saveOperationOLA" />
+					<input  type = "button" value="编辑" id="editOperationOLA" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false"/>
+					<input  type = "button" value="添加" id="addOperationOLA" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false"/>
+					<input  type = "button" value="删除" id="deleteOperationOLA" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false"/>
+					<input  type = "button" value="保存" id="saveOperationOLA" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false"/>
 				</div>			
 				<table cellpadding="0" cellspacing="0" border="0" class="display" id="operationOlaTable">
 				   <tfoot>

@@ -70,5 +70,17 @@ var operationManager = {
                }
             }
         });
+    },
+    submitOperation: function(callBack, params) {
+        $.ajax({
+            "type": "POST",
+            "contentType": "application/json; charset=utf-8",
+            "url": "../operationInfo/submit",
+            "dataType": "json",
+            "data":JSON.stringify(params),
+            "success": function(result) {
+                callBack(result);
+            }
+        });
     }
 }

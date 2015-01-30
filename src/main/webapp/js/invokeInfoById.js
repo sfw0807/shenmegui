@@ -18,7 +18,7 @@ var invokeByIdManager = {
             "success": function(result) {
                 if(result){
                   alert('保存成功!');
-                  window.location.href="invokeManager.jsp?operationId='"+operation.operationId+"'&serviceId='"+operation.serviceId+"'&version='"+operation.version+"'&publishVersion=''&publishDate=''";
+                  window.location.href="invokeManager.jsp";
                 }else{
                   alert('保存失败!');
                 }
@@ -40,6 +40,9 @@ $(function() {
 		$('#state').val(params.state);
 		$('#onlineVersion').val(params.onlineVersion);
 		$('#onlineDate').val(params.onlineDate);
+		$('#prdSysAb').val(params.prdSysAb);
+		$('#csmSysAb').val(params.csmSysAb);
+		$('#passbySysAb').val(params.passbySysAb);
 	};
 	// 从URL中得到invokeInfo
 	var href = window.location.href;
@@ -56,6 +59,13 @@ $(function() {
 	var consumeMsgType = consumeMsgInfo.split("=")[1];	
 	var throughInfo = hrefparam.split("&")[5];
 	var through = throughInfo.split("=")[1];	
+	var prdSysAbInfo = hrefparam.split("&")[9];
+	var prdSysAb = prdSysAbInfo.split("=")[1];
+	var passbySysAbInfo = hrefparam.split("&")[10];
+	var passbySysAb = passbySysAbInfo.split("=")[1];
+	var csmSysAbInfo = hrefparam.split("&")[11];
+	var csmSysAb = csmSysAbInfo.split("=")[1];
+	
 	if(through=="Y"){
 		through="是";
 	}else if(through=="N"){
@@ -91,7 +101,10 @@ $(function() {
 		through:through,
 		state:state,
 		onlineVersion:onlineVersion,
-		onlineDate:onlineDate
+		onlineDate:onlineDate,
+		prdSysAb:prdSysAb,
+		passbySysAb:passbySysAb,
+		csmSysAb:csmSysAb
     };
 	initInvokeInfo(params);
 	$("#onlineDate").datepicker({
@@ -105,11 +118,14 @@ $(function() {
 		var interfaceId = $('#interfaceId').val();
 		var provideMsgType = $('#provideMsgType').val();
 		var consumeMsgType = $('#consumeMsgType').val();
+		var prdSysAb = $('#prdSysAb').val();
+		var passbySysAb = $('#passbySysAb').val();
+		var csmSysAb = $('#csmSysAb').val();
 		var state = $('#state').val();
 //		var through = $('#through').val();		
 //		var onlineVersion = $('#onlineVersion').val();
 //		var onlineDate = $('#onlineDate').val();
-		var param = [operationId,serviceId,interfaceId,provideMsgType,consumeMsgType,state];
+		var param = [operationId,serviceId,interfaceId,provideMsgType,consumeMsgType,state,prdSysAb,passbySysAb,csmSysAb];
 		invokeByIdManager.saveInvokeInfo(param);
 	});
 });

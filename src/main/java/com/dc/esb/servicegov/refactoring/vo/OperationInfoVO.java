@@ -1,5 +1,7 @@
 package com.dc.esb.servicegov.refactoring.vo;
 
+import com.dc.esb.servicegov.refactoring.entity.AuditState;
+
 public class OperationInfoVO {
 	private String operationId;
 	private String operationName;
@@ -13,6 +15,13 @@ public class OperationInfoVO {
 	private String action;
 	private String history;
 	private String invoke;
+	private AuditState audit;
+	public AuditState getAudit() {
+		return audit;
+	}
+	public void setAudit(AuditState audit) {
+		this.audit = audit;
+	}
 	public String getOperationId() {
 		return operationId;
 	}

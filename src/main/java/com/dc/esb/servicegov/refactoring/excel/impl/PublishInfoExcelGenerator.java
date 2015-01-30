@@ -119,29 +119,32 @@ public class PublishInfoExcelGenerator implements IConfigGenerater<Object, Publi
 	public File generate(Map<String,String> mapConditions) throws Exception{ 
 		
 		File excelFile = new File(fileNamePrefix+fileNameSuffix);
-		ExecutorService executor = Executors.newFixedThreadPool(100);
+//		ExecutorService executor = Executors.newFixedThreadPool(100);
 		init(mapConditions);
+		String prdMsgType = (mapConditions.get("prdMsgType") == null)?"":mapConditions.get("prdMsgType");
+		String csmMsgType = (mapConditions.get("csmMsgType") == null)?"":mapConditions.get("csmMsgType");
 		// create Index sheet contents
 		createHeadInfo();
 		createBodyInfo();
 		setOtherStyle();
 		// generate other sheets
 		List<PublishInfoExcelGeneratorTask> cc = new ArrayList<PublishInfoExcelGeneratorTask>();
-		CountDownLatch countDown = new CountDownLatch(infos.size());
+//		CountDownLatch countDown = new CountDownLatch(infos.size());
 		for(PublishInfoVO vo : infos){
 			// get Each sheet export data info
-			List<SvcAsmRelateInfoVO> list = publishInfoManager.getAllExportDatasByOnlineDate(vo.getONLINEDATE());
+			List<SvcAsmRelateInfoVO> list = publishInfoManager.getAllExportDatasByOnlineDate(vo.getONLINEDATE(), prdMsgType, csmMsgType);
 			Sheet sheet = wb.createSheet(vo.getONLINEDATE());
 			// instance Task Object 
 			PublishInfoExcelGeneratorTask pTask = new PublishInfoExcelGeneratorTask();
 			pTask.init(list, wb, sheet);
+			pTask.run();
 			cc.add(pTask);
-			countDown.countDown();
+//			countDown.countDown();
 		}
-		for(PublishInfoExcelGeneratorTask task : cc){
-			executor.execute(task);
-		}
-		countDown.await(60 * 2, TimeUnit.SECONDS);
+//		for(PublishInfoExcelGeneratorTask task : cc){
+//			executor.execute(task);
+//		}
+//		countDown.await(60 * 2, TimeUnit.SECONDS);
 		FileOutputStream outputStream = new FileOutputStream(excelFile);
 		wb.write(outputStream);
 		if (null != outputStream) {
@@ -151,7 +154,7 @@ public class PublishInfoExcelGenerator implements IConfigGenerater<Object, Publi
 				log.error("关闭文件[" + excelFile.getAbsolutePath() + "]输出流失败！");
 			}
 		}
-
+//		executor.shutdown();
 		return excelFile;
 	}
 	

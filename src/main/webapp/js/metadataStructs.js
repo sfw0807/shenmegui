@@ -112,7 +112,15 @@ $(function() {
            return false;
         }	
         delids = delids.substring(0,delids.length-1);
-        
+        function callBack(result){
+            if(result){
+              alert('删除成功!');
+              metadataStructsManager.getAll(initmetadataStructsTable);
+            }
+            else{
+              alert('删除失败!');
+            }
+        };
         function checkIsUsed(result){
               if(result != null && result != ""){
                    alert('元数据结构['+result+']已被使用,不能删除!');
@@ -120,7 +128,7 @@ $(function() {
               }
               else{
                    if(confirm('确定删除元数据结构['+delids+']?')){
-                      metadataStructsManager.deleteById(delids);
+                      metadataStructsManager.deleteById(delids,callBack);
                    }
              }
         };
@@ -198,6 +206,7 @@ $(function() {
         params.sRemark = '',
         params.type = 'add';
         window.showModalDialog('../jsp/metadataStructsAttr.jsp',params,'dialogWidth=950px;dialogHeight=500px');
+        metadataStructsManager.getAll(initmetadataStructsTable);
      });
      
      // 修改元数据结构
@@ -218,7 +227,8 @@ $(function() {
         if(count > 1){
             alert('请只选择一条记录修改!');
             return false;}
-         window.showModalDialog('../jsp/metadataStructsAttr.jsp',params,'dialogWidth=950px;dialogHeight=500px'); 
+        window.showModalDialog('../jsp/metadataStructsAttr.jsp',params,'dialogWidth=950px;dialogHeight=500px'); 
+        metadataStructsManager.getAll(initmetadataStructsTable);
         // window.open('/html/metadataStructs/metadataStructsAttr.html?id='+id,'','dialogWidth:600px;dialogHeight=200px');  
      });
     

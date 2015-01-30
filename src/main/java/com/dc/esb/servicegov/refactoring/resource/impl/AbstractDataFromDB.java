@@ -34,14 +34,12 @@ import com.dc.esb.servicegov.refactoring.dao.impl.IdaPROPDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.SDADAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.SdaPROPDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.ServiceHeadRelateDAOImpl;
-import com.dc.esb.servicegov.refactoring.entity.InvokeInfo;
 import com.dc.esb.servicegov.refactoring.resource.IDataFromDB;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.Attr;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.IMetadataNodeAttribute;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.MetadataNode;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.MetadataNodeAttribute;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.IMetadataNode.Type;
-import com.dc.esb.servicegov.refactoring.util.DefaultTemplate;
 
 
 /**
@@ -54,6 +52,8 @@ import com.dc.esb.servicegov.refactoring.util.DefaultTemplate;
 public abstract class AbstractDataFromDB implements IDataFromDB {
 	protected static final Log log = LogFactory
 			.getLog(AbstractDataFromDB.class);
+	List<Map<String,String>> dataMap = new ArrayList<Map<String,String>>();
+	List<Attr> allIdaProp = new ArrayList<Attr>();
 	
 	@Autowired
 	private SDADAOImpl sdaDAO;
@@ -61,6 +61,7 @@ public abstract class AbstractDataFromDB implements IDataFromDB {
 	private IdaDAOImpl idaDAO;
 	@Autowired
 	private IdaPROPDAOImpl idaPropDAO;
+	@SuppressWarnings("unused")
 	@Autowired
 	private SdaPROPDAOImpl sdaPropDAO;
 	@Autowired
@@ -77,16 +78,17 @@ public abstract class AbstractDataFromDB implements IDataFromDB {
 	@SuppressWarnings("unchecked")
 	protected MetadataNode getHeadData(String serviceid) {
 		String sheadId = serviceHeadRelateDAO.getHeadByServiceId(serviceid);
-//		if(DefaultTemplate.hasTemplate(sheadId)){
-//			return DefaultTemplate.getTemplate(sheadId);
-//		}
+		log.info("开始导出服务头[" + sheadId + "]SDA");
+		// 获取所有HeadSda的Map
+		dataMap.clear();
+		dataMap = headSDADAO.getAllHeadSDAMapBySheadId(sheadId);
 		MetadataNode serviceNodes = new MetadataNode();
 		if(sheadId == null){
 			return serviceNodes;
 		}
-		String id = headSDADAO.getTopResourceIdBySheadId(sheadId);
+		String id = this.getTopResourceIdByMap();
 		getHeadSDAAllChild(id, sheadId, serviceNodes, ResourceType.HEAD);
-//		DefaultTemplate.saveTemplate(sheadId, serviceNodes);
+		log.info("完成导出服务头[" + sheadId + "]SDA");
 		return serviceNodes;
 	}
 	
@@ -98,9 +100,15 @@ public abstract class AbstractDataFromDB implements IDataFromDB {
 	 */
 	@SuppressWarnings("unchecked")
 	protected MetadataNode getServiceData(String serviceid, String operationid) {
-		String id = sdaDAO.getTopResourceId(serviceid, operationid);
+		// 获取所有服务的sda
+		dataMap.clear();
+		dataMap = sdaDAO.getAllSDAMapByServiceIdAndOperationId(serviceid, operationid);
+		log.info("开始导出操作[" + operationid + "]SDA");
+//		String id = sdaDAO.getTopResourceId(serviceid, operationid);
+		String id = this.getTopResourceIdByMap();
 		MetadataNode serviceNodes = new MetadataNode();
 		getAllChild(id, serviceid, serviceNodes, ResourceType.SERVICE);
+		log.info("完成导出操作[" + operationid + "]SDA");
 		return serviceNodes;
 	}
 	
@@ -113,9 +121,9 @@ public abstract class AbstractDataFromDB implements IDataFromDB {
 	 */
 	protected void getHeadSDAAllChild(String nodeId, String structid,
 			MetadataNode nodes, ResourceType type) {
-		String childNodeName = this.getHeadStructName(nodeId);
-		if (hasHeadChildren(nodeId)) {
-			List<String> cNode = this.getHeadChildren(nodeId);
+		String childNodeName = this.getStructNameByMap(nodeId,null,null);
+		if (hasChildrenByMap(nodeId,null,null)) {
+			List<String> cNode = this.getChildrenByMap(nodeId,null,null);
 			if (childNodeName != null && !"".equals(childNodeName)) {
 
 				if ((null == nodes.getNodeType())
@@ -152,10 +160,10 @@ public abstract class AbstractDataFromDB implements IDataFromDB {
 	 */
 	protected void getAllChild(String nodeId, String structid,
 			MetadataNode nodes, ResourceType type) {
-		String childNodeName = this.getStructName(nodeId, structid, type);
 		
-		if (hasChildren(nodeId, structid, type)) {
-			List<String> cNode = this.getChildren(nodeId, structid, type);
+		String childNodeName = this.getStructNameByMap(nodeId, structid, type);
+		if (hasChildrenByMap(nodeId, structid, type)) {
+			List<String> cNode = this.getChildrenByMap(nodeId, structid, type);
 			if (childNodeName != null && !"".equals(childNodeName)) {
 
 				if ((null == nodes.getNodeType())
@@ -187,8 +195,9 @@ public abstract class AbstractDataFromDB implements IDataFromDB {
 //		if(log.isInfoEnabled()){
 //			log.info("get node info of ["+nodeId+" : "+type+"]");
 //		}
-		Map<String, String> info = this.getNodeInfo(nodeId, type);
-		List<Attr> attr = getNodeAttr(nodeId, type);
+		Map<String, String> info = this.getNodeInfoByMap(nodeId, type);
+//		List<Attr> attr = getNodeAttr(nodeId, type);
+		List<Attr> attr = this.getIdaPropListByIdaId(nodeId);
 		if (info.containsKey("METADATAID")) {
 			Attr att = new Attr();
 			att.setPropertyName("metadataid");
@@ -259,133 +268,6 @@ public abstract class AbstractDataFromDB implements IDataFromDB {
 			node.setProperty(nodeAttr);
 		} 
 	}
-
-	// 获取节点属性
-	@SuppressWarnings("unchecked")
-	private List<Attr> getNodeAttr(String childId, ResourceType type) {
-		List<Attr> nodeProps =  null;
-		if (type == ResourceType.SERVICE){
-			nodeProps = sdaPropDAO.getsdaPropMapBySdaId(childId);
-		}
-		else{
-			nodeProps = idaPropDAO.getIdaPropMapByIdaId(childId);
-		}
-		return nodeProps;
-	}
-
-	protected boolean hasChildren(String structId, String serviceId,
-			ResourceType type) {
-		if (structId == null) {
-			return false;
-		}
-		List<String> childStructIds = this.getChildren(structId, serviceId,
-				type);
-		if(childStructIds == null){
-			return false;
-		}
-		return childStructIds.size() > 0;
-	}
-	
-	/**
-	 * 根据resourceid判断业务报文头下是否有子节点
-	 * @param resourceid
-	 * @return
-	 */
-	protected boolean hasHeadChildren(String resourceid) {
-		if (resourceid == null) {
-			return false;
-		}
-		List<String> childStructIds = this.getHeadChildren(resourceid);
-		if(childStructIds == null){
-			return false;
-		}
-		return childStructIds.size() > 0;
-	}
-	
-	@SuppressWarnings("unchecked")
-	protected List<String> getChildren(String structId, String serviceid,
-			ResourceType type) {
-		if (structId == null) {
-			return null;
-		}
-		List<String> childStructIds = null;
-		if (ResourceType.SERVICE == type) {
-			childStructIds = sdaDAO.getChildIdsByResourceId(structId);
-		} else {
-			childStructIds = idaDAO.getChildIdsByResourceId(structId);
-		}
-		return childStructIds;
-	}
-	
-	/**
-	 * 根据resourceid获取业务报文头所有孩子节点resourceid列表
-	 * @param structId
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	protected List<String> getHeadChildren(String resourceid) {
-		if (resourceid == null ) {
-			return new ArrayList<String>();
-		}
-		List<String> childStructIds = null;
-		childStructIds = headSDADAO.getChildIdsByResourceId(resourceid);
-		return childStructIds;
-	}
-
-	protected String getStructName(String structId, String serviceid,
-			ResourceType type) {
-		String structName = null;
-		if (structId == null ) {
-			return null;
-		}
-		if (ResourceType.SERVICE == type) {
-			structName = sdaDAO.getStructIdByResourceId(structId);
-		} else {
-			structName = idaDAO.getStructIdByResourceId(structId);
-		}
-		return structName;
-	}
-	
-	/**
-	 * 根据resourceid获取业务报文头structName
-	 * @param resourceid
-	 * @return
-	 */
-	protected String getHeadStructName(String resourceid) {
-		String structName = null;
-		if (resourceid == null ) {
-			return null;
-		}
-		structName = headSDADAO.getStructIdByResourceId(resourceid);
-		return structName;
-	}
-
-	@SuppressWarnings("unchecked")
-	protected MetadataNode getInterfaceData(String interfaceid) {
-
-		String id = idaDAO.getTopResourceId(interfaceid);
-		MetadataNode interfaceNodes = new MetadataNode();
-		getAllChild(id, interfaceid, interfaceNodes, ResourceType.INTERFACE);
-		return interfaceNodes;
-
-		
-	}
-
-	/**
-	 * 覆盖方法
-	 * 
-	 * @see com.dc.sg.impls.metadata.dao.IDataFromDB#getNodeFromDB(java.lang.String,
-	 *      com.dc.sg.impls.metadata.dao.IDataFromDB.resouceType)
-	 */
-	public MetadataNode getNodeFromDB(InvokeInfo invokeInfo, ResourceType type) {
-		MetadataNode node = null;
-		if (type == ResourceType.INTERFACE) {
-			node = getInterfaceData(invokeInfo.getEcode());
-		} else if (type == ResourceType.SERVICE) {
-			node = getServiceData(invokeInfo.getServiceId(),invokeInfo.getOperationId());
-		}
-		return node;
-	}
 	
 	public class MergerObject {
 		private String resourceid;
@@ -444,4 +326,91 @@ public abstract class AbstractDataFromDB implements IDataFromDB {
 		}
 	}
 
+	
+	protected String getStructNameByMap(String structId, String serviceid,
+			ResourceType type) {
+		for(Map<String,String> map: dataMap){
+			if(structId.equals(map.get("id"))){
+				return map.get("structId");
+			}
+		}
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected List<String> getChildrenByMap(String structId, String serviceid,
+			ResourceType type) {
+		if (structId == null) {
+			return null;
+		}
+		List<String> childIds = new ArrayList<String>();
+		for(Map<String,String> map: dataMap){
+			if(structId.equals(map.get("parentId"))){
+				childIds.add(map.get("id"));
+			}
+		}
+		return childIds;
+	}
+	// getInterfaceStructNodeInfo
+	protected Map<String, String> getNodeInfoByMap(String structId, ResourceType type) {
+		if (structId == null)
+			return null;
+		for(Map<String,String> map: dataMap){
+			if(structId.equals(map.get("id"))){
+				return map;
+			}
+		}
+		return null;
+	}
+	
+	protected boolean hasChildrenByMap(String structId, String serviceId,
+			ResourceType type) {
+		if (structId == null) {
+			return false;
+		}
+		for(Map<String,String> map: dataMap){
+			if(structId.equals(map.get("id"))){
+				if("root".equals(map.get("structId"))){
+					return true;
+				}
+			}
+			if(structId.equals(map.get("parentId"))){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 根据ida_id获取接口元数据的属性信息
+	 * @param ida_id
+	 * @return
+	 */
+	protected List<Attr> getIdaPropListByIdaId(String ida_id){
+		List<Attr> list = new ArrayList<Attr>();
+		for(Attr attr: allIdaProp){
+			if(ida_id.equals(attr.getStructId())){
+				list.add(attr);
+			}
+		}
+		return list;
+	}
+	
+	/**
+	 * get topResourceId from Map
+	 * @return
+	 */
+	protected String getTopResourceIdByMap(){
+		for(Map<String,String> map: dataMap){
+			if("/".equals(map.get("parentId"))){
+				return map.get("id");
+			}
+		}
+		try {
+			throw new Exception("未找到SDA的根节点");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

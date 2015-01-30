@@ -27,4 +27,11 @@ public class UserOperationLogUtil {
 		}
 		logManager.save(detail);
 	}
+	
+	public static void saveLog(String detail, String menuId) {
+		if (logManager == null) {
+			init();
+		}
+		logManager.save(detail, menuId);
+	}
 }

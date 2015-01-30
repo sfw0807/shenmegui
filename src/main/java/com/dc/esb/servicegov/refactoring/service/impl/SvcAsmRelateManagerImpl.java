@@ -41,16 +41,27 @@ public class SvcAsmRelateManagerImpl implements SvcAsmRelateManager {
 				vo.setOperationInfo(rv.getOperationId()+"/"+rv.getOperationName());
 				vo.setInterfaceInfo(rv.getInterfaceId()+"/"+rv.getInterfaceName());
 				if(rv.getPassbySysAB() != null && !"".equals(rv.getPassbySysAB()) && !"null".equals(rv.getPassbySysAB())){
-					vo.setConsumeSysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
+					if(rv.getCsmSysAB() != null && !"".equals(rv.getCsmSysAB()) && !"null".equals(rv.getCsmSysAB())){
+						vo.setConsumeSysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
+					}
+					else{
+						vo.setConsumeSysInfo("");
+					}
 				    vo.setPassbySysInfo(rv.getPassbySysAB()+"/"+rv.getPassbySysName());
 				}
 				else{
-					vo.setPassbySysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
+					if(rv.getCsmSysAB() != null && !"".equals(rv.getCsmSysAB()) && !"null".equals(rv.getCsmSysAB())){
+					    vo.setPassbySysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
+					}
+					else{
+						vo.setPassbySysInfo("");
+					}
 				}
 				vo.setProvideSysInfo(rv.getPrdSysAB()+"/"+rv.getPrdSysName());
 				vo.setConsumeMsgType(rv.getConsumeMsgType());
 				vo.setProvideMsgType(rv.getProvideMsgType());
 				vo.setThrough(rv.getThrough()==null?"":rv.getThrough());
+				vo.setDirection(rv.getDirection());
 				vo.setOnlineDate(rv.getOnlineDate()==null?"":rv.getOnlineDate());
 				vo.setState(rv.getState()==null?"":rv.getState());
 				vo.setField(rv.getField()==null?"":rv.getField());
@@ -84,18 +95,28 @@ public class SvcAsmRelateManagerImpl implements SvcAsmRelateManager {
 				vo.setServiceInfo(rv.getServiceId()+"/"+rv.getServiceName());
 				vo.setOperationInfo(rv.getOperationId()+"/"+rv.getOperationName());
 				vo.setInterfaceInfo(rv.getInterfaceId()+"/"+rv.getInterfaceName());
-				vo.setConsumeSysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
 				if(rv.getPassbySysAB() != null && !"".equals(rv.getPassbySysAB()) && !"null".equals(rv.getPassbySysAB())){
-					vo.setConsumeSysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
+					if(rv.getCsmSysAB() != null && !"".equals(rv.getCsmSysAB()) && !"null".equals(rv.getCsmSysAB())){
+						vo.setConsumeSysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
+					}
+					else{
+						vo.setConsumeSysInfo("");
+					}
 				    vo.setPassbySysInfo(rv.getPassbySysAB()+"/"+rv.getPassbySysName());
 				}
 				else{
-					vo.setPassbySysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
+					if(rv.getCsmSysAB() != null && !"".equals(rv.getCsmSysAB()) && !"null".equals(rv.getCsmSysAB())){
+					    vo.setPassbySysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
+					}
+					else{
+						vo.setPassbySysInfo("");
+					}
 				}
 				vo.setProvideSysInfo(rv.getPrdSysAB()+"/"+rv.getPrdSysName());
 				vo.setConsumeMsgType(rv.getConsumeMsgType());
 				vo.setProvideMsgType(rv.getProvideMsgType());
 				vo.setThrough(rv.getThrough()==null?"":rv.getThrough());
+				vo.setDirection(rv.getDirection());
 				vo.setOnlineDate(rv.getOnlineDate()==null?"":rv.getOnlineDate());
 				vo.setState(rv.getState()==null?"":rv.getState());
 				vo.setField(rv.getField()==null?"":rv.getField());
@@ -129,14 +150,23 @@ public class SvcAsmRelateManagerImpl implements SvcAsmRelateManager {
 				vo.setServiceInfo(rv.getServiceId()+"/"+rv.getServiceName());
 				vo.setOperationInfo(rv.getOperationId()+"/"+rv.getOperationName());
 				vo.setInterfaceInfo(rv.getInterfaceId()+"/"+rv.getInterfaceName());
-				vo.setConsumeSysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
+				if(rv.getCsmSysAB() != null && !"".equals(rv.getCsmSysAB()) && !"null".equals(rv.getCsmSysAB())){
+					vo.setConsumeSysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
+				}
+				else{
+					vo.setConsumeSysInfo("");
+				}
 				if(rv.getPassbySysAB() != null && !"".equals(rv.getPassbySysAB()) && !"null".equals(rv.getPassbySysAB())){
-				       vo.setPassbySysInfo(rv.getPassbySysAB()+"/"+rv.getPassbySysName());
+				     vo.setPassbySysInfo(rv.getPassbySysAB()+"/"+rv.getPassbySysName());
+				}
+				else{
+					 vo.setPassbySysInfo("");
 				}
 				vo.setProvideSysInfo(rv.getPrdSysAB()+"/"+rv.getPrdSysName());
 				vo.setConsumeMsgType(rv.getConsumeMsgType());
 				vo.setProvideMsgType(rv.getProvideMsgType());
 				vo.setThrough(rv.getThrough()==null?"":rv.getThrough());
+				vo.setDirection(rv.getDirection());
 				vo.setOnlineDate(rv.getOnlineDate()==null?"":rv.getOnlineDate());
 				vo.setState(rv.getState()==null?"":rv.getState());
 				vo.setField(rv.getField()==null?"":rv.getField());
@@ -150,6 +180,35 @@ public class SvcAsmRelateManagerImpl implements SvcAsmRelateManager {
 				boolean flag = true;
 				for(SvcAsmRelateInfoVO tempVo : returnList){
 					if(tempVo.equals(vo)){
+						if(!"".equals(vo.getOnlineDate())){
+							int date = Integer.parseInt(vo.getOnlineDate());
+							if(!"".equals(tempVo.getOnlineDate())){
+								int tempDate = Integer.parseInt(tempVo.getOnlineDate());
+								if(date > tempDate){
+									tempVo.setOnlineDate(String.valueOf(date));
+								}
+							}
+							else{
+								tempVo.setOnlineDate(String.valueOf(date));
+							}
+						}
+						if(!"".equals(vo.getOnlineVersion())){
+							int version = Integer.parseInt(vo.getOnlineVersion());
+							if(!"".equals(tempVo.getOnlineVersion())){
+								int tempVersion = Integer.parseInt(tempVo.getOnlineVersion());
+								if(version > tempVersion){
+									tempVo.setOnlineVersion(String.valueOf(version));
+									tempVo.setModifyTimes(String.valueOf(version-1));
+								}
+							}
+							else{
+								tempVo.setOnlineVersion(String.valueOf(version));
+								tempVo.setModifyTimes(String.valueOf(version-1));
+							}
+						}
+						if("上线".equals(vo.getState())){
+							tempVo.setState(vo.getState());
+						}
 						flag = false;
 						break;
 					}
@@ -173,21 +232,30 @@ public class SvcAsmRelateManagerImpl implements SvcAsmRelateManager {
 		this.log.info("根据查询条件查询出服务详细信息...");
 	
 	List<SvcAsmRelateInfoVO> returnList = new ArrayList<SvcAsmRelateInfoVO>();
-	List<SvcAsmRelateView> searchList = svcAsmRelateViewDAOImpl.getInfosByConditions(mapConditions);
+	List<SvcAsmRelateView> searchList = svcAsmRelateViewDAOImpl.getServiceDetailInfosByConditions(mapConditions);
 	if(searchList != null && searchList.size() > 0){
 		for(SvcAsmRelateView rv : searchList){
 			SvcAsmRelateInfoVO vo = new SvcAsmRelateInfoVO();
 			vo.setServiceInfo(rv.getServiceId()+"/"+rv.getServiceName());
 			vo.setOperationInfo(rv.getOperationId()+"/"+rv.getOperationName());
 			vo.setInterfaceInfo(rv.getInterfaceId()+"/"+rv.getInterfaceName());
-			vo.setConsumeSysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
+			if(rv.getCsmSysAB() != null && !"".equals(rv.getCsmSysAB()) && !"null".equals(rv.getCsmSysAB())){
+				vo.setConsumeSysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
+			}
+			else{
+				vo.setConsumeSysInfo("");
+			}
 			if(rv.getPassbySysAB() != null && !"".equals(rv.getPassbySysAB()) && !"null".equals(rv.getPassbySysAB())){
-			       vo.setPassbySysInfo(rv.getPassbySysAB()+"/"+rv.getPassbySysName());
+			     vo.setPassbySysInfo(rv.getPassbySysAB()+"/"+rv.getPassbySysName());
+			}
+			else{
+				 vo.setPassbySysInfo("");
 			}
 			vo.setProvideSysInfo(rv.getPrdSysAB()+"/"+rv.getPrdSysName());
 			vo.setConsumeMsgType(rv.getConsumeMsgType());
 			vo.setProvideMsgType(rv.getProvideMsgType());
 			vo.setThrough(rv.getThrough()==null?"":rv.getThrough());
+			vo.setDirection(rv.getDirection());
 			vo.setOnlineDate(rv.getOnlineDate()==null?"":rv.getOnlineDate());
 			vo.setState(rv.getState()==null?"":rv.getState());
 			vo.setField(rv.getField()==null?"":rv.getField());
@@ -201,6 +269,35 @@ public class SvcAsmRelateManagerImpl implements SvcAsmRelateManager {
 			boolean flag = true;
 			for(SvcAsmRelateInfoVO tempVo : returnList){
 				if(tempVo.equals(vo)){
+					if(!"".equals(vo.getOnlineDate())){
+						int date = Integer.parseInt(vo.getOnlineDate());
+						if(!"".equals(tempVo.getOnlineDate())){
+							int tempDate = Integer.parseInt(tempVo.getOnlineDate());
+							if(date > tempDate){
+								tempVo.setOnlineDate(String.valueOf(date));
+							}
+						}
+						else{
+							tempVo.setOnlineDate(String.valueOf(date));
+						}
+					}
+					if(!"".equals(vo.getOnlineVersion())){
+						int version = Integer.parseInt(vo.getOnlineVersion());
+						if(!"".equals(tempVo.getOnlineVersion())){
+							int tempVersion = Integer.parseInt(tempVo.getOnlineVersion());
+							if(version > tempVersion){
+								tempVo.setOnlineVersion(String.valueOf(version));
+								tempVo.setModifyTimes(String.valueOf(version-1));
+							}
+						}
+						else{
+							tempVo.setOnlineVersion(String.valueOf(version));
+							tempVo.setModifyTimes(String.valueOf(version-1));
+						}
+					}
+					if("上线".equals(vo.getState())){
+						tempVo.setState(vo.getState());
+					}
 					flag = false;
 					break;
 				}
@@ -231,11 +328,21 @@ public class SvcAsmRelateManagerImpl implements SvcAsmRelateManager {
 				vo.setOperationInfo(rv.getOperationId()+"/"+rv.getOperationName());
 				vo.setInterfaceInfo(rv.getInterfaceId()+"/"+rv.getInterfaceName());
 				if(rv.getPassbySysAB() != null && !"".equals(rv.getPassbySysAB()) && !"null".equals(rv.getPassbySysAB())){
-					vo.setConsumeSysInfo(rv.getCsmSysAB());
+					if(rv.getCsmSysAB() != null && !"".equals(rv.getCsmSysAB()) && !"null".equals(rv.getCsmSysAB())){
+						vo.setConsumeSysInfo(rv.getCsmSysAB()+"/"+rv.getCsmSysName());
+					}
+					else{
+						vo.setConsumeSysInfo("");
+					}
 				    vo.setPassbySysInfo(rv.getPassbySysAB());
 				}
 				else{
-					vo.setPassbySysInfo(rv.getCsmSysAB());
+					if(rv.getCsmSysAB() != null && !"".equals(rv.getCsmSysAB()) && !"null".equals(rv.getCsmSysAB())){
+					    vo.setPassbySysInfo(rv.getCsmSysAB());
+					}
+					else{
+						vo.setPassbySysInfo("");
+					}
 				}
 				vo.setProvideSysInfo(rv.getPrdSysAB()+"/"+rv.getPrdSysName());
 				vo.setConsumeMsgType(rv.getConsumeMsgType());
@@ -266,6 +373,32 @@ public class SvcAsmRelateManagerImpl implements SvcAsmRelateManager {
 								&& !"".equals(vo.getPassbySysInfo())){
 							if(!tempVo.getPassbySysInfo().contains(vo.getPassbySysInfo())){
 								tempVo.setPassbySysInfo(tempVo.getPassbySysInfo()+"、"+vo.getPassbySysInfo());
+							}
+						}
+						if(!"".equals(vo.getOnlineDate())){
+							int date = Integer.parseInt(vo.getOnlineDate());
+							if(!"".equals(tempVo.getOnlineDate())){
+								int tempDate = Integer.parseInt(tempVo.getOnlineDate());
+								if(date > tempDate){
+									tempVo.setOnlineDate(String.valueOf(date));
+								}
+							}
+							else{
+								tempVo.setOnlineDate(String.valueOf(date));
+							}
+						}
+						if(!"".equals(vo.getOnlineVersion())){
+							int version = Integer.parseInt(vo.getOnlineVersion());
+							if(!"".equals(tempVo.getOnlineVersion())){
+								int tempVersion = Integer.parseInt(tempVo.getOnlineVersion());
+								if(version > tempVersion){
+									tempVo.setOnlineVersion(String.valueOf(version));
+									tempVo.setModifyTimes(String.valueOf(version-1));
+								}
+							}
+							else{
+								tempVo.setOnlineVersion(String.valueOf(version));
+								tempVo.setModifyTimes(String.valueOf(version-1));
 							}
 						}
 						flag = false;

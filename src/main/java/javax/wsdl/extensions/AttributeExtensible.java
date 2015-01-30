@@ -31,8 +31,8 @@ public interface AttributeExtensible {
      *              List of Strings, or a List of QNames.
      * @see #getExtensionAttribute
      * @see #getExtensionAttributes
-     * @see ExtensionRegistry#registerExtensionAttributeType
-     * @see ExtensionRegistry#queryExtensionAttributeType
+     * @see javax.wsdl.extensions.ExtensionRegistry#registerExtensionAttributeType
+     * @see javax.wsdl.extensions.ExtensionRegistry#queryExtensionAttributeType
      */
     public void setExtensionAttribute(QName name, Object value);
 
@@ -46,8 +46,8 @@ public interface AttributeExtensible {
      *         of QNames.
      * @see #setExtensionAttribute
      * @see #getExtensionAttributes
-     * @see ExtensionRegistry#registerExtensionAttributeType
-     * @see ExtensionRegistry#queryExtensionAttributeType
+     * @see javax.wsdl.extensions.ExtensionRegistry#registerExtensionAttributeType
+     * @see javax.wsdl.extensions.ExtensionRegistry#queryExtensionAttributeType
      */
     public Object getExtensionAttribute(QName name);
 
@@ -59,8 +59,8 @@ public interface AttributeExtensible {
      *         on this element
      * @see #setExtensionAttribute
      * @see #getExtensionAttribute
-     * @see ExtensionRegistry#registerExtensionAttributeType
-     * @see ExtensionRegistry#queryExtensionAttributeType
+     * @see javax.wsdl.extensions.ExtensionRegistry#registerExtensionAttributeType
+     * @see javax.wsdl.extensions.ExtensionRegistry#queryExtensionAttributeType
      */
     public Map getExtensionAttributes();
 

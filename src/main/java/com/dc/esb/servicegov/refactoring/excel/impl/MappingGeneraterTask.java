@@ -18,15 +18,17 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 
-import com.dc.esb.servicegov.refactoring.entity.System;
-import com.dc.esb.servicegov.refactoring.excel.support.MappingExcelUtils;
 import com.dc.esb.servicegov.exception.DataException;
 import com.dc.esb.servicegov.refactoring.entity.IDA;
 import com.dc.esb.servicegov.refactoring.entity.Interface;
+import com.dc.esb.servicegov.refactoring.entity.Metadata;
+import com.dc.esb.servicegov.refactoring.entity.MetadataStructsAttr;
 import com.dc.esb.servicegov.refactoring.entity.Operation;
 import com.dc.esb.servicegov.refactoring.entity.SDA;
 import com.dc.esb.servicegov.refactoring.entity.Service;
 import com.dc.esb.servicegov.refactoring.entity.SvcAsmRelateView;
+import com.dc.esb.servicegov.refactoring.entity.System;
+import com.dc.esb.servicegov.refactoring.excel.support.MappingExcelUtils;
 import com.dc.esb.servicegov.refactoring.service.impl.InterfaceManagerImpl;
 import com.dc.esb.servicegov.refactoring.service.impl.ServiceManagerImpl;
 import com.dc.esb.servicegov.refactoring.service.impl.SystemManagerImpl;
@@ -135,7 +137,7 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 			}
 
 			MappingExcelIndexVo mVo = createMappingExcelIndexVo(r);
-			printIndexInfo(r, mVo);
+			printIndexInfo(mVo);
 
 			// sheet2 = synCreateSheet(wb, interfaceId);
 
@@ -248,12 +250,11 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 		this.lastIndex = 0;
 	}
 	
-
-    /**
-     * 生成 MappingExcelIndexVo
-     * @param r
-     * @return
-     */
+	/**
+	 * 生成 MappingExcelIndexVo
+	 * @param ServiceInvokeRelation r
+	 * @return
+	 */
 	private MappingExcelIndexVo createMappingExcelIndexVo(
 			RelationVo r) {
 		MappingExcelIndexVo mVo = new MappingExcelIndexVo();
@@ -288,23 +289,29 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 		SvcAsmRelateView view = serviceManager.getRelationViewByInterfaceId(interfaceId);
 		mVo.setType(view.getDirection());
 		mVo.setMsgType(view.getProvideMsgType());
+		mVo.setMsgConvert(r.getMsgConvert());
 		return mVo;
 	}
 	
-    /**
-     * CREATE & PAINT INDEX
-     *
-     * @param r
-     * @param mVo
-     */
-	private  void printIndexInfo(RelationVo r, MappingExcelIndexVo mVo) {
+	/**
+	 * CREATE & PAINT INDEX
+	 * @param ServiceInvokeRelation r
+	 * @param MappingExcelIndexVo mVo
+	 */
+	private  void printIndexInfo(MappingExcelIndexVo mVo) {
 		synchronized(getClass()){
 			Sheet indexSheet = wb.getSheet("INDEX");
 			if (null == indexSheet) {
 				indexSheet = wb.createSheet("INDEX");
 				printSheetIndexLabel(indexSheet);
 			}
-			printSheetIndexData(mVo, indexSheet);
+			if (mVo.getMsgConvert().size() > 1) {
+				for (int i=0;i<mVo.getMsgConvert().size();i++) {
+					printSheetIndexData(i, mVo, indexSheet);
+				}
+			} else {
+				printSheetIndexData(mVo, indexSheet);
+			}
 		}
 	}
 	/**
@@ -325,6 +332,7 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 		MappingExcelUtils.fillCell(titleRow, 7, "接口方向", titleCellStyle);
 		MappingExcelUtils.fillCell(titleRow, 8, "接口提供系统ID", titleCellStyle);
 		MappingExcelUtils.fillCell(titleRow, 9, "报文类型", titleCellStyle);
+		MappingExcelUtils.fillCell(titleRow, 10, "报文转换方向", titleCellStyle);
 		indexSheet.setColumnWidth(0, 23*256);
 		indexSheet.setColumnWidth(1, 23*256);
 		indexSheet.setColumnWidth(2, 23*256);
@@ -357,15 +365,42 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 				: "Provider", bodyCellStyle);
 		MappingExcelUtils.fillCell(rowAdded, 8, mVo.getProviderSysId(), bodyCellStyle);
 		MappingExcelUtils.fillCell(rowAdded, 9, mVo.getMsgType(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 10, mVo.getMsgConvert().get(0), bodyCellStyle);
 	}
 	
-    /**
-     * PAINT SHEET2 HEADER
-     *
-     * @param r
-     * @param contentSheet
-     * @param mVo
-     */
+	/**
+	 * 存在BUG 2 个 1.带下划线的链接失效 2.多条相同的只有最后一条生效
+	 * @param i
+	 * @param mVo
+	 * @param indexSheet
+	 */
+	private void printSheetIndexData(int i, MappingExcelIndexVo mVo, Sheet indexSheet) {
+		int lastRow = indexSheet.getLastRowNum();
+		Row rowAdded = indexSheet.createRow(lastRow + 1);
+		rowAdded.setHeightInPoints((short) 22.5);
+		MappingExcelUtils.fillCell(rowAdded, 0, mVo.getInterfaceId(), bodyCellStyle);
+		href.setAddress("#" + mVo.getInterfaceId() + "!A1");
+		rowAdded.getCell(0).setHyperlink(href);
+		MappingExcelUtils.fillCell(rowAdded, 1, mVo.getInterfaceName(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 2, mVo.getServiceName() + "(" + mVo.getServiceId()
+				+ ")", bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 3, mVo.getOperationId(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 4, mVo.getOperationName(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 5, mVo.getConsumerSysAb(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 6, mVo.getProviderSysAb(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 7, "0".equals(mVo.getType()) ? "Consumer"
+				: "Provider", bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 8, mVo.getProviderSysId(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 9, mVo.getMsgType(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 10, mVo.getMsgConvert().get(i), bodyCellStyle);
+	}
+	
+	/**
+	 * PAINT SHEET2 HEADER
+	 * @param ServiceInvokeRelation r
+	 * @param Sheet contentSheet
+	 * @param MappingExcelIndexVo mVo
+	 */
 	private void printHeader(RelationVo r,
 			Sheet contentSheet, MappingExcelIndexVo mVo) {
 		MappingExcelUtils.fillCell(0, 0, "交易码", contentSheet, headCellStyle);
@@ -431,70 +466,66 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 				log.info("METADATA_STRUCTS_ATTR表" + mid + "属性为找到");
 			}
 		}
-		boolean paintEnd = true;
 		
-		// 不知道这段是干啥的了
-//		if (!"".equals(mid) && null != mid ) {
-//			paintEnd = metadataManager.IsPaintNodeEnd(mid);
-//		}
-		
-		if (paintEnd) {
-		
-			// PAINT ARRAY END
-			if ("array".equalsIgnoreCase(type)) {
-				Row temprow = sheet2.createRow(i);
-				i++;
-				MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 6, node.getStructId(), arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 7, "Array", arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 8, alias, arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 9, "End", arrayCellStyle);
-				
-				// 非SOAP
-				if (!"SOAP".equalsIgnoreCase(r.getType())) {
-					IDA s = null;
-					s = sda4Imap.get(sda.getXpath());
-					if (s != null) {
-						
-						MappingExcelUtils.fillCell(temprow, 0, s.getStructName(), arrayCellStyle);
-						MappingExcelUtils.fillCell(temprow, 1, s.getStructAlias(), arrayCellStyle);
-						MappingExcelUtils.fillCell(temprow, 2, "Array", arrayCellStyle);
-						MappingExcelUtils.fillCell(temprow, 3, s.getRequired(), arrayCellStyle4r);
-						MappingExcelUtils.fillCell(temprow, 4, "End", arrayCellStyle);
-					} else {
-						// 画灰色格子
-						paintSDA4INoMapping(temprow);
-					}
+		// PAINT ARRAY END
+        if(null == type){
+            type = "";
+        }
+		if (type.equalsIgnoreCase("array")) {
+			Metadata m = serviceManager.getMetadataByMid(node.getStructId());
+			alias = m==null ? alias : m.getName();
+			Row temprow = sheet2.createRow(i);
+			i++;
+			MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
+			MappingExcelUtils.fillCell(temprow, 6, node.getStructId(), arrayCellStyle);
+			MappingExcelUtils.fillCell(temprow, 7, "Array", arrayCellStyle);
+			MappingExcelUtils.fillCell(temprow, 8, alias, arrayCellStyle);
+			MappingExcelUtils.fillCell(temprow, 9, "End", arrayCellStyle);
+			
+			// 非SOAP
+			if (!r.getType().equalsIgnoreCase("SOAP")) {
+				IDA s = null;
+				s = sda4Imap.get(sda.getXpath());
+				if (s != null) {
+					
+					MappingExcelUtils.fillCell(temprow, 0, s.getStructName(), arrayCellStyle);
+					MappingExcelUtils.fillCell(temprow, 1, s.getStructAlias(), arrayCellStyle);
+					MappingExcelUtils.fillCell(temprow, 2, "Array", arrayCellStyle);
+					MappingExcelUtils.fillCell(temprow, 3, s.getRequired(), arrayCellStyle4r);
+					MappingExcelUtils.fillCell(temprow, 4, "End", arrayCellStyle);
 				} else {
-						paintSDA4IEmptyArray(temprow);
+					// 画灰色格子
+					paintSDA4INoMapping(temprow);
 				}
-			} else if ("struct".equalsIgnoreCase(type) || ("".equals(type) && "Start".equalsIgnoreCase(node.getRemark()))) {
-				
-				Row temprow = sheet2.createRow(i);
-				i++;
-				MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 6, node.getStructId(), arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 7, "Struct", arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 8, alias, arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 9, "End", arrayCellStyle);
-				
-				if (!"SOAP".equalsIgnoreCase(r.getType())) {
-					IDA s = null;
-					s = sda4Imap.get(sda.getXpath());
-					if (s != null) {
-						
-						MappingExcelUtils.fillCell(temprow, 0, s.getStructName(), arrayCellStyle);
-						MappingExcelUtils.fillCell(temprow, 1, s.getStructAlias(), arrayCellStyle);
-						MappingExcelUtils.fillCell(temprow, 2, "Struct", arrayCellStyle);
-						MappingExcelUtils.fillCell(temprow, 3, s.getRequired(), arrayCellStyle4r);
-						MappingExcelUtils.fillCell(temprow, 4, "End", arrayCellStyle);
-					} else {
-						// 画灰色格子
-						paintSDA4INoMapping(temprow);
-					}
-				} else {
+			} else {
 					paintSDA4IEmptyArray(temprow);
+			}
+		} else if (type.equalsIgnoreCase("struct") || (type.equals("") && "Start".equalsIgnoreCase(node.getRemark()))) {
+			
+			Row temprow = sheet2.createRow(i);
+			i++;
+			MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
+			MappingExcelUtils.fillCell(temprow, 6, node.getStructId(), arrayCellStyle);
+			MappingExcelUtils.fillCell(temprow, 7, "Struct", arrayCellStyle);
+			MappingExcelUtils.fillCell(temprow, 8, alias, arrayCellStyle);
+			MappingExcelUtils.fillCell(temprow, 9, "End", arrayCellStyle);
+			
+			if (!r.getType().equalsIgnoreCase("SOAP")) {
+				IDA s = null;
+				s = sda4Imap.get(sda.getXpath());
+				if (s != null) {
+					
+					MappingExcelUtils.fillCell(temprow, 0, s.getStructName(), arrayCellStyle);
+					MappingExcelUtils.fillCell(temprow, 1, s.getStructAlias(), arrayCellStyle);
+					MappingExcelUtils.fillCell(temprow, 2, "Struct", arrayCellStyle);
+					MappingExcelUtils.fillCell(temprow, 3, s.getRequired(), arrayCellStyle4r);
+					MappingExcelUtils.fillCell(temprow, 4, "End", arrayCellStyle);
+				} else {
+					// 画灰色格子
+					paintSDA4INoMapping(temprow);
 				}
+			} else {
+				paintSDA4IEmptyArray(temprow);
 			}
 		}
 	}
@@ -513,178 +544,183 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 			}
 		}
 	}
-
-    /**
-     *
-     * @param n
-     * @param xpath
-     */
+	/**
+	 * 
+	 * @param SDANode n
+	 * @param xpath
+	 */
 	public void paintSDANode(SDA n, String xpath) {
-		Row temprow=sheet2.createRow(i);
-		String structName = n.getStructId() == null ? "" :n.getStructId().trim();
-		String type = n.getType();
+        try{
+            {
 
-		String metadataId = n.getMetadataId() == null ? "" :n.getMetadataId().trim();
-		String alias = "";
-		if (structName.equals("SvcBody")) {
-			return ;
-		} else if (structName.equals("request")) {
-			temprow=sheet2.createRow(i);
-			temprow.createCell(0).setCellValue("输入");
-			temprow.createCell(1).setCellValue("");
-			temprow.createCell(2).setCellValue("");
-			temprow.createCell(3).setCellValue("");
-			temprow.createCell(4).setCellValue("");
-			temprow.createCell(5).setCellValue("");
-			temprow.createCell(6).setCellValue("");
-			temprow.createCell(7).setCellValue("");
-			temprow.createCell(8).setCellValue("");
-			temprow.createCell(9).setCellValue("");
-			sheet2.addMergedRegion(new CellRangeAddress(i,i,0,9));
-			inputIndex=i;
-			//转到下一行
-			i++;
-			return ;
-		} else if (structName.equals("response")) {
-			temprow=sheet2.createRow(i);
-			temprow.createCell(0).setCellValue("输出");
-			temprow.createCell(1).setCellValue("");
-			temprow.createCell(2).setCellValue("");
-			temprow.createCell(3).setCellValue("");
-			temprow.createCell(4).setCellValue("");
-			temprow.createCell(5).setCellValue("");
-			temprow.createCell(6).setCellValue("");
-			temprow.createCell(7).setCellValue("");
-			temprow.createCell(8).setCellValue("");
-			temprow.createCell(9).setCellValue("");
-			sheet2.addMergedRegion(new CellRangeAddress(i,i,0,9));
-			outputIndex=i;
-			i++;
-			return ;
-		} 
-		
-//		if (serviceManager.getMetadataAttrById(structName) != null) {
-//			alias = serviceManager.getMetadataAttrById(structName).getElementName();
-//		} else {
-//			log.info("METADATA_STRUCTS_ATTR表" + structName + "属性为找到");
-//		}
-		
-		
-		if ("array".equalsIgnoreCase(type)) {
-			try {
+                Row temprow=sheet2.createRow(i);
+                String structName = n.getStructId().trim();
+                String type = n.getType();
+                String metadataId = n.getMetadataId().trim();
+                String alias = "";
+                if (!metadataId.equals("")) {
+                    MetadataStructsAttr attr = serviceManager.getMetadataAttrById(metadataId);
+                    if (attr != null) {
+                        alias = attr.getElementName();
+                    }
+                }
+                if (structName.equals("SvcBody")) {
+                    return ;
+                } else if (structName.equals("request")) {
+                    temprow=sheet2.createRow(i);
+                    temprow.createCell(0).setCellValue("输入");
+                    temprow.createCell(1).setCellValue("");
+                    temprow.createCell(2).setCellValue("");
+                    temprow.createCell(3).setCellValue("");
+                    temprow.createCell(4).setCellValue("");
+                    temprow.createCell(5).setCellValue("");
+                    temprow.createCell(6).setCellValue("");
+                    temprow.createCell(7).setCellValue("");
+                    temprow.createCell(8).setCellValue("");
+                    temprow.createCell(9).setCellValue("");
+                    sheet2.addMergedRegion(new CellRangeAddress(i,i,0,9));
+                    inputIndex=i;
+                    //转到下一行
+                    i++;
+                    return ;
+                } else if (structName.equals("response")) {
+                    temprow=sheet2.createRow(i);
+                    temprow.createCell(0).setCellValue("输出");
+                    temprow.createCell(1).setCellValue("");
+                    temprow.createCell(2).setCellValue("");
+                    temprow.createCell(3).setCellValue("");
+                    temprow.createCell(4).setCellValue("");
+                    temprow.createCell(5).setCellValue("");
+                    temprow.createCell(6).setCellValue("");
+                    temprow.createCell(7).setCellValue("");
+                    temprow.createCell(8).setCellValue("");
+                    temprow.createCell(9).setCellValue("");
+                    sheet2.addMergedRegion(new CellRangeAddress(i,i,0,9));
+                    outputIndex=i;
+                    i++;
+                    return ;
+                }
 
-				// 画出Array开始节点
-				MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 6, n.getStructId(), arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 7, "Array", arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 8, alias, arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 9, n.getRemark(), arrayCellStyle);
-				
-				if (!r.getType().equalsIgnoreCase("SOAP")) {
-					IDA s = null;
-					// 找对应的接口节点
-					s = sda4Imap.get(xpath);
-					
-					if (s != null) {
-						
-						MappingExcelUtils.fillCell(temprow, 0, s.getStructName(), arrayCellStyle);
-						MappingExcelUtils.fillCell(temprow, 1, s.getStructAlias(), arrayCellStyle);
-						MappingExcelUtils.fillCell(temprow, 2, "Array", arrayCellStyle);
-						MappingExcelUtils.fillCell(temprow, 3, s.getRequired(), arrayCellStyle4r);
-						MappingExcelUtils.fillCell(temprow, 4, s.getRemark(), arrayCellStyle);
-					} else {
-						paintSDA4INoMapping(temprow);
-					}
-				} else {
-					MappingExcelUtils.fillCell(temprow, 0, "", arrayCellStyle);
-					MappingExcelUtils.fillCell(temprow, 1, "", arrayCellStyle);
-					MappingExcelUtils.fillCell(temprow, 2, "", arrayCellStyle);
-					MappingExcelUtils.fillCell(temprow, 3, n.getRequired(), arrayCellStyle4r);
-					MappingExcelUtils.fillCell(temprow, 4, "", arrayCellStyle);
-				}
-				i++;
-				return ;
-			} catch (Exception e) {
-				e.printStackTrace();
-				log.info("Exception at paint SDANode, metadataId:" + metadataId);
-			}
-		  // type为空remak为Start的 是struct节点 - -#  
-		} else if ("struct".equalsIgnoreCase(type) || ("".equals(type) && "Start".equalsIgnoreCase(n.getRemark()))) {
-			Map<String, SDA> map = new HashMap<String, SDA>();
-			map.put(n.getStructId(), n);
-			// remak为Start的 不画struct sheet
-			if (!"Start".equalsIgnoreCase(n.getRemark())) {
-				lstStructName.add(map);
-			}
-			MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
-			MappingExcelUtils.fillCell(temprow, 6, n.getStructId(), arrayCellStyle);
-			MappingExcelUtils.fillCell(temprow, 7, "Struct", arrayCellStyle);
-			MappingExcelUtils.fillCell(temprow, 8, alias, arrayCellStyle);
-			MappingExcelUtils.fillCell(temprow, 9, n.getRemark(), arrayCellStyle);
-			if (!r.getType().equalsIgnoreCase("SOAP")) {
-				IDA s = null;
-				s = sda4Imap.get(xpath);
-				if (s != null) {
-					MappingExcelUtils.fillCell(temprow, 0, s.getStructName(), arrayCellStyle);
-					MappingExcelUtils.fillCell(temprow, 1, s.getStructAlias(), arrayCellStyle);
-					MappingExcelUtils.fillCell(temprow, 2, "Struct", arrayCellStyle);
-					MappingExcelUtils.fillCell(temprow, 3, s.getRequired(), arrayCellStyle4r);
-					MappingExcelUtils.fillCell(temprow, 4, s.getRemark(), arrayCellStyle);
-				} else {
-					paintSDA4INoMapping(temprow);
-				}
-			} else {
-				MappingExcelUtils.fillCell(temprow, 0, "", arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 1, "", arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 2, "", arrayCellStyle);
-				MappingExcelUtils.fillCell(temprow, 3, n.getRequired(), arrayCellStyle4r);
-				MappingExcelUtils.fillCell(temprow, 4, "", arrayCellStyle);
-			}
-			i++;
-			return ;
-		}
-		try {
-			// Normal painting
-			String mmid = n.getMetadataId() == null ? "" :n.getMetadataId().trim();
-			if ("".equals(mmid) || null == mmid)
-				return ;
-			MetadataViewBean metadata = serviceManager.getMetadataById(mmid);
-			metadata.setType(type);
-			MappingExcelUtils.fillCell(temprow, 3, n.getRequired(), cellStyle4r);
-			MappingExcelUtils.fillCell(temprow, 5, "", cellStyle);
-			MappingExcelUtils.fillCell(temprow, 6, n.getStructId(), cellStyle);
-			if (metadata != null) {
-				MappingExcelUtils.fillCell(temprow, 7, metadata.getTypeLengthAndScale(), cellStyle);
-			}
-			MappingExcelUtils.fillCell(temprow, 8, metadata.getMetadataName(), cellStyle);
-			MappingExcelUtils.fillCell(temprow, 9, n.getRemark(), cellStyle);
-			// SOAP类型不画左侧（除是否必输）
-			if (!r.getType().equalsIgnoreCase("SOAP")) {
-				// paint SDA4I
-				IDA s = null;
-				s = sda4Imap.get(xpath);
-				if (s != null) {
-					paintSDANode4I2(s);
-				} else {
-					paintSDA4INoMapping(temprow);
-				}
-			}
-			i++;
-			
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+                if (type.equalsIgnoreCase("array")) {
+                    try {
+
+                        Metadata m = serviceManager.getMetadataByMid(n.getStructId());
+                        alias = m==null ? alias : m.getName();
+                        // 画出Array开始节点
+                        MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
+                        MappingExcelUtils.fillCell(temprow, 6, n.getStructId(), arrayCellStyle);
+                        MappingExcelUtils.fillCell(temprow, 7, "Array", arrayCellStyle);
+                        MappingExcelUtils.fillCell(temprow, 8, alias, arrayCellStyle);
+                        MappingExcelUtils.fillCell(temprow, 9, n.getRemark(), arrayCellStyle);
+
+                        if (!r.getType().equalsIgnoreCase("SOAP")) {
+                            IDA s = null;
+                            // 找对应的接口节点
+                            s = sda4Imap.get(xpath);
+
+                            if (s != null) {
+
+                                MappingExcelUtils.fillCell(temprow, 0, s.getStructName(), arrayCellStyle);
+                                MappingExcelUtils.fillCell(temprow, 1, s.getStructAlias(), arrayCellStyle);
+                                MappingExcelUtils.fillCell(temprow, 2, "Array", arrayCellStyle);
+                                MappingExcelUtils.fillCell(temprow, 3, s.getRequired(), arrayCellStyle4r);
+                                MappingExcelUtils.fillCell(temprow, 4, s.getRemark(), arrayCellStyle);
+                            } else {
+                                paintSDA4INoMapping(temprow);
+                            }
+                        } else {
+                            MappingExcelUtils.fillCell(temprow, 0, "", arrayCellStyle);
+                            MappingExcelUtils.fillCell(temprow, 1, "", arrayCellStyle);
+                            MappingExcelUtils.fillCell(temprow, 2, "", arrayCellStyle);
+                            MappingExcelUtils.fillCell(temprow, 3, n.getRequired(), arrayCellStyle4r);
+                            MappingExcelUtils.fillCell(temprow, 4, "", arrayCellStyle);
+                        }
+                        i++;
+                        return ;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        log.info("Exception at paint SDANode, metadataId:" + metadataId);
+                    }
+                    // type为空remak为Start的 是struct节点 - -#
+                } else if (type.equalsIgnoreCase("struct") || (type.equals("") && n.getRemark().equalsIgnoreCase("Start"))) {
+                    Map<String, SDA> map = new HashMap<String, SDA>();
+                    map.put(n.getStructId(), n);
+                    // remak为Start的 不画struct sheet
+                    if (!n.getRemark().equalsIgnoreCase("Start")) {
+                        lstStructName.add(map);
+                    }
+                    MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
+                    MappingExcelUtils.fillCell(temprow, 6, n.getStructId(), arrayCellStyle);
+                    MappingExcelUtils.fillCell(temprow, 7, "Struct", arrayCellStyle);
+                    MappingExcelUtils.fillCell(temprow, 8, alias, arrayCellStyle);
+                    MappingExcelUtils.fillCell(temprow, 9, n.getRemark(), arrayCellStyle);
+                    if (!r.getType().equalsIgnoreCase("SOAP")) {
+                        IDA s = null;
+                        s = sda4Imap.get(xpath);
+                        if (s != null) {
+                            MappingExcelUtils.fillCell(temprow, 0, s.getStructName(), arrayCellStyle);
+                            MappingExcelUtils.fillCell(temprow, 1, s.getStructAlias(), arrayCellStyle);
+                            MappingExcelUtils.fillCell(temprow, 2, "Struct", arrayCellStyle);
+                            MappingExcelUtils.fillCell(temprow, 3, s.getRequired(), arrayCellStyle4r);
+                            MappingExcelUtils.fillCell(temprow, 4, s.getRemark(), arrayCellStyle);
+                        } else {
+                            paintSDA4INoMapping(temprow);
+                        }
+                    } else {
+                        MappingExcelUtils.fillCell(temprow, 0, "", arrayCellStyle);
+                        MappingExcelUtils.fillCell(temprow, 1, "", arrayCellStyle);
+                        MappingExcelUtils.fillCell(temprow, 2, "", arrayCellStyle);
+                        MappingExcelUtils.fillCell(temprow, 3, n.getRequired(), arrayCellStyle4r);
+                        MappingExcelUtils.fillCell(temprow, 4, "", arrayCellStyle);
+                    }
+                    i++;
+                    return ;
+                }
+                try {
+                    // Normal painting
+                    String mmid = n.getMetadataId().trim();
+                    if ("".equals(mmid) || null == mmid)
+                        return ;
+                    MetadataViewBean metadata = serviceManager.getMetadataById(mmid);
+                    metadata.setType(type);
+                    MappingExcelUtils.fillCell(temprow, 3, n.getRequired(), cellStyle4r);
+                    MappingExcelUtils.fillCell(temprow, 5, "", cellStyle);
+                    MappingExcelUtils.fillCell(temprow, 6, n.getStructId(), cellStyle);
+                    if (metadata != null) {
+                        MappingExcelUtils.fillCell(temprow, 7, metadata.getTypeLengthAndScale(), cellStyle);
+                    }
+                    MappingExcelUtils.fillCell(temprow, 8, metadata.getMetadataName(), cellStyle);
+                    MappingExcelUtils.fillCell(temprow, 9, n.getRemark(), cellStyle);
+                    // SOAP类型不画左侧（除是否必输）
+                    if (!r.getType().equalsIgnoreCase("SOAP")) {
+                        // paint SDA4I
+                        IDA s = null;
+                        s = sda4Imap.get(xpath);
+                        if (s != null) {
+                            paintSDANode4I2(s);
+                        } else {
+                            paintSDA4INoMapping(temprow);
+                        }
+                    }
+                    i++;
+
+                } catch (DataException e) {
+                    e.printStackTrace();
+                }
+            }
+        }catch(Exception e){
+            log.error(e,e);
+        }
+
 	}
-
-    /**
-     * 写入左侧接口数据
-     *
-     * @param n
-     */
+	/**
+	 * 写入左侧接口数据
+	 * @param SDANode4I n
+	 */
 	public void paintSDANode4I2(IDA n) {
 		Row temprow=sheet2.getRow(i);
 		String structName = n.getStructName();
-		if ("SvcBody".equals(structName)||"request".equals(structName)||"response".equals(structName))
+		if (structName.equals("SvcBody")||structName.equals("request")||structName.equals("response")) 
 			return ;
 		if (temprow == null )
 			temprow = sheet2.createRow(i);
@@ -724,7 +760,7 @@ public class MappingGeneraterTask implements  ExcelGenerateTask{
 	
 	@Override
 	public void initManager(
-			com.dc.esb.servicegov.refactoring.service.impl.ServiceManagerImpl serviceManager,
+			ServiceManagerImpl serviceManager,
 			SystemManagerImpl systemManager,
 			InterfaceManagerImpl interfaceManager,
 			com.dc.esb.servicegov.refactoring.service.impl.MetadataManagerImpl metadataManager) {

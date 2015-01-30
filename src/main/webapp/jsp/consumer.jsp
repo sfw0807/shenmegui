@@ -77,7 +77,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			<div id="tabs-0">
 			<div class="ui-widget-header" style="margin-bottom: 0.5em;padding: 0.2em;">
-				新增服务调用方:<select id="system"></select><input type = "button" value="保存" id="addConsumer" />
+				新增服务调用方:<select id="system" style="width: 8%; margin-right: 2em; width: 136px;"></select>
+				调用报文类型:
+					<select style="width: 8%; margin-right: 2em; width: 136px;"
+						id="consumeMsgType">
+						<option value="SOP" selected>
+							SOP
+						</option>
+						<option value="SOAP">
+							SOAP
+						</option>
+						<option value="XML">
+							XML
+						</option>
+						<option value="FIX">
+							FIX
+						</option>
+						<option value="API">
+							API
+						</option>
+					</select>
+				是否穿透:<select style="width: 8%; margin-right: 2em; width: 136px;"
+						id="through">
+						<option value="Y" selected>
+							是
+						</option>
+						<option value="N">
+							否
+						</option>
+					</select>
+				接口方向:<select style="width: 8%; margin-right: 2em; width: 136px;"
+						id="direction">
+						<option value="0" selected>
+							Consumer
+						</option>
+						<option value="1">
+							Provider
+						</option>
+					</select>
+				<input type = "button" value="保存" id="addConsumer" />
 			</div>
 			<table cellpadding="0" cellspacing="0" border="0" class="display" id="consumerTable">
 					<tfoot>

@@ -13,8 +13,8 @@ import java.io.Serializable;
  * This class is used to serialize UnknownExtensibilityElement instances
  * into the PrintWriter.
  *
- * @see UnknownExtensibilityElement
- * @see UnknownExtensionDeserializer
+ * @see javax.wsdl.extensions.UnknownExtensibilityElement
+ * @see javax.wsdl.extensions.UnknownExtensionDeserializer
  */
 public class UnknownExtensionSerializer implements ExtensionSerializer,
         Serializable {

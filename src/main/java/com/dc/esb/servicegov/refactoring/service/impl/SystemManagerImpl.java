@@ -48,10 +48,12 @@ public class SystemManagerImpl implements SystemManager{
 	
 	@SuppressWarnings("unchecked")
 	public List<ServiceDevProgressVO> getSeviceDevInfo(String[] sysAbs) {
-		StringBuffer sql = new StringBuffer(" select k.* ,s.sys_ab,s.sys_name from (select count(operation_id) as amount,provide_sys_id,versionst  from "
-                     +" (select service_id r,operation_id,provide_sys_id,versionst  from invoke_relation r,trans_state  t where " 
-                     + " r.id =t.id group by service_id,operation_id,provide_sys_id,versionst) t "
-                     +" group by t.provide_sys_id,t.versionst) k left join System s on k.provide_sys_id = s.sys_id");
+		StringBuffer sql = new StringBuffer(" select k.* ,s.sys_ab,s.sys_name from (select count(distinct(concat(operation_id,service_id))) as amount,provide_sys_id,versionst  from "
+                     +" (select r.service_id ,r.operation_id,provide_sys_id,versionst  from invoke_relation r left join trans_state  t on " 
+                     + " r.id =t.id left join Service s on r.service_id = s.service_id where concat(r.operation_id,r.service_id) " +
+                     		"in (select concat(operation_id,service_id) from SG_OPERATION where AUDITSTATE='2') and s.AUDITSTATE = '2'" 
+                     +" group by r.service_id,r.operation_id,provide_sys_id,versionst) t "
+                     +" group by t.provide_sys_id,t.versionst) k left join sg_system s on k.provide_sys_id = s.sys_id");
 		
 		if (sysAbs != null) {
 			if (sysAbs.length == 1) {
@@ -64,6 +66,8 @@ public class SystemManagerImpl implements SystemManager{
 				sql.append("'" + sysAbs[sysAbs.length-1]+ "'" + ")");
 			}
 		}
+		
+		sql.append(" order by sys_ab asc");
 		
 		Session session = systemDAO.getSession();
 		Query q = session.createSQLQuery(sql.toString());
@@ -315,5 +319,29 @@ public class SystemManagerImpl implements SystemManager{
 			return null;
 		}
 
+	}
+
+	@Override
+	public List<System> getSystemsByConditons(Map<String,String> mapConditions) {
+		// TODO Auto-generated method stub
+		String sysAb = (mapConditions.get("sysAb") == null)?"":mapConditions.get("sysAb");
+		String firstPublishDate = (mapConditions.get("publishDate_prd") == null)?"":mapConditions.get("publishDate_prd");
+		String secondPublishDate = (mapConditions.get("publishDate_csm") == null)?"":mapConditions.get("publishDate_csm");
+		if("".equals(sysAb) && "".equals(firstPublishDate) && "".equals(secondPublishDate)){
+			return systemDAO.getAll();
+		}
+		else{
+			Map<String,String> props = new HashMap<String,String>();
+			if(!"".equals(sysAb)){
+				props.put("systemAb", sysAb);
+			}
+			if(!"".equals(firstPublishDate)){
+				props.put("firstPublishDate", firstPublishDate);
+			}
+			if(!"".equals(secondPublishDate)){
+				props.put("secondPublishDate", secondPublishDate);
+			}
+			return systemDAO.findBy(props);
+		}
 	}
 }

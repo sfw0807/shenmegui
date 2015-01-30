@@ -23,6 +23,7 @@
 	<script src="../js/interface-edit.js" type="text/javascript"></script>
     <script src="../js/jquery-ui.min.js" type="text/javascript"></script>
 	<script src="../js/combo-box.js" type="text/javascript"></script>
+    <script src="../js/json/json2.js" type="text/javascript"></script>
 	<style>
         .ui-menu {
             position: absolute;
@@ -79,11 +80,11 @@
 						<td style="width:14%"><label>操作ID:</label></td><td><select id="operationIds"></select></td>
 					</tr>
 					<tr>
-						<td> <label style="width:16%">调用方系统:</label></td><td><select id="consumerSysId"></select></td>
-						<td><label style="width:19%">提供方系统:</label></td><td><select id="providerSysId"></select></td>
+						<td style="width:16%"><label>调用方系统:</label></td><td><select id="consumerSysId"></select></td>
+						<td style="width:19%"><label>提供方系统:</label></td><td><select id="providerSysId"></select></td>
 					</tr>
 					<tr>
-						<td> <label style="width:16%">调用方报文类型:</label>
+						<td  style="width:16%"><label>调用方报文类型:</label>
 						</td>
 						<td>
 							<select id="consumerMsgType">
@@ -91,7 +92,7 @@
 								<option value='SOP'>SOP</option>
 							</select>
 						</td>
-						<td><label style="width:19%">提供方报文类型:</label>
+						<td style="width:19%"><label>提供方报文类型:</label>
 						</td>
 						<td>
 							<select id="providerMsgType">
@@ -101,27 +102,27 @@
 						</td>
 					</tr>
 					<tr>
-						<td> <label style="width:16%">经由系统:</label></td><td><select id="passBySys"></select></td>
+						<td style="width:16%"> <label>经由系统:</label></td><td><select id="passBySys"></select></td>
 						<td>
 						</td>
 					</tr>
 					<tr>
-						<td> <label style="width:16%">接口ID:</label></td><td><input type="text" id="interfaceId" value="" style="width:80%" /></td>
-						<td><label style="width:19%">接口名称:</label></td><td><input type="text" id="interfaceName" value="" style="width:80%" /></td>
+						<td style="width:16%"> <label>接口ID:</label></td><td><input type="text" id="interfaceId" value="" style="width:80%" /></td>
+						<td style="width:19%"><label>接口名称:</label></td><td><input type="text" id="interfaceName" value="" style="width:80%" /></td>
 					</tr>
 					<tr>
-						<td><label style="width:19%">交易码:</label></td><td><input type="text" id="ecode" value="" style="width:80%" /></td>
-						<td><label style="width:16%">是否穿透:</label>
+						<td style="width:19%"><label>交易码:</label></td><td><input type="text" id="ecode" value="" style="width:80%" /></td>
+						<td style="width:16%"><label>是否穿透:</label>
 						</td>
-						<td>
-							<select id="through" value="" style="width:80%" >
+						<td style="width:80%" >
+							<select id="through" value="">
 								<option value='是'>是</option>
 								<option value='否'>否</option>
 							</select>
 					</td>
 					</tr>
 					<tr>
-						<td><label style="width:16%">操作描述:</label></td><td><input type="textarea" id="remark" value="" style="width:80%" /></td>
+						<td style="width:16%"><label>操作描述:</label></td><td><input type="textarea" id="remark" value="" style="width:80%" /></td>
 					</tr>
 				</table>
 			</div>

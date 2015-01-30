@@ -5,6 +5,9 @@ $(function() {
 	var reg = '';
 	//初始化服务Grid的方法
 	var initTable = function initTable(result) {
+		if (tables["serviceDevProgressTable"]) {
+            tables["serviceDevProgressTable"].fnDestroy();
+        }
 		//初始化对Grid的操作事件
 		var columnClickEventInit = function columnClickEventInit() {
 			$("#serviceDevProgressTable tbody tr").unbind("click");
@@ -24,16 +27,18 @@ $(function() {
 			],
 			"bJQueryUI": true,
 			"bAutoWidth" : true,
-			"sPaginationType" : "full_numbers",
 			"oLanguage" : oLanguage,
+			"bPaginate" : false,
+			"bFilter" : true,
 			"fnDrawCallback" : function() {
 				columnClickEventInit();
 			}
 		});
+		calculateSum();
 	};
 	
 	result = systemManager.getServiceDevProgress(initTable);
-
+	
 	//初始化操作Grid的搜索框
 	var initTableFooter = function initTableFooter() {
 		$("#serviceDevProgressTable tfoot input").keyup(
@@ -58,17 +63,35 @@ $(function() {
 								.index(this)];
 					}
 				});
+				
+		$("#serviceDevProgressTable tfoot input").attr("display","none");
 	};
 	
 	initTableFooter();
 	
-	$('#query').button().click(function(){
+	$('#query').button().click(function() {
+		/*
 		var oTable = $("#serviceDevProgressTable").dataTable();
-		var str = $('span').text();
-		var selected = str.split("123")[0];
-		var options = selected.split(",");
 		reg = $("#sys_select").multiselect("SelectedValues");
-		oTable.fnFilter(reg,1,true);
+		reg += '| 总计';
+		console.log(reg);
+		oTable.fnFilter(reg,1,true,true);
+		*/
+		reg = $("#sys_select").multiselect("SelectedValues");
+		
+		if (reg == '') {
+			reg = 'all';
+		}
+		
+		$.ajax({
+	        url: '../serviceDevInfo/query/' + reg,
+	        type: 'GET',
+	        success: function(result) {
+	        	initTable(result);
+	        	//calculateSum();
+	        }
+	    });
+		
 	});
 	
 	$('#reset').button().click(function(){
@@ -107,20 +130,65 @@ $(function() {
 		});
 	};
 	
+	
+	// 用多选下拉框的参数作为导出条件
+	
 	$('#export, #export1').button().click(function(){
         var params = reg;
-        if (params=='') {
+        if (params=='' || params=='all') {
         	params = 'null'
         }
         var td = $("#serviceDevProgressTable tbody tr td:first");
-        if( td.hasClass("dataTables_empty")){
-            alert('没有数据要导出！');
+        
+        //if( td.hasClass("dataTables_empty")){
+        if (td[0].innerHTML.indexOf('总计')>-1 == true) {
+        	alert('没可导出数据！');
             return false;
+        }
+        
+        if (this.id == 'export') {
+        	params = 'null';
         }
         $.fileDownload("../serviceDevInfo/export/" + params, {
        	});
 	});
 	
+	
+	function calculateSum() {
+	
+		var totalUnderDefine=0;
+		var totalDev = 0;
+		var totalUnit = 0;
+		var totalSit = 0;
+		var totalUat = 0;
+		var totalProduct = 0;
+		var toto = 0; 
+		
+		var oTable = $("#serviceDevProgressTable").dataTable();
+		
+		oTable.$('tr').each(function (){
+			//console.log(oTable.fnGetData(this));
+			totalUnderDefine += oTable.fnGetData(this).underDefine;
+			totalDev += oTable.fnGetData(this).dev;
+			totalUnit += oTable.fnGetData(this).unitTest;
+			totalSit += oTable.fnGetData(this).sitTest;
+			totalUat += oTable.fnGetData(this).uatTest;
+			totalProduct += oTable.fnGetData(this).productTest;
+			toto += oTable.fnGetData(this).totalNum;
+		});
+		
+		var line = oTable.fnAddData({'systemName':'', 'systemAb':'总计', 'underDefine':totalUnderDefine, 'dev':totalDev, 
+			'unitTest':totalUnit, 'sitTest':totalSit, 'uatTest':totalUat, 'productTest':totalProduct, 'totalNum':toto}, true);
+	}
+	
+	/*
+		从table列表获取参数
+	
+	$('#export, #export1').button().click(function(){
+		var oTable = $("#serviceDevProgressTable").dataTable();
+		console.log(oTable);
+	});
+	*/
 });
 
 	

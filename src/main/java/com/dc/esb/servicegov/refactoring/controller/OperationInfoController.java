@@ -1,11 +1,7 @@
 package com.dc.esb.servicegov.refactoring.controller;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.logging.Log;
@@ -58,6 +54,12 @@ public class OperationInfoController {
 		operationInfoVOInfos = operationManager.getAllOperations();
 		return operationInfoVOInfos;
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/auditList", headers = "Accept=application/json")
+	public @ResponseBody List<Operation> getAuditOperation(){
+		return operationManager.getAuditOperation();
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/getOperation/{operationandservice}", headers = "Accept=application/json")
     public
     @ResponseBody Operation getOperation(@PathVariable String operationandservice) {	
@@ -268,16 +270,99 @@ public class OperationInfoController {
     }
     @RequestMapping(method = RequestMethod.GET, value = "/redefOperation/{operationandservice}", headers = "Accept=application/json")
     public @ResponseBody boolean redefOperation(@PathVariable String operationandservice){
-    	log.error("*************************************"+operationandservice);
     	String operationId = operationandservice.substring(10);
     	String serviceId = operationandservice.substring(0,10); 
     	return operationManager.redefOperation(operationId, serviceId);
     }
     @RequestMapping(method = RequestMethod.GET, value = "/publishOperation/{operationandservice}", headers = "Accept=application/json")
     public @ResponseBody boolean publishOperation(@PathVariable String operationandservice){
-    	log.error("*************************************"+operationandservice);
+        log.info("开始发布服务！");
     	String operationId = operationandservice.substring(10);
     	String serviceId = operationandservice.substring(0,10); 
     	return operationManager.publishOperation(operationId, serviceId);
+    }
+    /***
+     * 操作审核
+     * @param params
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/audit", headers = "Accept=application/json")
+    public @ResponseBody boolean audit(@RequestBody String[] params){
+    	try {
+			for (String param : params) {
+				String[] arr = param.split(",");
+				String operationId = arr[0];
+				String serviceId = arr[1];
+				String auditState = arr[2];
+				operationManager.auditOperation(operationId, serviceId,
+						auditState);
+			}
+		} catch (Exception e) {
+			log.error("审核操作出现错误!");
+			return false;
+		}
+		return true;
+    }
+    
+    /***
+     * 提交审核
+     * @param params
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/submit", headers = "Accept=application/json")
+    public @ResponseBody boolean submit(@RequestBody String[] params){
+    	try {
+			for (String param : params) {
+				String[] arr = param.split(",");
+				String operationId = arr[0];
+				String serviceId = arr[1];
+				operationManager.submitOperation(operationId, serviceId);
+			}
+		} catch (Exception e) {
+			log.error("审核操作出现错误!");
+			return false;
+		}
+		return true;
+    }
+    @RequestMapping(method = RequestMethod.GET, value = "/getSDAByOperationService/{operationandservice}", headers = "Accept=application/json")
+	public @ResponseBody List<SDA> getSDAByOperationService(@PathVariable String operationandservice) {
+    	String operationId = operationandservice.substring(10);
+    	String serviceId = operationandservice.substring(0,10);
+    	List<SDA> list = null;
+		try {
+			sdaList = new ArrayList<SDA>();
+			list = operationManager.getSDAByOperationId(operationId, serviceId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+    @RequestMapping(method = RequestMethod.GET, value = "/randomUUID", headers = "Accept=application/json")
+	public @ResponseBody String randomUUID() {
+		return UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
+	}
+    @RequestMapping(method = RequestMethod.POST, value = "/addSDANew", headers = "Accept=application/json")
+    public @ResponseBody boolean addSDANew(@RequestBody SDA[] sdaArray){
+    	String operationId = sdaArray[0].getOperationId();
+    	String serviceId = sdaArray[0].getServiceId();
+    	boolean updateFlag = sdaManager.updateOperationVersion(operationId, serviceId);
+    	if(updateFlag){
+        	boolean isDeleteSuccess = sdaManager.deleteSDA(operationId, serviceId);
+        	List<SDA> sdaList = new ArrayList<SDA>();
+        	for (int i = 0; i < sdaArray.length; i++) {
+        		sdaList.add(sdaArray[i]);
+    		}
+        	if(isDeleteSuccess){
+        		boolean sdaSuccess = sdaManager.saveSDA(sdaList);
+        		log.error("sda save is success :"+sdaSuccess);
+        		return sdaSuccess;
+        	}else{
+        		return false;
+        	}     		
+    	}else{
+    		log.error("error in update operation version ");
+    		return false;
+    	}
+     	
     }
 }

@@ -80,10 +80,11 @@ public class ProtocolInfoDAOImpl extends
 	       List<ProtocolInfo> list = this.findBy("sysId", sysId);
 	       if(list != null && list.size() > 0){
 	           for(ProtocolInfo pi :list){
-	        	   if(!connectType.contains(pi.getConnectMode())){
+	        	   if(pi.getConnectMode() != null)
+	        	    if(!connectType.contains(pi.getConnectMode())){
 	        		   connectType += pi.getConnectMode() + "、";
-	        	   }
-	           }
+	        	    }
+	              }
 	       }
 	       if(!"".equals(connectType)){
 	    	   connectType = connectType.substring(0,connectType.length() -1);
@@ -109,8 +110,10 @@ public class ProtocolInfoDAOImpl extends
 	       List<ProtocolInfo> list = this.findBy(params);
 	       if(list != null && list.size() > 0){
 	           for(ProtocolInfo pi :list){
-	        	   if(!MsgType.contains(pi.getMsgType())){
-	        		   MsgType += pi.getMsgType() + "、";
+	        	   if(pi.getMsgType()!= null){
+		        	   if(!MsgType.contains(pi.getMsgType())){
+		        		   MsgType += pi.getMsgType() + "、";
+		        	   }
 	        	   }
 	           }
 	       }

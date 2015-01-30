@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dc.esb.servicegov.refactoring.entity.Operation;
 import com.dc.esb.servicegov.refactoring.entity.Service;
 import com.dc.esb.servicegov.refactoring.entity.ServiceCategory;
-import com.dc.esb.servicegov.refactoring.service.impl.OperationManagerImpl;
 import com.dc.esb.servicegov.refactoring.service.impl.ServiceCategoryManagerImpl;
 import com.dc.esb.servicegov.refactoring.service.impl.ServiceManagerImpl;
 import com.dc.esb.servicegov.refactoring.vo.ServiceNode;
@@ -27,21 +26,30 @@ import com.dc.esb.servicegov.refactoring.vo.ServiceNode;
 @Controller
 @RequestMapping("/serviceInfo")
 public class ServiceInfoController {	
+	@SuppressWarnings("unused")
 	private Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private ServiceManagerImpl serviceManager;
 	@Autowired
-	private OperationManagerImpl operationManager;
-	@Autowired
 	private ServiceCategoryManagerImpl ServiceCategoryManager;
 	@RequestMapping(method = RequestMethod.GET, value = "/list", headers = "Accept=application/json")
-	public @ResponseBody List<com.dc.esb.servicegov.refactoring.entity.Service> getAllOperationInfo(){
+	public @ResponseBody List<Service> getAllServiceInfo(){
 		
 		return serviceManager.getAllServices();
 	}
+	@RequestMapping(method = RequestMethod.GET, value = "/servicelist", headers = "Accept=application/json")
+	public @ResponseBody List<Service> getAllServiceOrderbyServiceId(){
+		
+		return serviceManager.getAllServiceOrderByServiceId();
+	}	
+	@RequestMapping(method = RequestMethod.GET, value = "/auditList", headers = "Accept=application/json")
+	public @ResponseBody List<Service> getAuditService(){
+		
+		return serviceManager.getAuditServices();
+	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/getServiceById/{id}", headers = "Accept=application/json")
-	public @ResponseBody com.dc.esb.servicegov.refactoring.entity.Service getServiceById
+	public @ResponseBody Service getServiceById
 	(@PathVariable String id){
 		
 		return serviceManager.getServiceById(id);
@@ -56,7 +64,7 @@ public class ServiceInfoController {
      public
      @ResponseBody
      boolean insertOrUpdate(HttpServletRequest request,
- 			HttpServletResponse response,@RequestBody com.dc.esb.servicegov.refactoring.entity.Service service) {
+ 			HttpServletResponse response,@RequestBody Service service) {
     	boolean flag = false;
     	try{
 //    		
@@ -105,7 +113,7 @@ public class ServiceInfoController {
     }
     
     /**
-     * 根据ID获取所有操作信息
+     * 根据ID获取所有审核通过的操作信息
      * @param id
      * @return
      */
@@ -115,7 +123,7 @@ public class ServiceInfoController {
      List<Operation> getOperationsById(@PathVariable String id) {
     	return serviceManager.getOperationsByServiceId(id);
     }
-    
+     
     /**
      * check service has operation?
      * @param id
@@ -257,17 +265,56 @@ public class ServiceInfoController {
         	    thirdNode.setNodeValue(service.getServiceName());
         	    thirdNode.setParentNodeId(serviceCategory.getCategoryId());
         	    serviceNodeList.add(thirdNode);
-        	    List<Operation> operationList = serviceManager.getOperationsByServiceId(service.getServiceId());
-        	    for(Operation operation:operationList){
-            	    ServiceNode fourthNode = new ServiceNode();
-            	    fourthNode.setNodeId(operation.getOperationId());
-            	    fourthNode.setNodeName(operation.getOperationId());
-            	    fourthNode.setNodeValue(operation.getOperationName());
-            	    fourthNode.setParentNodeId(service.getServiceId());
-            	    serviceNodeList.add(fourthNode);        	    	
-        	    }
+//        	    List<Operation> operationList = serviceManager.getOperationsByServiceId(service.getServiceId());
+//        	    for(Operation operation:operationList){
+//            	    ServiceNode fourthNode = new ServiceNode();
+//            	    fourthNode.setNodeId(operation.getOperationId());
+//            	    fourthNode.setNodeName(operation.getOperationId());
+//            	    fourthNode.setNodeValue(operation.getOperationName());
+//            	    fourthNode.setParentNodeId(service.getServiceId());
+//            	    serviceNodeList.add(fourthNode);        	    	
+//        	    }
     	    }
     	}
     	return serviceNodeList;
    	}
+    
+    /***
+     * 服务审核
+     * @param params
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/audit", headers = "Accept=application/json")
+    public @ResponseBody boolean audit(@RequestBody String[] params){
+    	try {
+			for (String param : params) {
+				String[] arr = param.split(",");
+				String serviceId = arr[0];
+				String auditState = arr[1];
+				serviceManager.auditService(serviceId, auditState);
+			}
+		} catch (Exception e) {
+			log.error("审核服务出现错误!");
+			return false;
+		}
+		return true;
+    }
+    
+    /***
+     * 提交审核
+     * @param params
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/submit", headers = "Accept=application/json")
+    public @ResponseBody boolean submit(@RequestBody String[] params){
+    	try {
+			for (String param : params) {
+				serviceManager.submitService(param);
+			}
+		} catch (Exception e) {
+			log.error("审核服务出现错误!");
+			return false;
+		}
+		return true;
+    }
 }

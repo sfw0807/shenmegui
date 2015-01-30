@@ -424,14 +424,23 @@ body {
         </div>
         <br/>
         <div style="margin-left:100px;float:left">
-			&nbsp;&nbsp;&nbsp;<form action="<%=path%>/jsp/home.jsp" method="post"  id="online" >
+			&nbsp;&nbsp;&nbsp;<form action="<%=path %>/user/login" method="post" enctype="multipart/form-data">
 				<table border=0>
-				<tr><td>用户名:</td><td><input  style ="width:170px;height:30px;" type = "text" name="file" id="onlinefileUpload" /></td></tr>
-				<tr><td>密&nbsp;&nbsp;&nbsp;码:</td><td><input  style ="width:170px;height:30px;" type = "password" id="onlineimport" /></td></tr>
+				<tr><td>用户名:</td><td><input  style ="width:170px;height:30px;" type = "text" name="userName" id="userName" /></td></tr>
+				<tr><td>密&nbsp;&nbsp;&nbsp;码:</td><td><input  style ="width:170px;height:30px;" type = "password" name="password" id="password" />
+				<% String login_message = (String)request.getSession().getAttribute("login_message");
+                   if(login_message != null && !"".equals(login_message))
+                   {
+                %>
+                    <span style="color:red;"><%= login_message%></span>
+                <%
+                   } 
+                %>
+				</td></tr>
 				<tr>
 					<td colspan=2 align="center">
-						<input style ="width:35%;border: 1px solid #cccccc;border-radius: 4px;" type = "submit" id="onlineimport" value="登录" />
-						<input style ="width:35%;border: 1px solid #cccccc;border-radius: 4px;" type = "reset" id="onlineimport" value="重置" />
+						<input style ="width:35%;border: 1px solid #cccccc;border-radius: 4px;" type = "submit" value="登录" />
+						<input style ="width:35%;border: 1px solid #cccccc;border-radius: 4px;" type = "reset" value="重置" />
 					</td>
 				</tr>
 				</table>

@@ -59,18 +59,11 @@ IConfigGenerater<InvokeInfo, List<File>> {
 	private List<Namespace> namespaces;
 	private String prdMsgType ;
 	private String csmMsgType ;
-//	private Map<String, Namespace> namespaceMap;
 	List<String> attrExclude;
 	List<String> attrInculde;
-//	private Map<String, Namespace> defaultNamespaces;
+
 	private List<File> ecifInterfaceFiles = null;
 
-	// private static final String IN_CONFIG_DIR_PATH = "in_conf_ecif/metadata";
-	// private static final String OUT_CONFIG_DIR_PATH =
-	// "out_conf_ecif/metadata";
-	/**
-	 * out of date
-	 */
 
 	private static final Log log = LogFactory
 			.getLog(EcifPackUnPackGenerater.class);
@@ -147,97 +140,6 @@ IConfigGenerater<InvokeInfo, List<File>> {
 		}
 		return includingAttrList;
 	}
-
-//	/**
-//	 * generate spdb spec in and out message
-//	 */
-//	@Override
-//	public void generate(String serviceID) {
-//		log.info("开始生成Ecif配置[" + serviceID + "]");
-//
-//		// this.host = wsdlHelper.getHost(serviceID);
-//		this.host = "http://www.spdb.com.cn/spdb";
-//		// initNamespaceAndCheckPrerequiste(host);
-//		// getNamespacesFromRoot();
-//		namespaces.add(new Namespace("SOAP-ENV",
-//				"http://schemas.xmlsoap.org/soap/envelope/"));
-//		namespaces.add(new Namespace("SOAP-ENC",
-//				"http://schemas.xmlsoap.org/soap/encoding/"));
-//		namespaces.add(new Namespace("xsi",
-//				"http://www.w3.org/2001/XMLSchema-instance"));
-//		namespaces
-//				.add(new Namespace("xsd", "http://www.w3.org/2001/XMLSchema"));
-//		namespaces.add(new Namespace("m0", host + "/metadata"));
-//		namespaces.add(new Namespace("m1", host + "/service/esb/commonHeader"));
-//		namespaces
-//				.add(new Namespace("m2", host + "/service/ecif/partyService"));
-//		namespaces.add(new Namespace("m", host
-//				+ "/service/ecif/partyService/wsdl/v1"));
-//		namespaces.add(new Namespace("m5", host + "/service/ecifStruct"));
-//
-//		if (null != serviceID) {
-//			List<String> operations = wsdlHelper.getAllOperationIds(serviceID);
-//
-//			if (null != operations && operations.size() > 0) {
-//				for (String operation : operations) {
-//					MetadataNode defaultIn = defaultInterfaceFetcher
-//							.findDefaultInterfaceIn(operation);
-//					MetadataNode defaultOut = defaultInterfaceFetcher
-//							.findDefaultInterfaceOut(operation);
-//					List<Map<String, String>> list = xmPassedInterfaceDataFromDB
-//							.getInterfaceIDByServiceID(operation);
-//					if (null == list) {
-//						continue;
-//					}
-//					if (0 == list.size()) {
-//						continue;
-//					}
-//					MetadataNode operationNode = wsdlHelper
-//							.getOperationNode(operation);
-//					interfaceId = list.get(0).get("INTERFACEID");
-//					MetadataNode interfaceNode = (MetadataNode) xmPassedInterfaceDataFromDB
-//							.getNodeFromDB(interfaceId, ResourceType.INTERFACE);
-//					if (null == operationNode || null == interfaceNode) {
-//						continue;
-//					}
-//					log.info("[Ecif Generater]: find interface Node: ["
-//							+ interfaceNode + "]");
-//					interfaceNode.getChild("request").addChild(
-//							0,
-//							operationNode.getChild("request").getChild(
-//									"ReqSvcHeader"));
-//					interfaceNode.getChild("response").addChild(
-//							0,
-//							operationNode.getChild("response").getChild(
-//									"RspSvcHeader"));
-//					operationNode = interfaceNode;
-//					metadataStructHelper
-//							.parseMetadataStructForInterface(operationNode);
-//					try {
-//						if (null != defaultIn && null != operationNode) {
-//							this.generateConsumerSoapXML(
-//									(MetadataNode) MetadataNodeHelper
-//											.cloneNode(defaultIn),
-//									(MetadataNode) MetadataNodeHelper
-//											.cloneNode(operationNode),
-//									operation, serviceID);
-//						}
-//						if (null != defaultOut && null != operationNode) {
-//							this.generateProviderSoapXML(
-//									(MetadataNode) MetadataNodeHelper
-//											.cloneNode(defaultOut),
-//									(MetadataNode) MetadataNodeHelper
-//											.cloneNode(operationNode),
-//									operation, serviceID);
-//						}
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//						log.error(e.getMessage());
-//					}
-//				}
-//			}
-//		}
-//	}
 
 	/**
 	 * 通过默认In接口和服务节点生成消费方的拆包配置节点，
@@ -654,7 +556,7 @@ IConfigGenerater<InvokeInfo, List<File>> {
 		if (CONSUMER.equalsIgnoreCase(interfaceType)) {
 			log.info("[标准配置生成]:开始生成消费方标准配置");
 			MetadataNode defaultIn = defaultInterfaceFetcher
-					.findDefaultInterfaceIn(operationId);
+					.findDefaultInterfaceIn(serviceId);
 			if (null != defaultIn && null != operationNode) {
 				log.info("start to generate default consumer config for ["
 						+ operationId + "]");
@@ -673,7 +575,7 @@ IConfigGenerater<InvokeInfo, List<File>> {
 
 		} else if (PROVIDER.equalsIgnoreCase(interfaceType)) {
 			MetadataNode defaultOut = defaultInterfaceFetcher
-					.findDefaultInterfaceOut(operationId);
+					.findDefaultInterfaceOut(serviceId);
 			if (null != defaultOut && null != operationNode) {
 				log.info("start to generate default provider config for ["
 						+ operationId + "]");

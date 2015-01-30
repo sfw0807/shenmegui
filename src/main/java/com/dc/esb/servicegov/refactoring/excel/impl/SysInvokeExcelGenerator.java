@@ -41,6 +41,7 @@ public class SysInvokeExcelGenerator implements IConfigGenerater<Object, SystemI
 	@Autowired
 	private SystemDAOImpl systemDAO;
 	
+	
 	private void init(){
 		wb = new HSSFWorkbook();
 		sheet = wb.createSheet();
@@ -52,14 +53,15 @@ public class SysInvokeExcelGenerator implements IConfigGenerater<Object, SystemI
 		Row headRow = sheet.createRow(0);
 		MappingExcelUtils.fillCell(headRow, 0, "系统简称", headCellStyle);
 		MappingExcelUtils.fillCell(headRow, 1, "系统名称", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 2, "首次上线时间", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 3, "协议类型", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 4, "提供报文类型", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 5, "调用报文类型", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 6, "提供服务数", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 7, "调用服务数", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 8, "提供操作数", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 9, "调用操作数", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 2, "首次上线日期(提供方)", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 3, "首次上线日期(调用方)", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 4, "协议类型", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 5, "提供报文类型", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 6, "调用报文类型", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 7, "提供服务数", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 8, "调用服务数", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 9, "提供操作数", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 10, "调用操作数", headCellStyle);
 	}
 	private void createBodyInfo(Map<String,String> conditionsMap){
 		List<SystemInvokeServiceInfo> exportList = getExportDataByConditions(conditionsMap);
@@ -76,14 +78,17 @@ public class SysInvokeExcelGenerator implements IConfigGenerater<Object, SystemI
 				MappingExcelUtils.fillCell(bodyRow, 0, sysInvoke.getSystemAB(), bodyCellStyle);
 				MappingExcelUtils.fillCell(bodyRow, 1, sysInvoke.getSystemName(), bodyCellStyle);
 				MappingExcelUtils.fillCell(bodyRow, 2, sysInvoke.getFirstPublishDate(), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 3, sysInvoke.getSecondPublishDate(), bodyCellStyle);
 				sysId = systemDAO.getSystemIdByAb(sysInvoke.getSystemAB());
-				MappingExcelUtils.fillCell(bodyRow, 3, protocolInfoDAO.getConnectTypeBySysId(sysId), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 4, protocolInfoDAO.getMsgTypeBySysId(sysId, 1), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 5, protocolInfoDAO.getMsgTypeBySysId(sysId, 0), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 6, sysInvoke.getProvideServiceNum(), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 7, sysInvoke.getConsumeServiceNum(), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 8, sysInvoke.getProvideOperationNum(), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 9, sysInvoke.getConsumeOperationNum(), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 4, protocolInfoDAO.getConnectTypeBySysId(sysId), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 5, conditionsMap.get("prdMsgType"), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 6, conditionsMap.get("csmMsgType"), bodyCellStyle);
+				//MappingExcelUtils.fillCell(bodyRow, 4, invokeInfoDAO.getMsgTypeByPrdSysId(sysId), bodyCellStyle);
+				//MappingExcelUtils.fillCell(bodyRow, 5, invokeInfoDAO.getMsgTypeByCsmSysId(sysId), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 7, sysInvoke.getProvideServiceNum(), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 8, sysInvoke.getConsumeServiceNum(), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 9, sysInvoke.getProvideOperationNum(), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 10, sysInvoke.getConsumeOperationNum(), bodyCellStyle);
 				ps += Integer.parseInt(sysInvoke.getProvideServiceNum());
 				cs += Integer.parseInt(sysInvoke.getConsumeServiceNum());
 				pc += Integer.parseInt(sysInvoke.getProvideOperationNum());
@@ -96,11 +101,12 @@ public class SysInvokeExcelGenerator implements IConfigGenerater<Object, SystemI
 			MappingExcelUtils.fillCell(lastRow, 3, "", bodyCellStyle);
 			MappingExcelUtils.fillCell(lastRow, 4, "", bodyCellStyle);
 			MappingExcelUtils.fillCell(lastRow, 5, "", bodyCellStyle);
-			MappingExcelUtils.fillCell(lastRow, 6, String.valueOf(ps), bodyCellStyle);
-			MappingExcelUtils.fillCell(lastRow, 7, String.valueOf(cs), bodyCellStyle);
-			MappingExcelUtils.fillCell(lastRow, 8, String.valueOf(pc), bodyCellStyle);
-			MappingExcelUtils.fillCell(lastRow, 9, String.valueOf(cc), bodyCellStyle);
-			sheet.addMergedRegion(new CellRangeAddress(sheet.getPhysicalNumberOfRows()-1,sheet.getPhysicalNumberOfRows()-1,0,5));
+			MappingExcelUtils.fillCell(lastRow, 6, "", bodyCellStyle);
+			MappingExcelUtils.fillCell(lastRow, 7, String.valueOf(ps), bodyCellStyle);
+			MappingExcelUtils.fillCell(lastRow, 8, String.valueOf(cs), bodyCellStyle);
+			MappingExcelUtils.fillCell(lastRow, 9, String.valueOf(pc), bodyCellStyle);
+			MappingExcelUtils.fillCell(lastRow, 10, String.valueOf(cc), bodyCellStyle);
+			sheet.addMergedRegion(new CellRangeAddress(sheet.getPhysicalNumberOfRows()-1,sheet.getPhysicalNumberOfRows()-1,0,6));
 		}
 		
 	}
@@ -116,6 +122,7 @@ public class SysInvokeExcelGenerator implements IConfigGenerater<Object, SystemI
 		sheet.setColumnWidth(7, 15*256);
 		sheet.setColumnWidth(8, 15*256);
 		sheet.setColumnWidth(9, 15*256);
+		sheet.setColumnWidth(10, 15*256);
 		for(int i=0;i<= sheet.getLastRowNum();i++){
 			sheet.getRow(i).setHeightInPoints((short) 23.5);
 		}

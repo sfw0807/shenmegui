@@ -76,13 +76,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
              <tr>
                 <th><input type="text" name="systemName" value="系统名称" class="search_init"/></th>
                 <th><input type="text" name="systemAb" value="系统英文名称" class="search_init"/></th>
-                <th><input type="text" name="underDefine" value="服务定义" class="search_init"/></th>
-                <th><input type="text" name="dev" value="开发" class="search_init"/></th>
-                <th><input type="text" name="unitTest" value="联调测试" class="search_init"/></th>
-                <th><input type="text" name="sitTest" value="sit测试" class="search_init"/></th>
-                <th><input type="text" name="uatTest" value="uat测试" class="search_init"/></th>
-                <th><input type="text" name="productTest" value="投产验证" class="search_init"/></th>
-                <th><input type="text" name="totalNum" value="总计" class="search_init"/></th>
+                <th><input type="text" name="underDefine" value="服务定义" class="search_init" style = "display:none"/></th>
+                <th><input type="text" name="dev" value="开发" class="search_init" style = "display:none"/></th>
+                <th><input type="text" name="unitTest" value="联调测试" class="search_init" style = "display:none"/></th>
+                <th><input type="text" name="sitTest" value="sit测试" class="search_init" style = "display:none"/></th>
+                <th><input type="text" name="uatTest" value="uat测试" class="search_init" style = "display:none"/></th>
+                <th><input type="text" name="productTest" value="投产验证" class="search_init" style = "display:none"/></th>
+                <th><input type="text" name="totalNum" value="总计" class="search_init" style = "display:none"/></th>
              </tr>
           </tfoot>
 	</table>

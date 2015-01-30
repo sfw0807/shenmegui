@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +28,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dc.esb.servicegov.exception.DataException;
+import com.dc.esb.servicegov.refactoring.entity.Operation;
+import com.dc.esb.servicegov.refactoring.entity.Service;
 import com.dc.esb.servicegov.refactoring.excel.impl.PublishInfoExcelGenerator;
+import com.dc.esb.servicegov.refactoring.service.impl.OperationManagerImpl;
 import com.dc.esb.servicegov.refactoring.service.impl.PublishInfoManagerImpl;
+import com.dc.esb.servicegov.refactoring.service.impl.ServiceManagerImpl;
 import com.dc.esb.servicegov.refactoring.vo.PublishInfoVO;
+
 
 @Controller
 @RequestMapping("/publish")
@@ -39,9 +45,20 @@ public class PublishInfoController {
 	
 	@Autowired
 	private PublishInfoManagerImpl publishInfoManager;
+	@Autowired
+	private ServiceManagerImpl serviceManager;
+	@Autowired
+	private OperationManagerImpl operationManager;
 	@Autowired 
 	private PublishInfoExcelGenerator excelGenerator;
 	
+	/**
+	 * 上线统计(按日期) 所有数据
+	 * @param request
+	 * @param response
+	 * @param params
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/total/{params}", headers = "Accept=application/json")
 	public @ResponseBody List<PublishInfoVO> getAllPublishTotalInfos(HttpServletRequest request,
 			HttpServletResponse response,@PathVariable String params){
@@ -68,6 +85,13 @@ public class PublishInfoController {
 		return publishInfoManager.getAllPublishTotalInfos(mapConditions);
 	}
 	
+	/**
+	 * 导出上线统计（按日期） 查询信息的结果
+	 * @param request
+	 * @param response
+	 * @param params
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(method = RequestMethod.GET, value = "/export/{params}", headers = "Accept=application/json")
     public
@@ -134,5 +158,202 @@ public class PublishInfoController {
 			}
 		}
 		return success;
+	}
+	
+	/**
+	 * 按日期 上线服务的LIST总数
+	 * @param request
+	 * @param response
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/totalServiceInfo/{params}", headers = "Accept=application/json")
+	public @ResponseBody List<Service> getPublishServices(HttpServletRequest request,
+			HttpServletResponse response,@PathVariable String params){
+		log.info("condition params :" + params);
+		List<Service> list = new ArrayList<Service>();
+		String[] strArr = params.split(",");
+		String onlineDate = strArr[0];
+		String prdMsgType = null;
+		String csmMsgType = null;
+		if(strArr.length > 1){
+			prdMsgType = strArr[1];
+		}
+		if(strArr.length > 2){
+		    csmMsgType = strArr[2];
+		}
+		List<String> serviceIds = publishInfoManager.getPublishServiceIdsOrOperationIds(onlineDate, prdMsgType, csmMsgType, "s");
+		if(serviceIds != null && serviceIds.size() > 0){
+			for(String serviceId: serviceIds){
+				Service pService = serviceManager.getServiceById(serviceId);
+				list.add(pService);
+			}
+		}
+		return list;
+	}
+	
+	/**
+	 * 按日期 上线服务的LIST新增数
+	 * @param request
+	 * @param response
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/totalServiceAddInfo/{params}", headers = "Accept=application/json")
+	public @ResponseBody List<Service> getPublishAddServices(HttpServletRequest request,
+			HttpServletResponse response,@PathVariable String params){
+		log.info("condition params :" + params);
+		List<Service> list = new ArrayList<Service>();
+		String[] strArr = params.split(",");
+		String onlineDate = strArr[0];
+		String prdMsgType = null;
+		String csmMsgType = null;
+		if(strArr.length > 1){
+			prdMsgType = strArr[1];
+		}
+		if(strArr.length > 2){
+		    csmMsgType = strArr[2];
+		}
+		List<String> serviceIds = publishInfoManager.getAddServiceIdsOrOperationIds(onlineDate, prdMsgType, csmMsgType, "s");
+		if(serviceIds != null && serviceIds.size() > 0){
+			for(String serviceId: serviceIds){
+				Service pService = serviceManager.getServiceById(serviceId);
+				list.add(pService);
+			}
+		}
+		return list;
+	}
+	
+	/**
+	 * 按日期 上线服务LIST修改数
+	 * @param request
+	 * @param response
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/totalServiceModifyInfo/{params}", headers = "Accept=application/json")
+	public @ResponseBody List<Service> getPublishModifyServices(HttpServletRequest request,
+			HttpServletResponse response,@PathVariable String params){
+		log.info("condition params :" + params);
+		List<Service> list = new ArrayList<Service>();
+		String[] strArr = params.split(",");
+		String onlineDate = strArr[0];
+		String prdMsgType = null;
+		String csmMsgType = null;
+		if(strArr.length > 1){
+			prdMsgType = strArr[1];
+		}
+		if(strArr.length > 2){
+		    csmMsgType = strArr[2];
+		}
+		List<String> serviceIds = publishInfoManager.getModifyServiceIdsOrOperationIds(onlineDate, prdMsgType, csmMsgType, "s");
+		if(serviceIds != null && serviceIds.size() > 0){
+			for(String serviceId: serviceIds){
+				Service pService = serviceManager.getServiceById(serviceId);
+				list.add(pService);
+			}
+		}
+		return list;
+	}
+	/**
+	 * 按日期 上线操作的LIST总数
+	 * @param request
+	 * @param response
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/totalOperationInfo/{params}", headers = "Accept=application/json")
+	public @ResponseBody List<Operation> getPublishOperations(HttpServletRequest request,
+			HttpServletResponse response,@PathVariable String params){
+		List<Operation> list = new ArrayList<Operation>();
+		log.info("condition params :" + params);
+		String[] strArr = params.split(",");
+		String onlineDate = strArr[0];
+		String prdMsgType = null;
+		String csmMsgType = null;
+		if(strArr.length > 1){
+			prdMsgType = strArr[1];
+		}
+		if(strArr.length > 2){
+		    csmMsgType = strArr[2];
+		}
+		List<String> sIdAndOIds = publishInfoManager.getPublishServiceIdsOrOperationIds(onlineDate, prdMsgType, csmMsgType, "p");
+		if(sIdAndOIds != null && sIdAndOIds.size() >0){
+			for(String sIdAndoId: sIdAndOIds){
+				String serviceId = sIdAndoId.substring(0,10);
+				String operationId = sIdAndoId.substring(10);
+				Operation operation = operationManager.getOperation(operationId, serviceId);
+				list.add(operation);
+			}
+		}
+		return list;
+	}
+	
+	/**
+	 * 按日期 上线操作的LIST新增数
+	 * @param request
+	 * @param response
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/totalOperationAddInfo/{params}", headers = "Accept=application/json")
+	public @ResponseBody List<Operation> getPublishAddOperations(HttpServletRequest request,
+			HttpServletResponse response,@PathVariable String params){
+		List<Operation> list = new ArrayList<Operation>();
+		log.info("condition params :" + params);
+		String[] strArr = params.split(",");
+		String onlineDate = strArr[0];
+		String prdMsgType = null;
+		String csmMsgType = null;
+		if(strArr.length > 1){
+			prdMsgType = strArr[1];
+		}
+		if(strArr.length > 2){
+		    csmMsgType = strArr[2];
+		}
+		List<String> sIdAndOIds = publishInfoManager.getAddServiceIdsOrOperationIds(onlineDate, prdMsgType, csmMsgType, "p");
+		if(sIdAndOIds != null && sIdAndOIds.size() >0){
+			for(String sIdAndoId: sIdAndOIds){
+				String serviceId = sIdAndoId.substring(0,10);
+				String operationId = sIdAndoId.substring(10);
+				Operation operation = operationManager.getOperation(operationId, serviceId);
+				list.add(operation);
+			}
+		}
+		return list;
+	}
+	
+	/**
+	 * 按日期 上线操作的LIST修改数
+	 * @param request
+	 * @param response
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/totalOperationModifyInfo/{params}", headers = "Accept=application/json")
+	public @ResponseBody List<Operation> getPublishModifyOperations(HttpServletRequest request,
+			HttpServletResponse response,@PathVariable String params){
+		List<Operation> list = new ArrayList<Operation>();
+		log.info("condition params :" + params);
+		String[] strArr = params.split(",");
+		String onlineDate = strArr[0];
+		String prdMsgType = null;
+		String csmMsgType = null;
+		if(strArr.length > 1){
+			prdMsgType = strArr[1];
+		}
+		if(strArr.length > 2){
+		    csmMsgType = strArr[2];
+		}
+		List<String> sIdAndOIds = publishInfoManager.getModifyServiceIdsOrOperationIds(onlineDate, prdMsgType, csmMsgType, "p");
+		if(sIdAndOIds != null && sIdAndOIds.size() >0){
+			for(String sIdAndoId: sIdAndOIds){
+				String serviceId = sIdAndoId.substring(0,10);
+				String operationId = sIdAndoId.substring(10);
+				Operation operation = operationManager.getOperation(operationId, serviceId);
+				list.add(operation);
+			}
+		}
+		return list;
 	}
 }

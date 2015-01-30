@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
@@ -17,8 +16,6 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.dc.esb.servicegov.refactoring.dao.impl.OperationDAOImpl;
 import com.dc.esb.servicegov.refactoring.entity.InvokeInfo;
 import com.dc.esb.servicegov.refactoring.resource.IConfigGenerater;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.AbstractGenerater;
@@ -38,40 +35,15 @@ public class SpdbServiceXMLGenerater extends AbstractGenerater implements
 	private IMetadataNode defaultInterface;
 	@Autowired
 	private DefaultInterfaceFetcher defaultInterfaceFetcher;
-//	@Autowired
-//	private PackerUnPackerConfigHelper packerUnPackerConfigHelper;
-    @Autowired
-    private OperationDAOImpl operationDAO;
     @Autowired
     private ServiceDataFromDB servicedataFromDB;
     @Autowired
     private MetadataStructHelper metadataStructHelper;
 	// 存放服务
 	List<File> serviceFile = new ArrayList<File>();
-	private String content = null;
+
 	private String prdMsgType;
 	private String csmMsgType;
-
-	// private IMetadataNode getFaultNode(){
-	// IMetadataNode faultNode = new MetadataNode();
-	// faultNode.setNodeID("Fault");
-	// IMetadataNode faultCodeNode = new MetadataNode();
-	// faultCodeNode.setNodeID("faultcode");
-	// IMetadataNodeAttribute metadataNodeAttribute = new
-	// MetadataNodeAttribute();
-	// faultCodeNode.setProperty(metadataNodeAttribute);
-	// metadataNodeAttribute.setProperty("metadataid", "faultcode");
-	// faultNode.addChild(faultCodeNode);
-	// IMetadataNode faultStringNode = new MetadataNode();
-	// faultStringNode.setNodeID("faultstring");
-	// IMetadataNodeAttribute metadataNodeAttribute2 = new
-	// MetadataNodeAttribute();
-	// faultStringNode.setProperty(metadataNodeAttribute2);
-	// metadataNodeAttribute2.setProperty("metadataid", "faultstring");
-	// faultStringNode.setProperty(metadataNodeAttribute2);
-	// faultNode.addChild(faultStringNode);
-	// return faultNode;
-	// }
 
 	private void invokeAddFaultNode(Element parentNode) {
 		Element faultElement = parentNode.addElement("Fault");
@@ -82,82 +54,69 @@ public class SpdbServiceXMLGenerater extends AbstractGenerater implements
 
 	}
 
+	@Override
 	public void generate(String resource) {
-		try {
-			this.generate(resource, false, false);
-		} catch (Exception e) {
-			// TODO should be caught and print to log here
-			e.printStackTrace();
-		}
 	}
 
-	/**
-	 * 生成服务和默认接口的xml函数
-	 * 
-	 * @param serviceID
-	 *            服务ID
-	 * @param isExpdefaultInterface
-	 *            标识是否输出默认接口：true为输出，false为不输出
-	 * @param isExpInterface
-	 *            是否导出接口文件：true为导出，false为不导出
-	 * @throws IOException
-	 */
-	public void generate(String serviceID, boolean isExpdefaultInterface,
-			boolean isExpInterface) throws IOException {
+	@Override
+	public List<File> generate(InvokeInfo invokeInfo)
+			throws Exception {
+		log.info("[SERVICE DEF GENERATER]: start to generate service defination file");
+		List<File> files = null;
+		if (null != invokeInfo) {
+			this.csmMsgType = invokeInfo.getConsumeMsgType();
+			this.prdMsgType = invokeInfo.getProvideMsgType();
+			files = new ArrayList<File>();
+			String operationId = invokeInfo.getOperationId();
+			String interfaceId = invokeInfo.getEcode();
+//			String serviceId = packerUnPackerConfigHelper
+//					.getServiceIdByOperationId(operationId);
+			String serviceId = invokeInfo.getServiceId();
+			//TODO this is added for dup operation id, please remove it when the dup operationid issue be resolved
+			String tmpOperationId = handleInterfaceIdForDupTrade(operationId);
+			log.info("[Service Def Generater]: start to generate Service Def files for service:["
+					+ serviceId
+					+ "], operation: ["
+					+ operationId
+					+ "], interface: [" + interfaceId + "]");
 
-		if (null != serviceID) {
-			List<String> operations = getAllOperationIds(serviceID);
-			File inConfigDir = new File(IN_CONF_DIR);
-			File outConfigDir = new File(OUT_CONF_DIR);
+			File inConfigDir = new File(serviceId + tmpOperationId + "(" + invokeInfo.getConsumeMsgType() + "-"
+					+ invokeInfo.getProvideMsgType() + ")" +
+					 File.separator + IN_CONF_DIR);
+			File outConfigDir = new File(serviceId + tmpOperationId + "(" + invokeInfo.getConsumeMsgType() + "-"
+					+ invokeInfo.getProvideMsgType() + ")" +
+					 File.separator + OUT_CONF_DIR);
 			if (!inConfigDir.exists()) {
 				inConfigDir.mkdirs();
 			}
-			serviceFile.add(inConfigDir);
-
 			if (!outConfigDir.exists()) {
 				outConfigDir.mkdirs();
 			}
-			serviceFile.add(outConfigDir);
+			files.add(inConfigDir);
+			files.add(outConfigDir);
+			generateByOperation(serviceId, operationId);
 
-			if (null != operations && operations.size() > 0) {
-				for (String operation : operations) {
-					File inXmlFile = null;
-					File outXmlFile = null;
-					/******************************************
-					 * 1.通过serviceid得到与此服务id相关的节点信息
-					 ******************************************/
-					MetadataNode sNode = servicedataFromDB.getNodeFromDB(serviceID, operation, true);
-					metadataStructHelper.parseMetadataStruct(sNode);
-					String xmlContent = this.createXML(operation, null, sNode,
-							"");// 生成的服务xml文件
-					String inDefFileName = IN_CONF_DIR + File.separator
-							+ "service_" + serviceID + operation + ".xml";
-					String outDefFileName = OUT_CONF_DIR + File.separator
-							+ "service_" + serviceID + operation + ".xml";
-					inXmlFile = new File(inDefFileName);
-					outXmlFile = new File(outDefFileName);
-
-					if (!inXmlFile.exists() || !outXmlFile.exists()) {
-						inXmlFile.createNewFile();
-						outXmlFile.createNewFile();
-					}
-					this.saveXMLFile(outXmlFile, xmlContent);
-					this.saveXMLFile(inXmlFile, xmlContent);
-				}
-			}
 		}
+		return files;
 	}
-
+	
+	/**
+	 * 根据服务和操作ID生成基本的服务定义XML文件
+	 * @param serviceId
+	 * @param operationId
+	 */
 	private void generateByOperation(String serviceId, String operationId) {
 		try {
 			File inXmlFile = null;
 			File outXmlFile = null;
 			/******************************************
-			 * 1.通过serviceid得到与此服务id相关的节点信息
+			 * 1.通过serviceid和operationId得到与此服务操作相关的节点信息
 			 ******************************************/
 			MetadataNode sNode = servicedataFromDB.getNodeFromDB(serviceId, operationId, true);
+			// 解析元数组中的结构体
 			metadataStructHelper.parseMetadataStruct(sNode);
-			String xmlContent = this.createXML(serviceId, null, sNode, "");// 生成的服务xml文件
+			// 返回解析后的XML内容信息
+			String xmlContent = this.createXML(serviceId, null, sNode, "");
 			String tmpOperationId = handleInterfaceIdForDupTrade(operationId);
 			String inDefFileName = serviceId + tmpOperationId +"(" + csmMsgType + "-"
 			+ prdMsgType + ")" + File.separator
@@ -182,14 +141,6 @@ public class SpdbServiceXMLGenerater extends AbstractGenerater implements
 
 	}
 
-	public String getGenerateContent() {
-		return this.content;
-	}
-
-	public List<File> getServiceFile() {
-		return serviceFile;
-	}
-
 	/**
 	 * 如果没有接口可以输出，则输出自己本身
 	 * 
@@ -197,7 +148,7 @@ public class SpdbServiceXMLGenerater extends AbstractGenerater implements
 	 *            要输出的服务节点
 	 * @param filetype
 	 *            要输出的文件类型，传输的时候可能的值为：request，response
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public String createXML(String serviceId, MetadataNode defaultNode,
 			MetadataNode serviceNode, String filetype) throws IOException {
@@ -247,7 +198,6 @@ public class SpdbServiceXMLGenerater extends AbstractGenerater implements
 
 		this.metadataNodeToChildNode(rootNode, rootElement);
 		content = XMLHelper.formatXML(doc, "utf-8");
-		this.content = content;
 		return content;
 	}
 
@@ -332,6 +282,12 @@ public class SpdbServiceXMLGenerater extends AbstractGenerater implements
 						type = mNode.getProperty().getProperty("type");
 						if (type.equalsIgnoreCase("array")) {
 							ele = structNode.addElement("sdo");
+						}else if("".equals(type)){
+							if(mNode.hasAttribute("remark")){
+								if(mNode.getProperty().getProperty("remark") != null 
+										&& mNode.getProperty().getProperty("remark").toLowerCase().startsWith("start"))
+								ele = structNode.addElement("sdo");
+							}
 						}
 					}
 					this.metadataNodeToChildNode((MetadataNode) mNode, ele);
@@ -371,14 +327,6 @@ public class SpdbServiceXMLGenerater extends AbstractGenerater implements
 			}
 		}
 	}
-
-	private List<String> getAllOperationIds(String serviceId) {
-		return operationDAO.getOperationIdsbyServiceId(serviceId);
-	}
-
-	public void clearXMLFile() {
-		this.serviceFile.clear();
-	}
 	
 	/**
 	 * @author Vincent Fan
@@ -392,48 +340,4 @@ public class SpdbServiceXMLGenerater extends AbstractGenerater implements
 		}
 		return tmpId;
 	}
-
-
-	@Override
-	public List<File> generate(InvokeInfo invokeInfo)
-			throws Exception {
-		log.info("[SERVICE DEF GENERATER]: start to generate service defination file");
-		List<File> files = null;
-		if (null != invokeInfo) {
-			this.csmMsgType = invokeInfo.getConsumeMsgType();
-			this.prdMsgType = invokeInfo.getProvideMsgType();
-			files = new ArrayList<File>();
-			String operationId = invokeInfo.getOperationId();
-			String interfaceId = invokeInfo.getEcode();
-//			String serviceId = packerUnPackerConfigHelper
-//					.getServiceIdByOperationId(operationId);
-			String serviceId = invokeInfo.getServiceId();
-			//TODO this is added for dup operation id, please remove it when the dup operationid issue be resolved
-			String tmpOperationId = handleInterfaceIdForDupTrade(operationId);
-			log.info("[Service Def Generater]: start to generate Service Def files for service:["
-					+ serviceId
-					+ "], operation: ["
-					+ operationId
-					+ "], interface: [" + interfaceId + "]");
-
-			File inConfigDir = new File(serviceId + tmpOperationId + "(" + invokeInfo.getConsumeMsgType() + "-"
-					+ invokeInfo.getProvideMsgType() + ")" +
-					 File.separator + IN_CONF_DIR);
-			File outConfigDir = new File(serviceId + tmpOperationId + "(" + invokeInfo.getConsumeMsgType() + "-"
-					+ invokeInfo.getProvideMsgType() + ")" +
-					 File.separator + OUT_CONF_DIR);
-			if (!inConfigDir.exists()) {
-				inConfigDir.mkdirs();
-			}
-			if (!outConfigDir.exists()) {
-				outConfigDir.mkdirs();
-			}
-			files.add(inConfigDir);
-			files.add(outConfigDir);
-			generateByOperation(serviceId, operationId);
-
-		}
-		return files;
-	}
-
 }

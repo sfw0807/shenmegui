@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,14 +11,15 @@ import com.dc.esb.servicegov.refactoring.dao.impl.InterfaceDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.InterfaceExtendsDAOImpl;
 import com.dc.esb.servicegov.refactoring.entity.Interface;
 import com.dc.esb.servicegov.refactoring.entity.InterfaceExtends;
-import com.dc.esb.servicegov.refactoring.resource.IParse;
 import com.dc.esb.servicegov.refactoring.util.ExcelTool;
 import com.dc.esb.servicegov.refactoring.util.GenerateUUID;
+import com.dc.esb.servicegov.refactoring.util.GlobalImport;
 import com.dc.esb.servicegov.refactoring.util.ServiceStateUtils;
+import com.dc.esb.servicegov.refactoring.util.Utils;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class IndexInterfaceParse implements IParse {
+public class IndexInterfaceParse {
 
 	private Log log = LogFactory.getLog(IndexInterfaceParse.class);
 
@@ -41,11 +41,9 @@ public class IndexInterfaceParse implements IParse {
 	// 接口方向
 	private String direction;
 
-	@Override
-	public void parse(Row row, Sheet interfaceSheet) {
+	public void parse(Row row) {
 		// TODO Auto-generated method stub
-		String serviceIdAndName = excelTool
-				.getCellContent(interfaceSheet, 0, 7);
+		String serviceIdAndName = excelTool.getCellContent(row.getCell(2));
 		serviceIdAndName = serviceIdAndName.replace("（", "(");
 		serviceIdAndName = serviceIdAndName.replace("）", ")");
 		String serviceId = serviceIdAndName.substring(serviceIdAndName
@@ -119,11 +117,31 @@ public class IndexInterfaceParse implements IParse {
 		i.setInterfaceId(interfaceId);
 		i.setEcode(interfaceId);
 		i.setInterfaceName(interfaceName);
-		i.setVersion(initVersion);
-		i.setState(ServiceStateUtils.DEFINITION);
+		if(GlobalImport.operateFlag){
+			Interface tmpi = interfaceDAO.findUniqueBy("interfaceId", interfaceId);
+			if(tmpi != null){
+				i.setVersion(Utils.modifyversionno(tmpi.getVersion()));
+				i.setState(tmpi.getState());
+			}
+			else{
+				i.setVersion(initVersion);
+				i.setState(ServiceStateUtils.DEFINITION);
+			}
+		}
+		else{
+			Interface tmpi = interfaceDAO.findUniqueBy("interfaceId", interfaceId);
+			if(tmpi != null){
+				i.setVersion(tmpi.getVersion());
+				i.setState(tmpi.getState());
+			}
+			else{
+				i.setVersion(initVersion);
+				i.setState(ServiceStateUtils.DEFINITION);
+			}
+		}
 		i.setThrough(through);
 		i.setModifyUser("");
-		i.setUpdateTime(new Timestamp(java.lang.System.currentTimeMillis()));
+		i.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		interfaceDAO.TxSaveInterface(i);
 		log.info("insert interface finished!");
 	}

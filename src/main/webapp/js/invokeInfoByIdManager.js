@@ -25,7 +25,7 @@ var invokeByIdManager = {
             "success": function(result) {
                 if(result){
                   alert('保存成功!');
-                  window.location.href="invokeManager.jsp?operationId='"+operation.operationId+"'&serviceId='"+operation.serviceId+"'&version='"+operation.version+"'&publishVersion=''&publishDate=''";
+                  window.location.href="invokeManager.jsp";
                 }else{
                   alert('保存失败!');
                 }

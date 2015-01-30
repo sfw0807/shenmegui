@@ -1,6 +1,7 @@
 $(function() {
+    var isChrome = (navigator.appVersion.indexOf("Chrome") != -1) ? true : false;
 	var tables = {};
-	var asInitVals = new Array();
+	var asInitVals = [];
 	$('#tabs').tabs();
 	$("#tab0").click(function(e) {
 		if(tables["metadataTable"]){
@@ -126,7 +127,14 @@ $(function() {
         if(count > 1){
             alert('只能选择一条记录查看!');
             return false;}
-         window.showModalDialog('../jsp/mdt_used.jsp',id,'dialogWidth=900px;dialogHeight=400px');   
+
+        if(isChrome){
+            var winOption = "height=800PX,width=1200px,top=50,scrollbars=yes,resizable=yes,fullscreen=0";
+            return  window.open("../jsp/mdt_used.jsp?metadataId="+id,window, winOption);
+        }else{
+            window.showModalDialog('../jsp/mdt_used.jsp',id,'dialogWidth:900px;dialogHeight:400px');
+
+        }
     });
      
      var metadataId = $( "#form_metadataId" ),

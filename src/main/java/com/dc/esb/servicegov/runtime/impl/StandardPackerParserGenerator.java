@@ -102,7 +102,7 @@ public class StandardPackerParserGenerator implements PackerParserGenerator<Cont
     /**
      * 检查导入导出上下文的完整性
      * @param context
-     * @throws DataException
+     * @throws com.dc.esb.servicegov.exception.DataException
      */
     private void validateContext(Context context) throws DataException {
         String operationId = context.get(OPERATION_ID);
@@ -129,7 +129,7 @@ public class StandardPackerParserGenerator implements PackerParserGenerator<Cont
      * 获取具有业务头的父服务
      * @param service
      * @return
-     * @throws DataException
+     * @throws com.dc.esb.servicegov.exception.DataException
      */
     private Service getSHeader(Service service) throws DataException{
         Service sHeaderService = null;

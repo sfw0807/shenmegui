@@ -1,7 +1,9 @@
 package com.dc.esb.servicegov.refactoring.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dc.esb.servicegov.refactoring.dao.impl.SDAHistoryDAOImpl;
 import com.dc.esb.servicegov.refactoring.entity.OperationHistory;
 import com.dc.esb.servicegov.refactoring.entity.SDAHistory;
 import com.dc.esb.servicegov.refactoring.entity.SLAHistory;
@@ -39,6 +42,8 @@ public class OperationHistoryController {
 	private SLAManager slaManager;
 	@Autowired
 	private OLAManager olaManager;
+	@Autowired
+	private SDAHistoryDAOImpl sdaHistoryDao;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/allHistory/{operationandservice}", headers = "Accept=application/json")
 	public @ResponseBody List<OperationHistory> getAllHistoryVersion(@PathVariable String operationandservice){
@@ -97,5 +102,15 @@ public class OperationHistoryController {
 		}else{
 			return false;
 		}
+	}
+	@RequestMapping(method = RequestMethod.POST, value = "/getSDANew", headers = "Accept=application/json")
+	public @ResponseBody
+	List<SDAHistory> getSDAInfoNew(@RequestBody String[] params) {
+		Map<String,String> paramMap = new HashMap<String,String>();
+		paramMap.put("operationId", params[0]);
+		paramMap.put("operationVersion", params[2]);
+		paramMap.put("serviceId", params[1]);
+		List<SDAHistory> nodes = sdaHistoryDao.findBy(paramMap,"seq");
+		return nodes;
 	}
 }

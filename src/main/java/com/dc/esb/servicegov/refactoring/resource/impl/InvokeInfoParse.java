@@ -18,7 +18,9 @@ import com.dc.esb.servicegov.refactoring.entity.InvokeInfo;
 import com.dc.esb.servicegov.refactoring.entity.TransState;
 import com.dc.esb.servicegov.refactoring.util.ExcelTool;
 import com.dc.esb.servicegov.refactoring.util.GlobalImport;
+import com.dc.esb.servicegov.refactoring.util.GlobalMenuId;
 import com.dc.esb.servicegov.refactoring.util.ServiceStateUtils;
+import com.dc.esb.servicegov.refactoring.util.UserOperationLogUtil;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -33,33 +35,40 @@ public class InvokeInfoParse {
 	@Autowired
 	private TransStateDAOImpl transStateDAO;
 
-	public void parseRow(Row row) {
+	public boolean parseRow(Row row) {
+		String interfaceId = excelTool.getCellContent(row.getCell(0));
+		String operationId = excelTool.getCellContent(row.getCell(3));
 		String serviceIdAndName = excelTool.getCellContent(row.getCell(2));
-		if ("".equals(serviceIdAndName)) {
-			return;
-		}
 		serviceIdAndName = serviceIdAndName.replace("（", "(");
+		if("".equals(serviceIdAndName) && "".equals(interfaceId) &&"".equals(operationId)){
+			log.info("读取到index页空白行,导入结束!");
+			return false;
+		}
 		String serviceId = serviceIdAndName.substring(serviceIdAndName
 				.indexOf("(") + 1, serviceIdAndName.lastIndexOf(")"));
 		if ("".equals(serviceId)) {
-			log.error("index页[服务Id]不能为空!");
+			log.error("服务" + serviceId + "index页[服务Id]不能为空!");
+			UserOperationLogUtil.saveLog("服务" + serviceId + "index页[服务Id]不能为空!", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
 			GlobalImport.flag = false;
-			return;
+			return false;
 		}
-		String operationId = excelTool.getCellContent(row.getCell(3));
 		if ("".equals(operationId)) {
-			log.error("index页[操作Id]不能为空!");
+			log.error("服务" + serviceId + operationId + "index页[操作Id]不能为空!");
+			UserOperationLogUtil.saveLog("服务" + serviceId + operationId + "index页[操作Id]不能为空!", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
 			GlobalImport.flag = false;
-			return;
+			return false;
 		}
-		String interfaceId = excelTool.getCellContent(row.getCell(0));
 		String through = excelTool.getCellContent(row.getCell(17));
 		String shead = excelTool.getCellContent(row.getCell(19));
+		if("".equals(shead)){
+			shead = "SHEAD";
+		}
 		String msgChange = excelTool.getCellContent(row.getCell(12));
 		if ("".equals(msgChange)) {
-			log.error("index页[报文转换方向]不能为空!");
+			log.error("服务" + serviceId + operationId + "index页[报文转换方向]不能为空!");
+			UserOperationLogUtil.saveLog("服务" + serviceId + operationId + "index页[报文转换方向]不能为空!", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
 			GlobalImport.flag = false;
-			return;
+			return false;
 		}
 		msgChange = msgChange.replace("（", "(");
 		msgChange = msgChange.replace("）", ")");
@@ -71,8 +80,10 @@ public class InvokeInfoParse {
 		String prdSysId = excelTool.getCellContent(row.getCell(8));
 		// 判断提供方是否存在
 		if ("".equals(systemDAO.getSystemAbById(prdSysId))) {
-			log.error("提供方系统简称不存在，请先添加提供方系统到服务治理平台！");
+			log.error("服务" + serviceId + operationId + "提供方系统["+prdSysId +"]简称不存在，请先添加提供方系统到服务治理平台！");
+			UserOperationLogUtil.saveLog("服务" + serviceId + operationId + "提供方系统["+prdSysId+"]简称不存在，请先添加提供方系统到服务治理平台！", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
 			GlobalImport.flag = false;
+			return false;
 		}
 		String csmSysAb = excelTool.getCellContent(row.getCell(5));
 		// 报文转换方向
@@ -80,9 +91,10 @@ public class InvokeInfoParse {
 		if ("".equals(direction)
 				|| (!"Provider".equals(direction) && !"Consumer"
 						.equals(direction))) {
-			log.error("index页[接口方向]不能为空,并且取值只能是Provider或Consumer!");
+			log.error("服务" + serviceId + operationId + "index页[接口方向]不能为空,并且取值只能是Provider或Consumer!");
+			UserOperationLogUtil.saveLog("服务" + serviceId + operationId + "index页[接口方向]不能为空,并且取值只能是Provider或Consumer!", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
 			GlobalImport.flag = false;
-			return;
+			return false;
 		}
 		if ("Provider".equals(direction)) {
 			direction = "1";
@@ -121,7 +133,15 @@ public class InvokeInfoParse {
 			try {
 				// get consumeSysId
 				String csmSysId = systemDAO.getSystemIdByAb(consumeAb);
-
+				if(csmSysId.equals("")){
+					log.info("调用方系统 [" + consumeAb + "]未找到系统Id！");
+				}
+				if(!"填单机".equals(consumeAb) && !"".equals(consumeAb) && "".equals(csmSysId)){
+					log.error("调用方系统 [" + consumeAb + "]未找到系统Id,导入失败！");
+					UserOperationLogUtil.saveLog("调用方系统 [" + consumeAb + "]未找到系统Id,导入失败！", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
+					GlobalImport.flag = false;
+					return false;
+				}
 				conditions.put("serviceId", serviceId);
 				conditions.put("operationId", operationId);
 				conditions.put("ecode", interfaceId);
@@ -143,7 +163,7 @@ public class InvokeInfoParse {
 					invokeInfo.setConsumeMsgType(consumeMsgType);
 					invokeInfo.setProvideMsgType(provideMsgType);
 					invokeInfo.setModifyUser(modifyUser);
-					invokeInfo.setUpdateTime(new Timestamp(java.lang.System
+					invokeInfo.setUpdateTime(new Timestamp(System
 							.currentTimeMillis()));
 					invokeInfo.setDirection(direction);
 					invokeInfoDAO.save(invokeInfo);
@@ -163,7 +183,7 @@ public class InvokeInfoParse {
 					invokeInfo.setConsumeMsgType(consumeMsgType);
 					invokeInfo.setProvideMsgType(provideMsgType);
 					invokeInfo.setModifyUser(modifyUser);
-					invokeInfo.setUpdateTime(new Timestamp(java.lang.System
+					invokeInfo.setUpdateTime(new Timestamp(System
 							.currentTimeMillis()));
 					invokeInfo.setDirection(direction);
 					invokeInfoDAO.save(invokeInfo);
@@ -178,6 +198,7 @@ public class InvokeInfoParse {
 			}
 		}
 		log.info("import invoke_info success!");
+		return true;
 	}
 
 	// 处理调用方英文名称

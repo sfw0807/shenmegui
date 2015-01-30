@@ -71,4 +71,15 @@ public class InterfaceExtendsDAOImpl extends
 			return false;
 		}
 	}
+
+	public void delByIntefaceId(String interfaceId) {
+		try {
+			String hql = "delete from InterfaceExtends where interfaceId = ?";
+			Query query = getSession().createQuery(hql);
+			query.setString(0, interfaceId);
+			query.executeUpdate();
+		} catch (Exception e) {
+			log.error("删除接口继承关系出错！", e);
+		}
+	}
 }

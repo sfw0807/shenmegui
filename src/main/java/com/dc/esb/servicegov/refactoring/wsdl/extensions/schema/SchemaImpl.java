@@ -16,8 +16,8 @@ import java.util.Vector;
  * This class is used to wrap schema elements. It holds the DOM Element to the
  * <code>&lt;schema&gt;</code> element.
  *
- * @see SchemaSerializer
- * @see SchemaDeserializer
+ * @see com.dc.esb.servicegov.refactoring.wsdl.extensions.schema.SchemaSerializer
+ * @see com.dc.esb.servicegov.refactoring.wsdl.extensions.schema.SchemaDeserializer
  */
 public class SchemaImpl implements Schema {
     protected QName elementType = null;

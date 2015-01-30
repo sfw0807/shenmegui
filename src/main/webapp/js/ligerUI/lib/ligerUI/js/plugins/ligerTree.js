@@ -28,7 +28,7 @@
         textFieldName: 'text',
         attribute: ['id', 'url'],
         treeLine: true,            //是否显示line
-        nodeWidth: 90,
+        nodeWidth: 360,
         statusName: '__status',
         isLeaf: null,              //是否子节点的判断函数
         single: false,               //是否单选

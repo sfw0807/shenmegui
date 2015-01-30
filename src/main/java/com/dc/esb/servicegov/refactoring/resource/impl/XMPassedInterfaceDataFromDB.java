@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dc.esb.servicegov.refactoring.dao.impl.IdaDAOImpl;
+import com.dc.esb.servicegov.refactoring.dao.impl.IdaPROPDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.InterfaceExtendsDAOImpl;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.MetadataInfo;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.MetadataNode;
@@ -20,6 +21,8 @@ public class XMPassedInterfaceDataFromDB extends AbstractDataFromDB {
 	private MetadataInfo info = null;
 	@Autowired
 	private IdaDAOImpl idaDAO;
+	@Autowired
+	private IdaPROPDAOImpl idaPropDAO;
 	@Autowired
 	private InterfaceExtendsDAOImpl iExtendsDAO;
 
@@ -38,14 +41,20 @@ public class XMPassedInterfaceDataFromDB extends AbstractDataFromDB {
 
 	public MetadataNode getInterfaceData(String interfaceid) {
 		log.info("开始导出接口[" + interfaceid +"]IDA !");
-		// 设置IDA模板
+		// 获取IDA模板
 		if(DefaultTemplate.checkIsIDATemplate(interfaceid)){
 			if(DefaultTemplate.hasTemplate(interfaceid)){
 				return DefaultTemplate.getTemplate(interfaceid);
 			}
 		}
+		// 获取所有IDA和IDAPROP的所有数据
+		super.dataMap.clear();
+		super.dataMap = idaDAO.getAllIDAMapByInterfaceId(interfaceid);
+		super.allIdaProp.clear();
+		super.allIdaProp = idaPropDAO.getAllIdaPropList();
 		// 获取根节点的IDA的resourceid
-		String resourceId = idaDAO.getTopResourceId(interfaceid);
+//		String resourceId = idaDAO.getTopResourceId(interfaceid);
+		String resourceId = super.getTopResourceIdByMap();
 		MetadataNode interfaceNodes = null;
 		if (resourceId != null && !resourceId.equals("")) {
 			interfaceNodes = this.getInterfaceData(interfaceid, resourceId);
@@ -54,6 +63,7 @@ public class XMPassedInterfaceDataFromDB extends AbstractDataFromDB {
         if(DefaultTemplate.checkIsIDATemplate(interfaceid)){
 			   DefaultTemplate.saveTemplate(interfaceid, interfaceNodes);
 		}
+        log.info("完成导出接口[" + interfaceid +"]IDA !");
 		return interfaceNodes;
 
 	}
@@ -70,17 +80,6 @@ public class XMPassedInterfaceDataFromDB extends AbstractDataFromDB {
 		return interfaceNodes;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected List<String> getChildren(String structId, String serviceid,
-			ResourceType type) {
-
-		if (structId == null && serviceid == null) {
-			return new ArrayList<String>();
-		}
-		List<String> childStructIds = idaDAO.getChildIdsByResourceId(structId);
-		return childStructIds;
-	}
 	
 	public List<String> getParentNodeIds(String interfaceId) {
 		List<String> parentIds = iExtendsDAO.getSuperInterfaceIdsbyInterfaceid(interfaceId);

@@ -16,16 +16,21 @@ import com.dc.esb.servicegov.refactoring.dao.impl.OLADAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.OperationDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.SDADAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.ServiceDAOImpl;
+import com.dc.esb.servicegov.refactoring.dao.impl.ServiceHeadRelateDAOImpl;
 import com.dc.esb.servicegov.refactoring.entity.OLA;
 import com.dc.esb.servicegov.refactoring.entity.Operation;
 import com.dc.esb.servicegov.refactoring.entity.SDA;
+import com.dc.esb.servicegov.refactoring.entity.ServiceHeadRelate;
 import com.dc.esb.servicegov.refactoring.resource.IParse;
 import com.dc.esb.servicegov.refactoring.resource.node.Node;
+import com.dc.esb.servicegov.refactoring.util.AuditUtil;
 import com.dc.esb.servicegov.refactoring.util.ExcelTool;
 import com.dc.esb.servicegov.refactoring.util.GenerateUUID;
 import com.dc.esb.servicegov.refactoring.util.GlobalImport;
 import com.dc.esb.servicegov.refactoring.util.GlobalMap;
+import com.dc.esb.servicegov.refactoring.util.GlobalMenuId;
 import com.dc.esb.servicegov.refactoring.util.ServiceStateUtils;
+import com.dc.esb.servicegov.refactoring.util.UserOperationLogUtil;
 import com.dc.esb.servicegov.refactoring.util.Utils;
 
 @Service
@@ -35,7 +40,9 @@ public class ServiceParse implements IParse {
 	private Log log = LogFactory.getLog(ServiceParse.class);
 
 	private ExcelTool excelTool = ExcelTool.getInstance();
-	private static final String initVersion = "1.0.0";
+	private String initVersion;
+	private String initOperationVersion;
+	private String initOperationState;
 	private static final String outputStr = "输出";
 	private static final String svcBody = "SvcBody";
 	private static final String request = "request";
@@ -54,6 +61,9 @@ public class ServiceParse implements IParse {
 	private MetadataDAOImpl metadataDAO;
 	@Autowired
 	private OLADAOImpl olaDAO;
+	@Autowired
+	private ServiceHeadRelateDAOImpl serviceHeadDAO;
+	
 
 	private Sheet interfaceSheet;
 
@@ -64,33 +74,59 @@ public class ServiceParse implements IParse {
 	private String operationName;
 	private String operationRemark;
 	private String categoryId;
+	private String shead;
 	private List<SDA> list;
 	private String prefix;
+	private String duplicatePrefix;
 
 	@Override
-	public void parse(Row row, Sheet interfaceSheet) {
+	public boolean parse(Row row, Sheet interfaceSheet) {
 		GlobalMap.globaNodePathMap.clear();
+		GlobalMap.duplicatePathMap.clear();
 		// TODO Auto-generated method stub
 		this.interfaceSheet = interfaceSheet;
+		this.initVersion = "1.0.0";
+		this.initOperationVersion = "1.0.0";
+		this.initOperationState = ServiceStateUtils.DEFINITION;
 		String serviceIdAndName = excelTool
 				.getCellContent(interfaceSheet, 0, 7);
 		serviceIdAndName = serviceIdAndName.replace("（", "(");
 		serviceIdAndName = serviceIdAndName.replace("）", ")");
+		shead = excelTool.getCellContent(row.getCell(19));
+		if("".equals(shead)){
+			shead = "SHEAD";
+		}
 		serviceId = serviceIdAndName.substring(
 				serviceIdAndName.indexOf("(") + 1,
 				serviceIdAndName.length() - 1);
-		if ("".equals(serviceId)) {
-			log.error("元数据页[服务Id]不能为空!");
+		String indexServiceIdAndName = excelTool.getCellContent(row.getCell(2));
+		indexServiceIdAndName = indexServiceIdAndName.replace("（", "(");
+		indexServiceIdAndName = indexServiceIdAndName.replace("）", ")");
+		String indexServiceId = indexServiceIdAndName.substring(
+				indexServiceIdAndName.indexOf("(") + 1,
+				indexServiceIdAndName.length() - 1);
+		// 判断index也serviceId 和 元数据页的serviceId是否相同
+		if(!serviceId.equals(indexServiceId)){
+			log.error("服务" + serviceId + operationId + "[index页]和[元数据页]服务Id不相同，导入失败!");
+			UserOperationLogUtil.saveLog("服务" + serviceId + operationId + "[index页]和[元数据页]服务Id不相同，导入失败!", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
 			GlobalImport.flag = false;
-			return;
+			return false;
+		}
+		
+		if ("".equals(serviceId)) {
+			log.error("服务" + serviceId + operationId + "元数据页[服务Id]不能为空!");
+			UserOperationLogUtil.saveLog("服务" + serviceId + operationId + "元数据页[服务Id]不能为空!", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
+			GlobalImport.flag = false;
+			return false;
 		}
 		serviceName = serviceIdAndName.substring(0, serviceIdAndName
 				.indexOf("("));
 		operationId = excelTool.getCellContent(row.getCell(3));
 		if ("".equals(operationId)) {
-			log.error("元数据页[操作Id]不能为空!");
+			log.error("服务" + serviceId + operationId + "元数据页[操作Id]不能为空!");
+			UserOperationLogUtil.saveLog("服务" + serviceId + operationId + "元数据页[操作Id]不能为空!", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
 			GlobalImport.flag = false;
-			return;
+			return false;
 		}
 		operationName = excelTool.getCellContent(row.getCell(4));
 		// 新文档格式
@@ -105,6 +141,8 @@ public class ServiceParse implements IParse {
 			insertService();
 			// insert operation
 			insertOperation();
+			// insert svcheader
+			insertServiceHeader();
 			// insert ola
 			insertOLA();
 			// insert SDA;
@@ -121,6 +159,7 @@ public class ServiceParse implements IParse {
 		} catch (Exception e) {
 			log.error("import service Infos error!", e);
 		}
+		return true;
 	}
 
 	public void insertService() {
@@ -129,8 +168,34 @@ public class ServiceParse implements IParse {
 		service.setServiceName(serviceName);
 		service.setServiceRemark(serviceRemark);
 		service.setCategoryId(categoryId);
-		service.setVersion(initVersion);
-		service.setState(ServiceStateUtils.DEFINITION);
+		if(GlobalImport.operateFlag){
+			com.dc.esb.servicegov.refactoring.entity.Service tmpService = serviceDAO.findUniqueBy("serviceId", serviceId);
+			if(tmpService != null){
+			    if(AuditUtil.passed.equals(tmpService.getAuditState())){
+			    	service.setVersion(Utils.modifyversionno(tmpService.getVersion()));
+			    }
+			    else{
+			    	service.setVersion(tmpService.getVersion());
+			    }
+				service.setState(tmpService.getState());
+			}
+			else{
+				service.setVersion(initVersion);
+			    service.setState(ServiceStateUtils.DEFINITION);
+			}
+		}
+		else{
+			com.dc.esb.servicegov.refactoring.entity.Service tmpService = serviceDAO.findUniqueBy("serviceId", serviceId);
+			if(tmpService != null){
+				service.setVersion(tmpService.getVersion());
+				service.setState(tmpService.getState());
+			}
+			else{
+				service.setVersion(initVersion);
+			    service.setState(ServiceStateUtils.DEFINITION);
+			}
+		}
+		service.setAuditState(AuditUtil.submit);
 		service.setModifyUser("");
 		service.setUpdateTime(Utils.getTime());
 		serviceDAO.TxSaveService(service);
@@ -143,12 +208,51 @@ public class ServiceParse implements IParse {
 		operation.setOperationName(operationName);
 		operation.setRemark(operationRemark);
 		operation.setServiceId(serviceId);
-		operation.setVersion(initVersion);
-		operation.setState(ServiceStateUtils.DEFINITION);
+		if(GlobalImport.operateFlag){
+		   Operation tmpOperation = operationDAO.getOperation(operationId, serviceId);
+		   if(tmpOperation != null){
+			   if(AuditUtil.passed.equals(tmpOperation.getAuditState())){
+				   operation.setVersion(Utils.modifyversionno(tmpOperation.getVersion()));
+				   this.initOperationVersion = Utils.modifyversionno(tmpOperation.getVersion());
+			   }
+			   else{
+				   operation.setVersion(tmpOperation.getVersion());
+				   this.initOperationVersion = tmpOperation.getVersion();
+			   }
+			   operation.setState(tmpOperation.getState());
+			   this.initOperationState = tmpOperation.getState();
+		   }
+		   else{
+			   operation.setVersion(initOperationVersion);
+			   operation.setState(initOperationState);
+		   }
+		}
+		else{
+			Operation tmpOperation = operationDAO.getOperation(operationId, serviceId);
+			   if(tmpOperation != null){
+				   operation.setVersion(tmpOperation.getVersion());
+				   operation.setState(tmpOperation.getState());
+				   this.initOperationVersion = tmpOperation.getVersion();
+				   this.initOperationState = tmpOperation.getState();
+			   }
+			   else{
+				   operation.setVersion(initOperationVersion);
+				   operation.setState(initOperationState);
+			   }
+		}
+		operation.setAuditState(AuditUtil.submit);
 		operation.setModifyUser("");
 		operation.setUpdateTime(Utils.getTime());
 		operationDAO.TxSaveOperation(operation);
 		log.info("insert operation finished!");
+	}
+	
+	public void insertServiceHeader(){
+		ServiceHeadRelate svcheader = new ServiceHeadRelate();
+		svcheader.setSheadId(shead);
+		svcheader.setServiceId(serviceId);
+		serviceHeadDAO.txSaveSvcHeader(svcheader);
+		log.info("insert service header finished!");
 	}
 	
 	public void insertOLA(){
@@ -194,9 +298,6 @@ public class ServiceParse implements IParse {
 		sda.setModifyUser("");
 		sda.setUpdateTime(Utils.getTime());
 		list.add(sda);
-//		log.info("SDA=Info ： " + node.getId() + "===" + node.getNodeId()
-//				+ "===" + node.getMetadataId() + "===" + seq + "==="
-//				+ operationId + "===" + serviceId + "===" + node.getParentId());
 		if (node.hasChild()) {
 			for (Node childNode : node.getChildNodes()) {
 				renderInsertSDANode(childNode);
@@ -242,6 +343,7 @@ public class ServiceParse implements IParse {
 		requestNode.appendChild(SvcBodyRequestNode);
 		// 用来记录元数据对应的nodePath
 		prefix = svcBody + ".";
+		duplicatePrefix = request + ".";
 		this.renderNode(SvcBodyRequestNode, request);
 		// 转到[输出]行下一行，开始解析response节点信息
 		structIndex++;
@@ -256,16 +358,19 @@ public class ServiceParse implements IParse {
 		responseNode.appendChild(SvcBodyResponseNode);
 		// 用来记录元数据对应的nodePath
 		prefix = svcBody + ".";
+		duplicatePrefix = response + ".";
 		this.renderNode(SvcBodyResponseNode, response);
 	}
 
 	// 递归增加节点
-	public void renderNode(Node node, String renderType) {
+	public boolean renderNode(Node node, String renderType) {
 		boolean flag = true;
 		String remark = excelTool
 				.getCellContent(interfaceSheet, structIndex, 9);
 		String type = excelTool.getCellContent(interfaceSheet, structIndex, 7)
 				.toLowerCase();
+		type = type.replace("（", "(");
+		type = type.replace("）", ")");
 		String metadataId = excelTool.getCellContent(interfaceSheet,
 				structIndex, 6);
 		String mapfileRemark = excelTool.getCellContent(interfaceSheet, structIndex, 10);
@@ -285,70 +390,109 @@ public class ServiceParse implements IParse {
 			}
 		}
 		if (flag) {
-			// 服务头当前行跳过
-			if (null != remark) {
-				remark = remark.trim();
-				remark = remark.toUpperCase();
-				if (remark.contains("SVCHEADER")) {
+			if("".equals(metadataId)){
+				structIndex++;
+				renderNode(node, renderType);
+			}
+			else{
+				// 服务头当前行跳过
+				if (null != remark) {
+					remark = remark.trim();
+					remark = remark.toUpperCase();
+					if (remark.contains("SVCHEADER")) {
+						structIndex++;
+						return renderNode(node, renderType);
+					}
+				}
+				//不映射的sda并且不是struct数组类型
+				if(mapfileRemark.equals("不映射") && !type.toLowerCase().equals("struct")){
 					structIndex++;
-					renderNode(node, renderType);
+					return renderNode(node, renderType);
 				}
-			}
-			// mapfile重复行不记录
-			if("duplicate".equals(mapfileRemark)){
-				structIndex++;
-				renderNode(node, renderType);
-			}
-			// 判断元数据是否存在
-			if(!metadataDAO.checkIsExist(metadataId)){
-				String message = "元数据 [" + metadataId + "不存在，导入失败！";
-				try {
-					throw new Exception(message);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				// 元数据不为空 类型为空 跳过
+				if(!"".equals(metadataId) && "".equals(type)){
+					structIndex++;
+					return renderNode(node, renderType);
 				}
-			}
-			// 记录节点对应的nodePath。
-			GlobalMap.globaNodePathMap.put(metadataId, prefix + metadataId);
-			// 非数组节点
-			if ("".equals(remark)
-					|| (!remark.toLowerCase().startsWith("start") && !remark
-							.toLowerCase().startsWith("end"))) {
-				childNode = this.createChildNode(node);
-				node.appendChild(childNode);
-				structIndex++;
-				renderNode(node, renderType);
-			}
-			// array 和 struct 数组处理
-			if (remark.toLowerCase().startsWith("start")
-					&& "struct".equals(type)) {
-				childNode = this.createChildNode(node);
-				childNode.setNodeType("");
-				node.appendChild(childNode);
-				prefix = prefix + metadataId + ".";
-				structIndex++;
-				renderNode(childNode, renderType);
-			}
-			if (remark.toLowerCase().startsWith("end") && "struct".equals(type)) {
-				prefix = getLastPrefix(prefix);
-				structIndex++;
-				renderNode(node.getParentNode(), renderType);
-			}
-			if (remark.toLowerCase().startsWith("start")
-					&& "array".equals(type)) {
-				childNode = this.createChildNode(node);
-				node.appendChild(childNode);
-				prefix = prefix + metadataId + ".";
-				structIndex++;
-				renderNode(childNode, renderType);
-			}
-			if (remark.toLowerCase().startsWith("end") && "array".equals(type)) {
-				prefix = getLastPrefix(prefix);
-				structIndex++;
-				renderNode(node.getParentNode(), renderType);
+				// mapfile重复行不记录
+				if("duplicate".equals(mapfileRemark)){
+					structIndex++;
+					return renderNode(node, renderType);
+				}
+				// 判断元数据是否存在
+				if(!metadataDAO.checkIsExist(metadataId)){
+					String message = "服务" + serviceId + operationId + "元数据 [" + metadataId + "]不存在，导入失败！";
+					log.error(message);
+					UserOperationLogUtil.saveLog(message, GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
+					GlobalImport.flag = false;
+					structIndex++;
+					return renderNode(node, renderType);
+				}
+				// 判断是否存在重复的元数据duplicatePrefix
+				if(GlobalMap.duplicatePathMap.containsKey(duplicatePrefix + metadataId)){
+							String message = "服务" + serviceId + operationId + "元数据 [" + metadataId + "]存在重复，导入失败！";
+							log.error(message);
+							UserOperationLogUtil.saveLog(message, GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
+							GlobalImport.flag = false;
+							structIndex++;
+							return renderNode(node, renderType);
+						}
+						else{
+							GlobalMap.duplicatePathMap.put(duplicatePrefix + metadataId, metadataId);
+				}
+				// 记录节点对应的nodePath,用于代码转换。
+				GlobalMap.globaNodePathMap.put(metadataId, prefix + metadataId);
+				// 非数组节点
+				if ("".equals(remark)
+						|| (!remark.toLowerCase().startsWith("start") && !remark
+								.toLowerCase().startsWith("end"))) {
+					if(!"".equals(metadataId) && "".equals(type)){
+						String message = "服务" + serviceId + operationId + "元数据 [" + metadataId + "]类型为空，导入失败！";
+						log.error(message);
+						UserOperationLogUtil.saveLog(message, GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
+						GlobalImport.flag = false;
+						return true;
+					}
+					childNode = this.createChildNode(node);
+					node.appendChild(childNode);
+					structIndex++;
+					return renderNode(node, renderType);
+				}
+				// array 和 struct 数组处理
+				if (remark.toLowerCase().startsWith("start")
+						&& "struct".equals(type)) {
+					childNode = this.createChildNode(node);
+					childNode.setNodeType("");
+					node.appendChild(childNode);
+					prefix = prefix + metadataId + ".";
+					duplicatePrefix = duplicatePrefix + metadataId + ".";
+					structIndex++;
+					return renderNode(childNode, renderType);
+				}
+				if (remark.toLowerCase().startsWith("end") && "struct".equals(type)) {
+					prefix = getLastPrefix(prefix);
+					duplicatePrefix = getLastPrefix(duplicatePrefix);
+					structIndex++;
+					return renderNode(node.getParentNode(), renderType);
+				}
+				if (remark.toLowerCase().startsWith("start")
+						&& "array".equals(type)) {
+					childNode = this.createChildNode(node);
+					node.appendChild(childNode);
+					prefix = prefix + metadataId + ".";
+					duplicatePrefix = duplicatePrefix + metadataId + ".";
+					structIndex++;
+					return renderNode(childNode, renderType);
+				}
+				if (remark.toLowerCase().startsWith("end") && "array".equals(type)) {
+					prefix = getLastPrefix(prefix);
+					duplicatePrefix = getLastPrefix(duplicatePrefix);
+					structIndex++;
+					return renderNode(node.getParentNode(), renderType);
+				}
 			}
 		}
+		return true;
 	}
 
 	// 根据structIndex、node生成ChildNode节点
@@ -358,17 +502,23 @@ public class ServiceParse implements IParse {
 		String isRequired = excelTool.getCellContent(interfaceSheet,
 				structIndex, 3);
 		if(!"".equals(isRequired) && !"Y".equals(isRequired) && !"N".equals(isRequired)){
-			log.error("元数据页[是否必输]列只能是'Y'或'N' !");
+			log.error("服务" + serviceId + operationId + "元数据页[是否必输]列只能是'Y'或'N' !");
+			UserOperationLogUtil.saveLog("服务" + serviceId + operationId + "元数据页[是否必输]列只能是'Y'或'N' !", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
 			GlobalImport.flag = false;
 			return null;
 		}
 		String type = excelTool.getCellContent(interfaceSheet, structIndex, 7)
 				.toLowerCase();
+		type = type.replace("（", "(");
+		type = type.replace("）", ")");
 		if (type.indexOf("(") > 0) {
 			type = type.substring(0, type.indexOf("("));
 		}
 		String remark = excelTool
 				.getCellContent(interfaceSheet, structIndex, 9);
+		if(remark.length() >= 2000){
+			remark = remark.substring(0,1999);
+		}
 		Node childNode = new Node();
 		childNode.setId(GenerateUUID.genRandom());
 		childNode.setNodeId(metadataId);

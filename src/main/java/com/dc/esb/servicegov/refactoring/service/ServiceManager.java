@@ -16,4 +16,8 @@ public interface ServiceManager {
 	public boolean redefService(String id);
 	public boolean deployService(String id);
 	public boolean publishService(String id);
+	public List<Service> getAuditServices();
+	public boolean auditService(String serviceId, String auditState);
+	public boolean checkServicePassed(String serviceId);
+	public boolean submitService(String serviceId);
 }

@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="<%=path%>/js/jquery.fileDownload.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/layout.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/slaManager.js" type="text/javascript"></script>
-		<script src="<%=path%>/js/sla.js" type="text/javascript"></script>
+		<script src="<%=path%>/js/sla.js" type="text/javascript" charset="UTF-8"></script>
 		<script src="<%=path%>/js/json/json2.js" type="text/javascript"></script>
 		<style>
 			.ui-menu {
@@ -106,7 +106,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									class="search_init" />
 							</th>
 							<th>
-								<input type="text" name="field" id="field" value="备注"
+								<input type="hidden" name="field" id="field" value="备注"
 									class="search_init" />
 							</th>
 						</tr>

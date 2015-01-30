@@ -2,33 +2,65 @@ $(function(){
 	
 	var asInitVals = new Array();
 	var tables = {};
+	var consumer_sysId = '';
+	var provider_sysId = '';
 	$('#tabs').tabs();
 	var ecode = window.location.href.split("=")[1];
+
+		
 	
 	var initInputs = function initInputs(result){
 		//serviceIds
 		$('.ui-combobox:eq(0) input').val(result.service_ID);
-		$('.ui-combobox:eq(1) input').val(result.consumer_SYSAB);
-		$('.ui-combobox:eq(2) input').val(result.provider_SYSAB);
-		$('.ui-combobox:eq(3) input').val(result.passby_SYSAB);
+		$('.ui-combobox:eq(0) span').hide();
+    	$('.ui-combobox:eq(0) a').hide();
+		$('.ui-combobox:eq(1) input').val(result.provider_SYSAB);
+		$('.ui-combobox:eq(1) span').hide();
+    	$('.ui-combobox:eq(1) a').hide();
+		$('.ui-combobox:eq(2) input').val(result.passby_SYSAB);
+		$('.ui-combobox:eq(2) span').hide();
+    	$('.ui-combobox:eq(2) a').hide();
+		$('#consumerSysId').val(result.consumer_SYSID); // useless
+		consumer_sysId = result.consumer_SYSID;
+		provider_sysId = result.provider_SYSID;
+		$('#providerSysId').val(result.provider_SYSID); // useless
 		$('#ecode').val(result.ecode);
 		$('#interfaceId').val(result.interface_ID);
 		$('#interfaceName').val(result.interface_NAME);
-		//$('#operationIds').val(result.operation_ID);
 		$('#operationIds').append("<option value='"+result.operation_ID+"'>"+result.operation_ID+"</option>");
 		$('#remark').val(result.remark);
 		$('#consumerMsgType').val(result.consume_MSG_TYPE);
 		$('#providerMsgType').val(result.provide_MSG_TYPE);
 		$('#through').val(result.through);
 		
+		$('#tr0').find('*').each( function(){
+				$(this).attr("disabled",true);
+			}
+		);
 	};
+	
+	// 编辑
 	if (ecode.indexOf('add') != 0) {
 		interfaceManager.getVO(ecode, initInputs);
+		$('#interfaceId').attr('disabled', true);
+		$('#ecode').attr('disabled', true);
+		$('#providerSysId').attr('disabled', true);
+    	$('#passBySys').attr('disabled', true);
 	}
 	$('#goBack').click(function(){
 		window.location.href = 'interfaceManagement.html';
 	});
 	
+	// 初始化下拉框
+	var result = 
+    $.ajax({
+        url: '../serviceDevInfo/getAllSystem',
+        type: 'GET',
+        success: function(result) {
+            initSelect(result);
+        }
+	});
+		
 	var initServices = function(result){
 		for (var i=0;i<result.length;i++) {
 			$('#serviceIds').append("<option value='"+result[i].serviceId+"'>"+result[i].serviceId+"</option>");
@@ -59,7 +91,7 @@ $(function(){
 			providerSysId : $('#providerSysId').val(),
 			consumerMsgType : $('#consumerMsgType').val(),
 			providerMsgType : $('#providerMsgType').val(),
-			passBySys : $('#passBySys').val(),
+			passBySys : $('.ui-combobox:eq(3) input').val(),
 			versionSt : $('#versionSt').val(),
 			interfaceId : $('#interfaceId').val(),
 			interfaceName : $('#interfaceName').val(),
@@ -73,8 +105,15 @@ $(function(){
 			window.location.href = 'interfaceManagement.html';
 		};
 		
-		interfaceManager.insert(JSON.stringify(params), saveCallBack);
 		$('#is-saved').val(eval($('#is-saved').val()) - 1);
+		
+		if (ecode == 'add') {
+			interfaceManager.insert(JSON.stringify(params), updateCallBack);
+		} else {
+			params.consumerSysId = consumer_sysId;
+			params.providerSysId = provider_sysId;
+			interfaceManager.update(JSON.stringify(params), updateCallBack);
+		}
 	});
 	
 	var initSelect = function initSelect(result) {
@@ -85,20 +124,19 @@ $(function(){
 		}
 	};
 	
-	var result = 
-    $.ajax({
-        url: '../serviceDevInfo/getAllSystem',
-        type: 'GET',
-        success: function(result) {
-            initSelect(result);
-        }
-	});
-	
 	$('#serviceIds').combobox();
 	$('#consumerSysId').combobox();
 	$('#providerSysId').combobox();
 	$('#passBySys').combobox();
 	
+	$('.ui-combobox:eq(0) span').hide();
+    $('.ui-combobox:eq(0) a').hide();
+	$('.ui-combobox:eq(1) span').hide();
+    $('.ui-combobox:eq(1) a').hide();
+	$('.ui-combobox:eq(2) span').hide();
+    $('.ui-combobox:eq(2) a').hide();
+    $('.ui-combobox:eq(3) span').hide();
+    $('.ui-combobox:eq(3) a').hide();
 	
 		//初始化SDA表格的方法
 	var initChildTable = function initChildTable(result) {
@@ -135,7 +173,6 @@ $(function(){
 			],
 			"fnRowCallback" : function(nRow, aData, iDisplayIndex) {
 			
-				//console.log(aData);
 				if (aData["structName"].indexOf("|--") == 0) {
 					$(nRow).css("background-color", "chocolate");
 				}
@@ -226,11 +263,11 @@ $(function(){
 			var remark = rowsSelected[0].cells[6].innerText;
 			rowsSelected[0].cells[1].innerHTML="<nobr><input type='text' onclick='window.event.stopPropagation();'"
 			+ " value='"+structName+"' onblur='this.parentNode.innerHTML=this.value'/></nobr>";	
-			rowsSelected[0].cells[2].innerHTML="<nobr><input type='text' onclick='window.event.stopPropagation();' value='"+metadataId+"' onblur='if(\"\"===this.value || null===this.value){alert(\"请输入元数据ID!\");}else{this.parentNode.innerHTML=this.value;}'/></nobr>";
-			rowsSelected[0].cells[3].innerHTML="<nobr><input type='text' onclick='window.event.stopPropagation();' value='"+structAlias+"' onblur='if(\"\"===this.value){alert(\"请输入节点中文名\");}else{this.parentNode.innerHTML=this.value;}'/></nobr>";
-			rowsSelected[0].cells[4].innerHTML="<nobr><input type='text' onclick='window.event.stopPropagation();' value='"+type+"' onblur='if(\"string\"===this.value || \"number\"===this.value || \"array\"===this.value){this.parentNode.innerHTML=this.value;}else{alert(\"只能输入string|number|array中的一种!\")}'/></nobr>";	
-			rowsSelected[0].cells[5].innerHTML="<input type='text' onclick='window.event.stopPropagation();' value='"+required+"' onblur='if(\"Y\"===this.value || \"N\"===this.value ){this.parentNode.innerHTML=this.value;}else{alert(\"只能输入Y|N中的一种!\")}'/>";	
-			rowsSelected[0].cells[6].innerHTML="<input type='text' onclick='window.event.stopPropagation();' value='"+remark+"' onblur='this.parentNode.innerHTML=this.value;'>";
+			rowsSelected[0].cells[2].innerHTML="<nobr><input type='text'  value='"+metadataId+"' onblur='if(\"\"===this.value || null===this.value){alert(\"请输入元数据ID!\");}else{this.parentNode.innerHTML=this.value;}'/></nobr>";
+			rowsSelected[0].cells[3].innerHTML="<nobr><input type='text'  value='"+structAlias+"' onblur='if(\"\"===this.value){alert(\"请输入节点中文名\");}else{this.parentNode.innerHTML=this.value;}'/></nobr>";
+			rowsSelected[0].cells[4].innerHTML="<nobr><input type='text'  value='"+type+"' onblur='if(\"string\"===this.value || \"number\"===this.value || \"array\"===this.value){this.parentNode.innerHTML=this.value;}else{alert(\"只能输入string|number|array中的一种!\")}'/></nobr>";	
+			rowsSelected[0].cells[5].innerHTML="<input type='text'  value='"+required+"' onblur='if(\"Y\"===this.value || \"N\"===this.value ){this.parentNode.innerHTML=this.value;}else{alert(\"只能输入Y|N中的一种!\")}'/>";	
+			rowsSelected[0].cells[6].innerHTML="<input type='text'  value='"+remark+"' onblur='this.parentNode.innerHTML=this.value;'>";
 		} else if (rowsSelected.length > 1) {
 			alert("只能选中一行SDA数据!");
 		} else {
@@ -253,12 +290,12 @@ $(function(){
 			content = structName.substr(0,structName.lastIndexOf("-")+1);
 			row = table.dataTable().fnAddData({
 				"seq" : index,
-				"structName" : "<input type='text' onclick='window.event.stopPropagation();' onblur='if(\"\"===this.value){alert(\"请输入节点ID\");}else{this.parentNode.innerHTML=\"&nbsp;&nbsp;&nbsp;&nbsp;\"+content+this.value;}'}/>",
-				"metadataId" : "<input type='text' onclick='window.event.stopPropagation();' onblur='if(\"\"===this.value || null===this.value){alert(\"请输入元数据ID!\");}else{this.parentNode.innerHTML=this.value;}'/>",
-				"structAlias" : "<input type='text' onclick='window.event.stopPropagation();' onblur='if(\"\"===this.value){alert(\"请输入节点名称\");}else{this.parentNode.innerHTML=this.value;}'}/>",
-				"type" : "<input type='text' onclick='window.event.stopPropagation();' onblur='if(\"string\"===this.value || \"number\"===this.value || \"array\"===this.value){this.parentNode.innerHTML=this.value;}else{alert(\"只能输入string|number|array中的一种!\")}'/>",
-				"required" : "<input type='text' onclick='window.event.stopPropagation();' onblur='if(\"Y\"===this.value || \"N\"===this.value ){this.parentNode.innerHTML=this.value;}else{alert(\"只能输入Y|N中的一种!\")}'/>",
-				"remark" : "<input type='text' onclick='window.event.stopPropagation();' onblur='this.parentNode.innerHTML=this.value;'>"
+				"structName" : "<input type='text'  onblur='if(\"\"===this.value){alert(\"请输入节点ID\");}else{this.parentNode.innerHTML=\"&nbsp;&nbsp;&nbsp;&nbsp;\"+content+this.value;}'}/>",
+				"metadataId" : "<input type='text'  onblur='if(\"\"===this.value || null===this.value){alert(\"请输入元数据ID!\");}else{this.parentNode.innerHTML=this.value;}'/>",
+				"structAlias" : "<input type='text'  onblur='if(\"\"===this.value){alert(\"请输入节点名称\");}else{this.parentNode.innerHTML=this.value;}'}/>",
+				"type" : "<input type='text'  onblur='if(\"string\"===this.value || \"number\"===this.value || \"array\"===this.value){this.parentNode.innerHTML=this.value;}else{alert(\"只能输入string|number|array中的一种!\")}'/>",
+				"required" : "<input type='text'  onblur='if(\"Y\"===this.value || \"N\"===this.value ){this.parentNode.innerHTML=this.value;}else{alert(\"只能输入Y|N中的一种!\")}'/>",
+				"remark" : "<input type='text'  onblur='this.parentNode.innerHTML=this.value;'>"
 			});
 			var tableObj = document.getElementById("idaTable");
 			for(var i=2;i<tableObj.rows.length-1;i++){
@@ -290,12 +327,12 @@ $(function(){
 			content = structName.substr(0,structName.lastIndexOf("-")+1);
 			row = table.dataTable().fnAddData({
 				"seq" : index,
-				"structName" : "<input type='text' onclick='window.event.stopPropagation();' onblur='if(\"\"===this.value){alert(\"请输入节点ID\");}else{this.parentNode.innerHTML=content+this.value;}'}/>",
-				"metadataId" : "<input type='text' onclick='window.event.stopPropagation();' onblur='if(\"\"===this.value || null===this.value){alert(\"请输入元数据ID!\");}else{this.parentNode.innerHTML=this.value;}'/>",
-				"structAlias" : "<input type='text' onclick='window.event.stopPropagation();' onblur='if(\"\"===this.value){alert(\"请输入节点名称\");}else{this.parentNode.innerHTML=this.value;}'}/>",
-				"type" : "<input type='text' onclick='window.event.stopPropagation();' onblur='if(\"string\"===this.value || \"number\"===this.value || \"array\"===this.value){this.parentNode.innerHTML=this.value;}else{alert(\"只能输入string|number|array中的一种!\")}'/>",
-				"required" : "<input type='text' onclick='window.event.stopPropagation();' onblur='if(\"Y\"===this.value || \"N\"===this.value ){this.parentNode.innerHTML=this.value;}else{alert(\"只能输入Y|N中的一种!\")}'/>",
-				"remark" : "<input type='text' onclick='window.event.stopPropagation();' onblur='this.parentNode.innerHTML=this.value;'>"
+				"structName" : "<input type='text'  onblur='if(\"\"===this.value){alert(\"请输入节点ID\");}else{this.parentNode.innerHTML=content+this.value;}'}/>",
+				"metadataId" : "<input type='text'  onblur='if(\"\"===this.value || null===this.value){alert(\"请输入元数据ID!\");}else{this.parentNode.innerHTML=this.value;}'/>",
+				"structAlias" : "<input type='text'  onblur='if(\"\"===this.value){alert(\"请输入节点名称\");}else{this.parentNode.innerHTML=this.value;}'}/>",
+				"type" : "<input type='text'  onblur='if(\"string\"===this.value || \"number\"===this.value || \"array\"===this.value){this.parentNode.innerHTML=this.value;}else{alert(\"只能输入string|number|array中的一种!\")}'/>",
+				"required" : "<input type='text'  onblur='if(\"Y\"===this.value || \"N\"===this.value ){this.parentNode.innerHTML=this.value;}else{alert(\"只能输入Y|N中的一种!\")}'/>",
+				"remark" : "<input type='text'  onblur='this.parentNode.innerHTML=this.value;'>"
 			});
 			var tableObj = document.getElementById("idaTable");
 			for(var i=2;i<tableObj.rows.length-1;i++){

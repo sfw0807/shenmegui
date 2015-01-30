@@ -29,8 +29,11 @@ import com.dc.esb.servicegov.refactoring.resource.IParse;
 import com.dc.esb.servicegov.refactoring.resource.node.Node;
 import com.dc.esb.servicegov.refactoring.util.ExcelTool;
 import com.dc.esb.servicegov.refactoring.util.GenerateUUID;
+import com.dc.esb.servicegov.refactoring.util.GlobalImport;
 import com.dc.esb.servicegov.refactoring.util.GlobalMap;
+import com.dc.esb.servicegov.refactoring.util.GlobalMenuId;
 import com.dc.esb.servicegov.refactoring.util.ServiceStateUtils;
+import com.dc.esb.servicegov.refactoring.util.UserOperationLogUtil;
 import com.dc.esb.servicegov.refactoring.util.Utils;
 
 @Service
@@ -79,7 +82,7 @@ public class InterfaceParse implements IParse {
 	private StringBuilder mapfileResultMapInfo = null;
 
 	@Override
-	public void parse(Row row, Sheet interfaceSheet) {
+	public boolean parse(Row row, Sheet interfaceSheet) {
 		// TODO Auto-generated method stub
 		idaPropList = new ArrayList<IdaPROP>();
 		mapFileNamesOfCurrentElement = new ArrayList<String>();
@@ -145,6 +148,7 @@ public class InterfaceParse implements IParse {
 		} catch (Exception e) {
 			log.error("import interface Infos error!", e);
 		}
+		return true;
 	}
 
 	/**
@@ -172,11 +176,31 @@ public class InterfaceParse implements IParse {
 		i.setInterfaceId(interfaceId);
 		i.setEcode(interfaceId);
 		i.setInterfaceName(interfaceName);
-		i.setVersion(initVersion);
-		i.setState(ServiceStateUtils.DEFINITION);
+		if(GlobalImport.operateFlag){
+			Interface tmpi = interfaceDAO.findUniqueBy("interfaceId", interfaceId);
+			if(tmpi != null){
+				i.setVersion(Utils.modifyversionno(tmpi.getVersion()));
+				i.setState(tmpi.getState());
+			}
+			else{
+				i.setVersion(initVersion);
+				i.setState(ServiceStateUtils.DEFINITION);
+			}
+		}
+		else{
+			Interface tmpi = interfaceDAO.findUniqueBy("interfaceId", interfaceId);
+			if(tmpi != null){
+				i.setVersion(tmpi.getVersion());
+				i.setState(tmpi.getState());
+			}
+			else{
+				i.setVersion(initVersion);
+				i.setState(ServiceStateUtils.DEFINITION);
+			}
+		}
 		i.setThrough(through);
 		i.setModifyUser("");
-		i.setUpdateTime(new Timestamp(java.lang.System.currentTimeMillis()));
+		i.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		interfaceDAO.TxSaveInterface(i);
 		log.info("insert interface finished!");
 	}
@@ -192,10 +216,12 @@ public class InterfaceParse implements IParse {
 		// 先删除sda数据
 		if (idaPropDAO.delIdaPROPByInterfaceId(interfaceId)) {
 			if (idaDAO.delIDAByInterfaceId(interfaceId)) {
-				renderInsertSDANode(sdaNode);
+				renderInsertIDANode(sdaNode);
+				log.info("merge Ida list finished！");
 				if (idaDAO.batchInsertIDAs(list)) {
-					log.info("导入IDA数据完成，开始导入IDa属性信息");
+					log.info("import Ida info finished");
 					idaPropDAO.batchIdaPropList(idaPropList);
+					log.info("import ida_prop infos finished");
 				}
 			}
 		}
@@ -203,7 +229,7 @@ public class InterfaceParse implements IParse {
 	}
 
 	// 递归插入node
-	public void renderInsertSDANode(Node node) {
+	public void renderInsertIDANode(Node node) {
 		seq++;
 		IDA ida = new IDA();
 		ida.setId(node.getId());
@@ -229,7 +255,7 @@ public class InterfaceParse implements IParse {
 //				+ node.getNodeScale());
 		if (node.hasChild()) {
 			for (Node childNode : node.getChildNodes()) {
-				renderInsertSDANode(childNode);
+				renderInsertIDANode(childNode);
 			}
 		}
 	}
@@ -256,7 +282,10 @@ public class InterfaceParse implements IParse {
 		responseNode.setParentId(rootId);
 		root.appendChild(responseNode);
 		// 左边无数据 “输入”下一行为空 “输入”下一行为“输出”，继续判断“输出”下一行是否为空
-		if ("".equals(excelTool.getCellContent(interfaceSheet, structIndex, 0))) {
+		if ("".equals(excelTool.getCellContent(interfaceSheet, structIndex, 0))
+				&& !"不映射".equals(excelTool.getCellContent(interfaceSheet, structIndex, 4)) 
+				&& !"给空白".equals(excelTool.getCellContent(interfaceSheet, structIndex, 4))
+				&& !"不映射".equals(excelTool.getCellContent(interfaceSheet, structIndex, 10))) {
 
 		} else if (outputStr.equals(excelTool.getCellContent(interfaceSheet,
 				structIndex + 1, 0))
@@ -268,6 +297,8 @@ public class InterfaceParse implements IParse {
 			// 添加response的childs
 			this.appendResponseNodeChilds(responseNode);
 		}
+		// 处理扩展属
+		
 		// 处理扩展属性MapFile
 		for (Map.Entry<String, String> entry : expandMap.entrySet()) {
 			IdaPROP idap = new IdaPROP();
@@ -358,12 +389,16 @@ public class InterfaceParse implements IParse {
 	}
 
 	// 递归增加节点
-	public void renderNode(Node node, String renderType) {
+	public boolean renderNode(Node node, String renderType) {
 		boolean flag = true;
-		// 页面右侧SDA数据的remark 和 type
 		String remark = excelTool
-				.getCellContent(interfaceSheet, structIndex, 9);
-		String type = excelTool.getCellContent(interfaceSheet, structIndex, 7);
+				.getCellContent(interfaceSheet, structIndex, 4);
+		String imdtNode = excelTool.getCellContent(interfaceSheet, structIndex, 0);
+		String type = excelTool.getCellContent(interfaceSheet, structIndex, 2);
+		String structName = excelTool.getCellContent(interfaceSheet, structIndex, 1);
+		type = type.replace("（", "(");
+		type = type.replace("）", ")");
+		String mapfileRemark = excelTool.getCellContent(interfaceSheet, structIndex, 10);
 		Node childNode;
 		// request递归出口
 		if (request.equals(renderType)) {
@@ -374,8 +409,7 @@ public class InterfaceParse implements IParse {
 		}
 		// response递归出口
 		if (response.equals(renderType)) {
-			if ("".equals(excelTool.getCellContent(interfaceSheet, structIndex,
-					6))) {
+			if ("".equals(imdtNode)&& !(mapfileRemark.contains("不映射")) && !remark.contains("不映射") && !remark.contains("给空白")) {
 				flag = false;
 			}
 		}
@@ -392,29 +426,54 @@ public class InterfaceParse implements IParse {
 					idap.setSeq("1");
 					idaPropList.add(idap);
 					structIndex++;
-					renderNode(node, renderType);
+					return renderNode(node, renderType);
 				}
 			}
 			// 不映射的元数据行直接转到下一行处理struct数组类型
+			if(remark.contains("不映射") || remark.contains("给空白")){
+				structIndex++;
+				return renderNode(node, renderType);
+			}
 			if (remark.toLowerCase().startsWith("start")
 					&& type.toLowerCase().equals("struct")) {
 				structIndex++;
-				renderNode(node, renderType);
+				return renderNode(node, renderType);
 			}
 			if (remark.toLowerCase().startsWith("end")
 					&& type.toLowerCase().equals("struct")) {
 				structIndex++;
-				renderNode(node, renderType);
+				return renderNode(node, renderType);
 			}
 			// 非数组节点
 			if ("".equals(remark)
 					|| (!remark.toLowerCase().startsWith("start") && !remark
 							.toLowerCase().startsWith("end"))) {
+				if(!"".equals(imdtNode) && "".equals(type)){
+					String message = "接口" + interfaceId + "元数据 [" + imdtNode + "]类型为空，导入失败！";
+					log.error(message);
+					UserOperationLogUtil.saveLog(message, GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
+					GlobalImport.flag = false;
+					return true;
+				}
 				childNode = this.createChildNode(node);
 				node.appendChild(childNode);
 				handleMapFileAndCode(childNode);
 				structIndex++;
-				renderNode(node, renderType);
+				return renderNode(node, renderType);
+			}
+			// struct表对象数组处理
+			if (remark.toLowerCase().startsWith("start")
+					&& structName.contains("表对象")) {
+				childNode = this.createChildNode(node);
+				node.appendChild(childNode);
+				handleMapFileAndCode(childNode);
+				structIndex++;
+				return renderNode(childNode, renderType);
+			}
+			if (remark.toLowerCase().startsWith("end")
+					&& structName.contains("表对象")) {
+				structIndex++;
+				return renderNode(node.getParentNode(), renderType);
 			}
 			// array数组处理
 			if (remark.toLowerCase().startsWith("start")
@@ -423,14 +482,15 @@ public class InterfaceParse implements IParse {
 				node.appendChild(childNode);
 				handleMapFileAndCode(childNode);
 				structIndex++;
-				renderNode(childNode, renderType);
+				return renderNode(childNode, renderType);
 			}
 			if (remark.toLowerCase().startsWith("end")
 					&& type.toLowerCase().equals("array")) {
 				structIndex++;
-				renderNode(node.getParentNode(), renderType);
+				return renderNode(node.getParentNode(), renderType);
 			}
 		}
+		return true;
 	}
 
 	// 根据structIndex、node生成ChildNode节点
@@ -445,21 +505,31 @@ public class InterfaceParse implements IParse {
 				structIndex, 3);
 		String type = excelTool.getCellContent(interfaceSheet, structIndex, 2)
 				.toLowerCase();
+		type = type.replace("（", "(");
+		type = type.replace("）", ")");
+		type = type.replace("，", ",");
 		String remark = excelTool
-				.getCellContent(interfaceSheet, structIndex, 4).toLowerCase();
+				.getCellContent(interfaceSheet, structIndex, 4);
+		if(remark.length() >= 2000){
+			remark = remark.substring(0,1999);
+		}
 		Node childNode = new Node();
 		childNode.setId(GenerateUUID.genRandom());
 		childNode.setNodeId(structId);
 		childNode.setNodeAlias(structAlias);
 		childNode.setMetadataId(metadataId);
-		if (remark.startsWith("start")) {
-			childNode.setNodeType("array");
-		} else if (type.equals("struct")) {
-			childNode.setNodeType("struct");
+		if (type.toUpperCase().equals(("D"))) {
+			childNode.setNodeType("decimal");
 		} else {
-			childNode.setNodeType(Utils.getDataType(type));
-			childNode.setNodeLength(Utils.getDataLength(type));
-			childNode.setNodeScale(Utils.getDataScale(type));
+			if (remark.toLowerCase().startsWith("start")) {
+				childNode.setNodeType("array");
+			} else if (type.toLowerCase().equals("struct")) {
+				childNode.setNodeType("struct");
+			} else {
+				childNode.setNodeType(Utils.getDataType(type));
+				childNode.setNodeLength(Utils.getDataLength(type));
+				childNode.setNodeScale(Utils.getDataScale(type));
+			}
 		}
 		childNode.setNodeRequire(isRequired);
 		childNode.setParentId(node.getId());

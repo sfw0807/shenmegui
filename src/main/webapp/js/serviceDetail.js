@@ -12,6 +12,10 @@ $(function() {
 	 * @param {Object} result
 	 * 
 	 */
+	var isIE  = (navigator.appVersion.indexOf("MSIE") != -1) ? true : false;
+	if(isIE){
+		$("#serviceDetailTable").attr("style","width:1360px;");
+	}
 	var initserviceDetailTable = function initserviceDetailTable(result) {
 		//初始化对Grid的操作事件
 		var columnClickEventInit = function columnClickEventInit() {
@@ -28,6 +32,26 @@ $(function() {
 				{
 					"sClass" : "center",
 					"aTargets" : [ 0, 1, 2, 3, 4, 5 , 6, 7, 8, 9, 10, 11]
+				},
+				{
+					"mRender" : function ( data, type, row ) {
+					    var serviceId = row["serviceInfo"].split("/")[0];
+					    var operationId = row["operationInfo"].split("/")[0];
+					    var operationName = row["operationInfo"].split("/")[1];
+						return '<a href="auditSDAById.jsp?operationId='+operationId
+							+'&serviceId='+serviceId
+							+'" target="_blank"  style="text-decoration:none;color:blue;">' + operationId + '</a>' + '/'+operationName;
+					},
+					"aTargets" : [1]
+				},
+				{
+					"mRender" : function ( data, type, row ) {
+					    var ecode = row["interfaceInfo"].split("/")[0];
+					    var name = row["interfaceInfo"].split("/")[1];
+						return '<a href="auditIDAById.jsp?ecode='+ecode
+							+'" target="_blank"  style="text-decoration:none;color:blue;">' + ecode + '</a>' + '/'+name;
+					},
+					"aTargets" : [2]
 				}
 			],
 			"bJQueryUI": "true",
@@ -100,7 +124,7 @@ $(function() {
 				onlineDate: onlineDate,
 				onlineVersion: onlineVersion
 				}
-			    $.fileDownload("../relateView/svcDetailExport/"+JSON.stringify(params), {
+			    $.fileDownload(encodeURI(encodeURI("../relateView/svcDetailExport/"+JSON.stringify(params))), {
             	});
 			    
 			});

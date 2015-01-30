@@ -1,5 +1,8 @@
 package com.dc.esb.servicegov.refactoring.resource.impl;
 
+import static com.dc.esb.servicegov.refactoring.util.PackerUnPackerConstants.CONSUMER;
+import static com.dc.esb.servicegov.refactoring.util.PackerUnPackerConstants.PROVIDER;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +17,7 @@ import org.dom4j.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dc.esb.servicegov.refactoring.dao.impl.RemainingServiceDAOImpl;
 import com.dc.esb.servicegov.refactoring.entity.InvokeInfo;
 import com.dc.esb.servicegov.refactoring.resource.IConfigGenerater;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.IMetadataNode;
@@ -26,7 +30,6 @@ import com.dc.esb.servicegov.refactoring.resource.metadataNode.SoapConstants;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.SoapHelper;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.XMLHelper;
 import com.dc.esb.servicegov.refactoring.util.SDAConstants;
-import static com.dc.esb.servicegov.refactoring.util.PackerUnPackerConstants.*;
 
 @Service
 public class SpdbSpecDefaultInterfaceGenerater extends InterfaceSoapGenerate
@@ -37,6 +40,8 @@ public class SpdbSpecDefaultInterfaceGenerater extends InterfaceSoapGenerate
 	private DefaultInterfaceFetcher defaultInterfaceFetcher;
 	@Autowired
 	private MetadataStructHelper metadataStructHelper;
+	@Autowired
+	private RemainingServiceDAOImpl remainingServiceDAO;
 //	@Autowired
 //	private PackerUnPackerConfigHelper packerUnPackerConfigHelper;
 	@Autowired
@@ -46,6 +51,9 @@ public class SpdbSpecDefaultInterfaceGenerater extends InterfaceSoapGenerate
 	private boolean exportBoth = false;
 	private String prdMsgType;
 	private String csmMsgType;
+	// 全量的serviceId。用于判断新旧wsdl
+	private String serviceId;
+	private boolean wsdlFlag = true;
 
 	public void exportBoth() {
 		this.exportBoth = true;
@@ -374,8 +382,10 @@ public class SpdbSpecDefaultInterfaceGenerater extends InterfaceSoapGenerate
 			addSchemaPrefix(childNode, SoapConstants.NS_PREFIX_SERVICE);
 		}
 	}
-
+	
 	protected void addSchemaPrefix(IMetadataNode node, String prifix) {
+		// 原始S数组节点的NodeID记录
+		String originNodeId = node.getNodeID();
 		if ("Fault".equalsIgnoreCase(node.getNodeID())) {
 			node.setNodeID(SoapConstants.NS_PREFIX_SOAP + ":"
 					+ node.getNodeID());
@@ -386,9 +396,27 @@ public class SpdbSpecDefaultInterfaceGenerater extends InterfaceSoapGenerate
 		} else {
 			node.setNodeID(prifix + ":" + node.getNodeID());
 		}
+		// 判断是否是数组类型，数组类型不管新旧WSDL都使用S前缀
+		if(node.hasAttribute()){
+			Properties pro = node.getProperty().getProperty();
+			String type = (String) pro.get("type");
+			String remark = (String) pro.get("remark");
+			if( "array".equalsIgnoreCase(type) || remark.toLowerCase().startsWith("start")){
+				node.setNodeID(SoapConstants.NS_PREFIX_SERVICE + ":" + originNodeId);
+			}
+		}
 		if (node.hasChild()) {
 			for (IMetadataNode childNode : node.getChild()) {
-				addSchemaPrefix(childNode, SoapConstants.NS_PREFIX_SERVICE);
+				String id = childNode.getNodeID();
+				if("RspSvcHeader".equals(id) || "ReqSvcHeader".equals(id) || "SvcBody".equals(id)){
+					addSchemaPrefix(childNode, SoapConstants.NS_PREFIX_SERVICE);
+				}
+				else if(wsdlFlag){
+					addSchemaPrefix(childNode, SoapConstants.NS_PREFIX_SERVICE);
+				}
+				else{
+					addSchemaPrefix(childNode, SoapConstants.NS_PREFIX_METADATA);
+				}
 			}
 		}
 	}
@@ -652,6 +680,9 @@ public class SpdbSpecDefaultInterfaceGenerater extends InterfaceSoapGenerate
 //		String serviceId = packerUnPackerConfigHelper
 //				.getServiceIdByOperationId(operationId);
 		String serviceId = invokeInfo.getServiceId();
+		this.serviceId = serviceId;
+		// 新旧wsdl
+		wsdlFlag = checkWsdlOldOrNew(); 
 		log.info("[配置生成]：服务ID[" + serviceId + "]");
 		this.host = serviceDataFromDB.getWSDLHost(serviceId);
 		log.info("[配置生成]：服务ID[" + this.host + "]");
@@ -750,4 +781,16 @@ public class SpdbSpecDefaultInterfaceGenerater extends InterfaceSoapGenerate
 		return this.defaultInterfaceFiles;
 	}
 
+	/**
+	 * check wsdl old or new; true: new ,false: old
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean checkWsdlOldOrNew(){
+		List list = remainingServiceDAO.findBy("serviceId", serviceId);
+		if(list != null && list.size() >0){
+			return false;
+		}
+		return true;
+	}
 }

@@ -27,5 +27,16 @@ var svcAsmRelateManager = {
             success: function(result) {
             }
         });
+    },
+    
+    checkEcodeAudit : function checkEcodeAudit (params, callBack) {
+		$.ajax({
+		    "type": "GET",
+            "url": "../export/auditEcode/" + params,
+            "dataType": "Text",
+            success: function(result) {
+                callBack(result);
+            }
+        });
     }
 };

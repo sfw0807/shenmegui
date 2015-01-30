@@ -27,11 +27,11 @@ $(function() {
 			"aoColumnDefs" : [
 				{
 					"sClass" : "center",
-					"aTargets" : [0,1,2,3,4,5,6,7,8,9,10]
+					"aTargets" : [0,1,2,3,4,5,6,7,8,9,10,11]
 				},
 				{
 					"bVisible":false,
-					"aTargets" : [6,7,10]
+					"aTargets" : [7,8,11]
 				},
 				{
 					"mRender" : function ( data, type, row ) {
@@ -42,7 +42,7 @@ $(function() {
 							+'&publishDate='+row["publishDate"]
 							+'">' + '修改' + '</a>';
 					},
-					"aTargets" : [8]
+					"aTargets" : [9]
 				},
 				{
 					"mRender" : function ( data, type, row ) {
@@ -51,7 +51,7 @@ $(function() {
 							+'&version='+row["version"]
 							+'">' + '查看' + '</a>';
 					},
-					"aTargets" : [9]
+					"aTargets" : [10]
 				}
 			],
 			"bJQueryUI": true,
@@ -161,5 +161,46 @@ $(function() {
 				alert("该操作未经过投产验证,不能上线");
 			}
 		}
+	});
+	
+	$('#submit').button().click(function(){
+	    var params = [];
+	    var id = '';
+	    var flag = false;
+        $("#operationTable tbody tr").each(function(){
+             if($(this).hasClass("row_selected")){
+                id = $(this).find("td").eq(0).text()+','+$(this).find("td").eq(2).text();
+                params.push(id);
+                var state = $(this).find("td").eq(5).text();
+                if(state == '通过' || state == '待审核'){
+                		flag = true;
+                }
+             }
+        });
+        if(flag){
+           alert('操作已经是通过或者待审核，不能提交!');
+           return false;
+        }
+        if(params.length == 0){
+           alert('请选择操作!');
+           return false;
+        }	
+        function submitOpe(result){
+              if(result){
+                 alert('操作提交审核成功!');
+                 window.location.reload();
+              }
+              else{
+                 alert('操作提交审核失败!');
+              }
+        };
+        operationManager.submitOperation(submitOpe, params);
+	});
+	
+	$('#checkAll').button().click(function () {
+		$("#operationTable tbody tr").addClass("row_selected");
+	});
+	$('#toggleAll').button().click(function () {
+		$("#operationTable tbody tr").toggleClass("row_selected");
 	});
 });

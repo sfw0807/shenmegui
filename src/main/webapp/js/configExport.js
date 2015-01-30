@@ -92,6 +92,7 @@ $(function() {
                 return false;
             }
             var params = '';
+            var ecodeArr = '';
             for(var i=0;i<rowsSelected.length;i++){
                 var selectedDatas = table.fnGetData(table.$("tr.row_selected")[i]);
                 var ecode = selectedDatas["interfaceInfo"];
@@ -111,13 +112,29 @@ $(function() {
                 else if(direction == '调用方'){
                    direction = '0';
                 }
+                if(through == '是'){
+                   through = '0';
+                }
+                else{
+                   through = '1';
+                }
                 prdSysId = prdSysId.substring(0,prdSysId.indexOf("/"));
                 var info = ecode+","+consumeMsgType+","+provideMsgType+","+through+","+serviceId+","+operationId+","+prdSysId+","+direction;
                 params = params + info + ":";
+                ecodeArr += ecode + ",";
             }
             params = params.substring(0,params.length-1);
-			$.fileDownload("../export/config/" + params, {
-            });		    
+            ecodeArr = ecodeArr.substring(0,ecodeArr.length-1);
+            function callBack(result){
+                if(result == null || result == ''){
+                   $.fileDownload("../export/config/" + params, {});
+                }
+                else{
+                   alert('服务或操作 [' + result + "] 未审核通过，请先审核通过!");
+                }
+                rowsSelected.toggleClass("row_selected");
+            }
+            svcAsmRelateManager.checkEcodeAudit(ecodeArr, callBack);		    
 	});
 	$('#exportWSDL').button().click(function () {
 	       var table = tables["configExportTable"];
@@ -166,9 +183,12 @@ $(function() {
                 ecode = ecode.substring(0,ecode.indexOf("/"));
                 params += ecode + ",";
             }
-            alert(params);
             $.fileDownload("../export/mapfile/" + params, {});
-        //  rowsSelected.toggleClass("row_selected");
+            rowsSelected.toggleClass("row_selected");
+	});
+	
+	$('#exportMdt').button().click(function () {
+         $.fileDownload("../export/exportMetadata", {});
 	});
 	
 	$('#checkAll').button().click(function () {
@@ -179,6 +199,6 @@ $(function() {
 	});
 	
 	$('#batchExportConfig').button().click(function () {
-	    window.showModalDialog('../jsp/batchConfigExport.jsp',"","dialogWidth=500px;dialogHeight=300px;resizable=no");
+	    window.showModalDialog('../jsp/batchConfigExport.jsp',"","dialogWidth=920px;dialogHeight=500px;resizable=no");
 	});
 });

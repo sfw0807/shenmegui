@@ -40,6 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="<%=path%>/js/jquery.ui.datepicker.js"></script>
 		<script src="<%=path%>/js/layout.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/addOperation.js" type="text/javascript"></script>
+		<script src="<%=path%>/js/json/json2.js" type="text/javascript"></script>
 		<style>
 	        .ui-menu {
 	            position: absolute;
@@ -100,13 +101,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<table style="width:50%" id="userTable">
 					<tr>
-						<td><label style="width:16%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机构ID<font color="red">*</font>:</label><input type="text" id="orgId" style="width:70%"  /></td>
-						<td><label style="width:19%">机构英文名称<font color="red">*</font>:</label><input type="text" id="orgAB" style="width:70%"  /></td>
-					</tr>		
+						<td><label style="width:16%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机构ID<font color="red">*</font>:</label><input type="text" id="orgId" style="width:30%"/></td>
+						
+					</tr>
 					<tr>
-						<td><label style="width:16%">机构中文名称<font color="red">*</font>:</label><input type="text" id="orgName" style="width:70%"  /></td>
-						<td><label style="width:19%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机构状态<font color="red">*</font>:</label>
-						<select id="status" />
+						
+						<td><label style="width:16%">机构英文名称<font color="red">*</font>:</label><input type="text" id="orgAB" style="width:30%"  /></td>
+					</tr>			
+					<tr>
+						<td><label style="width:16%">机构中文名称<font color="red">*</font>:</label><input type="text" id="orgName" style="width:30%"  /></td>
+						
+					</tr>
+					<tr>
+						
+						<td><label style="width:16%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机构状态<font color="red">*</font>:</label>
+						<select id="status" style="width:10%"/>
 							<option value="1">正常</option>
 							<option value="0">失效</option>
 						</select>

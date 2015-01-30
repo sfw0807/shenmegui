@@ -431,7 +431,7 @@ public class ServiceManagerImpl {
 	 * 
 	 * @param interfaceId
 	 * @return
-	 * @throws DataException
+	 * @throws com.dc.esb.servicegov.exception.DataException
 	 */
 	@Transactional
 	public SDA4I getSDA4IofInterfaceId(String interfaceId) throws DataException {
@@ -739,7 +739,7 @@ public class ServiceManagerImpl {
 	 * 
 	 * @param id
 	 * @return
-	 * @throws DataException
+	 * @throws com.dc.esb.servicegov.exception.DataException
 	 */
 	public MetadataViewBean getMetadataById(String id) throws DataException {
 		MetadataViewBean metadataViewBean = null;
@@ -779,7 +779,7 @@ public class ServiceManagerImpl {
 	 * 
 	 * @param id
 	 * @return
-	 * @throws DataException
+	 * @throws com.dc.esb.servicegov.exception.DataException
 	 */
 	public MetadataViewBean getServiceMetadataInfo(String id) throws DataException {
 		MetadataViewBean metadataViewBean = new MetadataViewBean();

@@ -6,7 +6,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title></title>
+<title>系统拓扑图</title>
 <link rel="stylesheet" href="<%=path%>/css/index.css" />
 <script src="<%=path%>/jsp/system.js"language="javascript"></script>
 <script src="<%=path%>/js/jquery-ui/js/jquery-1.10.2.js"></script>
@@ -99,7 +99,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
 </head>
 <body scroll="no">
-系统名称：<select id="sys"></select>
+系统名称：<select id="sys"></select><br>
 <input type="radio" value="1" name="sysType" checked/>提供方
 <input type="radio" value="0" name="sysType" />调用方
 <input type = "button" value="查看拓扑图" id="sysTopo" />

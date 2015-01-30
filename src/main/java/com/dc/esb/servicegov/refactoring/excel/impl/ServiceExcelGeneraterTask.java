@@ -17,14 +17,16 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 
-import com.dc.esb.servicegov.refactoring.excel.support.MappingExcelUtils;
 import com.dc.esb.servicegov.exception.DataException;
 import com.dc.esb.servicegov.refactoring.entity.Interface;
+import com.dc.esb.servicegov.refactoring.entity.Metadata;
+import com.dc.esb.servicegov.refactoring.entity.MetadataStructsAttr;
 import com.dc.esb.servicegov.refactoring.entity.Operation;
 import com.dc.esb.servicegov.refactoring.entity.SDA;
 import com.dc.esb.servicegov.refactoring.entity.Service;
 import com.dc.esb.servicegov.refactoring.entity.SvcAsmRelateView;
 import com.dc.esb.servicegov.refactoring.entity.System;
+import com.dc.esb.servicegov.refactoring.excel.support.MappingExcelUtils;
 import com.dc.esb.servicegov.refactoring.service.impl.InterfaceManagerImpl;
 import com.dc.esb.servicegov.refactoring.service.impl.ServiceManagerImpl;
 import com.dc.esb.servicegov.refactoring.service.impl.SystemManagerImpl;
@@ -102,16 +104,18 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 	
 	@Override
 	public void run() {
+		log.info("进入SERVICE TASK");
 		try {
 			long start = java.lang.System.currentTimeMillis();
 			i = 6;
 			reset();
 			List<Service> lstService = serviceManager.getServicesById(r
-					.getOperationId()); // InstInfoDtlQry S120030021
+					.getServiceId()); // InstInfoDtlQry S120030021
 			SDAVO sda = null;
 			if (lstService.size() == 0)
 				return;
 			sda = serviceManager.getSDAofRelation(r);
+			log.info("得到SDA");
 			String interfaceId = r.getInterfaceId();
 			// 有问题的服务 待处理
 			if (interfaceId.equals("FB52")) {
@@ -120,8 +124,8 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 			}
 
 			MappingExcelIndexVo mVo = createMappingExcelIndexVo(r);
-			printIndexInfo(r, mVo);
-
+			printIndexInfo(mVo);
+			
 			// sheet2 = synCreateSheet(wb, interfaceId);
 
 			printHeader(r, sheet2, mVo);
@@ -136,6 +140,7 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
+		log.info("SERVICE TASK结束!");
 	}
 
 	/**
@@ -252,6 +257,7 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 		SvcAsmRelateView view = serviceManager.getRelationViewByInterfaceId(interfaceId);
 		mVo.setType(view.getDirection());
 		mVo.setMsgType(view.getProvideMsgType());
+		mVo.setMsgConvert(r.getMsgConvert());
 		return mVo;
 	}
 	
@@ -260,14 +266,20 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 	 * @param ServiceInvokeRelation r
 	 * @param MappingExcelIndexVo mVo
 	 */
-	private  void printIndexInfo(RelationVo r, MappingExcelIndexVo mVo) {
+	private  void printIndexInfo(MappingExcelIndexVo mVo) {
 		synchronized(getClass()){
 			Sheet indexSheet = wb.getSheet("INDEX");
 			if (null == indexSheet) {
 				indexSheet = wb.createSheet("INDEX");
 				printSheetIndexLabel(indexSheet);
 			}
-			printSheetIndexData(mVo, indexSheet);
+			if (mVo.getMsgConvert().size() > 1) {
+				for (int i=0;i<mVo.getMsgConvert().size();i++) {
+					printSheetIndexData(i, mVo, indexSheet);
+				}
+			} else {
+				printSheetIndexData(mVo, indexSheet);
+			}
 		}
 	}
 	/**
@@ -288,6 +300,7 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 		MappingExcelUtils.fillCell(titleRow, 7, "接口方向", titleCellStyle);
 		MappingExcelUtils.fillCell(titleRow, 8, "接口提供系统ID", titleCellStyle);
 		MappingExcelUtils.fillCell(titleRow, 9, "报文类型", titleCellStyle);
+		MappingExcelUtils.fillCell(titleRow, 10, "报文转换方向", titleCellStyle);
 		indexSheet.setColumnWidth(0, 23*256);
 		indexSheet.setColumnWidth(1, 23*256);
 		indexSheet.setColumnWidth(2, 23*256);
@@ -295,6 +308,7 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 		indexSheet.setColumnWidth(4, 23*256);
 		indexSheet.setColumnWidth(6, 22*256);
 		indexSheet.setColumnWidth(9, 22*256);
+		indexSheet.setColumnWidth(10, 22*256);
 	}
 	
 	/**
@@ -320,6 +334,34 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 				: "Provider", bodyCellStyle);
 		MappingExcelUtils.fillCell(rowAdded, 8, mVo.getProviderSysId(), bodyCellStyle);
 		MappingExcelUtils.fillCell(rowAdded, 9, mVo.getMsgType(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 10, mVo.getMsgConvert().get(0), bodyCellStyle);
+	}
+	
+	/**
+	 * recurse
+	 * @param i
+	 * @param mVo
+	 * @param indexSheet
+	 */
+	private void printSheetIndexData(int i, MappingExcelIndexVo mVo, Sheet indexSheet) {
+		int lastRow = indexSheet.getLastRowNum();
+		Row rowAdded = indexSheet.createRow(lastRow + 1);
+		rowAdded.setHeightInPoints((short) 22.5);
+		MappingExcelUtils.fillCell(rowAdded, 0, mVo.getInterfaceId(), bodyCellStyle);
+		href.setAddress("#" + mVo.getInterfaceId() + "!A1");
+		rowAdded.getCell(0).setHyperlink(href);
+		MappingExcelUtils.fillCell(rowAdded, 1, mVo.getInterfaceName(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 2, mVo.getServiceName() + "(" + mVo.getServiceId()
+				+ ")", bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 3, mVo.getOperationId(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 4, mVo.getOperationName(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 5, mVo.getConsumerSysAb(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 6, mVo.getProviderSysAb(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 7, "0".equals(mVo.getType()) ? "Consumer"
+				: "Provider", bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 8, mVo.getProviderSysId(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 9, mVo.getMsgType(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 10, mVo.getMsgConvert().get(i), bodyCellStyle);
 	}
 	
 	/**
@@ -381,17 +423,31 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 				renderSDA(a);
 			}
 		}
+		
 		// PAINT ARRAY END
+		String alias = "";
 		if (node.getType().equalsIgnoreCase("array")) {
+			Metadata m = serviceManager.getMetadataByMid(node.getStructId());
+			alias = m==null ? alias : m.getName();
 			Row temprow = sheet2.createRow(i);
 			i++;
-			String alias = serviceManager.getMetadataAttrById(node.getMetadataId()).getElementName();
 			MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
 			MappingExcelUtils.fillCell(temprow, 6, node.getStructId(), arrayCellStyle);
 			MappingExcelUtils.fillCell(temprow, 7, "Array", arrayCellStyle);
 			MappingExcelUtils.fillCell(temprow, 8, alias, arrayCellStyle);
 			MappingExcelUtils.fillCell(temprow, 9, "End", arrayCellStyle);
-		} 
+		} else if (node.getType().equalsIgnoreCase("struct") || (node.getType().equals("") && node.getRemark().equalsIgnoreCase("Start"))) {
+			Metadata m = serviceManager.getMetadataByMid(node.getStructId());
+			alias = m==null ? alias : m.getName();
+			Row temprow = sheet2.createRow(i);
+			i++;
+			MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
+			MappingExcelUtils.fillCell(temprow, 6, node.getStructId(), arrayCellStyle);
+			MappingExcelUtils.fillCell(temprow, 7, "Struct", arrayCellStyle);
+			MappingExcelUtils.fillCell(temprow, 8, alias, arrayCellStyle);
+			MappingExcelUtils.fillCell(temprow, 9, "End", arrayCellStyle);
+			
+		}
 	}
 	
 	
@@ -402,7 +458,18 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 	 */
 	public void paintSDANode(SDA n, String xpath) {
 		Row temprow=sheet2.createRow(i);
-		String alias = serviceManager.getMetadataAttrById(n.getMetadataId()).getElementName();
+		log.info("元数据ID" + n.getMetadataId());
+		String alias = "";
+		try {
+			if (!n.getMetadataId().equals("")) {
+				MetadataStructsAttr attr = serviceManager.getMetadataAttrById(n.getMetadataId());
+				if (attr != null) {
+					alias = attr.getElementName();
+				}
+			}
+		} catch (RuntimeException e1) {
+			log.info(n.getId());
+		}
 		String structName = n.getStructId();
 		String type = n.getType();
 		String metadataId = n.getMetadataId().trim();
@@ -448,6 +515,8 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 		if (type.equals("array")) {
 			try {
 
+				Metadata m = serviceManager.getMetadataByMid(n.getStructId());
+				alias = m==null ? alias : m.getName();
 				// 画出Array开始节点
 				MappingExcelUtils.fillCell(temprow, 5, "", arrayCellStyle);
 				MappingExcelUtils.fillCell(temprow, 6, n.getStructId(), arrayCellStyle);
@@ -498,7 +567,7 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 	
 	@Override
 	public void initManager(
-			com.dc.esb.servicegov.refactoring.service.impl.ServiceManagerImpl serviceManager,
+			ServiceManagerImpl serviceManager,
 			SystemManagerImpl systemManager,
 			InterfaceManagerImpl interfaceManager,
 			com.dc.esb.servicegov.refactoring.service.impl.MetadataManagerImpl metadataManager) {
@@ -515,7 +584,7 @@ private static final Log log = LogFactory.getLog(ServiceExcelGeneraterTask.class
 			Workbook wb,
 			Sheet sheet,
 			CountDownLatch countDown,
-			List<Map<String, com.dc.esb.servicegov.refactoring.entity.SDA>> lstStructName) {
+			List<Map<String, SDA>> lstStructName) {
 		
 		this.r = r;
 		this.wb = wb;

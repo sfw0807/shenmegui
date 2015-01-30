@@ -55,7 +55,7 @@ public class ServiceDataFromDB extends AbstractDataFromDB {
 	/**
 	 * 覆盖方法
 	 * 
-	 * @see com.dc.sg.impls.metadata.dao.IDataFromDB#getNodeFromDB(java.lang.String,
+	 * @see com.dc.sg.impls.metadata.dao.IDataFromDB#getNodeFromDB(String,
 	 *      com.dc.sg.impls.metadata.dao.IDataFromDB.resouceType)
 	 */
 	public MetadataNode getNodeFromDB(String serviceId, String operationId, ResourceType type) {
@@ -254,51 +254,6 @@ public class ServiceDataFromDB extends AbstractDataFromDB {
 	 *            服务的标识号
 	 * @return 服务继承关系列表，该处的服务继承关系的查找是自下而上。
 	 */
-//	public List<Map<String, String>> getServiceidExtendsList(String releaseId) {
-//		List<Map<String, String>> obj = dm.newTransaction(true).selectList(
-//				new DBAction("getServiceMTExtends", releaseId));
-//		return obj;
-//	}
-	
-//	@SuppressWarnings("unchecked")
-//	public List<Map<String, String>> getSuperServices(String serviceid){
-//		
-//		List<Map<String, String>> superServices = null;
-//		if (null != serviceid) {
-//			superServices = dm.newTransaction(true).selectList(
-//					new DBAction("getSuperServices", serviceid));
-//		}
-//		return superServices;
-//	}
-//	
-//	@SuppressWarnings("unchecked")
-//	public List<Map<String, String>> getAllRelatedServices(String serviceid) {
-//		List<Map<String, String>> relatedServices = null;
-//		if (null != serviceid) {
-//			relatedServices = dm.newTransaction(true).selectList(
-//					new DBAction("getAllRelatedServices", serviceid));
-//		}
-//		return relatedServices;
-//	}
-//
-//	@SuppressWarnings("unchecked")
-//	public Map<String, String> getService(String serviceid) {
-//		Map<String, String> service = null;
-//		if (null != serviceid) {
-//			service = (Map<String, String>) dm.newTransaction(true).selectOne(
-//					new DBAction("getServiceById", serviceid));
-//		}
-//		return service;
-//	}
-//
-//	@SuppressWarnings("unchecked")
-//	public List<Map<String, String>> getServiceRelations(String serviceid) {
-//		List<Map<String, String>> serviceRelations = null;
-//		if (null != serviceid) {
-//			serviceRelations = dm.newTransaction(true).selectList(new DBAction("getServiceRelations", serviceid));
-//		}
-//		return serviceRelations;
-//	}
 
 	@Override
 	public MetadataNode getNodeFromDB(String resourceName, ResourceType type) {

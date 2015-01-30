@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -81,7 +82,8 @@ public class SvcAsmRelateController {
     @ResponseBody
     boolean exportSvcAsmRelateExcel(HttpServletRequest request,
 			HttpServletResponse response,@PathVariable
-			String params) {
+			String params) throws UnsupportedEncodingException{
+		params = java.net.URLDecoder.decode(params, "UTF-8");
 		InputStream in = null;
 		OutputStream out = null;
 		boolean success = false;
@@ -155,7 +157,8 @@ public class SvcAsmRelateController {
     @ResponseBody
     boolean exportServiceDetailsExcel(HttpServletRequest request,
 			HttpServletResponse response,@PathVariable
-			String params) {
+			String params) throws UnsupportedEncodingException{
+		params = java.net.URLDecoder.decode(params, "UTF-8");
 		InputStream in = null;
 		OutputStream out = null;
 		boolean success = false;

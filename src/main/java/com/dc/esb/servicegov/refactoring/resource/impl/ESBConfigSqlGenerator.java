@@ -181,7 +181,7 @@ public class ESBConfigSqlGenerator implements
 	private String generateBindMapSql() {
 		boolean generatedFlag = false;
 		String sysName = prdSysAb;
-		if ("LoanQ".equals(sysName) || "SOP".equals(sysName)
+		if ("LoanQ".equals(sysName)
 				|| "IDP".equals(sysName) || "PWM".equals(sysName)
 				|| "YJT".equals(sysName) || "NBH".equals(sysName)) {
 
@@ -201,6 +201,7 @@ public class ESBConfigSqlGenerator implements
 			String consumeSys = systemDAO.getSystemAbById(invoke
 					.getConsumeSysId());
 			String funcType = invoke.getFuncType();
+			boolean flag = false;
 			if ("0204".equals(provideSys)
 					|| ("MMPP".equals(consumeSys) && "0001".equals(provideSys))) {
 				if ("公共".equals(funcType)) {
@@ -210,6 +211,7 @@ public class ESBConfigSqlGenerator implements
 				} else if ("实物".equals(funcType)) {
 					sysName = "mmpp_gold";
 				}
+				flag = true;
 			} else if (generatedFlag) {
 				continue;
 			}
@@ -221,6 +223,9 @@ public class ESBConfigSqlGenerator implements
 			bindMapSqlBuilder.append("_adapter', 'request')@");
 			bindMapSqlBuilder.append(LINE_SEPARATOR);
 			generatedFlag = true;
+			if(flag){
+				break;
+			}
 		}
 		return bindMapSqlBuilder.toString();
 	}
@@ -233,7 +238,7 @@ public class ESBConfigSqlGenerator implements
 	private String generateDataAdapterSql() {
 
 		String sysName = prdSysAb;
-		if ("LoanQ".equals(sysName) || "SOP".equals(sysName)
+		if ("LoanQ".equals(sysName) 
 				|| "IDP".equals(sysName) || "PWM".equals(sysName)
 				|| "YJT".equals(sysName) || "NBH".equals(sysName)) {
 
@@ -319,6 +324,7 @@ public class ESBConfigSqlGenerator implements
 			String consumeSys = systemDAO.getSystemAbById(invoke
 					.getConsumeSysId());
 			String funcType = invoke.getFuncType();
+			boolean flag = false;
 			if ("0204".equals(provideSys)
 					|| ("MMPP".equals(consumeSys) && "0001".equals(provideSys))) {
 				if ("公共".equals(funcType)) {
@@ -328,6 +334,7 @@ public class ESBConfigSqlGenerator implements
 				} else if ("实物".equals(funcType)) {
 					adapterName = "mmpp_gold";
 				}
+				flag = true;
 			} else if (generatedFlag) {
 				continue;
 			}
@@ -341,6 +348,9 @@ public class ESBConfigSqlGenerator implements
 			serviceSysMapSqlBuilder.append("_adapter')@");
 			serviceSysMapSqlBuilder.append(LINE_SEPARATOR);
 			generatedFlag = true;
+			if(flag){
+				break;
+			}
 		}
 		return serviceSysMapSqlBuilder.toString();
 	}
@@ -614,6 +624,8 @@ public class ESBConfigSqlGenerator implements
 		params.put("serviceId", serviceId);
 		params.put("operationId", operationId);
 		params.put("ecode", interfaceId);
+		params.put("provideMsgType", prdMsgType);
+		params.put("consumeMsgType", csmMsgType);
 		List<InvokeInfo> list = invokeDAO.findBy(params);
 		for (InvokeInfo invoke : list) {
 			consumeSys = systemDAO.getSystemAbById(invoke.getConsumeSysId());
@@ -795,7 +807,7 @@ public class ESBConfigSqlGenerator implements
 			serviceInfoSqlBuilder.append("','");
 			serviceInfoSqlBuilder.append(csm_codeType);
 			serviceInfoSqlBuilder.append("','");
-			serviceInfoSqlBuilder.append(csm_serv_type);
+			serviceInfoSqlBuilder.append(csm_serv_type.toLowerCase());
 			serviceInfoSqlBuilder
 					.append("','1','','/sdoroot/ReqSvcHeader/TranTellerNo;/sdoroot/ReqSvcHeader/BranchId;;;;')@");
 			serviceInfoSqlBuilder.append(LINE_SEPARATOR);
@@ -808,7 +820,7 @@ public class ESBConfigSqlGenerator implements
 			serviceInfoSqlBuilder.append("','");
 			serviceInfoSqlBuilder.append(prd_codeType);
 			serviceInfoSqlBuilder.append("','");
-			serviceInfoSqlBuilder.append(prd_serv_type);
+			serviceInfoSqlBuilder.append(prd_serv_type.toLowerCase());
 			serviceInfoSqlBuilder.append("','2','',';;;;;')@");
 			serviceInfoSqlBuilder.append(LINE_SEPARATOR);
 
@@ -820,7 +832,7 @@ public class ESBConfigSqlGenerator implements
 			serviceInfoSqlBuilder.append("','");
 			serviceInfoSqlBuilder.append(prd_codeType);
 			serviceInfoSqlBuilder.append("','");
-			serviceInfoSqlBuilder.append(prd_serv_type);
+			serviceInfoSqlBuilder.append(prd_serv_type.toLowerCase());
 			serviceInfoSqlBuilder.append("','3','',';;;;;')@");
 			serviceInfoSqlBuilder.append(LINE_SEPARATOR);
 
@@ -832,7 +844,7 @@ public class ESBConfigSqlGenerator implements
 			serviceInfoSqlBuilder.append("','");
 			serviceInfoSqlBuilder.append(csm_codeType);
 			serviceInfoSqlBuilder.append("','");
-			serviceInfoSqlBuilder.append(csm_serv_type);
+			serviceInfoSqlBuilder.append(csm_serv_type.toLowerCase());
 			serviceInfoSqlBuilder.append("','4','',';;;;;')@");
 			serviceInfoSqlBuilder.append(LINE_SEPARATOR);
 		} else {

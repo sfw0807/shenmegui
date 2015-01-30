@@ -63,7 +63,7 @@ Log log = LogFactory.getLog(ExportMapFileTask.class);
 	 * 一个请求Object文件，一个或多个返回Object文件，若干Grid文件。
 	 * 
 	 * @param interfaceNode
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	@Override
 	public List<File> generate() {
@@ -117,7 +117,7 @@ Log log = LogFactory.getLog(ExportMapFileTask.class);
 	 * @param interfaceNode
 	 * @param type
 	 * @return
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	public String generateSOPObjectMapFileContent(MetadataNode interfaceNode,
 			String type, String interfaceName) throws IOException {
@@ -150,7 +150,7 @@ Log log = LogFactory.getLog(ExportMapFileTask.class);
 	 * @param node
 	 * @param interfaceName
 	 * @return
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	private String nodeToSopMapfileObject(MetadataNode node,
 			String interfaceName) throws IOException {
@@ -175,7 +175,7 @@ Log log = LogFactory.getLog(ExportMapFileTask.class);
 	 * @param interfaceName
 	 * @param node
 	 * @return
-	 * @throws IOException
+	 * @throws java.io.IOException
 	 */
 	private String generateSopGridMapFile(String interfaceName,
 			MetadataNode node) throws IOException {
@@ -197,8 +197,6 @@ Log log = LogFactory.getLog(ExportMapFileTask.class);
 			}
 		}
 		System.out.println(sb.toString());
-		File ff = new File("fff");
-		System.out.println(ff.getAbsolutePath());
 		File gridFile = new File(interfaceName + "mapfiles" + File.separator + gridFileName);
 		writeContentToFile(sb.toString(), gridFile);
 		this.mapFiles.add(gridFile);

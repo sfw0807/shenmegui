@@ -1,5 +1,6 @@
 package com.dc.esb.servicegov.refactoring.dao.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dc.esb.servicegov.dao.impl.HibernateDAO;
 import com.dc.esb.servicegov.refactoring.entity.IDA;
 import com.dc.esb.servicegov.refactoring.entity.Interface;
+import com.dc.esb.servicegov.refactoring.entity.SDA;
 
 /**
  * 
@@ -183,10 +185,11 @@ public class IdaDAOImpl extends HibernateDAO<IDA, String> {
 	 * @return
 	 */
 	public String getTopResourceId(String interfaceId) {
-		String sql = "select id from ida where INTERFACE_ID='" + interfaceId
-				+ "' and PARENT_ID='/'";
-		Query query = getSession().createSQLQuery(sql);
-		Object obj = query.uniqueResult();
+//		String sql = "select id from ida where INTERFACE_ID='" + interfaceId
+//				+ "' and PARENT_ID='/'";
+		String hql = "select id from IDA where interfaceId = ? and parentId = '/'";
+		Query query = getSession().createQuery(hql);
+		Object obj = query.setString(0, interfaceId).uniqueResult();
 		if (obj == null) {
 			try {
 				throw new Exception("IDA根节点的ID值为空，导出配置文件失败!");
@@ -205,9 +208,10 @@ public class IdaDAOImpl extends HibernateDAO<IDA, String> {
 	 * @return
 	 */
 	public String getStructIdByResourceId(String resourceid) {
-		String sql = "select STRUCTNAME from ida where ID='" + resourceid + "'";
-		Query query = getSession().createSQLQuery(sql);
-		Object obj = query.uniqueResult();
+//		String sql = "select STRUCTNAME from ida where ID='" + resourceid + "'";
+		String hql = "select structName from IDA where id = ?";
+		Query query = getSession().createQuery(hql);
+		Object obj = query.setString(0, resourceid).uniqueResult();
 		return obj.toString();
 	}
 
@@ -219,10 +223,11 @@ public class IdaDAOImpl extends HibernateDAO<IDA, String> {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<String> getChildIdsByResourceId(String resourceId) {
-		String sql = "select id from ida where PARENT_ID='" + resourceId
-				+ "' order by SEQ";
-		Query query = getSession().createSQLQuery(sql);
-		List list = query.list();
+//		String sql = "select id from ida where PARENT_ID='" + resourceId
+//				+ "' order by SEQ";
+		String hql = "select id from IDA where parentId = ? order by seq";
+		Query query = getSession().createQuery(hql);
+		List list = query.setString(0, resourceId).list();
 		if (list == null) {
 			return null;
 		} else {
@@ -258,5 +263,98 @@ public class IdaDAOImpl extends HibernateDAO<IDA, String> {
 			returnMap.put("REMARK", ida.getRemark());
 		}
 		return returnMap;
+	}
+	
+//	/**
+//	 * 根据resourceid获取节点ida信息 Map形式返回
+//	 * @param resourceid
+//	 * @return
+//	 */
+//	public Map<String,String> getIDAMapByResourceid(String resourceid){
+//		Map<String,String> returnMap = new HashMap<String,String>();
+//		String hql = "from IDA where id = :resourceid";
+//		Query query = getSession().createQuery(hql);
+//		List list = query.setString("resourceid", resourceid).list();
+//		IDA ida = new IDA();
+//		if(list != null && list.size() > 0){
+//			ida = (IDA)list.get(0);
+//			returnMap.put("id", ida.getId());
+//			returnMap.put("parentId", ida.getParentId());
+//			returnMap.put("structId", ida.getStructName());
+//			returnMap.put("METADATAID", ida.getMetadataId());
+//			if (ida.getType() != null && !"".equals(ida.getType())) {
+//				returnMap.put("TYPE", ida.getType());
+//			}
+//			if (ida.getLength() != null && !"".equals(ida.getLength())) {
+//				returnMap.put("LENGTH", ida.getLength());
+//			}
+//			if (ida.getScale() != null && !"".equals(ida.getScale())) {
+//				returnMap.put("SCALE", ida.getScale());
+//			}
+//			returnMap.put("REQUIRED", ida.getRequired());
+//			returnMap.put("REMARK", ida.getRemark());
+//		}
+//		return returnMap;
+//	}
+//	
+//	/**
+//	 * 根据resourceId获取SDA的child ids list
+//	 * @param resourceId
+//	 * @return
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public void getAllChildMap(String resourceid, List<Map<String,String>> listMap){
+//		String hql = "select id from IDA where parentId = ? order by seq";
+//		Query query = getSession().createQuery(hql);
+//		List list = query.setString(0, resourceid).list();
+//		if(list != null && list.size() > 0){
+//			for(Object obj: list){
+//				String childId = (String)obj;
+//				listMap.add(this.getIDAMapByResourceid(childId));
+//				getAllChildMap(childId, listMap);
+//			}
+//		}
+//	}
+//	
+//	/**
+//	 * 获取所有SDA的Map数组
+//	 * @return
+//	 */
+//	public List<Map<String,String>> getAllIDAMapByTopResourceId(String resourceid){
+//		List<Map<String,String>> mapList = new ArrayList<Map<String,String>>();
+//		mapList.add(this.getIDAMapByResourceid(resourceid));
+//		getAllChildMap(resourceid, mapList);
+//		return mapList;
+//	}
+	
+	public List<Map<String, String>> getAllIDAMapByInterfaceId(
+			String interfaceId) {
+		List<Map<String, String>> mapList = new ArrayList<Map<String, String>>();
+		String hql = "from IDA where interfaceId =? order by seq";
+		Query query = getSession().createQuery(hql);
+		query.setString(0, interfaceId);
+		List<IDA> list = query.list();
+		if(list != null && list.size() > 0){
+			for(IDA ida: list){
+				Map<String,String> tempMap = new HashMap<String,String>();
+				tempMap.put("id", ida.getId());
+				tempMap.put("parentId", ida.getParentId());
+				tempMap.put("structId", ida.getStructName());
+				tempMap.put("METADATAID", ida.getMetadataId());
+				if (ida.getType() != null && !"".equals(ida.getType())) {
+					tempMap.put("TYPE", ida.getType());
+				}
+				if (ida.getLength() != null && !"".equals(ida.getLength())) {
+					tempMap.put("LENGTH", ida.getLength());
+				}
+				if (ida.getScale() != null && !"".equals(ida.getScale())) {
+					tempMap.put("SCALE", ida.getScale());
+				}
+				tempMap.put("REQUIRED", ida.getRequired());
+				tempMap.put("REMARK", ida.getRemark());
+				mapList.add(tempMap);
+			}
+		}
+		return mapList;
 	}
 }

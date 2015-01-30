@@ -32,6 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="<%=path %>/js/metadataManager.js" type="text/javascript"></script>
 		<script src="<%=path %>/js/mdtUsed.js" type="text/javascript"></script>
 		<script src="<%=path %>/js/json/json2.js" type="text/javascript"></script>
+
 		<style>
 			.ui-menu {
 				position: absolute;

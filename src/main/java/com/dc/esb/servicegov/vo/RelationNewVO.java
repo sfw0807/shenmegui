@@ -71,16 +71,16 @@ public class RelationNewVO {
 		this.versionNo = r.getVersion();
 		this.productNo = r.getOnlineVersion();
 		this.onLineDate = r.getOnlineDate();
-		this.sourceSys = r.getCsmSysAB();
+		this.sourceSys = (r.getCsmSysAB()== null)?"" : r.getCsmSysAB();
 		// 经由系统为空 调用方为原系统 原系统置为空 
 		// 否则 调用方为经由系统
 		if (r.getPassbySysAB() == null || "".equals(r.getPassbySysAB())) {
-			this.consumerSys = r.getCsmSysAB();
+			this.consumerSys = (r.getCsmSysAB()== null)?"" : r.getCsmSysAB();
 			this.sourceSys = "";
 		} else {
-			this.consumerSys = r.getPassbySysAB();
+			this.consumerSys = (r.getPassbySysAB() == null)?"":r.getPassbySysAB();
 		}
-		this.passBySys = r.getPassbySysAB();
+		this.passBySys = (r.getPassbySysAB() == null)?"":r.getPassbySysAB();
 		this.providerSysAb = r.getPrdSysAB();
 		this.providerSysName = r.getPrdSysName();
 	}

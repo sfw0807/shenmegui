@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.dc.esb.servicegov.dao.impl.HibernateDAO;
@@ -37,5 +38,20 @@ public class SLAHistoryDAOImpl extends HibernateDAO<SLAHistory, String> {
 			log.error("error in saveHistoryVersion", e);
 		}
 		return isSuccess;
+	}
+	
+	public boolean delByOperationIdAndServiceId(String serviceId,
+			String operationId) {
+		try {
+			String hql = "delete from SLAHistory where serviceId = ? and operationId = ?";
+			Query query = getSession().createQuery(hql);
+			query.setString(0, serviceId);
+			query.setString(1, operationId);
+			query.executeUpdate();
+		} catch (Exception e) {
+			log.error("根据服务ID和操作Id删除SLAHistory数据失败", e);
+			return false;
+		}
+		return true;
 	}
 }

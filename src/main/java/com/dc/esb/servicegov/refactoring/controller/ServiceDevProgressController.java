@@ -7,6 +7,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,14 +43,40 @@ public class ServiceDevProgressController {
 	@Autowired
 	private ServiceDevProgressExcelGenerator excelGenerator;
 	
+	private List<ServiceDevProgressVO> lstProgress = null;
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/getAllSystem", headers = "Accept=application/json")
 	public @ResponseBody List<System> getAllSystem(){
 		return systemManager.getAllSystems();
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/query/{params}", headers = "Accept=application/json")
+	public @ResponseBody List<ServiceDevProgressVO> queryProgress(@PathVariable String params){
+		List<ServiceDevProgressVO> result = new ArrayList<ServiceDevProgressVO>();
+		if (lstProgress == null){
+			return null;
+		}
+		if ("all".equals(params)) {
+			return lstProgress;
+		}
+		String[] abs = params.split("\\|");
+		List<String> lstAbs = Arrays.asList(abs);
+		Iterator<ServiceDevProgressVO> it = lstProgress.iterator();
+		while(it.hasNext()) {
+			ServiceDevProgressVO vo = it.next();
+			String ab = vo.getSystemAb();
+			if (lstAbs.contains(ab)) {
+				result.add(vo);
+			}
+		}
+		
+		return result;
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/serviceDevProgress", headers = "Accept=application/json")
 	public @ResponseBody List<ServiceDevProgressVO> getServiceDevProgress(){
-		return systemManager.getSeviceDevInfo(null);
+		lstProgress =systemManager.getSeviceDevInfo(null);
+		return lstProgress;
 	}
 	
 	@SuppressWarnings("unchecked")

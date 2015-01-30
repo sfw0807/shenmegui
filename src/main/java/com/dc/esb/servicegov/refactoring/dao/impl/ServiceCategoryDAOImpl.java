@@ -1,5 +1,7 @@
 package com.dc.esb.servicegov.refactoring.dao.impl;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dc.esb.servicegov.dao.impl.HibernateDAO;
 import com.dc.esb.servicegov.refactoring.entity.ServiceCategory;
+import com.dc.esb.servicegov.refactoring.util.AuditUtil;
 
 @Repository
 public class ServiceCategoryDAOImpl extends HibernateDAO<ServiceCategory, String> {
@@ -62,10 +65,14 @@ public class ServiceCategoryDAOImpl extends HibernateDAO<ServiceCategory, String
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("select count(distinct service_id) from SERVICE where CATEGORY_ID = '");
 		buffer.append(categoryId);
+		buffer.append("' and auditState = '");
+		buffer.append(AuditUtil.passed);
 		buffer.append("'");
 		Query query = getSession().createSQLQuery(buffer.toString());
 		Object obj = query.uniqueResult();
-		return (Integer)obj;
+        BigDecimal bi = (BigDecimal)obj;
+
+		return Integer.parseInt(bi.toString());
 	}
 	
 	/**
@@ -78,10 +85,13 @@ public class ServiceCategoryDAOImpl extends HibernateDAO<ServiceCategory, String
 		buffer.append("select count(distinct service_id) from SERVICE where CATEGORY_ID in (");
 		buffer.append("select category_id from SERVICE_CATEGORY where PARENT_ID = '");
 		buffer.append(categoryId);
-		buffer.append("')");
+		buffer.append("') and auditState = '");
+		buffer.append(AuditUtil.passed);
+		buffer.append("'");
 		Query query = getSession().createSQLQuery(buffer.toString());
-		Object obj = query.uniqueResult();
-		return (Integer)obj;
+        Object obj = query.uniqueResult();
+        BigDecimal bi = (BigDecimal)obj;
+        return Integer.parseInt(bi.toString());
 	}
 	
 	/**
@@ -91,14 +101,19 @@ public class ServiceCategoryDAOImpl extends HibernateDAO<ServiceCategory, String
 	 */
 	public Integer countOfOperationBySecondCategoryId(String categoryId){
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("select count(distinct operation_id) from operation ");
+		buffer.append("select count(operation_id) from sg_operation ");
 		buffer.append("where SERVICE_ID in ");
 		buffer.append("(select distinct service_id from SERVICE where CATEGORY_ID = '");
 		buffer.append(categoryId);
-		buffer.append("')");
+		buffer.append("' and auditState ='");
+		buffer.append(AuditUtil.passed);
+		buffer.append("') and auditState = '");
+		buffer.append(AuditUtil.passed);
+		buffer.append("'");
 		Query query = getSession().createSQLQuery(buffer.toString());
 		Object obj = query.uniqueResult();
-		return (Integer)obj;
+        BigDecimal bi = (BigDecimal)obj;
+        return Integer.parseInt(bi.toString());
 	}
 	
 	/**
@@ -108,14 +123,19 @@ public class ServiceCategoryDAOImpl extends HibernateDAO<ServiceCategory, String
 	 */
 	public Integer countOfOperationByFirstCategoryId(String categoryId){
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("select count(distinct operation_id) from operation ");
+		buffer.append("select count(operation_id) from sg_operation ");
 		buffer.append("where SERVICE_ID in ");
 		buffer.append("(select distinct service_id from SERVICE where CATEGORY_ID in (");
 		buffer.append("select category_id from SERVICE_CATEGORY where PARENT_ID = '");
 		buffer.append(categoryId);
-		buffer.append("'))");
+		buffer.append("') and auditState = '");
+		buffer.append(AuditUtil.passed);
+		buffer.append("') and auditState = '");
+		buffer.append(AuditUtil.passed);
+		buffer.append("'");
 		Query query = getSession().createSQLQuery(buffer.toString());
 		Object obj = query.uniqueResult();
-		return (Integer)obj;
+        BigDecimal bi = (BigDecimal)obj;
+        return Integer.parseInt(bi.toString());
 	}
 }

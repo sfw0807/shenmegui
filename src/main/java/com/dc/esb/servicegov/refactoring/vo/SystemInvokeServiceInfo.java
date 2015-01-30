@@ -4,6 +4,7 @@ public class SystemInvokeServiceInfo {
 	private String systemAB;
 	private String systemName;
 	private String firstPublishDate;
+	private String secondPublishDate;
 	private String provideServiceNum;
 	private String consumeServiceNum;
 	private String provideOperationNum;
@@ -49,6 +50,12 @@ public class SystemInvokeServiceInfo {
 	}
 	public void setFirstPublishDate(String firstPublishDate) {
 		this.firstPublishDate = firstPublishDate;
+	}
+	public String getSecondPublishDate() {
+		return secondPublishDate;
+	}
+	public void setSecondPublishDate(String secondPublishDate) {
+		this.secondPublishDate = secondPublishDate;
 	}
 	
 	

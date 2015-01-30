@@ -9,18 +9,12 @@ var systemInfoManager = {
             }
         });
     },
-    deleteById: function(id) {
+    deleteById: function(id, callBack) {
         $.ajax({
             "url": '../systemInfo/delete/' + id,
             "type": 'GET',
             "success": function(result) {
-                if(result){
-                  alert('删除成功!');
-                  window.location.reload();
-                }
-                else{
-                  alert('删除失败!');
-                }
+                callBack(result);
             }
         });
     },
@@ -76,7 +70,7 @@ var systemInfoManager = {
             }
         });
     },
-    saveProtocolInfos: function(params) {
+    saveProtocolInfos: function(params, callBack) {
         $.ajax({
             "type": "POST",
             "contentType": "application/json; charset=utf-8",
@@ -84,12 +78,7 @@ var systemInfoManager = {
             "dataType": "json",
             "data":JSON.stringify(params),
             "success": function(result) {
-                if(result){
-                  alert('保存成功!');
-                }
-                else{
-                  alert('保存失败!');
-                }
+                callBack(result);
             }
         });
     }

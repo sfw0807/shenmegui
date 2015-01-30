@@ -1,6 +1,6 @@
 $(function() {
 	var tables = {};
-	var asInitVals = new Array();
+	var asInitVals = [];
 	var operationId = "";
 	var serviceId = "";
 	var version = "";
@@ -106,7 +106,7 @@ $(function() {
 	//初始化OLA表格的方法
 
 	//编辑基本服务定义
-	$("#editOperationDef").click(function() {
+	$('#editOperationDef').click(function() {
 		$('#operationId').attr("disabled",false);
 		$('#operationName').attr("disabled",false);
 		$('#operationRemark').attr("disabled",false);
@@ -120,7 +120,7 @@ $(function() {
 //		});
 	
 	//保存基本服务定义
-	$("#saveOperationDef").click(function() {
+	$('#saveOperationDef').click(function() {
 		var params = {
 			operationId:$("#operationId").val(),
 			serviceId:$("#serviceId").val(),

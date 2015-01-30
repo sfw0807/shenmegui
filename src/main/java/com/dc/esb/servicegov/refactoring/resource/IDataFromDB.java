@@ -41,6 +41,6 @@ public interface IDataFromDB {
 	 * @return
 	 * MetadataNode 
 	 */
-	public MetadataNode getNodeFromDB(String resourceName,ResourceType type);
+	public MetadataNode getNodeFromDB(String resourceName, ResourceType type);
 
 }

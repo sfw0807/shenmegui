@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ import com.dc.esb.servicegov.refactoring.entity.Service;
 import com.dc.esb.servicegov.refactoring.exception.DataException;
 import com.dc.esb.servicegov.refactoring.service.impl.MetadataManagerImpl;
 import com.dc.esb.servicegov.refactoring.service.impl.ServiceManagerImpl;
+import com.dc.esb.servicegov.refactoring.util.OperationComparator;
 import com.dc.esb.servicegov.refactoring.vo.HeadSDAVO;
 import com.dc.esb.servicegov.refactoring.vo.SDAVO;
 import com.dc.esb.servicegov.wsdl.WSDLGenerator;
@@ -81,6 +83,8 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
             	}
             }
             operations.removeAll(delList);
+            OperationComparator operationComparator = new OperationComparator();
+            Collections.sort(operations, operationComparator);
             String headServiceId = serviceHeadRelateDAO.findUniqueBy("serviceId", serviceDO.getServiceId()).getSheadId();
             Document document = DocumentHelper.createDocument();
             Element schemaRoot = document.addElement(new QName("schema", new Namespace("x", "http://www.w3.org/2001/XMLSchema")));
@@ -155,7 +159,7 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
 
 
             for (Operation operationDO : operations) {
-                log.error("开始处理场景["+operationDO.getServiceId()+"]");
+                log.error("开始处理场景["+operationDO.getOperationId()+"]");
                 String operationId = operationDO.getOperationId();
                 //Todo
                 String tmpOperationId = handleDupOperationIdIssue(operationId);
@@ -209,7 +213,7 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
                             renderSDA(svcBodySubSDA, reqSvcBodyTypeSeq, schemaRoot);
                         }
                     } else {
-                        log.warn("svc body 没有内容！");
+                        log.warn(" req svc body 没有内容！");
                     }
 
                 }
@@ -245,7 +249,7 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
                             renderSDA(svcBodySubSDA, rspSvcBodyTypeSeq, schemaRoot);
                         }
                     } else {
-                        log.warn("svc body 没有内容！");
+                        log.warn(" rsp svc body 没有内容！");
                     }
                 }
             }

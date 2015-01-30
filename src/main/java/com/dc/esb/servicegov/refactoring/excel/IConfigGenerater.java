@@ -7,6 +7,6 @@ import java.util.Map;
 public interface IConfigGenerater<I, O> {
 	
 	public List<O> getAllExportData();
-	public List<O> getExportDataByConditions(Map<String,String> mapConditions);
+	public List<O> getExportDataByConditions(Map<String, String> mapConditions);
 	
 }

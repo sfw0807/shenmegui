@@ -18,7 +18,11 @@ import com.dc.esb.servicegov.refactoring.resource.metadataNode.IMetadataNodeAttr
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.MetadataNode;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.MetadataNodeAttribute;
 
-
+/**
+ * 元数据结构信息解析类
+ * @author luof
+ *
+ */
 @Service
 public class MetadataStructHelper {
 

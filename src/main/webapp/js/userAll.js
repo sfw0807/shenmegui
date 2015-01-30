@@ -104,4 +104,18 @@ $(function() {
 	$("#addUser").button().click(function(){
 		window.location="addUser.jsp";
 	});
+	
+	$('#modify').button().click(function() {
+		var table = tables["userTable"];
+		var rowsSelected = table.$("tr.row_selected");
+		if(rowsSelected.length!=1) {
+			alert("请选择要修改的用户!（限1个）");
+		} else {
+			var datas = table.fnGetData(rowsSelected[0]);
+			var user = [];
+			user.push(datas.id);
+			user.push(datas.password);
+			window.location="../html/user-modify.html?userId="+datas.id;
+		}
+	});
 });

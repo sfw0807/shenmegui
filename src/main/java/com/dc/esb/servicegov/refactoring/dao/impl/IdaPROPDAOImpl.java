@@ -8,10 +8,12 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dc.esb.servicegov.dao.impl.HibernateDAO;
+import com.dc.esb.servicegov.refactoring.entity.IDA;
 import com.dc.esb.servicegov.refactoring.entity.IdaPROP;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.Attr;
 
@@ -19,6 +21,8 @@ import com.dc.esb.servicegov.refactoring.resource.metadataNode.Attr;
 @Transactional
 public class IdaPROPDAOImpl extends HibernateDAO<IdaPROP, String> {
 
+	@Autowired
+	private IdaDAOImpl idaDAO;
 	private Log log = LogFactory.getLog(IdaPROPDAOImpl.class);
 
 	/**
@@ -79,15 +83,53 @@ public class IdaPROPDAOImpl extends HibernateDAO<IdaPROP, String> {
 	 * @param interfaceId
 	 */
 	public boolean delIdaPROPByInterfaceId(String interfaceId) {
-		String sql = "delete from IDA_PROP where IDA_ID in (select id from IDA where INTERFACE_ID='"
-				+ interfaceId + "')";
+		List<IDA> list = idaDAO.findBy("interfaceId", interfaceId);
+		Session session = getSessionFactory().openSession();
+		Transaction tx = session.beginTransaction();
 		try {
-			Query query = getSession().createSQLQuery(sql);
-			query.executeUpdate();
-			return true;
+			for(IDA ida :list){
+				String hql = "delete from IdaPROP where idaId= :idaId";
+			    Query query = session.createQuery(hql);
+			    query.setString("idaId", ida.getId());
+			    query.executeUpdate();
+			}
+			tx.commit();
 		} catch (Exception e) {
+			tx.rollback();
 			log.error("删除IDA_PROP节点失败", e);
 			return false;
 		}
+		session.close();
+		return true;
 	}
+	
+	/**
+	 * 获取所有的IDAProp属性信息list
+	 * 
+	 * @param idaId
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Attr> getAllIdaPropList() {
+		List<Attr> returnList = new ArrayList<Attr>();
+		List list = this.getAll();
+		if (list != null && list.size() > 0) {
+			for (Object obj : list) {
+				IdaPROP idaP = (IdaPROP) obj;
+				Attr attr = new Attr();
+				attr.setResourceid(idaP.getId());
+				attr.setStructId(idaP.getIdaId());
+				attr.setPropertyName(idaP.getName());
+				attr.setPropertyValue(idaP.getValue());
+				if (null == idaP.getSeq() || "".equals(idaP.getSeq())) {
+					attr.setPropertyIndex(1);
+				} else {
+					attr.setPropertyIndex(Integer.parseInt(idaP.getSeq()));
+				}
+				attr.setRemark(idaP.getRemark());
+				returnList.add(attr);
+			}
+		}
+		return returnList;
+	} 
 }

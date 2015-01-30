@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 public interface IPolicyEngine<T, P> {
-	public void applyPolicies( T source, T target) throws Exception;
+	public void applyPolicies(T source, T target) throws Exception;
 	public String loadPolicy(T root) throws Exception ;
 	public List<P> parsePolicy(String attrPolicyStr) throws Exception; 
 }

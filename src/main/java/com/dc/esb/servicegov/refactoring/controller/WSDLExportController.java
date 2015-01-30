@@ -3,6 +3,7 @@ package com.dc.esb.servicegov.refactoring.controller;
 import com.dc.esb.servicegov.refactoring.entity.RemainingService;
 import com.dc.esb.servicegov.refactoring.entity.Service;
 import com.dc.esb.servicegov.exception.DataException;
+import com.dc.esb.servicegov.refactoring.service.LogManager;
 import com.dc.esb.servicegov.refactoring.service.impl.ServiceManagerImpl;
 import com.dc.esb.servicegov.refactoring.util.ZIPUtils;
 import com.dc.esb.servicegov.refactoring.wsdl.impl.OldSpdbWSDLGenerator;
@@ -39,7 +40,10 @@ public class WSDLExportController {
 	private OldSpdbWSDLGenerator oldspdbWSDLGenerator;
 	@Autowired
 	private ServiceManagerImpl serviceManager;
-
+	@Autowired 
+	private LogManager logManager;	
+	private String functionId="15";
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/byService/{id}", headers = "Accept=application/json")
 	public @ResponseBody
 	boolean exportService(HttpServletRequest request,
@@ -47,12 +51,18 @@ public class WSDLExportController {
 		InputStream in = null;
 		OutputStream out = null;
 		boolean success = false;
+		File wsdlZip = null;
 		String serviceFlag = this.checkWSDLVersionByService(id);
 		if ("1".equals(serviceFlag)) {
 			log.info("service[" + id + "] is old service");
 			try {
-				File wsdlZip = oldspdbWSDLGenerator.generate(id);
+				wsdlZip = oldspdbWSDLGenerator.generate(id);
 				if (null == wsdlZip) {
+					try{
+						logManager.setLog("生成的WSDL文件不存在！", functionId, "error");
+					}catch(Exception e){
+						log.error(e, e);
+					}
 					String errorMsg = "生成的WSDL文件不存在！";
 					DataException dataException = new DataException(errorMsg);
 					throw dataException;
@@ -81,19 +91,34 @@ public class WSDLExportController {
 					success = true;
 				}
 			} catch (Exception e) {
+				try{
+					logManager.setLog("文件导出过程中发生异常", functionId, "error");
+				}catch(Exception e1){
+					log.error(e1, e1);
+				}
 				log.error(e, e);
 			} finally {
 				if (null != in) {
 					try {
 						in.close();
 					} catch (IOException e) {
+						try{
+							logManager.setLog("文件导出完成,关闭输入流过程发生异常", functionId, "error");
+						}catch(Exception e1){
+							log.error(e1, e1);
+						}
 						log.error(e, e);
 					}
 				}
 				if (null != out) {
 					try {
-						in.close();
+						out.close();
 					} catch (IOException e) {
+						try{
+							logManager.setLog("文件导出完成,关闭输入流过程发生异常", functionId, "error");
+						}catch(Exception e1){
+							log.error(e1, e1);
+						}
 						log.error(e, e);
 					}
 				}
@@ -101,8 +126,13 @@ public class WSDLExportController {
 		} else if ("2".equals(serviceFlag)) {
 			log.info("service[" + id + "] is new service");
 			try {
-				File wsdlZip = spdbWSDLGenerator.generate(id);
+				wsdlZip = spdbWSDLGenerator.generate(id);
 				if (null == wsdlZip) {
+					try{
+						logManager.setLog("生成的WSDL文件不存在！", functionId, "error");
+					}catch(Exception e1){
+						log.error(e1, e1);
+					}
 					String errorMsg = "生成的WSDL文件不存在！";
 					DataException dataException = new DataException(errorMsg);
 					throw dataException;
@@ -131,26 +161,47 @@ public class WSDLExportController {
 					success = true;
 				}
 			} catch (Exception e) {
+				try{
+					logManager.setLog("文件导出过程中发生异常", functionId, "error");
+				}catch(Exception e1){
+					log.error(e1, e1);
+				}
 				log.error(e, e);
 			} finally {
 				if (null != in) {
 					try {
 						in.close();
 					} catch (IOException e) {
+						try{
+							logManager.setLog("文件导出完成,关闭输入流过程发生异常", functionId, "error");
+						}catch(Exception e1){
+							log.error(e1, e1);
+						}
 						log.error(e, e);
 					}
 				}
 				if (null != out) {
 					try {
-						in.close();
+						out.close();
 					} catch (IOException e) {
+						try{
+							logManager.setLog("文件导出完成,关闭输出流过程发生异常", functionId, "error");
+						}catch(Exception e1){
+							log.error(e1, e1);
+						}
 						log.error(e, e);
 					}
 				}
 			}
 		} else {
+			try{
+				logManager.setLog("error service["+id+"]", functionId, "error");
+			}catch(Exception e1){
+				log.error(e1, e1);
+			}
 			log.error("error service");
 		}
+		deleteFile(wsdlZip);
 		return success;
 	}
 
@@ -183,6 +234,11 @@ public class WSDLExportController {
 				if(null!=wsdlZip){
 					wsdlList.add(wsdlZip);
 				}else{
+					try{
+						logManager.setLog("error service["+id+"]", functionId, "error");
+					}catch(Exception e1){
+						log.error(e1, e1);
+					}
 					log.error("error service["+id+"]");
 				}
 			}else if("2".equals(serviceFlag)){
@@ -190,6 +246,11 @@ public class WSDLExportController {
 				if(null!=wsdlZip){
 					wsdlList.add(wsdlZip);
 				}else{
+					try{
+						logManager.setLog("error service["+id+"]", functionId, "error");
+					}catch(Exception e1){
+						log.error(e1, e1);
+					}
 					log.error("error service["+id+"]");
 				}
 			}else{
@@ -230,10 +291,36 @@ public class WSDLExportController {
 				out.flush();
 				success = true;
 			} catch (Exception e) {
-				e.printStackTrace();
+				try{
+					logManager.setLog("文件导出过程中发生异常", functionId, "info");
+				}catch(Exception e1){
+					log.error(e1, e1);
+				}
+				log.error(e,e);
 			}
 		}
+		deleteFile(exportFile);
 		return success;
 	}
-
+	public boolean deleteFile(File file){
+		boolean deleteResult = true;
+		if(file.isDirectory()){
+			File[] subFiles = file.listFiles();
+			if(null != subFiles){
+				for(File subFile : subFiles){
+					deleteResult = deleteFile(subFile);
+				}
+			}
+		}
+		deleteResult = file.delete();
+		if(!deleteResult){
+			try{
+				logManager.setLog("删除临时文件["+file.getAbsolutePath()+"]失败!", functionId, "error");
+			}catch(Exception e1){
+				log.error(e1, e1);
+			}
+			log.error("删除临时文件["+file.getAbsolutePath()+"]失败！");
+		}
+		return deleteResult;
+	}
 }

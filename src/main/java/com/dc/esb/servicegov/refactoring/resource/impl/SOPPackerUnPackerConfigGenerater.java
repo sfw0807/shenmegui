@@ -11,12 +11,12 @@ import java.util.StringTokenizer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dc.esb.servicegov.refactoring.dao.impl.InvokeInfoDAOImpl;
 import com.dc.esb.servicegov.refactoring.entity.InvokeInfo;
-import com.dc.esb.servicegov.refactoring.entity.Operation;
 import com.dc.esb.servicegov.refactoring.resource.IConfigGenerater;
 import com.dc.esb.servicegov.refactoring.resource.IDataFromDB.ResourceType;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.IMetadataNode;
@@ -25,7 +25,6 @@ import com.dc.esb.servicegov.refactoring.resource.metadataNode.MetadataNode;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.MetadataNodeAttribute;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.MetadataNodeHelper;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.XMLHelper;
-import com.dc.esb.servicegov.refactoring.service.impl.ServiceManagerImpl;
 import com.dc.esb.servicegov.refactoring.util.PackerUnPackerConstants;
 import com.dc.esb.servicegov.refactoring.util.SDAConstants;
 
@@ -38,10 +37,6 @@ public class SOPPackerUnPackerConfigGenerater implements
 
 	@Autowired
 	private XMPassedInterfaceDataFromDB xmPassedInterfaceDataFromDB;
-	@Autowired
-	private ServiceManagerImpl serviceManager;
-	@Autowired
-	private InvokeInfoDAOImpl invokeInfoDAO;
 	@Autowired
 	private SpdbSpecDefaultInterfaceGenerater spdbSpecDefaultInterfaceGenerater;
 	
@@ -72,88 +67,6 @@ public class SOPPackerUnPackerConfigGenerater implements
 		configFiles = new ArrayList<File>();
 	}
 
-	/**
-	 * generate configures using service ID
-	 */
-	public void generate(String serviceId) throws Exception {
-		List<Operation> operations = serviceManager.getOperationsByServiceId(serviceId);
-		for (Operation operation : operations) {
-			List<InvokeInfo> list = invokeInfoDAO.findBy("operationId", operation.getOperationId());
-			if (!list.isEmpty()) {
-				for (InvokeInfo ik : list) {
-					String interfaceID =ik.getEcode();
-					String sysID = ik.getProvideSysId();
-					String interfaceMSGType = "1".equals(ik.getDirection())?ik.getProvideMsgType():ik.getConsumeMsgType();
-					String interfaceType = ik.getDirection();
-					log.info("start to generate sop config for interface: ["
-							+ interfaceID + "], system: [" + sysID
-							+ "], message type: [" + interfaceMSGType
-							+ "], interface type: [" + interfaceType + "] ");
-					List<File> genConfigFiles = generate(interfaceID,
-							interfaceType, sysID, interfaceMSGType, serviceId,
-							operation.getOperationId());
-					if (null != genConfigFiles) {
-						this.configFiles.addAll(genConfigFiles);
-					}
-				}
-			} else {
-				// TODO throw Exception
-			}
-		}
-	}
-
-	/**
-	 * generate configures using details
-	 * 
-	 * @param interfaceId
-	 * @param interfaceType
-	 * @param sysID
-	 * @param interfaceMessageType
-	 * @param serviceId
-	 * @param operationId
-	 * @return
-	 * @throws Exception
-	 */
-	public List<File> generate(String interfaceId, String interfaceType,
-			String sysID, String interfaceMessageType, String serviceId,
-			String operationId) throws Exception {
-		List<File> files = null;
-		if (null != interfaceId) {
-			files = new ArrayList<File>();
-			List<MetadataNode> templateInterfaceNodes = getTemplateInterfaceNodes(interfaceId);
-			if (null != templateInterfaceNodes) {
-				for (IMetadataNode templateInterfaceNode : templateInterfaceNodes) {
-					String dir = getExportDirFromTemplate(templateInterfaceNode);
-					String direction = getDirection(templateInterfaceNode);
-					if (null == dir || null == direction) {
-						continue;
-					}
-					log.info("read directory config [" + dir + "]");
-					log.info("read direction config [" + direction + "]");
-					File configDir = new File(dir);
-					if (!configDir.exists()) {
-						configDir.mkdirs();
-					}
-					IMetadataNode interfaceNode = xmPassedInterfaceDataFromDB
-							.getNodeFromDB(interfaceId, ResourceType.INTERFACE);
-					sopParseHook(interfaceNode, templateInterfaceNode,
-							interfaceId, interfaceType);
-					generateReqConfigs(interfaceNode, templateInterfaceNode,
-							direction, dir, serviceId, operationId);
-					generateRspConfigs(interfaceNode, templateInterfaceNode,
-							direction, dir, serviceId, operationId);
-					files.add(configDir);
-				}
-			} else {
-				InterfaceXMLGenerater interfaceXMLGenerater = new InterfaceXMLGenerater();
-				interfaceXMLGenerater.generate(serviceId, interfaceId,
-						Integer.parseInt(interfaceType), sysID);
-				files = interfaceXMLGenerater.getInterfaceFiles();
-			}
-		}
-		return files;
-	}
-
 	@Override
 	public List<File> generate(InvokeInfo invokeInfo) {
 		List<File> files = null;
@@ -161,7 +74,7 @@ public class SOPPackerUnPackerConfigGenerater implements
 			if (null != invokeInfo) {
 				log.info("开始导出SOP报文的配置文件!");
 				interfaceId = invokeInfo.getEcode();
-				List<MetadataNode> templateInterfaceNodes = getTemplateInterfaceNodes(interfaceId);
+				List<MetadataNode> templateInterfaceNodes = getTemplateInterfaceNodes(interfaceId, invokeInfo.getDirection());
 				MetadataNode interfaceNode = xmPassedInterfaceDataFromDB
 						.getNodeFromDB(interfaceId, ResourceType.INTERFACE);
 				files = generateConfigs(interfaceNode, templateInterfaceNodes, invokeInfo);
@@ -241,6 +154,11 @@ public class SOPPackerUnPackerConfigGenerater implements
 				//in_config
 				generateRspConfigs(interfaceNode, templateInterfaceNode,
 						configPosition, dir, serviceId, operationId, interfaceMSGType.toLowerCase(), sysId);
+				// 对SOP某一文件做特殊处理
+				log.info("对SOP报文In端以'_system_sop'结尾的文件做特殊处理");
+				String specialDir =  serviceId + tmpOperationId +"(" + invokeInfo.getConsumeMsgType() + "-"
+				+ invokeInfo.getProvideMsgType() + ")" + File.separator + PackerUnPackerConstants.IN_CONF_DIR; 
+				handleSOPSpecialFile(specialDir);
 				configFiles.add(configDir);
 			}
 		} catch (IOException e) {
@@ -250,68 +168,6 @@ public class SOPPackerUnPackerConfigGenerater implements
 			throw e;
 		}
 		return configFiles;
-	}
-
-	/**
-	 * create response configures files and put it into directory
-	 * 
-	 * @param contentNode
-	 * @param templateNode
-	 * @param direction
-	 * @param dir
-	 * @param serviceId
-	 * @param operationId
-	 * @throws Exception
-	 */
-	private void generateRspConfigs(IMetadataNode contentNode,
-			IMetadataNode templateNode, String direction, String dir,
-			String serviceId, String operationId) throws Exception {
-		String tmpOperationId = handleInterfaceIdForDupTrade(operationId);
-		if (null != contentNode && null != templateNode && null != direction) {
-			Map<String, String> mapFileResultMap = getMapFileResultMap(contentNode);
-			String rspConfigFileName = null;
-			if (null != mapFileResultMap) {
-				for (Map.Entry<String, String> entry : mapFileResultMap
-						.entrySet()) {
-					if (direction.equals(PackerUnPackerConstants.DIRECTION_IN)) {
-						rspConfigFileName = dir + File.separator + "service_"
-								+ serviceId + tmpOperationId + "_"
-								+ entry.getKey() + "_system_sop.xml";
-
-					} else if (direction
-							.equals(PackerUnPackerConstants.DIRECTION_OUT)) {
-						rspConfigFileName = dir + File.separator
-								+ "channel_SOPSystem_" + entry.getKey()
-								+ "_service_" + serviceId + tmpOperationId
-								+ ".xml";
-					}
-
-					IMetadataNode node = filterNodeByMapFile(contentNode,
-							entry.getValue(), direction);
-					IMetadataNode rspConfigNode = createConfigNode(
-							MetadataNodeHelper.cloneNode(templateNode),
-							MetadataNodeHelper.cloneNode(node),
-							SDAConstants.RESPONSE);
-					createConfigFile(rspConfigNode, rspConfigFileName);
-				}
-			} else {
-				if (direction.equals(PackerUnPackerConstants.DIRECTION_IN)) {
-					rspConfigFileName = dir + File.separator + "service_"
-							+ serviceId + tmpOperationId + "_system_sop.xml";
-				} else if (direction
-						.equals(PackerUnPackerConstants.DIRECTION_OUT)) {
-					rspConfigFileName = dir + File.separator
-							+ "channel_sop_service_" + serviceId + tmpOperationId
-							+ ".xml";
-				}
-				IMetadataNode rspConfigNode = createConfigNode(
-						MetadataNodeHelper.cloneNode(templateNode),
-						MetadataNodeHelper.cloneNode(contentNode),
-						SDAConstants.RESPONSE);
-
-				createConfigFile(rspConfigNode, rspConfigFileName);
-			}
-		}
 	}
 	
 	/**
@@ -389,44 +245,7 @@ public class SOPPackerUnPackerConfigGenerater implements
 		}
 	}
 
-	/**
-	 * create req configures files and put it into the directory
-	 * 
-	 * @param contentNode
-	 * @param templateNode
-	 * @param direction
-	 * @param dir
-	 * @param serviceId
-	 * @param operationId
-	 * @throws Exception
-	 */
-	private void generateReqConfigs(IMetadataNode contentNode,
-			IMetadataNode templateNode, String direction, String dir,
-			String serviceId, String operationId) throws Exception {
-		log.info("[SOP配置文件生成]:开始生成配置文件,配置位置为[" + direction + "], 配置文件的场景为["
-				+ operationId + "], 配置文件的服务为[" + serviceId + "]");
-		String tmpOperationId = handleInterfaceIdForDupTrade(operationId);
-		if (null != contentNode && null != templateNode && null != direction) {
-			String reqConfigFileName = null;
-			if (direction.equals(PackerUnPackerConstants.DIRECTION_IN)) {
-				reqConfigFileName = dir + File.separator
-						+ "channel_sop_service_" + serviceId + tmpOperationId
-						+ ".xml";
-
-			} else if (direction.equals(PackerUnPackerConstants.DIRECTION_OUT)) {
-				reqConfigFileName = dir + File.separator + "service_"
-						+ serviceId + tmpOperationId + "_system_SOPSystem.xml";
-			}
-			log.info("[SOP配置文件生成]:开始生成配置文件[" + reqConfigFileName + "]");
-			IMetadataNode reqConfigNode = createConfigNode(
-					MetadataNodeHelper.cloneNode(templateNode),
-					MetadataNodeHelper.cloneNode(contentNode),
-					SDAConstants.REQUEST);
-
-			createConfigFile(reqConfigNode, reqConfigFileName);
-		}
-	}
-	//网银请求代客代理的in端拆包报文加入<d: serviceAdr/><d: serviceAction/>两个节点
+	//in端拆包报文加入<d: serviceAdr/><d: serviceAction/>两个节点
 	private void generateReqConfigs(IMetadataNode contentNode,
 			IMetadataNode templateNode, String direction, String dir,
 			String serviceId, String operationId, String interfaceMsgType, String interfaceSysId) throws Exception {
@@ -461,8 +280,8 @@ public class SOPPackerUnPackerConfigGenerater implements
 				}
 				
 			}
-			invokeAddServiceAdrNode(templateNode,this.interfaceId, serviceId, operationId);
-			invokeAddServiceActionNode(templateNode,this.interfaceId, serviceId, operationId);
+			invokeAddServiceAdrNode(templateNode,this.interfaceId, serviceId, operationId,interfaceMsgType);
+			invokeAddServiceActionNode(templateNode,this.interfaceId, serviceId, operationId,interfaceMsgType);
 			log.info("[SOP配置文件生成]:开始生成配置文件[" + reqConfigFileName + "]");
 			IMetadataNode reqConfigNode = createConfigNode(
 					MetadataNodeHelper.cloneNode(templateNode),
@@ -570,9 +389,9 @@ public class SOPPackerUnPackerConfigGenerater implements
 	}
 	
 	/**
-	 * 网银请求代客代理的sop报文
+	 * sop报文
 	 * 添加节点<d: serviceAdr/><d: serviceAction/>
-	 * add by pangzt
+	 * 
 	 * 
 	 * @param templateNode
 	 * @param interfaceId
@@ -580,10 +399,10 @@ public class SOPPackerUnPackerConfigGenerater implements
 	 * @param operationId
 	 */
 	private void invokeAddServiceAdrNode(IMetadataNode templateNode,
-			 String interfaceId,String serviceId,String operationId){
-		boolean flag = false;
-		List list = invokeInfoDAO.getInvokeByEcodeAndSOP(interfaceId, serviceId, operationId);
-		if(list != null && list.size() > 0){
+			 String interfaceId,String serviceId,String operationId,String interfaceMSGType){
+//		List list = invokeInfoDAO.getInvokeByEcodeAndSOP(interfaceId, serviceId, operationId,interfaceMSGType);
+//		if(list != null && list.size() > 0){
+		if("sop".equals(interfaceMSGType)){
 			IMetadataNode parentNode = templateNode.getNodeByPath("root.request.root.SYSTEM_HEAD");
 			IMetadataNode metadataNode = new MetadataNode();
 			metadataNode.setNodeID("ServiceAdr");
@@ -605,19 +424,19 @@ public class SOPPackerUnPackerConfigGenerater implements
 //		}	
 	}
 	/**
-	 * 网银请求代客代理的sop报文
+	 * sop报文
 	 * 添加节点<d: serviceAdr/><d: serviceAction/>
-	 * add by pangzt
+	 * 
 	 * @param templateNode
 	 * @param interfaceId
 	 * @param serviceId
 	 * @param operationId
 	 */
 	private void invokeAddServiceActionNode(IMetadataNode templateNode,
-			 String interfaceId,String serviceId,String operationId){
-		boolean flag = false;
-		List list = invokeInfoDAO.getInvokeByEcodeAndSOP(interfaceId, serviceId, operationId);
-		if(list != null && list.size() > 0){
+			 String interfaceId,String serviceId,String operationId,String interfaceMSGType){
+//		List list = invokeInfoDAO.getInvokeByEcodeAndSOP(interfaceId, serviceId, operationId,interfaceMSGType);
+//		if(list != null && list.size() > 0){
+		if("sop".equals(interfaceMSGType)){
 			IMetadataNode parentNode = templateNode.getNodeByPath("root.request.root.SYSTEM_HEAD");
 			IMetadataNode metadataNode = new MetadataNode();
 			metadataNode.setNodeID("ServiceAction");
@@ -692,8 +511,6 @@ public class SOPPackerUnPackerConfigGenerater implements
 						parsedExpression.append("','");
 						parsedExpression.append(args.get("slaveCode"));
 						parsedExpression.append("',${");
-						String serviceNodePath = args.get("serviceNodePath");
-						String[] pathNodes = serviceNodePath.split(".");
 						String rawPath = args.get("serviceNodePath");
 						if (null != rawPath) {
 							parsedExpression
@@ -765,12 +582,9 @@ public class SOPPackerUnPackerConfigGenerater implements
 			int right = expression.indexOf(")");
 			if (left > 0 && right > 0 && right > left) {
 				String argstring = expression.substring(left + 1, right);
-				StringTokenizer stringTokenizer = new StringTokenizer(
-						argstring, ",");
 				String[] argsStrings = argstring.split(",");
 				if (null != argsStrings) {
 					argMap = new HashMap<String, String>();
-					String token = null;
 					for (String arg : argsStrings) {
 						StringTokenizer argTokenizer = new StringTokenizer(arg,
 								":");
@@ -989,42 +803,6 @@ public class SOPPackerUnPackerConfigGenerater implements
 	}
 
 	/**
-	 * get the information of export directory from template node
-	 * 
-	 * @param templateNode
-	 * @return
-	 */
-	private String getExportDirFromTemplate(IMetadataNode templateNode) {
-		String dir = null;
-		if (null != templateNode) {
-			IMetadataNodeAttribute attribute = templateNode.getProperty();
-			if (null != attribute) {
-				dir = attribute
-						.getProperty(PackerUnPackerConstants.NODE_DIR_LABEL);
-			}
-		}
-		return dir;
-	}
-
-	/**
-	 * get the information of direction from template node
-	 * 
-	 * @param templateNode
-	 * @return
-	 */
-	private String getDirection(IMetadataNode templateNode) {
-		String direction = null;
-		if (null != templateNode) {
-			IMetadataNodeAttribute attribute = templateNode.getProperty();
-			if (null != attribute) {
-				direction = attribute
-						.getProperty(PackerUnPackerConstants.NODE_DIRECTION_LABEL);
-			}
-		}
-		return direction;
-	}
-
-	/**
 	 * create configure file
 	 * 
 	 * @param configNode
@@ -1079,10 +857,18 @@ public class SOPPackerUnPackerConfigGenerater implements
 		return interfaceNode.getProperty().getProperty("import_into");
 	}
 
-	public List<MetadataNode> getTemplateInterfaceNodes(String interfaceId) {
+	public List<MetadataNode> getTemplateInterfaceNodes(String interfaceId, String direction) {
 		List<MetadataNode> templates = new ArrayList<MetadataNode>();
 		List<String> parentInterfaceIds = xmPassedInterfaceDataFromDB
 				.getParentNodeIds(interfaceId);
+		if(parentInterfaceIds.size() > 1){
+			if("1".equals(direction)){
+				parentInterfaceIds.remove("InSOPTemplate");
+			}
+			else{
+				parentInterfaceIds.remove("OutSOPTemplate");
+			}
+		}
 		for (String parentId : parentInterfaceIds) {
 			if (isExportAbleInterface(parentId)) {
 				templates.add(xmPassedInterfaceDataFromDB.getNodeFromDB(
@@ -1098,16 +884,6 @@ public class SOPPackerUnPackerConfigGenerater implements
 	 * @return
 	 */
 	public boolean isExportAbleInterface(String interfaceId) {
-		MetadataNode interfaceNode = xmPassedInterfaceDataFromDB.getNodeFromDB(
-				interfaceId, ResourceType.INTERFACE);
-		String exportFlag = interfaceNode.getProperty().getProperty(
-				"exportable");
-		log.info(interfaceId + "是否可以导出：" + exportFlag);
-		if (null != exportFlag) {
-			if ("true".equalsIgnoreCase(exportFlag)) {
-				return true;
-			}
-		}
 		return true;
 	}
 
@@ -1117,6 +893,28 @@ public class SOPPackerUnPackerConfigGenerater implements
 
 	public void setConfigFiles(List<File> configFiles) {
 		this.configFiles = configFiles;
+	}
+	
+	public void handleSOPSpecialFile(String specialDir){
+		try {
+			File file = new File(specialDir);
+			File[] files = file.listFiles();
+			for (File tempfile : files) {
+				String fileName = tempfile.getName();
+				if (fileName.endsWith("_system_sop.xml")) {
+					SAXReader saxReader = new SAXReader();
+					Document xmlDoc  = saxReader.read(tempfile);
+					Element element = xmlDoc.getRootElement();
+					element.addAttribute("fixtranLen", "true");
+					xmlDoc.remove(xmlDoc.getRootElement());
+					xmlDoc.add(element);
+					String content = XMLHelper.documentToXML(xmlDoc);
+					XMLHelper.saveXMLFile(tempfile, content);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

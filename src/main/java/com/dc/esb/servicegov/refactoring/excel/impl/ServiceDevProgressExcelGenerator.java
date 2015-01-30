@@ -66,7 +66,7 @@ public class ServiceDevProgressExcelGenerator {
 				lst = systemManager.getSeviceDevInfo(params.split("\\|"));
 			}
 			printSheetContent(sheet, lst);
-			setCellStyle(sheet, lst.size());
+			setCellStyle(sheet, lst.size()+1);
 			excelFile = File.createTempFile("service_develop_progress_excel", ".xls");
 			outputStream = new FileOutputStream(excelFile);
 			wb.write(outputStream);
@@ -85,6 +85,14 @@ public class ServiceDevProgressExcelGenerator {
 	}
 	
 	private void printSheetContent(Sheet contentSheet, List<ServiceDevProgressVO> lst) {
+		int totalUnderDefine = 0;
+		int totalDev = 0;
+		int totalUnit = 0;
+		int totalSit = 0;
+		int totalUat = 0;
+		int totalProduct = 0;
+		int toto = 0;
+		int ttRow = lst.size()+3;
 		for (int i=0; i<lst.size(); i++) {
 			int row = i + 3;
 			ServiceDevProgressVO vo = lst.get(i);
@@ -97,7 +105,25 @@ public class ServiceDevProgressExcelGenerator {
 			MappingExcelUtils.fillCell(row, 7, String.valueOf(vo.getUatTest()), contentSheet, cellStyle);
 			MappingExcelUtils.fillCell(row, 8, String.valueOf(vo.getProductTest()), contentSheet, cellStyle);
 			MappingExcelUtils.fillCell(row, 9, String.valueOf(vo.getTotalNum()), contentSheet, cellStyle);
+			
+			totalUnderDefine += vo.getUnderDefine();
+			totalDev += vo.getDev();
+			totalUnit += vo.getUnitTest();
+			totalSit += vo.getSitTest();
+			totalUat += vo.getUatTest();
+			totalProduct += vo.getProductTest();
+			toto += vo.getTotalNum();
 		}
+		
+		MappingExcelUtils.fillCell(ttRow, 0, "", contentSheet, cellStyle);
+		MappingExcelUtils.fillCell(ttRow, 1, "总计", contentSheet, headCellStyle);
+		MappingExcelUtils.fillCell(ttRow, 3, String.valueOf(totalUnderDefine), contentSheet, headCellStyle);
+		MappingExcelUtils.fillCell(ttRow, 4, String.valueOf(totalDev), contentSheet, headCellStyle);
+		MappingExcelUtils.fillCell(ttRow, 5, String.valueOf(totalUnit), contentSheet, headCellStyle);
+		MappingExcelUtils.fillCell(ttRow, 6, String.valueOf(totalSit), contentSheet, headCellStyle);
+		MappingExcelUtils.fillCell(ttRow, 7, String.valueOf(totalUat), contentSheet, headCellStyle);
+		MappingExcelUtils.fillCell(ttRow, 8, String.valueOf(totalProduct), contentSheet, headCellStyle);
+		MappingExcelUtils.fillCell(ttRow, 9, String.valueOf(toto), contentSheet, headCellStyle);
 	}
 	
 	
@@ -120,8 +146,8 @@ public class ServiceDevProgressExcelGenerator {
 		}
 		
 		for(int i=0;i<=lastIndex+2;i++){
-			if (i==2)
-				continue ;
+//			if (i==2)
+//				continue ;
 			Row rowToRender = sheet.getRow(i);
 			Cell cellToRender =rowToRender.getCell(2);
 			if (cellToRender == null) {

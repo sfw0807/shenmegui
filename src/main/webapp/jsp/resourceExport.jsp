@@ -81,6 +81,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input type='button' id='exportConfig' value='导出配置'></input>
 					<input type='button' id='exportWSDL' value='导出WSDL'></input>
 					<input type='button' id='exportMapFile' value='导出MapFile'></input>
+					<input type='button' id='exportMdt' value='导出元数据'></input>
 					<input type='button' id='batchExportConfig' value='批量导出配置'></input>
 			    </div>
 			    <div class="ui-widget-header" style="margin-bottom:0.5em;padding:0.2em;">

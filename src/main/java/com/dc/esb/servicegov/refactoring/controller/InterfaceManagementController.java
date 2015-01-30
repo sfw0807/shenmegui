@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import com.dc.esb.servicegov.exception.DataException;
 import com.dc.esb.servicegov.refactoring.entity.IDA;
 import com.dc.esb.servicegov.refactoring.entity.Operation;
 import com.dc.esb.servicegov.refactoring.entity.Service;
+import com.dc.esb.servicegov.refactoring.entity.User;
 import com.dc.esb.servicegov.refactoring.service.impl.InterfaceManagerImpl;
 import com.dc.esb.servicegov.refactoring.service.impl.OperationManagerImpl;
 import com.dc.esb.servicegov.refactoring.service.impl.ServiceManagerImpl;
@@ -71,11 +73,6 @@ public class InterfaceManagementController {
 		return operationManager.getOperationsOfService(params.trim());
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/update/{params}", headers = "Accept=application/json")
-	public @ResponseBody InterfaceListVO udpate(@PathVariable String params){
-		return null;
-	}
-	
 	@RequestMapping(method = RequestMethod.GET, value = "/getVO/{params}", headers = "Accept=application/json")
 	public @ResponseBody InterfaceListVO getVO(@PathVariable String params){
 		return interfaceManager.getInterfaceVO(params);
@@ -86,6 +83,11 @@ public class InterfaceManagementController {
 		
 		interfaceManager.insertInterfaceInfo(vo);
 		return getIDAs(vo.getInterfaceId());
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/update", headers = "Accept=application/json")
+	public @ResponseBody void update(@RequestBody InterfaceVO vo) {
+		interfaceManager.updateInterfaceInfo(vo);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/getIDAs/{params}", headers = "Accept=application/json")
@@ -103,13 +105,13 @@ public class InterfaceManagementController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/deleteIDAs/{params}", headers = "Accept=application/json")
-	public @ResponseBody String deleteInterfaceInfo(@PathVariable String params){
+	public @ResponseBody String deleteIDAs(@PathVariable String params){
 		String vv = interfaceManager.deleteIDAs(params);
 		return vv;
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/deleteInterfaceInfos/{params}", headers = "Accept=application/json")
-	public @ResponseBody void deleteIDAs(@PathVariable String params){
+	public @ResponseBody void deleteInterfaceInfo(@PathVariable String params){
 		interfaceManager.deleteInterfaceInfos(params);
 	}
 	
@@ -117,6 +119,9 @@ public class InterfaceManagementController {
 	@RequestMapping(method = RequestMethod.GET, value = "/saveIDA/{params}", headers = "Accept=application/json")
 	public @ResponseBody void saveIDA(HttpServletRequest request,
 			HttpServletResponse response, @PathVariable String params){
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("user");
+		
 		Map<String,String> map = null;
 		ObjectMapper mapper =new ObjectMapper();
 		try {

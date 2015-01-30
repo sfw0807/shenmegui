@@ -3,6 +3,9 @@ package com.dc.esb.servicegov.refactoring.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -31,6 +34,18 @@ public class IdaPROP {
 	private String versionst;
 	@Column(name="PRODUCTNO")
 	private String productno;
+	@ManyToOne(targetEntity=IDA.class)
+	@JoinColumns({
+		@JoinColumn(name="IDA_ID",referencedColumnName="ID",insertable=false,updatable=false)
+	})
+	private IDA ida;
+	
+	public IDA getIda() {
+		return ida;
+	}
+	public void setIda(IDA ida) {
+		this.ida = ida;
+	}
 	public String getId() {
 		return id;
 	}

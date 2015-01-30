@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -148,6 +149,9 @@ public class OperationDAOImpl extends HibernateDAO<Operation, OperationPK> {
 		paramMap.put("operationId",operationId);
 		paramMap.put("serviceId",serviceId);
 		List<Operation> operationList = this.findBy(paramMap);
+		if(operationList == null || operationList.size() <= 0){
+			return null;
+		}
 		return operationList.get(0);
 	}
 	
@@ -181,4 +185,12 @@ public class OperationDAOImpl extends HibernateDAO<Operation, OperationPK> {
 		 }
 		 return list;
 	 }
+	 
+	 public void delByServiceIdAndOperationId(String serviceId, String operationId){
+			String hql= "delete from Operation where serviceId =? and operationId =?";
+			Query query = getSession().createQuery(hql);
+			query.setString(0, serviceId);
+			query.setString(1, operationId);
+			query.executeUpdate();
+		}
 }

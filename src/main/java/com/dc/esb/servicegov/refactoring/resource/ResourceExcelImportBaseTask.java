@@ -14,7 +14,7 @@ public interface ResourceExcelImportBaseTask {
 	public void init(Row row, Sheet interfaceSheet);
 
 	public void initParse(InvokeInfoParse invokeInfoParse,
-			InterfaceParse interfaceParse, ServiceParse serviceParse,
-			IndexInterfaceParse indexInterfaceParse,
-			IndexServiceParse indexServiceParse);
+                          InterfaceParse interfaceParse, ServiceParse serviceParse,
+                          IndexInterfaceParse indexInterfaceParse,
+                          IndexServiceParse indexServiceParse);
 }

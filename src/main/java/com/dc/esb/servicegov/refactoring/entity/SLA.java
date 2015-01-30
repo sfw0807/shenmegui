@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="SLA")
+@Table(name="SG_SLA")
 public class SLA implements Serializable{
 	private static final long serialVersionUID = 6065805182895922221L;
 	@Id
@@ -37,6 +37,29 @@ public class SLA implements Serializable{
 		@JoinColumn(name="OPERATION_ID",referencedColumnName="OPERATION_ID",insertable=false,updatable=false)
 	})
 	private Operation operation;
+	
+	public SLA(){
+		
+	}
+	
+	@Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof  SLA)){
+            return false;
+        }
+        SLA another = (SLA) obj;
+        return ((null == this.serviceId) ?(null == another.getServiceId()):(this.serviceId.equals(another.getServiceId())))&&
+               ((null == this.operationId) ?(null == another.getOperationId()):(this.operationId.equals(another.getOperationId())))&&
+                ((null == this.slaName) ?(null == another.getSlaName()):(this.slaName.equals(another.getSlaName())));
+    }
+	
+	
+	public SLA(String serviceId,String operationId,String slaName,String slaValue){
+		this.serviceId = serviceId;
+		this.operationId = operationId;
+		this.slaName = slaName;
+		this.slaValue = slaValue;
+	}
 	public String getServiceId() {
 		return serviceId;
 	}

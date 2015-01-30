@@ -4,7 +4,9 @@ $(function() {
 	var params = {
 	 prdMsgType : "",
 	 csmMsgType : "",
-	 versionSt : ""
+	 versionSt : "",
+	 sysAb: "",
+     publishDate: ""
 	};
 	$('#tabs').tabs();
 	$("#tab0").click(function(e) {
@@ -35,7 +37,7 @@ $(function() {
 			"aoColumnDefs" : [
 				{
 					"sClass" : "center",
-					"aTargets" : [ 0, 1, 2, 3, 4, 5]
+					"aTargets" : [ 0, 1, 2, 3, 4, 5, 6, 7]
 				}
 			],
 			"bJQueryUI": true,
@@ -53,30 +55,28 @@ $(function() {
 		if($("#systemInvokeServiceTable tfoot tr:first td:first").text() == '总计'){
 		    table.deleteRow(table.rows.length - 2);
 		}
+		if(!$("#systemInvokeServiceTable tbody tr td").hasClass("dataTables_empty")){
 		var ps=0;
 	    var cs=0;
 	    var po=0;
 	    var co=0;
 		for(var i=1;i<table.rows.length-1;i++){
-			ps = ps+parseInt(table.rows[i].cells[3].innerText);
-			cs+=parseInt(table.rows[i].cells[4].innerText);
-			po+=parseInt(table.rows[i].cells[5].innerText);
-			co+=parseInt(table.rows[i].cells[6].innerText);
+			ps = ps+parseInt(table.rows[i].cells[4].innerText);
+			cs+=parseInt(table.rows[i].cells[5].innerText);
+			po+=parseInt(table.rows[i].cells[6].innerText);
+			co+=parseInt(table.rows[i].cells[7].innerText);
 		}
-		// 克隆节点
-		/*
-        var cloneNode = table.rows[1].cloneNode();
-        table.lastChild.previousSibling.appendChild(cloneNode);
-        var row = table.rows[table.rows.length - 1];
-		row.cells[0].colSpan = 3;
-		row.childNodes[0].innerText = '总计';
-        row.childNodes[1].innerText = ps;
-        row.childNodes[2].innerText = cs;
-        row.childNodes[3].innerText = po;
-        row.childNodes[4].innerText = co;
-        */
+		// total
+		var tbody = document.getElementsByTagName("tbody")[0];
+		var div = document.createElement('div');
+		div.innerHTML = "<table><tr><td  class='center' colspan='4'>总计</td><td class='center'>"+ps+"</td><td class='center'>"+cs+"</td><td class='center'>"+po+"</td><td class='center'>"+co+"</td></tr></table>";
+		tbody.appendChild(div.firstChild.firstChild.firstChild);
+
+        /*
         var row = table.insertRow(table.rows.length-1);
 		row.innerHTML="<tr><td  class='center' colspan='3'>总计</td><td class='center'>"+ps+"</td><td class='center'>"+cs+"</td><td class='center'>"+po+"</td><td class='center'>"+co+"</td></tr>";
+		*/
+		}
 	};
 	invokeInfoManager.getSystemInvokeServiceInfo(JSON.stringify(params),initsystemInvokeServiceTable);
 
@@ -109,13 +109,35 @@ $(function() {
 	};
 	initsystemInvokeServiceTableFooter();	
 	
+	var result = 
+    $.ajax({
+        url: '../serviceDevInfo/getAllSystem',
+        type: 'GET',
+        success: function(result) {
+            initSelect(result);
+        }
+	});
+	
+	function initSelect(result) {
+		for (var i=0;i<result.length;i++) {
+			$('#sys_select').append("<option value='"+result[i].systemAb+"'>"+result[i].systemAb+":"+result[i].systemName+"</option>");
+		}
+	};
+	$('#sys_select').combobox();
+	
 	$('#search').button().click(function(){
 	    var prdMsgType = $('#provideMsgType').val();
         var csmMsgType = $('#consumeMsgType').val();
         var versionSt = $('#versionSt').val();
+        var sysAb = $('.ui-combobox:eq(0) input').val().split(':')[0];
+        var publishDate_prd = $('#datepicker_prd').val();
+        var publishDate_csm = $('#datepicker_csm').val();
         params.prdMsgType = prdMsgType;
         params.csmMsgType = csmMsgType;
         params.versionSt = versionSt;
+        params.sysAb = sysAb;
+        params.publishDate_prd = publishDate_prd;
+        params.publishDate_csm = publishDate_csm;
         invokeInfoManager.getSystemInvokeServiceInfo(JSON.stringify(params),initsystemInvokeServiceTable);
 	});
 	
@@ -123,11 +145,36 @@ $(function() {
 	    var prdMsgType = $('#provideMsgType').val();
         var csmMsgType = $('#consumeMsgType').val();
         var versionSt = $('#versionSt').val();
+        var sysAb = $('.ui-combobox:eq(0) input').val().split(':')[0];
+        var publishDate_prd = $('#datepicker_prd').val();
+        var publishDate_csm = $('#datepicker_csm').val();
         params.prdMsgType = prdMsgType;
         params.csmMsgType = csmMsgType;
         params.versionSt = versionSt;
-        $.fileDownload("../invokeInfo/export/"+JSON.stringify(params), {
-            	});
+        params.sysAb = sysAb;
+        params.publishDate_prd = publishDate_prd;
+        params.publishDate_csm = publishDate_csm;
+        $.fileDownload(encodeURI(encodeURI("../invokeInfo/export/"+JSON.stringify(params))), {});
 	});
-
+	
+	$('#reset').button().click(function(){
+	    $('#provideMsgType').val('');
+        $('#consumeMsgType').val('');
+        $('#versionSt').val('');
+        $('.ui-combobox:eq(0) input').val('');
+        $('#datepicker_prd').val('');
+        $('#datepicker_csm').val('');
+    });
+    
+    $('#datepicker_prd').datepicker({
+	    changeMonth: true,
+        changeYear: true,
+	    dateFormat: "yymmdd"
+	});
+	
+	$('#datepicker_csm').datepicker({
+	    changeMonth: true,
+        changeYear: true,
+	    dateFormat: "yymmdd"
+	});
 });

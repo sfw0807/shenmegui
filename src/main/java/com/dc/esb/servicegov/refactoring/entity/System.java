@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="SYSTEM")
+@Table(name="SG_SYSTEM")
 public class System {	
 	
 	@Id
@@ -24,6 +24,20 @@ public class System {
 	private String updateTime;
 	@Column(name="FIRST_PUBLISH_DATE")
 	private String firstPublishDate;
+	@Column(name="AVGRESTIME")
+	private String avgResTime;
+	@Column(name="MAXRESTIME")
+	private String maxResTime;
+	@Column(name="MAXCONNUM")
+	private Integer maxConNum;
+	@Column(name="TIMEOUT")
+	private String timeOut;
+	@Column(name="SUCCESSRATE")
+	private String successRate;
+	@Column(name="OUTMAXCONNUM")
+	private Integer outMaxConNum;
+	@Column(name="SECOND_PUBLISH_DATE")
+	private String secondPublishDate;
 	public String getSystemId() {
 		return systemId;
 	}
@@ -65,5 +79,47 @@ public class System {
 	}
 	public void setFirstPublishDate(String firstPublishDate) {
 		this.firstPublishDate = firstPublishDate;
+	}
+	public String getAvgResTime() {
+		return avgResTime;
+	}
+	public void setAvgResTime(String avgResTime) {
+		this.avgResTime = avgResTime;
+	}
+	public String getMaxResTime() {
+		return maxResTime;
+	}
+	public void setMaxResTime(String maxResTime) {
+		this.maxResTime = maxResTime;
+	}
+	public Integer getMaxConNum() {
+		return maxConNum;
+	}
+	public void setMaxConNum(Integer maxConNum) {
+		this.maxConNum = maxConNum;
+	}
+	public String getTimeOut() {
+		return timeOut;
+	}
+	public void setTimeOut(String timeOut) {
+		this.timeOut = timeOut;
+	}
+	public String getSuccessRate() {
+		return successRate;
+	}
+	public void setSuccessRate(String successRate) {
+		this.successRate = successRate;
+	}
+	public Integer getOutMaxConNum() {
+		return outMaxConNum;
+	}
+	public void setOutMaxConNum(Integer outMaxConNum) {
+		this.outMaxConNum = outMaxConNum;
+	}
+	public String getSecondPublishDate() {
+		return secondPublishDate;
+	}
+	public void setSecondPublishDate(String secondPublishDate) {
+		this.secondPublishDate = secondPublishDate;
 	}
 }

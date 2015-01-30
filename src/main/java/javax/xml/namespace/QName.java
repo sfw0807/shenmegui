@@ -172,7 +172,7 @@ public class QName implements Serializable {
      *
      * @param s the string to be parsed
      * @return QName corresponding to the given String
-     * @throws java.lang.IllegalArgumentException
+     * @throws IllegalArgumentException
      *          If the specified String
      *          cannot be parsed as a QName
      */

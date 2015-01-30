@@ -10,7 +10,7 @@ var operationHistoryManager = {
         $.ajax({
             "type": "POST",
             "contentType": "application/json; charset=utf-8",
-            "url": "/operationHistory/getOperation",
+            "url": "../operationHistory/getOperation",
             "data": JSON.stringify(params),
             "dataType": "json",
             "success": function(result) {
@@ -22,7 +22,7 @@ var operationHistoryManager = {
         $.ajax({
             "type": "POST",
             "contentType": "application/json; charset=utf-8",
-            "url": "/operationHistory/getSDA",
+            "url": "../operationHistory/getSDA",
             "data": JSON.stringify(params),
             "dataType": "json",
             "success": function(result) {
@@ -34,7 +34,7 @@ var operationHistoryManager = {
         $.ajax({
             "type": "POST",
             "contentType": "application/json; charset=utf-8",
-            "url": "/operationHistory/getSLA",
+            "url": "../operationHistory/getSLA",
             "data": JSON.stringify(params),
             "dataType": "json",
             "success": function(result) {
@@ -46,7 +46,7 @@ var operationHistoryManager = {
         $.ajax({
             "type": "POST",
             "contentType": "application/json; charset=utf-8",
-            "url": "/operationHistory/getOLA",
+            "url": "../operationHistory/getOLA",
             "data": JSON.stringify(params),
             "dataType": "json",
             "success": function(result) {

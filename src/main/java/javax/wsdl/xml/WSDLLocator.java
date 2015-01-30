@@ -14,7 +14,7 @@ import org.xml.sax.InputSource;
  * URIs.
  *
  * @author Owen Burroughs (owenb@uk.ibm.com)
- * @see WSDLReader#readWSDL(WSDLLocator)
+ * @see javax.wsdl.xml.WSDLReader#readWSDL(javax.wsdl.xml.WSDLLocator)
  */
 public interface WSDLLocator {
     /**

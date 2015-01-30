@@ -17,7 +17,7 @@ import javax.persistence.Table;
 //STATE         	VARCHAR(40),
 
 @Entity
-@Table(name="OPERATION")
+@Table(name="SG_OPERATION")
 @IdClass(OperationPK.class)
 public class Operation {
 	@Id
@@ -36,11 +36,28 @@ public class Operation {
 	private String modifyUser;
 	@Column(name="UPDATETIME")
 	private String updateTime;
+	@Column(name="AUDITSTATE")
+	private String auditState;
 	@ManyToOne(targetEntity=Service.class)
 	@JoinColumns({
 		@JoinColumn(name="SERVICE_ID",referencedColumnName="SERVICE_ID",insertable=false,updatable=false)
 	})
 	private Service service;
+	@ManyToOne(targetEntity=AuditState.class)
+	@JoinColumn(name="AUDITSTATE",referencedColumnName="ID",insertable=false,updatable=false)
+	private AuditState audit;
+	public String getAuditState() {
+		return auditState;
+	}
+	public void setAuditState(String auditState) {
+		this.auditState = auditState;
+	}
+	public AuditState getAudit() {
+		return audit;
+	}
+	public void setAudit(AuditState audit) {
+		this.audit = audit;
+	}
 	public String getOperationId() {
 		return operationId;
 	}

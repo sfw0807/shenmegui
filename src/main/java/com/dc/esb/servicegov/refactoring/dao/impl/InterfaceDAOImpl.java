@@ -20,7 +20,7 @@ public class InterfaceDAOImpl extends HibernateDAO<Interface, String>{
 		String sql="  SELECT"
             			+ " r.ecode,i.interface_name,operation_id,s.sys_ab,p.interface_version,I.version,versionst,p.online_date,i.through"
             		+ " FROM" 
-            			+ " invoke_relation r,trans_state t,interface i,publish_info p,system s"
+            			+ " invoke_relation r,trans_state t,interface i,publish_info p,sg_system s"
             		+ " WHERE" 
             			+ " r.id = t.id and r.ecode = i.interface_id and p.ir_id = r.id and r.provide_sys_id = s.sys_id"
             		+ " GROUP BY" 
@@ -35,7 +35,7 @@ public class InterfaceDAOImpl extends HibernateDAO<Interface, String>{
 		String sql="  SELECT"
             			+ " r.ecode,i.interface_name,operation_id,s.sys_ab,p.interface_version,I.version,versionst,p.online_date,i.through"
             		+ " FROM" 
-            			+ " invoke_relation r,trans_state t,interface i,publish_info p,system s"
+            			+ " invoke_relation r,trans_state t,interface i,publish_info p,sg_system s"
             		+ " WHERE" 
             			+ " r.id = t.id and r.ecode = i.interface_id and p.ir_id = r.id and r.provide_sys_id = s.sys_id and r.ecode="+"'"+ecode+"'"
             		+ " GROUP BY" 
@@ -57,10 +57,10 @@ public class InterfaceDAOImpl extends HibernateDAO<Interface, String>{
 						+ " prdSys.SYS_AB as PROVIDER_SYSAB,prdSys.SYS_NAME as PROVIDER_SYSNAME"
 				 + " from" 
 				    	+ " INVOKE_RELATION ir" 
-						+ " left join OPERATION o on ir.OPERATION_ID = o. OPERATION_ID"
+						+ " left join SG_OPERATION o on ir.OPERATION_ID = o. OPERATION_ID AND ir.service_id = o.service_id"
 						+ " left join interface i on ir.ECODE=i.ECODE"
-						+ " left join system prdSys on ir.PROVIDE_SYS_ID = prdSys.SYS_ID"
-						+ " left join system csmSys on ir.CONSUME_SYS_ID = csmSys.SYS_ID";
+						+ " left join sg_system prdSys on ir.PROVIDE_SYS_ID = prdSys.SYS_ID"
+						+ " left join sg_system csmSys on ir.CONSUME_SYS_ID = csmSys.SYS_ID";
 		Query query = super.getSession().createSQLQuery(sql);
 		query.setResultTransformer(Transformers.aliasToBean(InterfaceListVO.class));
 		return query.list();
@@ -75,11 +75,11 @@ public class InterfaceDAOImpl extends HibernateDAO<Interface, String>{
 			+ " psbSys.SYS_AB as PASSBY_SYSAB,psbSys.SYS_NAME as PASSBY_SYSNAME"
 			+ " from" 
 			+ " INVOKE_RELATION ir" 
-			+ " left join OPERATION o on ir.OPERATION_ID = o. OPERATION_ID"
+			+ " left join SG_OPERATION o on ir.OPERATION_ID = o. OPERATION_ID AND ir.service_id = o.service_id"
 			+ " left join interface i on ir.ECODE=i.ECODE"
-			+ " left join system prdSys on ir.PROVIDE_SYS_ID = prdSys.SYS_ID"
-			+ " left join system psbSys on ir.PASSBY_SYS_ID = psbSys.SYS_ID"
-			+ " left join system csmSys on ir.CONSUME_SYS_ID = csmSys.SYS_ID"
+			+ " left join sg_system prdSys on ir.PROVIDE_SYS_ID = prdSys.SYS_ID"
+			+ " left join sg_system psbSys on ir.PASSBY_SYS_ID = psbSys.SYS_ID"
+			+ " left join sg_system csmSys on ir.CONSUME_SYS_ID = csmSys.SYS_ID"
 			+ " where ir.ecode=" + "'" + ecode + "'";
 		Query query = super.getSession().createSQLQuery(sql);
 		query.setResultTransformer(Transformers.aliasToBean(InterfaceListVO.class));

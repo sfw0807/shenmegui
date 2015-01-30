@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include  file= "/jsp/header/header.jsp"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -16,8 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" href="<%=path %>/themes/smoothness/jquery-ui-1.8.4.custom.css" />
 		<link rel="stylesheet" href="<%=path %>/css/index.css" />
 		<link rel="stylesheet" href="<%=path %>/css/demos.css" />
-		<script src="<%=path %>/js/jquery-ui/js/jquery-1.10.2.js"></script>
-		<script src="<%=path %>/js/jquery-1.8.2.js"></script>
+
 		<script src="<%=path %>/js/jquery.bgiframe-2.1.2.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.core.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.widget.js"></script>
@@ -77,8 +77,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    .ui-dialog .ui-state-error { padding: .3em; }
 		    .validateTips { border: 0px solid transparent; padding: 0.3em; }
 	  </style>
-        
-        
+
+
 	</head>
 	<body>
 		<div id="tabs" style="width: 100%">
@@ -87,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<a href='#tabs-0'>服务管理</a>
 				</li>
 			</ul>
-			
+
 			<div id="tabs-0">
 			<div class="ui-widget-header" style="margin-bottom: 0.5em;padding:0.5em;">
 			    <button id="add">新增</button>
@@ -97,6 +97,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <button id="redef">重定义</button>
 			    <button id="publish">上线</button>
 			    <button id="operationsInfo">操作</button>
+			    <button id="submit">提交审核</button>
+                <input type='button' id='checkAll' value='全选' />
+                <input type='button' id='toggleAll' value='反选' />
 			</div>
 			<div id="dialog-form" style="display:none;">
 	               <p class="validateTips"></p>
@@ -117,7 +120,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		          <label for="form_version" style="margin-top: 4em;">版本号</label>
 		          <input type="text"  id="form_version" class="text ui-widget-content ui-corner-all" />
 		          <label for="form_state">版本状态</label>
-		          <br> 
+		          <br>
 		          <select id="form_state" class="text ui-widget-content ui-corner-all" style="margin-bottom: 12px;">
 		             <option value="服务定义" selected>服务定义</option>
 		             <option value="开发" >开发</option>
@@ -131,7 +134,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	              </fieldset>
 	           </form>
             </div>
-	        <table cellpadding="0" cellspacing="0" border="0" class="display"
+	        <table cellpadding="0" cellspacing="0" border="0" class="display compact"
 					id="serviceInfoTable">
 					<tfoot>
 						<tr>
@@ -156,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									class="search_init" />
 							</th>
 							<th>
-								<input type="text" name="version" id="version" value="版本号" 
+								<input type="text" name="version" id="version" value="版本号"
 								class="search_init" />
 							</th>
 							<th>

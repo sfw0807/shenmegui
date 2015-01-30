@@ -18,14 +18,15 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 
+import com.dc.esb.servicegov.exception.DataException;
+import com.dc.esb.servicegov.refactoring.entity.IDA;
 import com.dc.esb.servicegov.refactoring.entity.Interface;
+import com.dc.esb.servicegov.refactoring.entity.Operation;
 import com.dc.esb.servicegov.refactoring.entity.SDA;
 import com.dc.esb.servicegov.refactoring.entity.Service;
 import com.dc.esb.servicegov.refactoring.entity.SvcAsmRelateView;
 import com.dc.esb.servicegov.refactoring.entity.System;
 import com.dc.esb.servicegov.refactoring.excel.support.MappingExcelUtils;
-import com.dc.esb.servicegov.exception.DataException;
-import com.dc.esb.servicegov.refactoring.entity.IDA;
 import com.dc.esb.servicegov.refactoring.service.impl.InterfaceManagerImpl;
 import com.dc.esb.servicegov.refactoring.service.impl.ServiceManagerImpl;
 import com.dc.esb.servicegov.refactoring.service.impl.SystemManagerImpl;
@@ -146,7 +147,13 @@ public class InterfaceGeneraterTask implements ExcelGenerateTask {
 				indexSheet = wb.createSheet("INDEX");
 				printSheetIndexLabel(indexSheet);
 			}
-			printSheetIndexData(mVo, indexSheet);
+			if (mVo.getMsgConvert().size() > 1) {
+				for (int i=0;i<mVo.getMsgConvert().size();i++) {
+					printSheetIndexData(i, mVo, indexSheet);
+				}
+			} else {
+				printSheetIndexData(mVo, indexSheet);
+			}
 		}
 	}
 	
@@ -168,6 +175,7 @@ public class InterfaceGeneraterTask implements ExcelGenerateTask {
 		MappingExcelUtils.fillCell(titleRow, 7, "接口方向", titleCellStyle);
 		MappingExcelUtils.fillCell(titleRow, 8, "接口提供系统ID", titleCellStyle);
 		MappingExcelUtils.fillCell(titleRow, 9, "报文类型", titleCellStyle);
+		MappingExcelUtils.fillCell(titleRow, 10, "报文转换方向", titleCellStyle);
 		indexSheet.setColumnWidth(0, 23*256);
 		indexSheet.setColumnWidth(1, 23*256);
 		indexSheet.setColumnWidth(2, 23*256);
@@ -200,6 +208,34 @@ public class InterfaceGeneraterTask implements ExcelGenerateTask {
 				: "Provider", bodyCellStyle);
 		MappingExcelUtils.fillCell(rowAdded, 8, mVo.getProviderSysId(), bodyCellStyle);
 		MappingExcelUtils.fillCell(rowAdded, 9, mVo.getMsgType(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 10, mVo.getMsgConvert().get(0), bodyCellStyle);
+	}
+	
+	/**
+	 * 
+	 * @param i
+	 * @param mVo
+	 * @param indexSheet
+	 */
+	private void printSheetIndexData(int i, MappingExcelIndexVo mVo, Sheet indexSheet) {
+		int lastRow = indexSheet.getLastRowNum();
+		Row rowAdded = indexSheet.createRow(lastRow + 1);
+		rowAdded.setHeightInPoints((short) 22.5);
+		MappingExcelUtils.fillCell(rowAdded, 0, mVo.getInterfaceId(), bodyCellStyle);
+		href.setAddress("#" + mVo.getInterfaceId() + "!A1");
+		rowAdded.getCell(0).setHyperlink(href);
+		MappingExcelUtils.fillCell(rowAdded, 1, mVo.getInterfaceName(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 2, mVo.getServiceName() + "(" + mVo.getServiceId()
+				+ ")", bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 3, mVo.getOperationId(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 4, mVo.getOperationName(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 5, mVo.getConsumerSysAb(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 6, mVo.getProviderSysAb(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 7, "0".equals(mVo.getType()) ? "Consumer"
+				: "Provider", bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 8, mVo.getProviderSysId(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 9, mVo.getMsgType(), bodyCellStyle);
+		MappingExcelUtils.fillCell(rowAdded, 10, mVo.getMsgConvert().get(i), bodyCellStyle);
 	}
 	
 	/**
@@ -493,7 +529,7 @@ public class InterfaceGeneraterTask implements ExcelGenerateTask {
 		String providerSysAB = providerSys.getSystemAb();
 		List<Interface> interfaces = interfaceManager.getInterfacesById(interfaceId);
 		List<Service> services = serviceManager.getServicesById(serviceId);
-		List<Service> services1 = serviceManager.getServicesById(operationId);
+		List<Operation> operations = serviceManager.getOperationById(operationId);
 		Interface interfaceInfo = new Interface();
 		// Relation表中有 接口表中没有interfaces.get(0)会有NullPointer
 		if (interfaces.size()>0)
@@ -506,7 +542,7 @@ public class InterfaceGeneraterTask implements ExcelGenerateTask {
 		mVo.setServiceId(serviceId);
 		mVo.setServiceName(service.getServiceName());
 		mVo.setServiceRemark(service.getServiceRemark());
-		mVo.setOperationRemark(services1.get(0).getServiceRemark());
+		mVo.setOperationRemark(operations.get(0).getRemark());
 		mVo.setOperationId(operationId);
 		mVo.setOperationName(operation.getServiceName());
 		mVo.setConsumerSysAb(consumerSysAB);
@@ -515,6 +551,7 @@ public class InterfaceGeneraterTask implements ExcelGenerateTask {
 		SvcAsmRelateView view = serviceManager.getRelationViewByInterfaceId(interfaceId);
 		mVo.setType(view.getDirection());
 		mVo.setMsgType(view.getProvideMsgType());
+		mVo.setMsgConvert(r.getMsgConvert());
 		return mVo;
 	}
 

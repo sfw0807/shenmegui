@@ -4,7 +4,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
 		<title>上线统计表(按日期)</title>
@@ -95,27 +95,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</th>
 							<th>
 								<input type="text" name="countofservices" id="countofservices" value="上线服务总数"
-									class="search_init" />
+									class="search_init" style = "display:none"/>
 							</th>
 							<th>
 								<input type="text" name="countofaddservices" id="countofaddservices" value="新增服务数"
-									class="search_init" />
+									class="search_init" style = "display:none"/>
 							</th>
 							<th>
 								<input type="text" name="counofmodifyservices" id="counofmodifyservices" value="修改服务数"
-									class="search_init" />
+									class="search_init" style = "display:none"/>
 							</th>
 							<th>
 								<input type="text" name="countofoperations" id="countofoperations" value="上线操作总数" 
-								class="search_init" />
+								class="search_init" style = "display:none"/>
 							</th>
 							<th>
 								<input type="text" name="countofaddoperations" id="countofaddoperations" value="新增操作数"
-									class="search_init" />
+									class="search_init" style = "display:none"/>
 							</th>
 							<th>
 								<input type="text" name="countofmodifyoperations" id="countofmodifyoperations" value="修改操作数"
-									class="search_init" />
+									class="search_init"  style = "display:none"/>
 							</th>
 						</tr>
 					</tfoot>
@@ -124,7 +124,3 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</body>
 </html>
-
-
-
-

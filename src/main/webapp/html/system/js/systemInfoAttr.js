@@ -6,15 +6,19 @@ $(function() {
 	
 	var params = window.dialogArguments;
 	if(params.type == 'modify'){
-	  $('#sysId').attr("readonly","true");
+	  $('#sysId').attr("disabled",true);
 	  $('#sysId').val(params.sysId);
 	  $('#sysAb').val(params.sysAb);
 	  $('#sysName').val(params.sysName);
 	  $('#remark').val(params.remark);
 	  $('#firstTime').val(params.firstTime);
+	  $('#maxCon').val(params.maxCon);
+	  $('#avgTime').val(params.avgTime);
+	  $('#tmOut').val(params.tmOut);
+	  $('#sucRate').val(params.sucRate);
 	}
 	else{
-	  $('#sysId').removeAttr("readonly");
+	  $('#sysId').removeAttr("disabled");
 	}
 	
 	// 新增判断元数据结构ID是否存在
@@ -69,7 +73,7 @@ $(function() {
 			"aoColumnDefs" : [
 				{
 					"sClass" : "center",
-					"aTargets" : [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+					"aTargets" : [ 0, 1, 2, 3, 4, 5, 6, 7]
 				}/*,
 				{
 					"mRender" : function ( data, type, row ) {
@@ -140,7 +144,7 @@ $(function() {
              return false;
           }else{
              // 元数据Id为只读
-             $("#sysId").attr("readonly","true");
+             $("#sysId").attr("disabled","true");
           }
         }
         oTable.dataTable().fnAddData({
@@ -149,13 +153,13 @@ $(function() {
              "sysAddr":"<nobr><input type='text' id='sysAddr' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:50px;'/></nobr>",
              "appScene":"<nobr><input type='text' id='appScene' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);'  style = 'width:50px;'/></nobr>",
              "msgType":"<nobr><input type='text' id='msgType' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);'  style = 'width:50px;'/></nobr>",
-             "timeout":"<nobr><input type='text' id='timeout' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);'  style = 'width:50px;'/></nobr>",
+             
              "sysType":"<select id='sysType' onclick='window.event.stopPropagation();' style = 'width:50px;height:20px;'/><option value=''></option><option value='提供方'>提供方</option><option value='调用方'>调用方</option></select>",
              "codeType":"<nobr><input type='text' id='codeType' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);'  style = 'width:50px;'/></nobr>",
-             "macFlag":"<nobr><input type='text' id='macFlag' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);'  style = 'width:50px;'/></nobr>",
-             "currentTimes":"<nobr><input type='text' id='currentTimes' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);'  style = 'width:50px;'/></nobr>",
-             "avgResTime":"<nobr><input type='text' id='avgResTime' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);'  style = 'width:50px;'/></nobr>",
-             "successRate":"<nobr><input type='text' id='successRate' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);'  style = 'width:50px;'/></nobr>"
+             "macFlag":"<nobr><input type='text' id='macFlag' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);'  style = 'width:50px;'/></nobr>"
+             
+             
+             
         });
      });
      // 删除行
@@ -175,7 +179,7 @@ $(function() {
        // 新增 如果表格无数据，则元数据id为只读
        if(params.type == 'add'){
            if(oTable.find("td").hasClass("dataTables_empty")){
-              $("#sysId").removeAttr("readonly");
+              $("#sysId").removeAttr("disabled");
            }
        }
      });
@@ -192,24 +196,24 @@ $(function() {
 			    var sysAddr = selectedDatas["sysAddr"];
 			    var appScene = selectedDatas["appScene"];
 			    var msgType = selectedDatas["msgType"];
-			    var timeout = selectedDatas["timeout"];
+			    
 			    var sysType = selectedDatas["sysType"];
 			    var codeType = selectedDatas["codeType"];
 			    var macFlag = selectedDatas["macFlag"];
-			    var currentTimes = selectedDatas["currentTimes"];
-			    var avgResTime = selectedDatas["avgResTime"];
-			    var successRate = selectedDatas["successRate"];	
+			    
+			    
+			    	
 				rowsSelected[0].cells[1].innerHTML="<nobr><input type='text' value='"+connectMode+"' id='connectMode' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:50px;'/></nobr>";
 				rowsSelected[0].cells[2].innerHTML="<nobr><input type='text' value='"+sysAddr+"' id='sysAddr' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:50px;'/></nobr>";
 				rowsSelected[0].cells[3].innerHTML="<nobr><input type='text' value='"+appScene+"' id='sysAddr' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:50px;'/></nobr>";	
 				rowsSelected[0].cells[4].innerHTML="<nobr><input type='text' value='"+msgType+"' id='sysAddr' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:50px;'/></nobr>";	
-				rowsSelected[0].cells[5].innerHTML="<nobr><input type='text' value='"+timeout+"' id='timeout' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:50px;'/></nobr>";
-				rowsSelected[0].cells[6].innerHTML="<select id='sysType' onclick='window.event.stopPropagation();'  style = 'width:50px;height:20px;'/><option value=''></option><option value='提供方'>提供方</option><option value='调用方'>调用方</option></select>";
-				rowsSelected[0].cells[7].innerHTML="<nobr><input type='text' value='"+codeType+"' id='codeType' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:50px;'/></nobr>";
-				rowsSelected[0].cells[8].innerHTML="<nobr><input type='text' value='"+macFlag+"' id='macFlag' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:50px;'/></nobr>";
-				rowsSelected[0].cells[9].innerHTML="<nobr><input type='text' value='"+currentTimes+"' id='currentTimes' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:50px;'/></nobr>";
-				rowsSelected[0].cells[10].innerHTML="<nobr><input type='text' value='"+avgResTime+"' id='avgResTime' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:50px;'/></nobr>";
-				rowsSelected[0].cells[11].innerHTML="<nobr><input type='text' value='"+successRate+"' id='successRate' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:50px;'/></nobr>";
+				
+				rowsSelected[0].cells[5].innerHTML="<select id='sysType' onclick='window.event.stopPropagation();'  style = 'width:50px;height:20px;'/><option value=''></option><option value='提供方'>提供方</option><option value='调用方'>调用方</option></select>";
+				rowsSelected[0].cells[6].innerHTML="<nobr><input type='text' value='"+codeType+"' id='codeType' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:50px;'/></nobr>";
+				rowsSelected[0].cells[7].innerHTML="<nobr><input type='text' value='"+macFlag+"' id='macFlag' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:50px;'/></nobr>";
+				
+				
+				
 			}
 			else{
 			}
@@ -231,9 +235,12 @@ $(function() {
               remark : $('#remark').val(),
               modifyUser: '',
               updateTime: '',
-              firstPublishDate : $('#firstTime').val()
+              firstPublishDate : $('#firstTime').val(),
+              avgResTime: $('#avgTime').val(),
+              maxConNum: $('#maxCon').val(),
+              timeOut: $('#tmOut').val(),
+              successRate: $('#sucRate').val()
            };
-           console.log(system);
            // 存储所有属性信息列表
 		   var array = [];
 		   var rowsAll = tables["protocolInfoTable"].$("tr");		
@@ -245,21 +252,20 @@ $(function() {
 					sysAddr:(tr.cells[2].children[0]!=undefined)?(tr.cells[2].children[0].value):(tr.cells[2].innerText),
 					appScene:(tr.cells[3].children[0]!=undefined)?(tr.cells[3].children[0].value):(tr.cells[3].innerText),
 					msgType:(tr.cells[4].children[0]!=undefined)?(tr.cells[4].children[0].value):(tr.cells[4].innerText),
-					timeout:(tr.cells[5].children[0]!=undefined)?(tr.cells[5].children[0].value):(tr.cells[5].innerText),
-					sysType:(tr.cells[6].children[0]!=undefined)?(tr.cells[6].children[0].value):(tr.cells[6].innerText),
-					codeType:(tr.cells[7].children[0]!=undefined)?(tr.cells[7].children[0].value):(tr.cells[7].innerText),
-					macFlag:(tr.cells[8].children[0]!=undefined)?(tr.cells[8].children[0].value):(tr.cells[8].innerText),
-					currentTimes:(tr.cells[9].children[0]!=undefined)?(tr.cells[9].children[0].value):(tr.cells[9].innerText),
-					avgResTime:(tr.cells[10].children[0]!=undefined)?(tr.cells[10].children[0].value):(tr.cells[10].innerText),
-					successRate:(tr.cells[11].children[0]!=undefined)?(tr.cells[11].children[0].value):(tr.cells[11].innerText)
+					
+					sysType:(tr.cells[5].children[0]!=undefined)?(tr.cells[5].children[0].value):(tr.cells[5].innerText),
+					codeType:(tr.cells[6].children[0]!=undefined)?(tr.cells[6].children[0].value):(tr.cells[6].innerText),
+					macFlag:(tr.cells[7].children[0]!=undefined)?(tr.cells[7].children[0].value):(tr.cells[7].innerText)
+					
+					
+					
 		       };
 			   array.push(mdtAttrInfo);	
 		   }
-		   console.log(array);
 		   if(params.type == 'add'){
               systemInfoManager.insert(system);
               systemInfoManager.saveProtocolInfos(array);
-              $('#sysId').attr("readonly","true");
+              $('#sysId').attr("disabled","true");
            }
            else{
               systemInfoManager.update(system);

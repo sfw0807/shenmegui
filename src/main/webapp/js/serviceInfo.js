@@ -1,6 +1,6 @@
 $(function() {
 	var tables = {};
-	var asInitVals = new Array();
+	var asInitVals = [];
 	$('#tabs').tabs();
 	$("#tab0").click(function(e) {
 		if(tables["serviceInfoTable"]){
@@ -37,11 +37,11 @@ $(function() {
 					"aTargets" : [ 0, 1, 2, 3, 4, 5, 6, 7, 8]
 				}
 			],
-			"bJQueryUI": "true",
-			"bAutoWidth" : "true",
+			"bJQueryUI": true,
+			"bAutoWidth" : true,
 			"bScrollCollapse" : "full_numbers",
-			"bPaginate" : "true",
-			"bSort" : "true",
+			"bPaginate" : true,
+			"bSort" : true,
 			"oLanguage" : oLanguage,
 			"fnDrawCallback" : function() {
 				columnClickEventInit();
@@ -122,9 +122,18 @@ $(function() {
         if(count > 1){
             alert('只能选择一条记录查看!');
             return false;}
-        window.showModalDialog("../jsp/operationsByServiceId.jsp",id,"dialogWidth=900px,dialogHeight=400px,resizable=no");
+        var isChrome = (navigator.appVersion.indexOf("Chrome") != -1) ? true : false;
+        if(isChrome){
+            var winOption = "height=600px,width=900px,top=50,scrollbars=yes,resizable=yes,fullscreen=0";
+            return  window.open("../jsp/operationsByServiceId.jsp?serviceId="+id, window, winOption);
+        }else{
+            window.showModalDialog("../jsp/operationsByServiceId.jsp",id,"dialogWidth:900px;dialogHeight:400px;resizable=no");
+
+        }
+
+
     });
-    
+
      
      var serviceId = $( "#form_serviceId" ),
      serviceName = $( "#form_serviceName" ),
@@ -404,7 +413,7 @@ $(function() {
            return false;
         }
         if(redefids == ""){
-           alert('请选择删除的记录!');
+           alert('请选择重定义的记录!');
            return false;
         }	
         redefids = redefids.substring(0,redefids.length-1);
@@ -431,7 +440,7 @@ $(function() {
              return false;
         }
         if(publishids == ""){
-           alert('请选择删除的记录!');
+           alert('请选择上线的记录!');
            return false;
         }	
         publishids = publishids.substring(0,publishids.length-1);
@@ -439,4 +448,45 @@ $(function() {
            serviceInfoManager.publish(publishids);
         }
     });
+    
+    $('#submit').button().click(function(){
+	    var params = [];
+	    var id = '';
+	    var flag = false;
+        $("#serviceInfoTable tbody tr").each(function(){
+             if($(this).hasClass("row_selected")){
+                id = $(this).find("td").eq(0).text();
+                params.push(id);
+                var state = $(this).find("td").eq(7).text();
+                if(state == '通过' || state == '待审核'){
+                		flag = true;
+                }
+             }
+        });
+        if(flag){
+           alert('服务已经是通过或者待审核，不能提交!');
+           return false;
+        }
+        if(params.length == 0){
+           alert('请选择服务!');
+           return false;
+        }	
+        function submitOpe(result){
+              if(result){
+                 alert('服务提交审核成功!');
+                 window.location.reload();
+              }
+              else{
+                 alert('服务提交审核失败!');
+              }
+        };
+        serviceInfoManager.submitService(submitOpe, params);
+	});
+    
+    $('#checkAll').button().click(function () {
+		$("#serviceInfoTable tbody tr").addClass("row_selected");
+	});
+	$('#toggleAll').button().click(function () {
+		$("#serviceInfoTable tbody tr").toggleClass("row_selected");
+	});
 });

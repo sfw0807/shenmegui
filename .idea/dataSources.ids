@@ -1,20 +1,369 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component name="dataSourceStorage">
-  <data-source source="LOCAL" name="DB2 - esbsg@localhost" uuid="bf2c976f-8748-47bf-8560-3edf2e23d4b2">
-    <database-info product="DB2/NT64" version="SQL10010" jdbc-version="3.0" driver-name="IBM DB2 JDBC Universal Driver Architecture" driver-version="3.1.57">
-      <extra-name-characters>@#</extra-name-characters>
-      <identifier-quote-string>&quot;</identifier-quote-string>
-    </database-info>
-    <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact"/>
-  </data-source>
   <data-source source="LOCAL" name="oracle_sg" uuid="2e847f3e-c6d3-41c6-b0c8-b63e9ed68e60">
     <database-info product="Oracle" version="Oracle Database 10g Release 10.2.0.1.0 - Production" jdbc-version="11.2" driver-name="Oracle JDBC driver" driver-version="11.2.0.1.0">
       <extra-name-characters>$#</extra-name-characters>
       <identifier-quote-string>&quot;</identifier-quote-string>
     </database-info>
     <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact"/>
-  </data-source>
-  <data-source source="LOCAL" name="dataSource" uuid="95fc2dac-a0b8-4b1c-927c-b2446b6ca1e8">
-    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+    <schema name="ESB" catalog=""/>
+    <table name="ACCOUNTS_INFO" schema="ESB" catalog="" type="VIEW">
+      <column name="USERID" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USERNAME" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USERPASSWORD" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="DEFAULT_INTERFACE" schema="ESB" catalog="" type="TABLE">
+      <column name="INTERFACEID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="INTERFACENAME" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="INTERFACETYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SERVICEID" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="DEFAULT_SERVICE" schema="ESB" catalog="" type="TABLE">
+      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SERVICE_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SERVICE_REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="HEADSDA" schema="ESB" catalog="" type="TABLE">
+      <column name="RESOURCEID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="STRUCTNAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="STRUCTALIAS" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SERVICEID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="STRUCTINDEX" sqlType="NUMBER" precision="22" scale="0" nullable="true" jdbcType="3"/>
+      <column name="METADATAID" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ACTIONID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="PARENTRESOURCEID" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TYPE" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REQUIRED" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSIONNO" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATEDATE" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSIONST" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PRODUCTNO" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="IDA" schema="ESB" catalog="" type="TABLE">
+      <column name="ID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="STRUCTNAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STRUCTALIAS" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="METADATA_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SEQ" sqlType="NUMBER" precision="22" scale="0" nullable="true" jdbcType="3"/>
+      <column name="TYPE" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SCALE" sqlType="VARCHAR2" precision="5" scale="0" nullable="true" jdbcType="12"/>
+      <column name="LENGTH" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REQUIRED" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PARENT_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="INTERFACE_ID" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="IDA_BAK" schema="ESB" catalog="" type="TABLE">
+      <column name="ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="STRUCTNAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STRUCTALIAS" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="METADATA_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SEQ" sqlType="NUMBER" precision="22" scale="0" nullable="true" jdbcType="3"/>
+      <column name="TYPE" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SCALE" sqlType="VARCHAR2" precision="5" scale="0" nullable="true" jdbcType="12"/>
+      <column name="LENGTH" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REQUIRED" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PARENT_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="INTERFACE_ID" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="IDA_PROP" schema="ESB" catalog="" type="TABLE">
+      <column name="ID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="IDA_ID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="PROPERTYNAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="PROPERTYVALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SEQ" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSIONNO" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATEDATE" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSIONST" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PRODUCTNO" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="INTERFACE" schema="ESB" catalog="" type="TABLE">
+      <column name="INTERFACE_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ECODE" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="INTERFACE_NAME" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="3000" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSION" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATE" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="TIMESTAMP(6)" precision="11" scale="6" nullable="true" jdbcType="93"/>
+      <column name="THROUGH" sqlType="VARCHAR2" precision="6" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="INTERFACE_EXTENDS" schema="ESB" catalog="" type="TABLE">
+      <column name="ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="INTERFACEID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SUPERINTERFACEID" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SUPERINTERFACENAME" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSIONNO" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSIONST" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PRODUCTNO" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATEDATE" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="INTERFACE_MANAGEMENT_VIEW" schema="ESB" catalog="" type="VIEW">
+      <column name="ECODE" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="INTERFACE_NAME" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SYS_AB" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="INTERFACE_VERSION" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSION" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSIONST" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ONLINE_DATE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="THROUGH" sqlType="VARCHAR2" precision="6" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="INVOKE_RELATION" schema="ESB" catalog="" type="TABLE">
+      <column name="ID" sqlType="NUMBER" precision="22" scale="0" nullable="false" jdbcType="3"/>
+      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ECODE" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="PROVIDE_SYS_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="CONSUME_SYS_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PASSBY_SYS_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CONSUME_MSG_TYPE" sqlType="VARCHAR2" precision="4" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PROVIDE_MSG_TYPE" sqlType="VARCHAR2" precision="4" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="TIMESTAMP(6)" precision="11" scale="6" nullable="true" jdbcType="93"/>
+      <column name="FUNCTYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SVCHEADER" sqlType="VARCHAR2" precision="25" scale="0" nullable="true" jdbcType="12"/>
+      <column name="THROUGH" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="DIRECTION" sqlType="VARCHAR2" precision="2" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="METADATA" schema="ESB" catalog="" type="TABLE">
+      <column name="METADATA_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="METADATA_NAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="METADATA_REMARK" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="LENGTH" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SCALE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="METADATA_STRUCTS" schema="ESB" catalog="" type="TABLE">
+      <column name="STRUCTID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="STRUCTNAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="METADATA_STRUCTS_ATTR" schema="ESB" catalog="" type="TABLE">
+      <column name="STRUCTID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ELEMENTID" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ELEMENTNAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ISREQUIRED" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="METADATAID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+    </table>
+    <table name="METADATA_STRUCTS_EXPRESSSION" schema="ESB" catalog="" type="TABLE">
+      <column name="STRUCTID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ELEMENTID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ATTRIBUTEID" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ATTRIBUTEVALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="OLA" schema="ESB" catalog="" type="TABLE">
+      <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OLA_NAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OLA_VALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OLA_REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="OLA_HISTORY" schema="ESB" catalog="" type="TABLE">
+      <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OPERATION_VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SERVICE_VERSION" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OLA_NAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OLA_VALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OLA_REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="OPERATION" schema="ESB" catalog="" type="TABLE">
+      <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OPERATION_NAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSION" sqlType="VARCHAR2" precision="25" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATE" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="OPERATION_HISTORY" schema="ESB" catalog="" type="TABLE">
+      <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OPERATION_NAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPERATION_VERSION" sqlType="VARCHAR2" precision="25" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OPERATION_STATE" sqlType="VARCHAR2" precision="25" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SERVICE_VERSION" sqlType="VARCHAR2" precision="25" scale="0" nullable="false" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="PROTOCOLINFO" schema="ESB" catalog="" type="TABLE">
+      <column name="SYSID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="CONNECTMODE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SYSADDR" sqlType="VARCHAR2" precision="300" scale="0" nullable="true" jdbcType="12"/>
+      <column name="APPSCENE" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MESSAGETYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TIMEOUT" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SYSTYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CODETYPE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MACFLAG" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CURRENTTIMES" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="AVGRESTIME" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SUCCESSRATE" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="PUBLISH_INFO" schema="ESB" catalog="" type="TABLE">
+      <column name="ID" sqlType="NUMBER" precision="22" scale="0" nullable="false" jdbcType="3"/>
+      <column name="IR_ID" sqlType="NUMBER" precision="22" scale="0" nullable="false" jdbcType="3"/>
+      <column name="ONLINE_DATE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SERVICE_VERSION" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPERATION_VERSION" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="INTERFACE_VERSION" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FIELD" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="REMAINING_SERVICE" schema="ESB" catalog="" type="TABLE">
+      <column name="SERVICEID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OPERATIONID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+    </table>
+    <table name="SDA" schema="ESB" catalog="" type="TABLE">
+      <column name="ID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="STRUCT_ID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="METADATA_ID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="TYPE" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SEQ" sqlType="NUMBER" precision="22" scale="0" nullable="true" jdbcType="3"/>
+      <column name="REQUIRED" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="PARENT_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="SDA_HISTORY" schema="ESB" catalog="" type="TABLE">
+      <column name="ID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="STRUCT_ID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="METADATA_ID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="TYPE" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SEQ" sqlType="NUMBER" precision="22" scale="0" nullable="true" jdbcType="3"/>
+      <column name="REQUIRED" sqlType="VARCHAR2" precision="10" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OPERATION_VERSION" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SERVICE_VERSION" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="PARENT_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="SDA_PROP" schema="ESB" catalog="" type="TABLE">
+      <column name="ID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SDA_ID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="PROPERTYNAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="PROPERTYVALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SEQ" sqlType="NUMBER" precision="22" scale="0" nullable="true" jdbcType="3"/>
+      <column name="VERSIONNO" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATEDATE" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSIONST" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PRODUCTNO" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="SERVICE" schema="ESB" catalog="" type="TABLE">
+      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SERVICE_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SERVICE_REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CATEGORY_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSION" sqlType="VARCHAR2" precision="25" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STATE" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="SERVICE_CATEGORY" schema="ESB" catalog="" type="TABLE">
+      <column name="CATEGORY_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="CATEGORY_NAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
+      <column name="PARENT_ID" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="SERVICE_HEAD_RELATE" schema="ESB" catalog="" type="TABLE">
+      <column name="SHEADID" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SERVICEID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="SG_FUNCTION" schema="ESB" catalog="" type="TABLE">
+      <column name="FUNCTION_ID" sqlType="NUMBER" precision="22" scale="0" nullable="false" jdbcType="3"/>
+      <column name="FUNCTION_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="FUNCTION_URL" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="FUNCTION_PARENT_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="FUNCTION_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="SG_LOG" schema="ESB" catalog="" type="TABLE">
+      <column name="LOG_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="LOG_USER_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="LOG_FUNCTION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="LOG_TIME" sqlType="TIMESTAMP(6)" precision="11" scale="6" nullable="false" jdbcType="93"/>
+      <column name="LOG_DETAIL" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="LOG_TYPE" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+    </table>
+    <table name="SG_ORG" schema="ESB" catalog="" type="TABLE">
+      <column name="ORG_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ORG_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ORG_AB" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ORG_STATUS" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+    </table>
+    <table name="SG_ROLE" schema="ESB" catalog="" type="TABLE">
+      <column name="ROLE_ID" sqlType="NUMBER" precision="22" scale="0" nullable="false" jdbcType="3"/>
+      <column name="ROLE_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="ROLE_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="SG_ROLE_FUNCTION_RELATE" schema="ESB" catalog="" type="TABLE">
+      <column name="ROLE_ID" sqlType="NUMBER" precision="22" scale="0" nullable="false" jdbcType="3"/>
+      <column name="FUNCTION_ID" sqlType="NUMBER" precision="22" scale="0" nullable="false" jdbcType="3"/>
+    </table>
+    <table name="SG_USER" schema="ESB" catalog="" type="TABLE">
+      <column name="USER_ID" sqlType="NUMBER" precision="22" scale="0" nullable="false" jdbcType="3"/>
+      <column name="USER_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="USER_PASSWORD" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="USER_ROLE_ID" sqlType="NUMBER" precision="22" scale="0" nullable="false" jdbcType="3"/>
+      <column name="USER_ORG_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="USER_LASTDATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_STATUS" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+    </table>
+    <table name="SLA" schema="ESB" catalog="" type="TABLE">
+      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SLA_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SLA_VALUE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SLA_REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="SLA_HISTORY" schema="ESB" catalog="" type="TABLE">
+      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SERVICE_VERSION" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OPERATION_VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SLA_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SLA_VALUE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SLA_REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="SYSTEM" schema="ESB" catalog="" type="TABLE">
+      <column name="SYS_ID" sqlType="VARCHAR2" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="SYS_AB" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SYS_NAME" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="500" scale="0" nullable="true" jdbcType="12"/>
+      <column name="MODIFYUSER" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="UPDATETIME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FIRST_PUBLISH_DATE" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="TRANS_STATE" schema="ESB" catalog="" type="TABLE">
+      <column name="ID" sqlType="NUMBER" precision="22" scale="0" nullable="false" jdbcType="3"/>
+      <column name="VERSIONST" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="USER_INFO" schema="ESB" catalog="" type="VIEW">
+      <column name="SEQ_NO" sqlType="NUMBER" precision="22" scale="0" nullable="true" jdbcType="3"/>
+      <column name="USERID" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+    </table>
   </data-source>
 </component>

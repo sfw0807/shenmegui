@@ -1,6 +1,7 @@
 $(function() {
 	var tables = {};
-	var asInitVals = new Array();
+    var isChrome = (navigator.appVersion.indexOf("Chrome") != -1) ? true : false;
+	var asInitVals = [];
 	$('#tabs').tabs();
 	$("#tab1").click(function(e) {
 		if(tables["operationHistorySDATable"]){
@@ -125,7 +126,7 @@ $(function() {
 		tables["operationHistorySDATable"].fnAdjustColumnSizing(true);
 
 	};
-	operationHistoryManager.getSDA(params,initChildTable);
+	//operationHistoryManager.getSDA(params,initChildTable);
 
 	//初始化操作Grid的搜索框
 	var initoperationSDATableFooter = function initoperationSDATableFooter() {
@@ -152,7 +153,7 @@ $(function() {
 					}
 				});
 	};
-	initoperationSDATableFooter();
+	//initoperationSDATableFooter();
 
 	//初始化SLA表格的方法
 	var initoperationSlaTable = function initoperationSlaTable(result) {
@@ -273,4 +274,13 @@ $(function() {
 				});
 	};
 	initoperationOlaTableFooter();
+
+	$("#seesda").click(function(){
+        if(isChrome){
+            var winOption = "height=800px,width=1200px,top=50,scrollbars=yes,resizable=yes,fullscreen=0";
+            return  window.open("../jsp/sdaHistory.jsp?operationId="+operationId+"&serviceId="+serviceId+"&version="+version, window, winOption);
+        }else{
+            window.showModalDialog("../jsp/sdaHistory.jsp",operationId+"|"+serviceId+"|"+version,"dialogWidth:1200px;dialogHeight:800px;resizable=yes");
+        }
+	});
 });

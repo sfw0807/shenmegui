@@ -69,6 +69,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input type = "button" value="上线" id="publishOperation" />
 			</div>
 			-->
+			<div class="ui-widget-header" style="margin-bottom:0.5em;padding:0.2em;">
+					<input type='button' id='del' value='删除'></input>
+					<input type='button' id='addConsumer' value='新增调用方'></input>
+					<input type='button' id='modifyState' value='修改状态'></input>
+			    </div>
 			<table cellpadding="0" cellspacing="0" border="0" class="display" id="invokeTable">
 					<tfoot>
 						<tr>
@@ -83,13 +88,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th>
 								<input type="text" name="interfaceInfo" id="interfaceInfo" value="接口ID/接口名称"
 									class="search_init" />
-							</th>							
+							</th>		
+							<th>
+								<input type="text" name="consumeSysInfo" id="consumeSysInfo" value="源系统简称/名称"
+									class="search_init" />
+							</th>	
+							<th>
+								<input type="text" name="passbySysInfo" id="passbySysInfo" value="调用方系统简称/名称"
+									class="search_init" />
+							</th>	
+							<th>
+								<input type="text" name="provideSysInfo" id="provideSysInfo" value="提供方系统简称/名称"
+									class="search_init" />
+							</th>						
 							<th>
 								<input type="text" name="provideMsgType" id="provideMsgType" value="提供方报文类型"
 									class="search_init" />
 							</th>
 							<th>
 								<input type="text" name="consumeMsgType" id="consumeMsgType" value="调用方报文类型"
+									class="search_init" />
+							</th>
+							<th>
+								<input type="text" name="direction" id="direction" value="接口方向"
 									class="search_init" />
 							</th>
 							<th>
@@ -112,19 +133,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<th>
 								<input type="text" name="remark" id="remark" value="备注"
 									class="search_init" />
-							</th>	
-							<th>
-								<input type="text" name="provider" id="provider" value="提供方"
-									class="search_init" />
-							</th>	
-							<th>
-								<input type="text" name="consumer" id="consumer" value="调用方"
-									class="search_init" />
-							</th>	
-							<th>
-								<input type="text" name="action" id="action" value="动作"
-									class="search_init" />
-							</th>																											
+							</th>																												
 						</tr>
 					</tfoot>
 				</table>

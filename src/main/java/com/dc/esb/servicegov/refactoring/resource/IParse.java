@@ -6,5 +6,5 @@ import org.apache.poi.ss.usermodel.Sheet;
 
 public interface IParse {
 
-	public void parse(Row row,Sheet interfaceSheet);
+	public boolean parse(Row row, Sheet interfaceSheet);
 }

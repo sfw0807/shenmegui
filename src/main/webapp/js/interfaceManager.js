@@ -63,9 +63,11 @@ var interfaceManager = {
     update: function(params, callBack) {
         $.ajax({
          	"contentType": "application/json; charset=utf-8",
-            url: '../interfaceManagement/update/' + params,
-            type: 'POST',
-            success: function(result) {
+            "url": '../interfaceManagement/update',
+            "type": 'POST',
+            "data": params,
+            "dataType": 'json',
+            "success": function(result) {
                 callBack(result);
             }
         });

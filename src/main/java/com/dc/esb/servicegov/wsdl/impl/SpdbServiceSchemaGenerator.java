@@ -27,7 +27,6 @@ import com.dc.esb.servicegov.entity.MetaStructNode;
 import com.dc.esb.servicegov.entity.SDANode;
 import com.dc.esb.servicegov.entity.Service;
 import com.dc.esb.servicegov.exception.DataException;
-import com.dc.esb.servicegov.refactoring.service.OperationManager;
 import com.dc.esb.servicegov.service.impl.MetadataManagerImpl;
 import com.dc.esb.servicegov.service.impl.ServiceManagerImpl;
 import com.dc.esb.servicegov.vo.MetadataViewBean;
@@ -54,9 +53,6 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
     private MetadataManagerImpl metadataManager;
     @Autowired
     private MetaStructNodeDAOImpl metaStructNodeDAO;
-	@Autowired
-	private OperationManager operationManager;
-	
     private Map<String, String> uniqueMap = new HashMap<String, String>();
 
     @Override

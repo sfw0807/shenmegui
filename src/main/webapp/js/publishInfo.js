@@ -19,6 +19,10 @@ $(function() {
 	 */
 	var initpublishInfoTable = function initpublishInfoTable(result) {
 
+        //初始化publishInfoTable
+	 	if (tables["publishInfoTable"]) {
+            tables["publishInfoTable"].fnDestroy();
+        }
 		//初始化对Grid的操作事件
 		var columnClickEventInit = function columnClickEventInit() {
 			$("#publishInfoTable tbody tr").unbind("click");
@@ -26,26 +30,20 @@ $(function() {
 				$(this).toggleClass("row_selected");
 			});
 		};
-		//初始化publishInfoTable
-	 	if (tables["publishInfoTable"]) {
-            tables["publishInfoTable"].fnDestroy();
-        }
 		tables["publishInfoTable"] = $("#publishInfoTable").dataTable( {
 			"aaData" : result,
 			"aoColumns" : publishInfoTableLayout,
 			"aoColumnDefs" : [
 				{
 					"sClass" : "center",
-					"aTargets" : [ 0, 1, 2, 3, 4, 5 , 6, 7]
+					"aTargets" : [ 0, 1, 2, 3, 4, 5, 6]
 				}
 			],
-			"bJQueryUI": "true",
-			"bAutoWidth" : "true",
-			//"sScrollY" : "500px",
-			//"sScrollX" : "500px",
+			"bJQueryUI": true,
+			"bAutoWidth" : true,
 			"bScrollCollapse" : "full_numbers",
-			"bPaginate" : "true",
-			"bSort" : "true",
+			"bPaginate" : true,
+			"bSort" : true,
 			"oLanguage" : oLanguage,
 			"fnDrawCallback" : function() {
 				columnClickEventInit();
@@ -85,7 +83,6 @@ $(function() {
 	initpublishInfoTableFooter();
 	
 	$('#export').button().click(function () {
-	
 				var prdMsgType = $('#provideMsgType').val();
 				var csmMsgType = $('#consumeMsgType').val();
 				var onlineDate = ($('#onlinedate').val() == '上线日期')?"":$('#onlinedate').val();

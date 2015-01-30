@@ -9,9 +9,9 @@ import com.dc.esb.servicegov.refactoring.entity.MetadataStructsAttr;
 public interface MetadataStructsAttrManager {
 
 	public List<MetadataStructsAttr> getAll();
-	public void delById(String structId,String metadataId);
+	public void delById(String structId, String metadataId);
 	public void insertOrUpdate(MetadataStructsAttr metadataStructsAttr);
-	public MetadataStructsAttr getMdtStructsAttrById(String structId,String metadataId);
+	public MetadataStructsAttr getMdtStructsAttrById(String structId, String metadataId);
 	// 根据structId删除
 	public void delByStructId(String structId);
 	// 根据structId查找属性列表

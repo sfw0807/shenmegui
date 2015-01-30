@@ -53,7 +53,7 @@ div.hidden {
 }
 
 body {
-    font-size: 100%;
+    font-size: 62.5%;
     font-family: "Trebuchet MS", "Arial", "Helvetica", "Verdana", "sans-serif";
     min-height: 100%;
 }
@@ -95,7 +95,7 @@ table {
 
 #tabs {
     height: 90%;
-    margin-left: 1em;
+    /*margin-left: 1em;*/
     margin-top: 1em;
     float: left;
     width: 75%;

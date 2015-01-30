@@ -39,14 +39,17 @@ public class ResourceExcelImportTask implements ResourceExcelImportBaseTask {
 	}
 
 	public void parse() {
-		invokeInfoParse.parseRow(row);
-		// 存在SDA
-		if (interfaceSheet != null) {
-			serviceParse.parse(row, interfaceSheet);
-			interfaceParse.parse(row, interfaceSheet);
-		} else {
-			indexServiceParse.parse(row, interfaceSheet);
-			indexInterfaceParse.parse(row, interfaceSheet);
+		if (invokeInfoParse.parseRow(row)) {
+			// 存在SDA
+			if (interfaceSheet != null) {
+				if (serviceParse.parse(row, interfaceSheet)) {
+					interfaceParse.parse(row, interfaceSheet);
+				}
+			} else {
+				if (indexServiceParse.parse(row)) {
+					indexInterfaceParse.parse(row);
+				}
+			}
 		}
 	};
 

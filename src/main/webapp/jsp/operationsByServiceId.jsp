@@ -7,7 +7,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
-		<title>操作详情信息</title>
+		<title>服务操作列表</title>
 
 		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 		<meta http-equiv="description" content="this is my page">
@@ -64,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div id="tabs" style="width: 100%">
 			<ul>
 				<li id='tab0'>
-					<a href='#tabs-0'>操作详情信息</a>
+					<a href='#tabs-0'>服务操作列表</a>
 				</li>
 			</ul>
 			

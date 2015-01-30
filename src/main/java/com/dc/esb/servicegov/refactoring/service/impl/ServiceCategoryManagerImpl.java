@@ -113,4 +113,12 @@ public class ServiceCategoryManagerImpl implements ServiceCategoryManager {
 		}
 		return returnList;
 	}
+	public List<ServiceCategory> getSubServiceCategoryByParentId(String parentId) {
+		List<ServiceCategory> serviceCategoryList = categoryDAO.findBy("parentId", parentId);
+		return serviceCategoryList;
+	}
+	public List<com.dc.esb.servicegov.refactoring.entity.Service> getServiceByCategoryId(String categoryId) {
+		List<com.dc.esb.servicegov.refactoring.entity.Service> serviceList = serviceDAO.findBy("categoryId", categoryId);
+		return serviceList;
+	}
 }

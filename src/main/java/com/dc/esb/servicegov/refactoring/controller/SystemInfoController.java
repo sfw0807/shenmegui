@@ -142,6 +142,17 @@ public class SystemInfoController {
 	ProtocolInfo[] piArr) {
 		boolean flag = true;
 		try {
+			// for IE 8.0 above
+			for(ProtocolInfo pi :piArr){
+				pi.setAppScene(("null".equals(pi.getAppScene()) || pi.getAppScene() ==null)?"":pi.getAppScene());
+				pi.setAvgResTime(("null".equals(pi.getAvgResTime()) || pi.getAvgResTime() ==null)?"":pi.getAvgResTime());
+				pi.setConnectMode(("null".equals(pi.getConnectMode()) || pi.getConnectMode() ==null)?"":pi.getConnectMode());
+				pi.setCurrentTimes(("null".equals(pi.getCurrentTimes()) || pi.getCurrentTimes() ==null)?"":pi.getCurrentTimes());
+				pi.setMacFlag(("null".equals(pi.getMacFlag()) || pi.getMacFlag() ==null)?"":pi.getMacFlag());
+				pi.setSuccessRate(("null".equals(pi.getSuccessRate()) || pi.getSuccessRate() ==null)?"":pi.getSuccessRate());
+				pi.setSysAddr(("null".equals(pi.getSysAddr()) || pi.getSysAddr() ==null)?"":pi.getSysAddr());
+				pi.setTimeout(("null".equals(pi.getTimeout()) || pi.getTimeout() ==null)?"":pi.getTimeout());
+			}
 			if (piArr != null && piArr.length > 0) {
 				// 批量插入或更新元数据结构属性信息
 				protocolManager.batchInsertOrUpdate(piArr);

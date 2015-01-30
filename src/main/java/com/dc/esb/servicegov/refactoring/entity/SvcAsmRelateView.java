@@ -40,6 +40,7 @@ public class SvcAsmRelateView implements Serializable{
 	private String passbySysAB;
 	@Column(name="PASSBYSYSNAME")
 	private String passbySysName;
+	@Id
 	@Column(name="PRDSYSAB")
 	private String prdSysAB;
 	@Column(name="PRDSYSID")

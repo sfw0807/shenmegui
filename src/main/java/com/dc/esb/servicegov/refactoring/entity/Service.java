@@ -40,9 +40,14 @@ public class Service implements Serializable{
 	private String modifyUser;
 	@Column(name="UPDATETIME")
 	private String updateTime;
+	@Column(name="AUDITSTATE")
+	private String auditState;
 	@ManyToOne(targetEntity=ServiceCategory.class)
 	@JoinColumn(name="CATEGORY_ID",referencedColumnName="CATEGORY_ID",insertable=false,updatable=false)
 	private ServiceCategory serviceCategory;
+	@ManyToOne(targetEntity=AuditState.class)
+	@JoinColumn(name="AUDITSTATE",referencedColumnName="ID",insertable=false,updatable=false)
+	private AuditState audit;
 	
 	public ServiceCategory getServiceCategory() {
 		return serviceCategory;
@@ -97,5 +102,17 @@ public class Service implements Serializable{
 	}
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
+	}
+	public String getAuditState() {
+		return auditState;
+	}
+	public void setAuditState(String auditState) {
+		this.auditState = auditState;
+	}
+	public AuditState getAudit() {
+		return audit;
+	}
+	public void setAudit(AuditState audit) {
+		this.audit = audit;
 	}
 }

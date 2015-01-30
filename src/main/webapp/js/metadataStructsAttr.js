@@ -172,11 +172,11 @@ $(function() {
         }
         oTable.dataTable().fnAddData({
              "structId": $("#sId").val(),
-             "elementId":"<nobr><input type='text' id='add_elementId' onclick='window.event.stopPropagation();' onblur='checkDomRegexp(this);' style = 'width:120px;'/></nobr>",
-             "elementName":"<nobr><input type='text' id='add_elementName' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:120px;'/></nobr>",
-             "remark":"<nobr><input type='text' id='add_remark' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);'  style = 'width:120px;'/></nobr>",
-             "isRequired":"<select id='add_isRequired' onclick='window.event.stopPropagation();' style = 'width:120px;height:20px;'/><option value=''></option><option value='Y'>Y</option><option value='N'>N</option></select>",
-             "metadataId":"<select id='"+idMdt+"' onclick='window.event.stopPropagation();'  style = 'width:120px;'/><option value=''></option></select>"
+             "elementId":"<nobr><input type='text' id='add_elementId'  onblur='checkDomRegexp(this);' style = 'width:120px;'/></nobr>",
+             "elementName":"<nobr><input type='text' id='add_elementName'  onblur='checkDomInvalidChar(this);' style = 'width:120px;'/></nobr>",
+             "remark":"<nobr><input type='text' id='add_remark'  onblur='checkDomInvalidChar(this);'  style = 'width:120px;'/></nobr>",
+             "isRequired":"<select id='add_isRequired'  style = 'width:120px;height:20px;'/><option value=''></option><option value='Y'>Y</option><option value='N'>N</option></select>",
+             "metadataId":"<select id='"+idMdt+"'  style = 'width:120px;'/><option value=''></option></select>"
         });
         // 初始化元数据下拉框
 	    function initMetadataInfo() {
@@ -256,11 +256,11 @@ $(function() {
 			    var remark = selectedDatas["remark"];
 			    var isRequired = selectedDatas["isRequired"];
 			    var metadataId = selectedDatas["metadataId"];
-				rowsSelected[0].cells[1].innerHTML="<nobr><input type='text' value='"+elementId+"' id='add_elementId' onclick='window.event.stopPropagation();' onblur='checkDomRegexp(this);' style = 'width:120px;'/></nobr>";	
-				rowsSelected[0].cells[2].innerHTML="<nobr><input type='text' value='"+elementName+"' id='add_elementName' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:120px;'/></nobr>";
-				rowsSelected[0].cells[3].innerHTML="<nobr><input type='text' value='"+remark+"' id='add_remark' onclick='window.event.stopPropagation();' onblur='checkDomInvalidChar(this);' style = 'width:120px;'/></nobr>";
-				rowsSelected[0].cells[4].innerHTML="<select id='add_isRequired' onclick='window.event.stopPropagation();'  style = 'width:120px;height:20px;'/><option value=''></option><option value='Y'>Y</option><option value='N'>N</option></select>";	
-				rowsSelected[0].cells[5].innerHTML="<select id='"+idMdt+"' onclick='window.event.stopPropagation();'  style = 'width:120px;'/><option value=''></option></select>";	
+				rowsSelected[0].cells[1].innerHTML="<nobr><input type='text' value='"+elementId+"' id='add_elementId'  onblur='checkDomRegexp(this);' style = 'width:120px;'/></nobr>";	
+				rowsSelected[0].cells[2].innerHTML="<nobr><input type='text' value='"+elementName+"' id='add_elementName'  onblur='checkDomInvalidChar(this);' style = 'width:120px;'/></nobr>";
+				rowsSelected[0].cells[3].innerHTML="<nobr><input type='text' value='"+remark+"' id='add_remark'  onblur='checkDomInvalidChar(this);' style = 'width:120px;'/></nobr>";
+				rowsSelected[0].cells[4].innerHTML="<select id='add_isRequired'   style = 'width:120px;height:20px;'/><option value=''></option><option value='Y'>Y</option><option value='N'>N</option></select>";	
+				rowsSelected[0].cells[5].innerHTML="<select id='"+idMdt+"'  style = 'width:120px;'/><option value=''></option></select>";	
 				$('#add_isRequired').val(isRequired);
 				// 初始化元数据下拉框
 		        function initMetadataInfo() {
@@ -333,22 +333,29 @@ $(function() {
 		      alert("元数据Id不能重复!");
 		      return false;
 		   }
+		   function callBack(result){
+		        if(result){
+		           alert('保存成功!');         
+				   //初始化metadataStructsAttrTable
+			 	   if (tables["metadataStructsAttrTable"]) {
+		              tables["metadataStructsAttrTable"].fnDestroy();
+		           }
+		           metadataStructsManager.getMdtStructsAttrByStructId($('#sId').val(),initmetadataStructsAttrTable);
+		        }
+		        else{
+		           alert('保存失败!');
+		        }
+		   }
+		   
 		   if(params.type == 'add'){
               metadataStructsManager.insertMdtStructs(mdtStructs);
-              metadataStructsManager.insertMdtStructsAttr(array);
+              metadataStructsManager.insertMdtStructsAttr(array, callBack);
               $('#sId').attr("readonly","true");
            }
            else{
               metadataStructsManager.updateMdtStructs(mdtStructs);
-              metadataStructsManager.updateMdtStructsAttr(array);
-           }	
-           
-		   //初始化metadataStructsAttrTable
-	 	   if (tables["metadataStructsAttrTable"]) {
-              tables["metadataStructsAttrTable"].fnDestroy();
-           }
-           metadataStructsManager.getMdtStructsAttrByStructId($('#sId').val(),initmetadataStructsAttrTable);
-       
+              metadataStructsManager.updateMdtStructsAttr(array, callBack);
+           }	 
      });
     
 });

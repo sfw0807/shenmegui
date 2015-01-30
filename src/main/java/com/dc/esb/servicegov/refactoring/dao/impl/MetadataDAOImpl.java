@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
@@ -49,5 +50,11 @@ public class MetadataDAOImpl extends HibernateDAO<Metadata, String> {
 			return true;
 		}
 		return false;
+	}
+	
+	public List<Metadata> getOrderbyMetadataId(){
+		String hql = " from Metadata order by metadataId" ;
+		Query query = getSession().createQuery(hql);
+		return query.list();
 	}
 }

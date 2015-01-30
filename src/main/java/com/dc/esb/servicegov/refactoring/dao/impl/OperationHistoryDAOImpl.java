@@ -2,6 +2,7 @@ package com.dc.esb.servicegov.refactoring.dao.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import com.dc.esb.servicegov.dao.impl.HibernateDAO;
 import com.dc.esb.servicegov.refactoring.entity.Operation;
@@ -35,5 +36,13 @@ public class OperationHistoryDAOImpl extends HibernateDAO<OperationHistory, Stri
 			log.error("error in save saveHistoryVersion", e);
 		}
 		return isSuccess;
+	}
+	
+	public void delByServiceIdAndOperationId(String serviceId, String operationId){
+		String hql= "delete from OperationHistory where serviceId =? and operationId =?";
+		Query query = getSession().createQuery(hql);
+		query.setString(0, serviceId);
+		query.setString(1, operationId);
+		query.executeUpdate();
 	}
 }

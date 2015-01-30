@@ -12,18 +12,12 @@ var metadataStructsManager = {
     },
     
     // delete metadataStructs by id
-    deleteById: function(id) {
+    deleteById: function(id, callBack) {
         $.ajax({
             "url": '../mdtStructs/delete/' + id,
             "type": 'GET',
             "success": function(result) {
-                if(result){
-                  alert('删除成功!');
-                  window.location.reload();
-                }
-                else{
-                  alert('删除失败!');
-                }
+                 callBack(result);
             }
         });
     },
@@ -70,12 +64,6 @@ var metadataStructsManager = {
             "dataType": "json",
             "data":JSON.stringify(mdtStructs),
             "success": function(result) {
-                if(result){
-                }
-                else{
-                  alert('插入数据失败!');
-                  return false;
-                }
             }
         });
     },
@@ -88,19 +76,13 @@ var metadataStructsManager = {
             "dataType": "json",
             "data":JSON.stringify(mdtStructs),
             "success": function(result) {
-                if(result){
-                }
-                else{
-                  alert('修改失败!');
-                  return false;
-                }
             }
         });
     },
     
     // 元数据属性处理
     // insert metadataStructAttr
-    insertMdtStructsAttr: function(mdtStructsAttr) {
+    insertMdtStructsAttr: function(mdtStructsAttr, callBack) {
         $.ajax({
             "type": "POST",
             "contentType": "application/json; charset=utf-8",
@@ -108,18 +90,12 @@ var metadataStructsManager = {
             "dataType": "json",
             "data":JSON.stringify(mdtStructsAttr),
             "success": function(result) {
-                if(result){
-                  alert('插入数据成功!');
-                }
-                else{
-                  alert('插入数据失败!');
-                  return false;
-                }
+                  callBack(result);
             }
         });
     },
     // update metadataStructAttr
-    updateMdtStructsAttr: function(mdtStructsAttr) {
+    updateMdtStructsAttr: function(mdtStructsAttr, callBack) {
         $.ajax({
             "type": "POST",
             "contentType": "application/json; charset=utf-8",
@@ -127,13 +103,7 @@ var metadataStructsManager = {
             "dataType": "json",
             "data":JSON.stringify(mdtStructsAttr),
             "success": function(result) {
-                if(result){
-                  alert('修改成功!');
-                }
-                else{
-                  alert('修改失败!');
-                  return false;
-                }
+                 callBack(result);
             }
         });
     }

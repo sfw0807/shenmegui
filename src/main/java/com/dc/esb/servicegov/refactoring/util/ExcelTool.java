@@ -77,7 +77,7 @@ public class ExcelTool {
 		Row row = sheet.getRow(rowNum);
 		String contents = "";
 		if (row != null && row.getCell(colNum) != null) {
-			contents = getCellContent(row.getCell(colNum));
+			contents = getCellContent(row.getCell(colNum)).trim();
 		}
 		return contents;
 	}
@@ -98,7 +98,7 @@ public class ExcelTool {
 			}
 			break;
 		case Cell.CELL_TYPE_STRING:
-			value = cell.getStringCellValue().trim();
+			value = cell.getStringCellValue().toString().trim();
 			break;
 		case Cell.CELL_TYPE_BOOLEAN:
 			value = String.valueOf(cell.getBooleanCellValue()).toString().trim();

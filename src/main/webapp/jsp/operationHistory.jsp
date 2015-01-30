@@ -29,9 +29,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			href='<%=path%>/js/jquery.datatables/css/jquery.dataTables.css' />
 		<script src="<%=path%>/js/jquery.fileDownload.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/layout.js" type="text/javascript"></script>
+		<script src="<%=path%>/js/json/json2.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/operationHistoryAllManager.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/operationHistoryAll.js" type="text/javascript"></script>
-		<script src="<%=path%>/js/json/json2.js" type="text/javascript"></script>
+		
 		<style>
 			.ui-menu {
 				position: absolute;

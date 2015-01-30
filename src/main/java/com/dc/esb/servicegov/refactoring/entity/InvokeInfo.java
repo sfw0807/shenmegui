@@ -5,27 +5,26 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 import com.dc.esb.servicegov.refactoring.vo.InterfaceVO;
 
 @Entity
 @Table(name = "INVOKE_RELATION")
-@IdClass(InvokeInfoPK.class)
 public class InvokeInfo {
 	
+	@Id
 	@Column(name = "ID")
 	private int id;
-	@Id
+	@Column(name = "SERVICE_ID")
 	private String serviceId;
-	@Id
+	@Column(name = "OPERATION_ID")
 	private String operationId;
-	@Id
+	@Column(name = "ECODE")
 	private String ecode;
-	@Id
+	@Column(name = "PROVIDE_SYS_ID")
 	private String provideSysId;
-	@Id
+	@Column(name = "CONSUME_SYS_ID")
 	private String consumeSysId;
 	@Column(name = "PASSBY_SYS_ID")
 	private String passbySysId;

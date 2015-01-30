@@ -1,5 +1,6 @@
 package com.dc.esb.servicegov.refactoring.resource.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import com.dc.esb.servicegov.refactoring.dao.impl.InterfaceDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.InvokeInfoDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.OperationDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.PublishInfoDAOImpl;
+import com.dc.esb.servicegov.refactoring.dao.impl.SLADAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.ServiceDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.SystemDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.TransStateDAOImpl;
@@ -23,8 +25,10 @@ import com.dc.esb.servicegov.refactoring.entity.Interface;
 import com.dc.esb.servicegov.refactoring.entity.InvokeInfo;
 import com.dc.esb.servicegov.refactoring.entity.Operation;
 import com.dc.esb.servicegov.refactoring.entity.PublishInfo;
+import com.dc.esb.servicegov.refactoring.entity.SLA;
 import com.dc.esb.servicegov.refactoring.entity.TransState;
 import com.dc.esb.servicegov.refactoring.util.ExcelTool;
+import com.dc.esb.servicegov.refactoring.util.Utils;
 
 
 @Service
@@ -46,8 +50,12 @@ public class OnlineParse{
 	private ServiceDAOImpl serviceDAO;
 	@Autowired
 	private InterfaceDAOImpl interfaceDAO;
+	@Autowired
+	private SLADAOImpl slaDAO;
+	private List<SLA> list = null;
 	//解析上线服务总表
 	public String parse(Sheet onlineSheet) {
+		list = new ArrayList<SLA>();
 		log.error("第一行："+onlineSheet.getRow(0).getCell(1));
 		int validCellNum = onlineSheet.getRow(0).getLastCellNum();
 		int rowNum = 0;
@@ -59,9 +67,7 @@ public class OnlineParse{
 			for(int i=1;i<=rowNum;i++){
 				Row row = onlineSheet.getRow(i);
 				
-				String project = excelTool.getCellContent(row.getCell(0)).trim();
 				String consumeInfo = excelTool.getCellContent(row.getCell(1)).trim();
-				String passedSys = excelTool.getCellContent(row.getCell(2)).trim();
 				String provideSys = excelTool.getCellContent(row.getCell(3)).trim();
 
 				//serviceId处理
@@ -92,7 +98,20 @@ public class OnlineParse{
 				String firstOnlineDate = excelTool.getCellContent(row.getCell(12)).trim();
 				String OnlineDateInfo = excelTool.getCellContent(row.getCell(13)).trim();
 				String[] onlineDateArr = OnlineDateInfo.split("、");
-				
+				String currentCount = excelTool.getCellContent(row.getCell(14));
+				String timeOut = excelTool.getCellContent(row.getCell(15));
+				String averageTime = excelTool.getCellContent(row.getCell(17));
+				String successRate = row.getCell(18).toString();
+				if(successRate != null && !"".equals(successRate)){
+					successRate = Float.parseFloat(successRate)*100 + "%";
+				}
+				// 修改或保存服务操作的SLA
+				if(slaDAO.delSlaByOperationIdAndServiceId(serviceId, operationId)){
+					list.add(new SLA(serviceId,operationId,Utils.currentCount,currentCount));
+					list.add(new SLA(serviceId,operationId,Utils.timeOut,timeOut));
+					list.add(new SLA(serviceId,operationId,Utils.averageTime,averageTime));
+					list.add(new SLA(serviceId,operationId,Utils.successRate,successRate));
+				}
 				if(!"".equals(consumeInfo) && null!=consumeInfo){
 					String[] consumeAbArr = consumeInfo.split("、");
 					for (int j = 0; j < consumeAbArr.length; j++) {
@@ -126,6 +145,16 @@ public class OnlineParse{
 							int irId = invokeList.get(0).getId();
 							List<PublishInfo> publishInfoList = publishDAO.findBy("iRid", irId);
 							publishDAO.delete(publishInfoList);
+							if("下线".equals(state)){
+								TransState transState = tranStateDAO.findUniqueBy("id", irId);
+								transState.setVersionState(state);
+								tranStateDAO.save(transState);
+								Operation operation = operationDAO.getOperation(operationId, serviceId);
+								operation.setVersion(Utils.modifyOnlineNo(version.substring(1),operation.getVersion()));
+								operation.setState(state);
+								operationDAO.save(operation);
+								continue;
+							}
 							PublishInfo firstpublishInfo = new PublishInfo();
 							firstpublishInfo.setId(publishDAO.getMaxId()+1);
 							firstpublishInfo.setIRid(irId);
@@ -153,11 +182,15 @@ public class OnlineParse{
 							transState.setVersionState(state);
 							tranStateDAO.save(transState);
 							//update operation、service、interface
-							version = version.substring(1)+".0.0";
-							Operation operation = operationDAO.findUniqueBy("operationId", operationId);
+							Operation operation = operationDAO.getOperation(operationId, serviceId);
+							if(operation == null){
+								log.info("操作 [" + operationId + "]不存在!");
+							}
+							operation.setVersion(Utils.modifyOnlineNo(version.substring(1),operation.getVersion()));
 							operation.setState(state);
 							operationDAO.save(operation);
 							com.dc.esb.servicegov.refactoring.entity.Service service = serviceDAO.findUniqueBy("serviceId", serviceId);
+							service.setVersion(Utils.modifyOnlineNo(version.substring(1),service.getVersion()));
 							service.setState(state);
 							serviceDAO.save(service);
 							Interface interfaceInfo = interfaceDAO.findUniqueBy("interfaceId", interfaceId);
@@ -183,7 +216,35 @@ public class OnlineParse{
 		}else{
 			log.error("文档格式不符,请检查列数");
 		}
+		List<SLA> duplicateList = this.DuplicateInvokeList(list);
+		// 插入sda
+		if (slaDAO.delSlaList(duplicateList)) {
+			slaDAO.batchInsertSla(duplicateList);
+		}
 		return "共"+rowNum+"条记录,成功："+succCount+"条,失败："+(rowNum-succCount)+"条";
 	}
+	
+	/**
+	 * 去重复元素
+	 * @param targetList
+	 * @param sourceList
+	 * @return
+	 */
+	public List<SLA> DuplicateInvokeList(List<SLA> sourceList) {
+		List<SLA> targetList = new ArrayList<SLA>();
+		for (SLA source : sourceList) {
+			boolean flag = false;
+			for (SLA target : targetList) {
+				if (target.equals(source)) {
+					flag = true;
+					break;
+				}
+			}
 
+			if (!flag) {
+				targetList.add(source);
+			}
+		}
+		return targetList;
+	}
 }

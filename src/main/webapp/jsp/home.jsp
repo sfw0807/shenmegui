@@ -1,4 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="com.dc.esb.servicegov.refactoring.entity.User"%>
+<%@ page language="java" import="com.dc.esb.servicegov.refactoring.entity.Function"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -297,69 +299,57 @@ body {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="brand" href="#">浦发银行服务治理平台</a>
+                <% 
+                List<Function> functionList = (List<Function>)request.getSession().getAttribute("function_list");
+		        if(functionList != null)
+		        {
+		        	for(int i=0;i<functionList.size();i++){
+		        		
+		        	}
+		        %>
+                <a class="brand">浦发银行服务治理平台</a>
                 <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
                 <div class="nav-collapse collapse">
                     <ul class="nav">
+                    	<%
+                    	for(int i=0;i<functionList.size();i++){
+                    		Function function = functionList.get(i);
+                    		if("0".equals(function.getParentId())){  		
+                    	%>
                         <li class="dropdown">
-                        	<a href="#" class="dropdown-toggle" data-toggle="dropdown">服务管理<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                            	<li><a href="<%=path%>/jsp/operationManager.jsp" target ="_blank">操作管理</a></li>
-                                <li><a href="<%=path%>/jsp/serviceInfoManager.jsp" target ="_blank">服务管理</a></li>
-                                <li><a href="<%=path%>/html/interfaceManagement.html" target ="_blank">接口管理</a></li>
-                                <li><a href="#" target ="_blank">服务审核</a></li>
-                                <li><a href="<%=path%>/jsp/serviceCategoryManager.jsp" target ="_blank">服务分类管理</a></li>
-                                <li><a href="<%=path%>/jsp/metadataManager.jsp" target ="_blank">元数据管理</a></li>
-                                <li><a href="<%=path%>/jsp/metadataStructsManager.jsp" target ="_blank">元数据结构管理</a></li>   
-                                <li><a href="<%=path%>/jsp/systemInfoManager.jsp" target ="_blank">接入系统管理</a></li>         
-                                <li><a href="<%=path%>/jsp/invokeManager.jsp" target ="_blank">调用关系管理</a></li>                      
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                        	<a href="#" class="dropdown-toggle" data-toggle="dropdown">资源管理<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="<%=path%>/jsp/resourceImport.jsp">资源导入</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#" target ="_blank">资源导出</a></li>
-                                <li><a href="#" target ="_blank">修订记录导出</a></li> 
-                                <li><a href="#" target ="_blank">上线清单导出</a></li> 
-                                <li><a href="#" target ="_blank">系统级别SQL导出</a></li>
-                                <li><a href="#" target ="_blank">服务依赖关系表导出</a></li> 
-                                <li><a href="#" target ="_blank">服务调用申请单导出</a></li> 
-                            </ul>
-                        </li>                  
-                        <li class="dropdown">
-                        	<a href="#" class="dropdown-toggle" data-toggle="dropdown">视图查询<b class="caret"></b></a>
-                            <ul class="dropdown-menu">                              
-                                <li><a href="<%=path%>/jsp/svcAsmRelateView.jsp" target ="_blank">服务调用关系查询</a></li>
-                                <li><a href="<%=path%>/jsp/serviceDetailView.jsp" target ="_blank">服务详细信息查询</a></li> 
-                                <li><a href="<%=path%>/jsp/serviceStore.jsp" target ="_blank">服务库查询</a></li> 
-                                <li><a href="<%=path%>/jsp/serviceTotalView.jsp" target ="_blank">服务统计信息</a></li> 
-                                <li><a href="<%=path%>/jsp/serviceDevProgressView.jsp" target ="_blank">服务开发统计信息查询</a></li>
-                                <li><a href="<%=path%>/jsp/sla.jsp" target ="_blank">服务SLA信息查询</a></li> 
-                                <li><a href="<%=path%>/jsp/sysInvokeServiceView.jsp" target ="_blank">接入系统服务统计表</a></li>   
-                                <li><a href="<%=path%>/jsp/sysTopology.jsp" target ="_blank">接入系统拓扑图</a></li>
-                                <li><a href="<%=path%>/jsp/publishInfoView.jsp" target ="_blank">上线统计表(按日期)</a></li>                        
-                            </ul>
-                        </li>  
-                        <li class="dropdown">
-                        	<a href="#" class="dropdown-toggle" data-toggle="dropdown">系统管理<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" target ="_blank">用户管理</a></li>                                
-                                <li><a href="#" target ="_blank">角色管理</a></li>
-                                <li><a href="#" target ="_blank">权限管理</a></li>
-                                <li><a href="#" target ="_blank">用户机构管理</a></li>  
-                                <li><a href="#" target ="_blank">密码修改</a></li> 
-                                <li><a href="#" target ="_blank">日志查询</a></li> 
-                                <li><a href="#" target ="_blank">公告管理</a></li>                                                      
-                            </ul>
-                        </li> 
-                        <!-- Read about Bootstrap dropdowns at http://twitter.github.com/bootstrap/javascript.html#dropdowns -->
+                        	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=function.getName()%><b class="caret"></b></a>
+                        	<ul class="dropdown-menu">
+                        	<%
+                        	for(int j=0;j<functionList.size();j++){
+                        		Function subfunction = functionList.get(j);
+                        		if((function.getId()+"").equals(subfunction.getParentId())){
+                        	%> 
+                            	<li><a href="<%=path%><%=subfunction.getUrl()%>" target ="_blank"><%=subfunction.getName()%></a></li>                                           	
+                        	<%		
+                        		}
+                        	}
+                        	%>
+							</ul>
+                        </li>                    	
+                    	<%
+                    		}
+                    	}
+                    	%>
                         <li >
-                            <a href="#">退出</a>
+                            <a href="<%=path%>/user/logOut">退出</a>
                         </li>
                     </ul>
                 </div>
+		 		<%
+		 		}
+		 		else
+		 		{
+		 		 %>
+		 		    <a href="<%=path%>/jsp/login.jsp">登录</a>
+		 		<%
+		 		}
+		 		 %>
+
                 <!--/.nav-collapse -->
             </div>
             <!-- /.navbar-inner -->
@@ -420,7 +410,21 @@ body {
             <img src="<%=path%>/image/login_06.png">          
         </div>
         <div style="float:left;margin-left:200px;margin-top:100px;font-family: '宋体'; font-size: 14pt; font-weight: bold; font-style: normal;text-align:center;">
- 			<p>admin,您好!</p>
+        <% 
+        User user = (User)request.getSession().getAttribute("user");
+        if(user != null)
+        {
+        %>
+ 		    <p><%=user.getName() %>,您好!</p>
+ 		<%
+ 		}
+ 		else
+ 		{
+ 		 %>
+ 		    <a href="<%=path%>/jsp/login.jsp">登录</a>
+ 		<%
+ 		}
+ 		 %>
  			<p>欢迎使用服务治理平台!</p>
         </div>
 </div>

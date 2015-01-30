@@ -1,5 +1,7 @@
 package com.dc.esb.servicegov.refactoring.dao.impl;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,28 +31,28 @@ public class InvokeInfoDAOImpl extends HibernateDAO<InvokeInfo, InvokeInfoPK> {
 					+ "] from DB ...");
 		}
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("select count(distinct SERVICE_ID) from INVOKE_RELATION" +
-				" ir left join TRANS_STATE ts on ir.ID = ts.ID ");
-		buffer.append("where PROVIDE_SYS_ID=:provideSysId");
+		buffer.append("select count(distinct service_id) from RELATION_PASSED_VIEW");
+		buffer.append(" where PROVIDE_SYS_ID=:provideSysId");
 		if(mapConditions.get("prdMsgType") != null && !"".equalsIgnoreCase(mapConditions.get("prdMsgType"))){
-			buffer.append(" and ir.provide_msg_type = '");
+			buffer.append(" and provide_msg_type = '");
 			buffer.append(mapConditions.get("prdMsgType"));
 			buffer.append("'");
 		}
 		if(mapConditions.get("csmMsgType") != null && !"".equalsIgnoreCase(mapConditions.get("csmMsgType"))){
-			buffer.append(" and ir.consume_msg_type = '");
+			buffer.append(" and consume_msg_type = '");
 			buffer.append(mapConditions.get("csmMsgType"));
 			buffer.append("' ");
 		}
 		if(mapConditions.get("versionSt") != null && !"".equalsIgnoreCase(mapConditions.get("versionSt"))){
-			buffer.append(" and ts.VERSIONST ='");
+			buffer.append(" and VERSIONST ='");
 			buffer.append(mapConditions.get("versionSt"));
 			buffer.append("' ");
 		}
 		Query query = getSession().createSQLQuery(buffer.toString());
 		query.setString("provideSysId", provideSysId);
 		Object obj = query.uniqueResult();
-		return (Integer)obj;
+        BigDecimal bi = (BigDecimal)obj;
+        return Integer.parseInt(bi.toString());
 	}
 
 	/**
@@ -64,28 +66,28 @@ public class InvokeInfoDAOImpl extends HibernateDAO<InvokeInfo, InvokeInfoPK> {
 					+ "] from DB ...");
 		}
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("select count(distinct SERVICE_ID) from INVOKE_RELATION" +
-				" ir left join TRANS_STATE ts on ir.ID = ts.ID ");
-		buffer.append("where consume_SYS_ID=:consumeSysId");
+		buffer.append("select count(distinct service_id)  from RELATION_PASSED_VIEW");
+		buffer.append(" where consume_SYS_ID=:consumeSysId");
 		if(mapConditions.get("prdMsgType") != null && !"".equalsIgnoreCase(mapConditions.get("prdMsgType"))){
-			buffer.append(" and ir.provide_msg_type = '");
+			buffer.append(" and provide_msg_type = '");
 			buffer.append(mapConditions.get("prdMsgType"));
 			buffer.append("'");
 		}
 		if(mapConditions.get("csmMsgType") != null && !"".equalsIgnoreCase(mapConditions.get("csmMsgType"))){
-			buffer.append(" and ir.consume_msg_type = '");
+			buffer.append(" and consume_msg_type = '");
 			buffer.append(mapConditions.get("csmMsgType"));
 			buffer.append("' ");
 		}
 		if(mapConditions.get("versionSt") != null && !"".equalsIgnoreCase(mapConditions.get("versionSt"))){
-			buffer.append(" and ts.VERSIONST ='");
+			buffer.append(" and VERSIONST ='");
 			buffer.append(mapConditions.get("versionSt"));
 			buffer.append("' ");
 		}
 		Query query = getSession().createSQLQuery(buffer.toString());
 		query.setString("consumeSysId", consumeSysId);
 		Object obj = query.uniqueResult();
-		return (Integer)obj;
+        BigDecimal bi = (BigDecimal)obj;
+        return Integer.parseInt(bi.toString());
 	}
 
 	/**
@@ -132,28 +134,28 @@ public class InvokeInfoDAOImpl extends HibernateDAO<InvokeInfo, InvokeInfoPK> {
 					+ "] from DB ...");
 		}
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("select count(distinct OPERATION_ID) from INVOKE_RELATION" +
-				" ir left join TRANS_STATE ts on ir.ID = ts.ID ");
-		buffer.append("where PROVIDE_SYS_ID=:provideSysId");
+		buffer.append("select count(distinct os)  from RELATION_PASSED_VIEW");
+		buffer.append(" where PROVIDE_SYS_ID=:provideSysId");
 		if(mapConditions.get("prdMsgType") != null && !"".equalsIgnoreCase(mapConditions.get("prdMsgType"))){
-			buffer.append(" and ir.provide_msg_type = '");
+			buffer.append(" and provide_msg_type = '");
 			buffer.append(mapConditions.get("prdMsgType"));
 			buffer.append("'");
 		}
 		if(mapConditions.get("csmMsgType") != null && !"".equalsIgnoreCase(mapConditions.get("csmMsgType"))){
-			buffer.append(" and ir.consume_msg_type = '");
+			buffer.append(" and consume_msg_type = '");
 			buffer.append(mapConditions.get("csmMsgType"));
 			buffer.append("' ");
 		}
 		if(mapConditions.get("versionSt") != null && !"".equalsIgnoreCase(mapConditions.get("versionSt"))){
-			buffer.append(" and ts.VERSIONST ='");
+			buffer.append(" and VERSIONST ='");
 			buffer.append(mapConditions.get("versionSt"));
 			buffer.append("' ");
 		}
 		Query query = getSession().createSQLQuery(buffer.toString());
 		query.setString("provideSysId", provideSysId);
 		Object obj = query.uniqueResult();
-		return (Integer)obj;
+	    BigDecimal bi = (BigDecimal)obj;
+        return Integer.parseInt(bi.toString());
 	}
 
 	/**
@@ -167,28 +169,28 @@ public class InvokeInfoDAOImpl extends HibernateDAO<InvokeInfo, InvokeInfoPK> {
 					+ "] from DB ...");
 		}
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("select count(distinct OPERATION_ID) from INVOKE_RELATION" +
-				" ir left join TRANS_STATE ts on ir.ID = ts.ID ");
-		buffer.append("where CONSUME_SYS_ID=:consumeSysId");
+		buffer.append("select count(distinct os) from RELATION_PASSED_VIEW");
+		buffer.append(" where CONSUME_SYS_ID=:consumeSysId");
 		if(mapConditions.get("prdMsgType") != null && !"".equalsIgnoreCase(mapConditions.get("prdMsgType"))){
-			buffer.append(" and ir.provide_msg_type = '");
+			buffer.append(" and provide_msg_type = '");
 			buffer.append(mapConditions.get("prdMsgType"));
 			buffer.append("'");
 		}
 		if(mapConditions.get("csmMsgType") != null && !"".equalsIgnoreCase(mapConditions.get("csmMsgType"))){
-			buffer.append(" and ir.consume_msg_type = '");
+			buffer.append(" and consume_msg_type = '");
 			buffer.append(mapConditions.get("csmMsgType"));
 			buffer.append("' ");
 		}
 		if(mapConditions.get("versionSt") != null && !"".equalsIgnoreCase(mapConditions.get("versionSt"))){
-			buffer.append(" and ts.VERSIONST ='");
+			buffer.append(" and VERSIONST ='");
 			buffer.append(mapConditions.get("versionSt"));
 			buffer.append("' ");
 		}
 		Query query = getSession().createSQLQuery(buffer.toString());
 		query.setString("consumeSysId", consumeSysId);
 		Object obj = query.uniqueResult();
-		return (Integer)obj;
+        BigDecimal bi = (BigDecimal)obj;
+        return Integer.parseInt(bi.toString());
 	}
 
 	/**
@@ -295,5 +297,146 @@ public class InvokeInfoDAOImpl extends HibernateDAO<InvokeInfo, InvokeInfoPK> {
 				"' and CONSUME_MSG_TYPE = 'SOP'";
 		Query query = getSession().createSQLQuery(sql);
 		return query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public InvokeInfo getFirstByEocdeAndOpeAndServiceId(String serviceId, String operationId,
+			String ecode) {
+		List list = null;
+		try{
+			String hql = "from InvokeInfo where serviceId = ? and operationId = ? and ecode =? ";
+			Query query = getSession().createQuery(hql);
+			query.setString(0, serviceId);
+			query.setString(1, operationId);
+			query.setString(2, ecode);
+			list = query.list();
+		}catch(Exception e){
+			log.error("InvokeInfo数据出错!");
+		}
+	    return (InvokeInfo)list.get(0);
+	}
+	
+	public void delInvokebyConditions(String serviceId, String operationId,
+			String interfaceId, String prdSysId, String csmSysId,
+			String provideMsgType, String consumeMsgType) {
+		String hql = "delete from InvokeInfo where serviceId = ? and operationId = ? and ecode = ? "
+				+ "and provideSysId = ? and consumeSysId = ? and provideMsgType = ? and consumeMsgType = ?";
+		Query query = getSession().createQuery(hql);
+		query.setString(0, serviceId);
+		query.setString(1, operationId);
+		query.setString(2, interfaceId);
+		query.setString(3, prdSysId);
+		query.setString(4, csmSysId);
+		query.setString(5, provideMsgType);
+		query.setString(6, consumeMsgType);
+		query.executeUpdate();
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public InvokeInfo getUniqueByConditions(String serviceId, String operationId,
+			String interfaceId, String prdSysId, String csmSysId,
+			String provideMsgType, String consumeMsgType){
+		InvokeInfo invokeInfo = new InvokeInfo();
+		String hql = "from InvokeInfo where serviceId = ? and operationId = ? and ecode = ? "
+			+ "and provideSysId = ? and consumeSysId = ? and provideMsgType = ? and consumeMsgType = ?";
+		Query query = getSession().createQuery(hql);
+		query.setString(0, serviceId);
+		query.setString(1, operationId);
+		query.setString(2, interfaceId);
+		query.setString(3, prdSysId);
+		query.setString(4, csmSysId);
+		query.setString(5, provideMsgType);
+		query.setString(6, consumeMsgType);
+		List list = query.list();
+		if(list != null && list.size()>0){
+			invokeInfo = (InvokeInfo)list.get(0);
+		}
+		return invokeInfo;
+	}
+	
+	/**
+	 * 根据serviceId判断 invokeInfo是否存在
+	 * @param serviceId
+	 * @return
+	 */
+	public boolean checkExistByServiceId(String serviceId){
+		List<InvokeInfo> list = this.findBy("serviceId", serviceId);
+		if(list != null && list.size() >0){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 根据interfaceId判断 invokeInfo是否存在
+	 * @param interfaceId
+	 * @return
+	 */
+	public boolean checkExistByInterfaceId(String interfaceId){
+		List<InvokeInfo> list = this.findBy("ecode", interfaceId);
+		if(list != null && list.size() >0){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 根据serviceId and operationId 判断invokeInfo是否存在
+	 * @param operationId
+	 * @param serviceId
+	 * @return
+	 */
+	public  boolean checkExistByOperationIdAndServiceId(String operationId,String serviceId){
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("operationId", operationId);
+		map.put("serviceId", serviceId);
+		List<InvokeInfo> list = this.findBy(map);
+		if(list != null && list.size() >0){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 根据调用方系统Id获取系统调用报文类型
+	 * @param csmSysId
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public String getMsgTypeByCsmSysId(String csmSysId){
+		String msgType = "";
+		String hql = "select distinct consumeMsgType from InvokeInfo where consumeSysId = ?";
+		Query query = getSession().createQuery(hql);
+		query.setString(0, csmSysId);
+		List<String> list = query.list();
+		if(list != null && list.size()> 0){
+			for(String ss: list){
+				msgType += ss + "、";
+			}
+			msgType = msgType.substring(0,	msgType.length()-1);
+		}
+		return msgType;
+	}
+	
+	/**
+	 * 根据提供方系统Id获取系统提供报文类型
+	 * @param prdSysId
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public String getMsgTypeByPrdSysId(String prdSysId){
+		String msgType = "";
+		String hql = "select distinct provideMsgType from InvokeInfo where provideSysId = ?";
+		Query query = getSession().createQuery(hql);
+		query.setString(0, prdSysId);
+		List<String> list = query.list();
+		if(list != null && list.size()> 0){
+			for(String ss: list){
+				msgType += ss + "、";
+			}
+			msgType = msgType.substring(0,	msgType.length()-1);
+		}
+		return msgType;
 	}
 }

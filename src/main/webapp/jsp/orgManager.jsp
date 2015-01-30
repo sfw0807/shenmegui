@@ -79,6 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="ui-widget-header" style="margin-bottom: 0.5em;padding: 0.2em;">
 				<input type = "button" value="新增" id="addOrg" />
 				<input type = "button" value="删除" id="deleteOrg" />
+				<input type = "button" value="修改" id="editOrg" />
 			</div>
 			<table cellpadding="0" cellspacing="0" border="0" class="display" id="OrgTable">
 					<tfoot>

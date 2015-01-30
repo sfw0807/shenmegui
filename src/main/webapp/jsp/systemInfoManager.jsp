@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include  file= "/jsp/header/header.jsp"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -15,9 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		<link rel="stylesheet" href="<%=path %>/themes/smoothness/jquery-ui-1.8.4.custom.css" />
 		<link rel="stylesheet" href="<%=path %>/js/jquery-ui/development-bundle/themes/base/jquery.ui.all.css" />
-		<link rel="stylesheet" href="<%=path %>/css/index.css" /
-		<script src="<%=path %>/js/jquery-ui/js/jquery-1.10.2.js"></script>
-		<script src="<%=path %>/js/jquery-1.8.2.js"></script>
+		<link rel="stylesheet" href="<%=path %>/css/index.css" />
 		<script src="<%=path %>/js/jquery.bgiframe-2.1.2.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.core.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.widget.js"></script>
@@ -77,17 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    fieldset { padding:0; border:0; margin-top:25px; }
 		    .ui-dialog .ui-state-error { padding: .3em; }
 		    .validateTips { border: 0px solid transparent; padding: 0.3em; }
-	  </style>
-      <script>
-       $(function(){
-           $("#form_firstPublishDate").datepicker({
-		          "changeMonth":true,
-		          "changeYear":true,
-		          "dateFormat":"yy-mm-dd",
-		        });
-       })
-      </script>
-        
+	  </style>       
 	</head>
 	<body>
 		<div id="tabs" style="width: 100%">
@@ -103,23 +92,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <button id="del">删除</button>
 			    <button id="modify">修改</button>
 			</div>
-			<div id="dialog-form" style="display:none;">
-	               <p class="validateTips"></p>
-	            <form>
-	              <fieldset>
-		          <label >系统Id</label>
-		          <input type="text"  id="form_systemId" class="text ui-widget-content ui-corner-all" />
-		          <label >系统简称</label>
-		          <input type="text"  id="form_systemAb" class="text ui-widget-content ui-corner-all" />
-		          <label >系统名称</label>
-		          <input type="text"  id="form_systemName" class="text ui-widget-content ui-corner-all" />
-		          <label >系统描述</label>
-		          <input type="text"  id="form_remark" class="text ui-widget-content ui-corner-all" />
-		          <label >首次上线日期</label>
-		          <input type="text"  id="form_firstPublishDate" class="text ui-widget-content ui-corner-all" readonly/>
-	              </fieldset>
-	           </form>
-            </div>
 	        <table cellpadding="0" cellspacing="0" border="0" class="display"
 					id="systemInfoTable">
 					<tfoot>
@@ -141,7 +113,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									class="search_init" />
 							</th>
 							<th>
-								<input type="text" name=firstPublishDate id="firstPublishDate" value="首次上线日期"
+								<input type="text" name=firstPublishDate id="firstPublishDate" value="首次上线日期(提供方)"
+									class="search_init" />
+							</th>
+							<th>
+								<input type="text" name=secondPublishDate id="secondPublishDate" value="首次上线日期(调用方)"
 									class="search_init" />
 							</th>
 						</tr>

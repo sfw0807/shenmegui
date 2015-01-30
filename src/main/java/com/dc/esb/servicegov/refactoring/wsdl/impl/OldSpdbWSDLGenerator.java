@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.wsdl.Binding;
@@ -38,6 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dc.esb.servicegov.refactoring.service.impl.ServiceManagerImpl;
+import com.dc.esb.servicegov.refactoring.util.OperationComparator;
 import com.dc.esb.servicegov.refactoring.util.ZIPUtils;
 import com.dc.esb.servicegov.refactoring.wsdl.WSDLGenerator;
 import com.dc.esb.servicegov.refactoring.wsdl.extensions.soap.SOAPAddressImpl;
@@ -67,14 +69,6 @@ public class OldSpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
     private OldMetadataSchemaGenerator metadataSchemaGenerator;
     @Autowired
     private OldESBServiceDescriptorGenerator esbServiceDescriptorGenerator;
-
-
-    private String getWorkSpace(){
-
-        long threadId = Thread.currentThread().getId();
-
-        return threadId + "-" + System.currentTimeMillis();
-    }
 
     @Override
     public boolean generate(List<Service> services) throws Exception {
@@ -120,6 +114,8 @@ public class OldSpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
             	}
             }
             operations.removeAll(delList);
+            OperationComparator operationComparator = new OperationComparator();
+            Collections.sort(operations, operationComparator);
             esbServiceDescriptorGenerator.generate(serviceDO, operations, dirPath);
             metadataSchemaGenerator.generate(dirPath, serviceId);
             String tns = "http://esb.spdbbiz.com/services/" + serviceId + "/wsdl";
@@ -284,15 +280,26 @@ public class OldSpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
             } catch (IOException e) {
                 log.error(e,e);
             }
-            //Todo check and delete dir
-            boolean deleted = dir.delete();
-            if(!deleted){
-                log.error("删除服务["+serviceId+"]的WSDL文件夹失败！");
-            }
+            deleteFile(dir);
         }
         return null;
     }
-
+	public boolean deleteFile(File file){
+		boolean deleteResult = true;
+		if(file.isDirectory()){
+			File[] subFiles = file.listFiles();
+			if(null != subFiles){
+				for(File subFile : subFiles){
+					deleteResult = deleteFile(subFile);
+				}
+			}
+		}
+		deleteResult = file.delete();
+		if(!deleteResult){
+			log.error("删除临时文件["+file.getAbsolutePath()+"]失败！");
+		}
+		return deleteResult;
+	}
     private Definition createDefinition(String serviceId, WSDLFactory wsdlFactory) {
         Definition wsdlDefinition = null;
         try {
@@ -306,7 +313,6 @@ public class OldSpdbWSDLGenerator implements WSDLGenerator<List<Service>> {
             wsdlDefinition.addNamespace(WSDLConstants.SOAP_NC_PREFIX, WSDLConstants.SOAP_NC_NAMESPACE);
             wsdlDefinition.addNamespace(WSDLConstants.XSD_PREFIX, WSDLConstants.XSD_NAMESPACE);
             wsdlDefinition.addNamespace("s", "http://esb.spdbbiz.com/services/" + serviceId);
-            wsdlDefinition.addNamespace("d", "http://esb.spdbbiz.com/services/" + serviceId + "/metadata");
         } catch (Exception e) {
             //Todo
             log.error(e, e);

@@ -19,4 +19,10 @@ public interface UserManager {
 	public Integer getRoleIdByUserId(String userId);
 	
 	public User login(String[] params);
+	
+	public boolean checkOldPwd(String userId, String password);
+	
+	public boolean updatePwd(String userId, String password);
+	
+	public boolean resetPwd(String userId);
 }

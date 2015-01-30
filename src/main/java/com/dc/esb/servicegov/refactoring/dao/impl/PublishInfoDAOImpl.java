@@ -22,7 +22,7 @@ public class PublishInfoDAOImpl extends
 	
 	
 	/**
-	 * get all operations and services  from PublishInfo
+	 * get all operations and services with count from PublishInfo
 	 */
 	@SuppressWarnings("unchecked")
 	public List<PublishInfoVO> getAllPublishTotalInfos(Map<String,String> mapConditions){
@@ -31,7 +31,7 @@ public class PublishInfoDAOImpl extends
 			log.info("get all operations and services  from PublishInfo");
 		}
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("select ONLINE_DATE as ONLINEDATE ,count(distinct service_id) as countOfServices, count(distinct operation_id) as countOfOperations ");
+		buffer.append("select ONLINE_DATE as ONLINEDATE ,count(distinct service_id) as countOfServices, count(distinct(concat(operation_id,service_id))) as countOfOperations ");
 		buffer.append("FROM ");
 		buffer.append("(select p.ONLINE_DATE ,ir.service_id,ir.operation_id from PUBLISH_INFO p join ");
 		buffer.append("INVOKE_RELATION ir on p.IR_ID = ir.ID ");
@@ -121,7 +121,7 @@ public class PublishInfoDAOImpl extends
 			log.info("get all AddOperationsCount");
 		}
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("select count(distinct ir.OPERATION_ID) from PUBLISH_INFO p left join INVOKE_RELATION ir on p.IR_ID = ir.ID ");
+		buffer.append("select count(distinct(concat(ir.operation_id,ir.service_id))) from PUBLISH_INFO p left join INVOKE_RELATION ir on p.IR_ID = ir.ID ");
 		buffer.append("where p.ONLINE_DATE= :onlineDate and p.IR_ID not in (select distinct ir_id from PUBLISH_INFO t where t.ONLINE_DATE < :onlineDate)");
 		if(mapConditions.get("prdMsgType") != null && !"".equalsIgnoreCase(mapConditions.get("prdMsgType"))){
 			buffer.append(" and ir.provide_msg_type = '");
@@ -149,7 +149,7 @@ public class PublishInfoDAOImpl extends
 			log.info("get all ModifyOperationCount");
 		}
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("select count(distinct ir.OPERATION_ID) from PUBLISH_INFO p left join INVOKE_RELATION ir on p.IR_ID = ir.ID ");
+		buffer.append("select count(distinct(concat(ir.operation_id,ir.service_id))) from PUBLISH_INFO p left join INVOKE_RELATION ir on p.IR_ID = ir.ID ");
 		buffer.append("where p.ONLINE_DATE= :onlineDate and p.IR_ID in (select distinct ir_id from PUBLISH_INFO t where t.ONLINE_DATE < :onlineDate)");
 		if(mapConditions.get("prdMsgType") != null && !"".equalsIgnoreCase(mapConditions.get("prdMsgType"))){
 			buffer.append(" and ir.provide_msg_type = '");
@@ -171,37 +171,167 @@ public class PublishInfoDAOImpl extends
 	 * get All export details by onlineDate
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Map<String,String>> getAllExportDatasByOnlineDate(String onlineDate){
+	public List<Map<String,String>> getAllExportDatasByOnlineDate(String onlineDate, String prdMsgType, String csmMsgType){
 		
 		if(log.isInfoEnabled()){
 			log.info("get All export details by onlineDate");
 		}
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("select t.*,o.operation_name,s.service_name, i.interface_name,i.through, ");
+		buffer.append("select t.*,o.operation_name,s.service_name, i.interface_name, ");
 		buffer.append("prdsys.sys_ab as prdsysab,passbysys.sys_ab as passbysysab,csmsys.sys_ab as csmsysab, ");
 		buffer.append("prdsys.sys_name as prdsysname,passbysys.sys_name as passbysysname,csmsys.sys_name as csmsysname ");
 		buffer.append("FROM ");
-		buffer.append("(select p.online_date,p.interface_version,p.field,ir.service_id,ir.operation_id,ir.provide_sys_id,ir.consume_sys_id,ir.passby_sys_id,ir.ecode ");
+		buffer.append("(select p.online_date,p.interface_version,p.field,ir.service_id,ir.operation_id,ir.through,ir.provide_sys_id,ir.consume_sys_id,ir.passby_sys_id,ir.ecode ");
 		buffer.append(",ir.consume_msg_type,ir.provide_msg_type ");
 		buffer.append("from ");
 		buffer.append("PUBLISH_INFO p left join INVOKE_RELATION ir on p.IR_ID = ir.ID ");
-		buffer.append("where p.ONLINE_DATE = :onlineDate ) t ");
-		buffer.append("left join operation o on t.operation_id  = o.operation_id ");
+		buffer.append("where p.ONLINE_DATE = :onlineDate");
+		if(!"".equals(prdMsgType)){
+			buffer.append(" and ir.PROVIDE_MSG_TYPE = :prdMsgType");
+		}
+		if(!"".equals(csmMsgType)){
+			buffer.append(" and ir.CONSUME_MSG_TYPE = :csmMsgType");
+		}
+		buffer.append(" ) t ");
+		buffer.append("left join sg_operation o on t.operation_id  = o.operation_id ");
 		buffer.append("left join service s on t.service_id = s.service_id ");
 		buffer.append("left join interface i on t.ecode = i.interface_id ");
-		buffer.append("left join system prdsys on t.provide_sys_id = prdsys.sys_id ");
-		buffer.append("left join system passbysys on t.passby_sys_id = passbysys.sys_ab ");
-		buffer.append("left join system csmsys on t.consume_sys_id = csmsys.sys_id ");
-		buffer.append("order by online_date");
+		buffer.append("left join sg_system prdsys on t.provide_sys_id = prdsys.sys_id ");
+		buffer.append("left join sg_system passbysys on t.passby_sys_id = passbysys.sys_ab ");
+		buffer.append("left join sg_system csmsys on t.consume_sys_id = csmsys.sys_id ");
+		buffer.append("order by online_date,t.ecode");
 		Query query = getSession().createSQLQuery(buffer.toString());
 		query.setString("onlineDate", onlineDate);
+		if(!"".equals(prdMsgType)){
+			query.setString("prdMsgType", prdMsgType);
+		}
+		if(!"".equals(csmMsgType)){
+			query.setString("csmMsgType", csmMsgType);
+		}
 		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		return query.list();
 	}
+	
+	/**
+	 * get max(id) from PublishInfo
+	 * @return
+	 */
 	public Integer getMaxId(){
 		String hql = "SELECT MAX(id) FROM PublishInfo";
 		Query query = getSession().createQuery(hql);
 		Object obj = query.uniqueResult();
-		return (Integer)obj;
+		if(obj==null){
+			return 0;
+		}else{
+			return (Integer)obj;
+		}
 	}	
+	
+	/**
+	 * get all operationIds or serviceIds 
+	 */
+	@SuppressWarnings("unchecked")
+	public List<String> getPublishServiceIdsOrOperationIds(String onlineDate, String prdMsgType, 
+			String csmMsgType, String spFlag){
+		
+		if(log.isInfoEnabled()){
+			log.info("get all operationIds or serviceIds ");
+		}
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("select ");
+		// 服务Ids，否则为操作Ids
+		if("s".equals(spFlag)){
+			buffer.append("distinct t.service_id ");
+		}
+		else{
+			buffer.append("distinct concat(t.service_id,t.operation_id) ");
+		}
+		buffer.append("FROM ");
+		buffer.append("(select p.ONLINE_DATE ,ir.service_id,ir.operation_id from PUBLISH_INFO p join ");
+		buffer.append("INVOKE_RELATION ir on p.IR_ID = ir.ID ");
+		buffer.append(" where p.ONLINE_DATE = :onlineDate ");
+		if(prdMsgType != null && !"".equalsIgnoreCase(prdMsgType)){
+			buffer.append(" and ir.provide_msg_type = '");
+			buffer.append(prdMsgType);
+			buffer.append("' ");
+		}
+		if(csmMsgType != null && !"".equalsIgnoreCase(csmMsgType)){
+			buffer.append(" and ir.consume_msg_type = '");
+			buffer.append(csmMsgType);
+			buffer.append("' ");
+		}
+		buffer.append("group by p.ONLINE_DATE,ir.service_id,ir.operation_id) t ");
+		Query query = getSession().createSQLQuery(buffer.toString());
+		return query.setString("onlineDate", onlineDate).list();
+	}
+	
+	/**
+	 * get all Add ServiceIds or operationIds
+	 */
+	@SuppressWarnings("unchecked")
+	public List<String> getAddServiceIdsOrOperationIds(String onlineDate, String prdMsgType, 
+			String csmMsgType, String spFlag){
+		
+		if(log.isInfoEnabled()){
+			log.info("get all Add ServiceIds or operationIds ");
+		}
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("select ");
+		// 服务Ids，否则为操作Ids
+		if("s".equals(spFlag)){
+			buffer.append("distinct service_id ");
+		}
+		else{
+			buffer.append("distinct concat(service_id,operation_id) ");
+		}
+		buffer.append(" from PUBLISH_INFO p left join INVOKE_RELATION ir on p.IR_ID = ir.ID ");
+		buffer.append("where p.ONLINE_DATE= :onlineDate and p.IR_ID not in (select distinct ir_id from PUBLISH_INFO t where t.ONLINE_DATE < :onlineDate)");
+		if(prdMsgType != null && !"".equalsIgnoreCase(prdMsgType)){
+			buffer.append(" and ir.provide_msg_type = '");
+			buffer.append(prdMsgType);
+			buffer.append("' ");
+		}
+		if(csmMsgType != null && !"".equalsIgnoreCase(csmMsgType)){
+			buffer.append(" and ir.consume_msg_type = '");
+			buffer.append(csmMsgType);
+			buffer.append("'");
+		}
+		Query query = getSession().createSQLQuery(buffer.toString());
+		return query.setString("onlineDate", onlineDate).list();
+	}
+	
+	/**
+	 * get all Modify ServiceIds or operationIds
+	 */
+	@SuppressWarnings("unchecked")
+	public List<String> getModifyServiceIdsOrOperationIds(String onlineDate, String prdMsgType, 
+			String csmMsgType, String spFlag){
+		
+		if(log.isInfoEnabled()){
+			log.info("get all Modify ServiceIds or operationIds ");
+		}
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("select ");
+		// 服务Ids，否则为操作Ids
+		if("s".equals(spFlag)){
+			buffer.append("distinct service_id ");
+		}
+		else{
+			buffer.append("distinct concat(service_id,operation_id) ");
+		}
+		buffer.append(" from PUBLISH_INFO p left join INVOKE_RELATION ir on p.IR_ID = ir.ID ");
+		buffer.append("where p.ONLINE_DATE= :onlineDate and p.IR_ID in (select distinct ir_id from PUBLISH_INFO t where t.ONLINE_DATE < :onlineDate)");
+		if(prdMsgType != null && !"".equalsIgnoreCase(prdMsgType)){
+			buffer.append(" and ir.provide_msg_type = '");
+			buffer.append(prdMsgType);
+			buffer.append("'");
+		}
+		if(csmMsgType != null && !"".equalsIgnoreCase(csmMsgType)){
+			buffer.append(" and ir.consume_msg_type = '");
+			buffer.append(csmMsgType);
+			buffer.append("'");
+		}
+		Query query = getSession().createSQLQuery(buffer.toString());
+		return query.setString("onlineDate", onlineDate).list();
+	}
 }

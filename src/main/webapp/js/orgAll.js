@@ -91,10 +91,30 @@ $(function() {
 			alert("每次只能删除一个操作!");
 		}else{
 			var orgId = rowsSelected[0].cells[0].innerText;
-			orgManager.deleteOrg(orgId);
+			if(confirm('确认删除机构['+ orgId + ']吗?')){
+			   orgManager.deleteOrg(orgId);
+			}
 		}
 	});
 	$("#addOrg").button().click(function(){
-		window.location="addOrg.jsp";
+		window.location.href="addOrg.jsp";
+	});
+	$("#editOrg").button().click(function(){
+	    var table = tables["OrgTable"];
+		var rowsSelected = table.$("tr.row_selected");
+		if(rowsSelected.length = 0){
+			alert("请选择修改的机构!");
+		}
+		else if(rowsSelected.length > 1){
+		    alert("请只选择一个机构修改!");
+		}
+		else{
+		var selectedDatas = table.fnGetData(table.$("tr.row_selected")[0]);
+	    var orgId = selectedDatas["orgId"];
+		var orgAB = selectedDatas["orgAB"];
+		var orgName = selectedDatas["orgName"];
+		var status = selectedDatas["orgStatus"];
+		window.location.href="editOrg.jsp?orgId="+orgId+"&orgAB="+orgAB+"&orgName="+orgName+"&status="+status;
+		}
 	});
 });

@@ -81,10 +81,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       <script>
        $(function(){
            $("#firstTime").datepicker({
-		          "changeMonth":true,
-		          "changeYear":true,
-		          "dateFormat":"yy-mm-dd",
-		        });
+		          changeMonth: true,
+		          changeYear: true,
+		          dateFormat: "yymmdd"
+		   });
+		   $("#secondTime").datepicker({
+		          changeMonth: true,
+		          changeYear: true,
+		          dateFormat: "yymmdd"
+		   });
        })
       </script>
 	</head>
@@ -97,20 +102,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</ul>
 			
 			<div id="tabs-0">
-			<div class="ui-widget-header" style="margin-bottom: 0.5em;padding:0.5em;">
-			    <label>系统Id</label>
-			    <input type='Text' value='' id='sysId'/>
-			    <label>系统简称</label>
-			    <input type='Text' value='' id='sysAb'/>
-			    <label>系统名称</label>
-			    <input type='Text' value='' id='sysName'/>
-			    <label>系统描述</label>
-			    <input type='Text' value='' id='remark'/>
-			    <br>
-			    <label>首次上线时间</label>
-			    <input type='Text' value='' id='firstTime'/>
+			    <label style="width:40px;margin-left:4em;">系统Id: </label>
+			    <input type='Text' value='' id='sysId' class="text ui-widget-content ui-corner-all" style="width:140px;"/>
+			    <label style="width:40px;margin-left:6.5em;">系统简称: </label>
+			    <input type='Text' value='' id='sysAb' class="text ui-widget-content ui-corner-all" style="width:140px;"/>
+			    <label style="width:40px;margin-left:6.5em;">系统名称: </label>
+			    <input type='Text' value='' id='sysName' value='' class="text ui-widget-content ui-corner-all" style="width:140px;"/>
+			    <br/>
+			    <label style="width:40px;margin-left:3em;">系统描述: </label>
+			    <input type='Text' value='' id='remark' value='' class="text ui-widget-content ui-corner-all" style="width:140px;"/>
+			    <label style="width:40px;margin-left:0em;">首次上线日期(提供方):</label>
+			    <input type='Text' value='' id='firstTime' value='' class="text ui-widget-content ui-corner-all" style="width:140px;"/>
+			    <label style="width:40px;margin-left:0em;">首次上线日期(调用方):</label>
+			    <input type='Text' value='' id='secondTime' value='' class="text ui-widget-content ui-corner-all" style="width:140px;"/>
+			    <br/>
+			    <label style="width:40px;margin-left:0.7em;">超时时间(ms): </label>
+			    <input type='Text' value='' id='tmOut' value='' class="text ui-widget-content ui-corner-all" style="width:140px;"/>
+			    <label style="width:40px;">承诺最大并发数(前端): </label>
+			    <input type='Text' value='' id='maxCon' value='' class="text ui-widget-content ui-corner-all" style="width:140px;"/>
+			    <label style="width:40px;">承诺最大并发数(后端): </label>
+			    <input type='Text' value='' id='outMaxCon' value='' class="text ui-widget-content ui-corner-all" style="width:140px;"/>
+			    			    <br/>
+			    <label style="width:40px;margin-left:2em;">承诺成功率: </label>
+			    <input type='Text' value='' id='sucRate' value='' class="text ui-widget-content ui-corner-all" style="width:140px;"/>
+			    <label style="width:40px;">承诺平均响应时间(ms): </label>
+			    <input type='Text' value='' id='avgTime' value='' class="text ui-widget-content ui-corner-all" style="width:140px;"/>
 			    <button id="save">保存</button>
-			</div>
 			<div class="ui-widget-header" style="margin-bottom: 0.0em;">
 			    <button id="add">添加</button>
 			    <button id="del">删除</button>
@@ -118,6 +135,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 	        <table cellpadding="0" cellspacing="0" border="0" class="display"
 					id="protocolInfoTable">
+					<tfoot>
+						<tr>
+							<th>
+								<input type="hidden" name="sysId" id="sysId" value="系统Id"
+									class="search_init" />
+							</th>
+							<th>
+								<input type="hidden" name="connectMode" id="connectMode" value="协议类型"
+									class="search_init" />
+							</th>
+							<th>
+								<input type="hidden" name="sysAddr" id="sysAddr" value="访问地址"
+									class="search_init" />
+							</th>
+							<th>
+								<input type="hidden" name="appScene" id="appScene" value="应用场景"
+									class="search_init" />
+							</th>
+							<th>
+								<input type="hidden" name="msgType" id="msgType" value="报文类型"
+									class="search_init" />
+							</th>
+							<th>
+								<input type="hidden" name="sysType" id="sysType" value="系统类型"
+									class="search_init" />
+							</th>
+							<th>
+								<input type="hidden" name="codeType" id="codeType" value="编码格式"
+									class="search_init" />
+							</th>
+							<th>
+								<input type="hidden" name="macFlag" id="macFlag" value="mac校验"
+									class="search_init" />
+							</th>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 		</div>

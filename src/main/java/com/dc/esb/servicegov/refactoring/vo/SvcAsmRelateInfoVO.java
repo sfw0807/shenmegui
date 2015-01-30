@@ -28,6 +28,7 @@ public class SvcAsmRelateInfoVO {
         return ((null == this.serviceInfo) ?(null == another.getServiceInfo()):(this.serviceInfo.equals(another.getServiceInfo())))&&
                ((null == this.operationInfo) ?(null == another.getOperationInfo()):(this.operationInfo.equals(another.getOperationInfo())))&&
                 ((null == this.interfaceInfo) ?(null == another.getInterfaceInfo()):(this.interfaceInfo.equals(another.getInterfaceInfo())))&&
+                ((null == this.provideSysInfo) ?(null == another.getProvideSysInfo()):(this.provideSysInfo.equals(another.getProvideSysInfo())))&&
                 ((null == this.provideMsgType) ?(null == another.getProvideMsgType()):(this.provideMsgType.equals(another.getProvideMsgType())))&&
                 ((null == this.consumeMsgType) ?(null == another.getConsumeMsgType()):(this.consumeMsgType.equals(another.getConsumeMsgType())));
     }
@@ -42,6 +43,9 @@ public class SvcAsmRelateInfoVO {
         }
         if(null != interfaceInfo){
             hashCode ^= interfaceInfo.hashCode();
+        }
+        if(null != provideSysInfo){
+            hashCode ^= provideSysInfo.hashCode();
         }
         if(null != provideMsgType){
             hashCode ^= provideMsgType.hashCode();

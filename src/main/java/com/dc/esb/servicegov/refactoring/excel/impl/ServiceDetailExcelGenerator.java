@@ -48,14 +48,13 @@ public class ServiceDetailExcelGenerator implements IConfigGenerater<Object, Svc
 		MappingExcelUtils.fillCell(headRow, 2, "交易代码/名称", headCellStyle);
 		MappingExcelUtils.fillCell(headRow, 3, "经由系统简称/名称", headCellStyle);
 		MappingExcelUtils.fillCell(headRow, 4, "提供方系统简称/名称", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 5, "调用报文类型", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 6, "提供报文类型", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 7, "是否穿透", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 8, "交易状态", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 9, "修订次数", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 10, "上线日期", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 11, "上线版本", headCellStyle);
-		MappingExcelUtils.fillCell(headRow, 12, "备注", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 5, "提供报文类型", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 6, "是否穿透", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 7, "交易状态", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 8, "修订次数", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 9, "上线日期", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 10, "上线版本", headCellStyle);
+		MappingExcelUtils.fillCell(headRow, 11, "备注", headCellStyle);
 	}
 	private void createBodyInfo(Map<String,String> conditionsMap){
 		List<SvcAsmRelateInfoVO> exportList = getExportDataByConditions(conditionsMap);
@@ -69,14 +68,13 @@ public class ServiceDetailExcelGenerator implements IConfigGenerater<Object, Svc
 				MappingExcelUtils.fillCell(bodyRow, 2, vo.getInterfaceInfo(), bodyCellStyle);
 				MappingExcelUtils.fillCell(bodyRow, 3, vo.getPassbySysInfo(), bodyCellStyle);
 				MappingExcelUtils.fillCell(bodyRow, 4, vo.getProvideSysInfo(), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 5, vo.getConsumeMsgType(), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 6, vo.getProvideMsgType(), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 7, vo.getThrough(), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 8, vo.getState(), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 9, vo.getModifyTimes(), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 10, vo.getOnlineDate(), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 11, vo.getOnlineVersion(), bodyCellStyle);
-				MappingExcelUtils.fillCell(bodyRow, 12, vo.getField(), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 5, vo.getProvideMsgType(), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 6, vo.getThrough(), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 7, vo.getState(), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 8, vo.getModifyTimes(), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 9, vo.getOnlineDate(), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 10, vo.getOnlineVersion(), bodyCellStyle);
+				MappingExcelUtils.fillCell(bodyRow, 11, vo.getField(), bodyCellStyle);
 			}
 		}
 	}

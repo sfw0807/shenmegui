@@ -37,6 +37,11 @@ public class MetadataStructsAttrController {
 	MetadataStructsAttr[] msaArr) {
 		boolean flag = true;
 		try {
+			// for IE 8.0 above
+			for(MetadataStructsAttr mdtAttr: msaArr){
+				mdtAttr.setIsRequired(("null".equals(mdtAttr.getIsRequired()) || mdtAttr.getIsRequired() ==null)?"":mdtAttr.getIsRequired());
+				mdtAttr.setRemark(("null".equals(mdtAttr.getRemark()) || mdtAttr.getRemark() ==null)?"":mdtAttr.getRemark());
+			}
 			if (msaArr != null && msaArr.length > 0) {
 				// 删除所有属性
 				metadataStructsAttrManager.delByStructId(msaArr[0]

@@ -13,23 +13,60 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<meta http-equiv="description" content="this is my page">
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-		<link rel="stylesheet"
-			href="<%=path %>/themes/smoothness/jquery-ui-1.8.4.custom.css" />
+		<link rel="stylesheet" href="<%=path %>/themes/smoothness/jquery-ui-1.8.4.custom.css" />
 		<link rel="stylesheet" href="<%=path %>/css/index.css" />
+		<link rel="stylesheet" href="<%=path %>/css/demos.css" />
 		<script src="<%=path %>/js/jquery-ui/js/jquery-1.10.2.js"></script>
+		<script src="<%=path %>/js/jquery-1.8.2.js"></script>
+		<script src="<%=path %>/js/jquery.bgiframe-2.1.2.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.core.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.widget.js"></script>
+	    <script src="<%=path %>/js/jquery.ui.mouse.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.button.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.position.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.autocomplete.js"></script>
-       <script src="<%=path %>/js/jquery-ui-tabs.js"></script>
-       <script src="<%=path %>/js/jquery.ui.button.js"></script>
-       <script src='<%=path %>/js/jquery.datatables/js/jquery.dataTables.js' type="text/javascript"></script>
-		<link rel='stylesheet' type='text/css'
-			href='<%=path %>/js/jquery.datatables/css/jquery.dataTables.css' />
+	    <script src="<%=path %>/js/jquery.ui.draggable.js"></script>
+	    <script src="<%=path %>/js/jquery.ui.resizable.js"></script>
+	    <script src="<%=path %>/js/jquery.ui.dialog.js"></script>
+	    <script src="<%=path %>/js/jquery.effects.core.js"></script>
+        <script src="<%=path %>/js/jquery-ui-tabs.js"></script>
+        <script src="<%=path %>/js/combo-box.js"></script>
+        <script src='<%=path %>/js/jquery.datatables/js/jquery.dataTables.js' type="text/javascript"></script>
+		<link rel='stylesheet' type='text/css' href='<%=path %>/js/jquery.datatables/css/jquery.dataTables.css' />
 		<script src="<%=path %>/js/layout.js" type="text/javascript"></script>
 		<script src="<%=path %>/js/resourceImport.js" type="text/javascript"></script>
 		<script src="<%=path %>/js/json/json2.js" type="text/javascript"></script>
+		<script type="text/javascript">
+		    $(function(){
+			    $('#fileUpload').change(function(){
+			      var fileName = $('#fileUpload').val();
+			      if(fileName == ""){
+			          $('#import').attr("disabled",true);
+			      }
+			      else{
+			          $('#import').attr("disabled",false);
+			      }
+			    });
+			    $('#onlinefileUpload').change(function(){
+			      var fileName = $('#onlinefileUpload').val();
+			      if(fileName == ""){
+			          $('#onlineimport').attr("disabled",true);
+			      }
+			      else{
+			          $('#onlineimport').attr("disabled",false);
+			      }
+			    });
+			    $('#metadatafileUpload').change(function(){
+			      var fileName = $('#metadatafileUpload').val();
+			      if(fileName == ""){
+			          $('#metadataImport').attr("disabled",true);
+			      }
+			      else{
+			          $('#metadataImport').attr("disabled",false);
+			      }
+			    });
+		    })
+		</script>
 		<style>
 			.ui-menu {
 				position: absolute;
@@ -55,6 +92,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<li id='tab0'>
 					<a href='#tabs-0'>映射文档导入</a>
 				</li>
+				<li id='tab2'>
+					<a href='#tabs-2'>元数据导入</a>
+				</li>
 				<li id='tab1'>
 					<a href='#tabs-1'>上线清单导入</a>
 				</li>
@@ -65,20 +105,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<form action="<%=path %>/import/mapping" method="post" enctype="multipart/form-data" id="mapping">
 			  请选择导入的映射文档：
 			  <input  style ="width:14%;" type = "file" name="file" id="fileUpload" />
-			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			  <input  style ="width:4%;" type = "submit" value="导入" id="import" />
+			  <br/>
+			  是否覆盖导入：
+			  <select id="select" name="select">
+			    <option value="Y">是</option>
+			    <option value="N" selected>否</option>
+			  </select>
+			  <!--
+			  <input  style ="width:2%;" type = "checkbox" name="checkbox" id="checkbox" />
+			  -->
+			  <br/>
+			  <input  style ="width:4%;" type = "submit" value="导入" id="import" disabled="true"/>
 			</form>
 			</div>
 	       </div>
 	       
+	       <div id="tabs-2">
+			<div class="ui-widget-header" style="margin-bottom: 0.1em;padding:0.1em;">
+			<form action="<%=path %>/import/metadata" method="post" enctype="multipart/form-data" id="metadata" >
+			  请选择导入的元数据文件：
+			  <input  style ="width:14%;" type = "file" name="file" id="metadatafileUpload" />
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			  <input  style ="width:4%;" type = "submit" value="导入" id="metadataImport" disabled="true" />
+			</form>
+			</div>
+	       </div>  
 						
 			<div id="tabs-1">
 			<div class="ui-widget-header" style="margin-bottom: 0.1em;padding:0.1em;">
 			<form action="<%=path %>/import/online" method="post" enctype="multipart/form-data" id="online" >
-			  请选择导入的上线清单：
+			  请选择导入的上线清单文件：
 			  <input  style ="width:14%;" type = "file" name="file" id="onlinefileUpload" />
 			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			  <input  style ="width:4%;" type = "submit" value="导入" id="onlineimport" />
+			  <input  style ="width:4%;" type = "submit" value="导入" id="onlineimport" disabled="true" />
 			</form>
 			</div>
 	       </div>      

@@ -21,7 +21,6 @@ public class ForceNoCacheFilter implements Filter{
 	
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain filterChain) throws IOException, ServletException {
-		System.out.println("destroy cache..."+request.getRemoteAddr());
 		((HttpServletResponse)response).setHeader("Cache-Control","no-cache");
 		((HttpServletResponse)response).setHeader("Pragma","No-Cache");
 		((HttpServletResponse)response).setDateHeader("Expires", 0);

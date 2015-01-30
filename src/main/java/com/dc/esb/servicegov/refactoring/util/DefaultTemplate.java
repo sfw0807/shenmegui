@@ -34,12 +34,12 @@ public class DefaultTemplate {
 	 * @return
 	 */
 	public static boolean checkIsIDATemplate(String templateId) {
-		if (templateMap.containsKey("default_interface_consumer")
-				|| templateMap.containsKey("default_interface_provider")
-				|| templateMap.containsKey("default_interface_consumer1")
-				|| templateMap.containsKey("default_interface_provider1")
-				|| templateMap.containsKey("InSOPTemplate")
-				|| templateMap.containsKey("OutSOPTemplate")) {
+		if (templateId.equals("default_interface_consumer")
+				|| templateId.equals("default_interface_provider")
+				|| templateId.equals("default_interface_consumer1")
+				|| templateId.equals("default_interface_provider1")
+				|| templateId.equals("InSOPTemplate")
+				|| templateId.equals("OutSOPTemplate")) {
 			return true;
 		}
 		return false;

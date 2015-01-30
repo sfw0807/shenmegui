@@ -121,7 +121,14 @@ public class MetadataNodeHelper {
 									"is_struct") : "false";
 							cele.addAttribute("is_struct", is_struct);
 						}
-						
+						if("".equals(attr.getProperty("type"))){
+							if(cNode.hasAttribute("remark")){
+								if(attr.getProperty("remark")!=null 
+										&& attr.getProperty("remark").toLowerCase().startsWith("start")){
+									cele.addAttribute("is_struct", "true");
+								}
+							}
+						}
 					}
 				}
 				

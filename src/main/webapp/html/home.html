@@ -9,6 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <!-- Le styles -->
 <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" href="../themes/smoothness/jquery-ui-1.8.4.custom.css" />
 <link href="../bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 <style>
 #wrapper{
@@ -290,67 +291,61 @@ body {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="brand" href="#">浦发银行服务治理平台</a>
+                  <a class="brand" href="#">浦发银行服务治理平台</a>
                 <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li class="dropdown">
+                        <li id='esbMenu_service' class="dropdown">
                         	<a href="#" class="dropdown-toggle" data-toggle="dropdown">服务管理<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                            	<li><a href="operationManager.html">操作管理</a></li>
-                                <li><a href="#">服务管理</a></li>
-                                <li><a href="#">操作管理</a></li>
-                                <li><a href="#">接口管理</a></li>
-                                <li><a href="#">服务接口状态管理</a></li>
-                                <li><a href="#">服务审核</a></li>
-                                <li><a href="#">服务分类管理</a></li>
-                                <li><a href="./metadata/metadata.html" target ="_blank">元数据管理</a></li>
-                                <li><a href="#">元数据结构管理</a></li>   
-                                <li><a href="#">接入系统管理</a></li>         
-                                <li><a href="#">设置服务提供方</a></li>  
-                                <li><a href="#">设置服务调用方</a></li>                    
+                            	<li class="ui-state-disabled1"><a href="../jsp/operationManager.jsp" target ="_blank">操作管理</a></li>
+                                <li><a href="../jsp/serviceInfoManager.jsp" target ="_blank">服务管理</a></li>
+                                <li><a href="../html/interfaceManagement.html" target ="_blank">接口管理</a></li>
+                                <li><a href="#" target ="_blank">服务审核</a></li>
+                                <li><a href="../jsp/serviceCategoryManager.jsp" target ="_blank">服务分类管理</a></li>
+                                <li><a href="../jsp/metadataManager.jsp" target ="_blank">元数据管理</a></li>
+                                <li><a href="../jsp/metadataStructsManager.jsp" target ="_blank">元数据结构管理</a></li>   
+                                <li><a href="../jsp/systemInfoManager.jsp" target ="_blank">接入系统管理</a></li>         
+                                <li><a href="../jsp/invokeManager.jsp" target ="_blank">调用关系管理</a></li>                      
                             </ul>
                         </li>
-                        <li class="dropdown">
+                        <li id='esbMenu_resource' class="dropdown">
                         	<a href="#" class="dropdown-toggle" data-toggle="dropdown">资源管理<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">资源导入</a></li>
+                                <li><a href="../jsp/resourceImport.jsp">资源导入</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">运行态导出</a></li>
-                                <li><a href="#">映射文档导出</a></li>  
-                                <li><a href="#">配置文件导出</a></li> 
-                                <li><a href="#">修订记录导出</a></li> 
-                                <li><a href="#">上线清单导出</a></li> 
-                                <li><a href="#">系统级别SQL导出</a></li>
-                                <li><a href="#">服务依赖关系表导出</a></li> 
-                                <li><a href="#">服务调用申请单导出</a></li> 
-                                                        
+                                <li><a href="#" target ="_blank">资源导出</a></li>
+                                <li><a href="#" target ="_blank">修订记录导出</a></li> 
+                                <li><a href="#" target ="_blank">上线清单导出</a></li> 
+                                <li><a href="#" target ="_blank">系统级别SQL导出</a></li>
+                                <li><a href="#" target ="_blank">服务依赖关系表导出</a></li> 
+                                <li><a href="#" target ="_blank">服务调用申请单导出</a></li> 
                             </ul>
                         </li>                  
-                        <li class="dropdown">
+                        <li id='visitorMenu' class="dropdown">
                         	<a href="#" class="dropdown-toggle" data-toggle="dropdown">视图查询<b class="caret"></b></a>
                             <ul class="dropdown-menu">                              
-                                <li><a href="svcAsmRelate.html" target ="_blank">服务调用关系查询</a></li>
-                                <li><a href="serviceDetail.html" target ="_blank">服务详细信息查询</a></li> 
-                                <li><a href="#">服务库查询</a></li> 
-                                <li><a href="#">服务统计信息</a></li> 
-                                <li><a href="serviceDevProgress.html" target ="_blank">服务开发统计信息查询</a></li>
-                                <li><a href="sla.html" target ="_blank">服务SLA信息查询</a></li> 
-                                <li><a href="#">接入系统服务统计表</a></li>   
-                                <li><a href="#">接入系统拓扑图</a></li>
-                                <li><a href="publishInfo.html" target ="_blank">上线统计表(按日期)</a></li>                        
+                                <li><a href="../jsp/svcAsmRelateView.jsp" target ="_blank">服务调用关系查询</a></li>
+                                <li><a href="../jsp/serviceDetailView.jsp" target ="_blank">服务详细信息查询</a></li> 
+                                <li><a href="../jsp/serviceStore.jsp" target ="_blank">服务库查询</a></li> 
+                                <li><a href="../jsp/serviceTotalView.jsp" target ="_blank">服务统计信息</a></li> 
+                                <li><a href="../jsp/serviceDevProgressView.jsp" target ="_blank">服务开发统计信息查询</a></li>
+                                <li><a href="../jsp/sla.jsp" target ="_blank">服务SLA信息查询</a></li> 
+                                <li><a href="../jsp/sysInvokeServiceView.jsp" target ="_blank">接入系统服务统计表</a></li>   
+                                <li><a href="../jsp/sysTopology.jsp" target ="_blank">接入系统拓扑图</a></li>
+                                <li><a href="../jsp/publishInfoView.jsp" target ="_blank">上线统计表(按日期)</a></li>                        
                             </ul>
                         </li>  
-                        <li class="dropdown">
+                        <li id='esbMenu_system' class="dropdown">
                         	<a href="#" class="dropdown-toggle" data-toggle="dropdown">系统管理<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">用户管理</a></li>                                
-                                <li><a href="#">角色管理</a></li>
-                                <li><a href="#">权限管理</a></li>
-                                <li><a href="#">用户机构管理</a></li>  
-                                <li><a href="#">密码修改</a></li> 
-                                <li><a href="servlet/view/SG_FRM_LOG/log_list.eis">日志查询</a></li> 
-                                <li><a href="#">公告管理</a></li>                                                      
+                                <li><a href="#" target ="_blank">用户管理</a></li>                                
+                                <li><a href="#" target ="_blank">角色管理</a></li>
+                                <li><a href="#" target ="_blank">权限管理</a></li>
+                                <li><a href="#" target ="_blank">用户机构管理</a></li>  
+                                <li><a href="#" target ="_blank">密码修改</a></li> 
+                                <li><a href="#" target ="_blank">日志查询</a></li> 
+                                <li><a href="#" target ="_blank">公告管理</a></li>                                                      
                             </ul>
                         </li> 
                         <!-- Read about Bootstrap dropdowns at http://twitter.github.com/bootstrap/javascript.html#dropdowns -->
@@ -397,7 +392,7 @@ body {
             </div>
         </div>
         <div class="item">
-            <img src="/image/slide-03.jpg" alt="">
+            <img src="../image/slide-03.jpg" alt="">
 
             <div class="container">
                 <div class="carousel-caption">
@@ -449,6 +444,7 @@ body {
 <script src="../js/bootstrap-typeahead.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/bootstrap.js"></script>
+<script src="../js/home.js"></script>
 <script>
     !function ($) {
         $(function () {

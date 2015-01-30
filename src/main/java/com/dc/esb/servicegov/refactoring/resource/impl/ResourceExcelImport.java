@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import com.dc.esb.servicegov.refactoring.resource.ResourceExcelImportTask;
 import com.dc.esb.servicegov.refactoring.util.ExcelTool;
 import com.dc.esb.servicegov.refactoring.util.GlobalImport;
+import com.dc.esb.servicegov.refactoring.util.GlobalMenuId;
+import com.dc.esb.servicegov.refactoring.util.UserOperationLogUtil;
 
 @Service
 public class ResourceExcelImport {
@@ -39,25 +41,18 @@ public class ResourceExcelImport {
 	@Autowired
 	private IndexServiceParse indexServiceParse;
 	@Autowired
-	private MetadataExcelParse metadataParse;
-	@Autowired
 	private MetadataStructsParse metadataStructsParse;
 	@Autowired
 	private OnlineParse onlineParse;
 
 	// identify metadata metadataStructs service and interface
-	public void parse(InputStream is, String fileName) {
+	public boolean parse(InputStream is, String fileName) {
 		try {
-			// 判断导入的是否是元数据xlsx
-			if (fileName.toLowerCase().startsWith("metadata")) {
-				metadataParse.parse(wb);
-				return;
-			}
 			wb = WorkbookFactory.create(is);
 			indexSheet = wb.getSheet("INDEX");
 			// 校验index页
 			if (!checkImportExcel(indexSheet)) {
-				return;
+				return false;
 			}
 			// 导入元数据结构
 			index1Sheet = wb.getSheet("INDEX1");
@@ -67,25 +62,28 @@ public class ResourceExcelImport {
 
 			int rowNum = indexSheet.getPhysicalNumberOfRows();
 			log.info("import count of rows:" + (rowNum - 1));
+			ResourceExcelImportTask t = new ResourceExcelImportTask();
+			t.initParse(invokeInfoParse, interfaceParse, serviceParse,
+					indexInterfaceParse, indexServiceParse);
 			// ExecutorService executor = Executors.newFixedThreadPool(100);
 			// CountDownLatch countDown = new CountDownLatch(rowNum-1);
 			// List<ResourceExcelImportTask> pTaskList = new
 			// ArrayList<ResourceExcelImportTask>();
 			for (int i = 1; i < rowNum; i++) {
 				Row row = indexSheet.getRow(i);
-				String interfaceId = excelTool.getCellContent(row.getCell(0));
-				if ("".equals(interfaceId)) {
-					String operationId = excelTool.getCellContent(row
-							.getCell(3));
-					interfaceSheet = wb.getSheet(operationId);
-				} else {
-					interfaceSheet = wb.getSheet(interfaceId);
+				if (row != null) {
+					String interfaceId = excelTool.getCellContent(row
+							.getCell(0));
+					if ("".equals(interfaceId)) {
+						String operationId = excelTool.getCellContent(row
+								.getCell(3));
+						interfaceSheet = wb.getSheet(operationId);
+					} else {
+						interfaceSheet = wb.getSheet(interfaceId);
+					}
+					t.init(row, interfaceSheet);
+					t.run();
 				}
-				ResourceExcelImportTask t = new ResourceExcelImportTask();
-				t.init(row, interfaceSheet);
-				t.initParse(invokeInfoParse, interfaceParse, serviceParse,
-						indexInterfaceParse, indexServiceParse);
-				t.run();
 				// pTaskList.add(t);
 				// countDown.countDown();
 			}
@@ -99,14 +97,17 @@ public class ResourceExcelImport {
 			// for(ResourceExcelImportTask kSap : pTaskList){
 			// executor.execute(kSap);
 			// }
-
+			return true;
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			log.error("File Not Found!", e);
+			return false;
 		} catch (InvalidFormatException i) {
 			log.error("InvalidFormatException!", i);
+			return false;
 		} catch (IOException o) {
 			log.error("IO exception!", o);
+			return false;
 		} finally {
 			try {
 				if (is != null) {
@@ -115,6 +116,7 @@ public class ResourceExcelImport {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			}
 		}
 	}
@@ -142,57 +144,91 @@ public class ResourceExcelImport {
 	private boolean checkImportExcel(Sheet indexSheet) {
 		if (indexSheet == null) {
 			log.error("index页不存在!");
+			UserOperationLogUtil.saveLog("index页不存在!", GlobalMenuId.menuIdMap
+					.get(GlobalMenuId.resourceImportMenuId));
 			GlobalImport.flag = false;
 			return false;
 		} else {
-			Row row = indexSheet.getRow(0);
-			if (row.getPhysicalNumberOfCells() != 19) {
-				log.error("index页的列数量不正确!");
+			if(indexSheet.getPhysicalNumberOfRows() <= 1){
+				log.error("index页不存在导入的数据!");
+				UserOperationLogUtil.saveLog("index页不存在导入的数据!!",
+						GlobalMenuId.menuIdMap
+								.get(GlobalMenuId.resourceImportMenuId));
 				GlobalImport.flag = false;
 				return false;
-			} else {
-				String cell0 = excelTool.getCellContent(row.getCell(0));
-				String cell1 = excelTool.getCellContent(row.getCell(1));
-				String cell2 = excelTool.getCellContent(row.getCell(2));
-				String cell3 = excelTool.getCellContent(row.getCell(3));
-				String cell4 = excelTool.getCellContent(row.getCell(4));
-				String cell5 = excelTool.getCellContent(row.getCell(5));
-				String cell6 = excelTool.getCellContent(row.getCell(6));
-				if ("交易代码".equals(cell0)) {
-					log.error("index页的第1列应该为 [交易代码] !");
-					GlobalImport.flag = false;
-					return false;
-				}
-				if ("交易名称".equals(cell1)) {
-					log.error("index页的第2列应该为 [交易名称] !");
-					GlobalImport.flag = false;
-					return false;
-				}
-				if ("服务名称".equals(cell2)) {
-					log.error("index页的第3列应该为 [服务名称] !");
-					GlobalImport.flag = false;
-					return false;
-				}
-				if ("服务操作ID".equals(cell3)) {
-					log.error("index页的第4列应该为 [服务操作ID] !");
-					GlobalImport.flag = false;
-					return false;
-				}
-				if ("服务操作名称".equals(cell4)) {
-					log.error("index页的第5列应该为 [服务操作名称] !");
-					GlobalImport.flag = false;
-					return false;
-				}
-				if ("调用方".equals(cell5)) {
-					log.error("index页的第6列应该为 [调用方] !");
-					GlobalImport.flag = false;
-					return false;
-				}
-				if ("服务操作提供方".equals(cell6)) {
-					log.error("index页的第7列应该为 [服务操作提供方] !");
-					GlobalImport.flag = false;
-					return false;
-				}
+			}
+			Row row = indexSheet.getRow(0);
+			String cell0 = excelTool.getCellContent(row.getCell(0));
+			String cell1 = excelTool.getCellContent(row.getCell(1));
+			String cell2 = excelTool.getCellContent(row.getCell(2));
+			String cell3 = excelTool.getCellContent(row.getCell(3));
+			String cell4 = excelTool.getCellContent(row.getCell(4));
+			String cell5 = excelTool.getCellContent(row.getCell(5));
+			String cell6 = excelTool.getCellContent(row.getCell(6));
+			String cell19 = excelTool.getCellContent(row.getCell(19));
+			if (!"交易代码".equals(cell0)) {
+				log.error("index页的第1列应该为 [交易代码] !");
+				UserOperationLogUtil.saveLog("index页的第1列应该为 [交易代码] !",
+						GlobalMenuId.menuIdMap
+								.get(GlobalMenuId.resourceImportMenuId));
+				GlobalImport.flag = false;
+				return false;
+			}
+			if (!"交易名称".equals(cell1)) {
+				log.error("index页的第2列应该为 [交易名称] !");
+				UserOperationLogUtil.saveLog("index页的第2列应该为 [交易名称] !",
+						GlobalMenuId.menuIdMap
+								.get(GlobalMenuId.resourceImportMenuId));
+				GlobalImport.flag = false;
+				return false;
+			}
+			if (!"服务名称".equals(cell2)) {
+				log.error("index页的第3列应该为 [服务名称] !");
+				UserOperationLogUtil.saveLog("index页的第3列应该为 [服务名称] !",
+						GlobalMenuId.menuIdMap
+								.get(GlobalMenuId.resourceImportMenuId));
+				GlobalImport.flag = false;
+				return false;
+			}
+			if (!"服务操作ID".equals(cell3)) {
+				log.error("index页的第4列应该为 [服务操作ID] !");
+				UserOperationLogUtil.saveLog("index页的第4列应该为 [服务操作ID] !",
+						GlobalMenuId.menuIdMap
+								.get(GlobalMenuId.resourceImportMenuId));
+				GlobalImport.flag = false;
+				return false;
+			}
+			if (!"服务操作名称".equals(cell4)) {
+				log.error("index页的第5列应该为 [服务操作名称] !");
+				UserOperationLogUtil.saveLog("index页的第5列应该为 [服务操作名称] !",
+						GlobalMenuId.menuIdMap
+								.get(GlobalMenuId.resourceImportMenuId));
+				GlobalImport.flag = false;
+				return false;
+			}
+			if (!"调用方".equals(cell5)) {
+				log.error("index页的第6列应该为 [调用方] !");
+				UserOperationLogUtil.saveLog("index页的第6列应该为 [调用方] !",
+						GlobalMenuId.menuIdMap
+								.get(GlobalMenuId.resourceImportMenuId));
+				GlobalImport.flag = false;
+				return false;
+			}
+			if (!"提供方".equals(cell6)) {
+				log.error("index页的第7列应该为 [提供方] !");
+				UserOperationLogUtil.saveLog("index页的第7列应该为 [提供方] !",
+						GlobalMenuId.menuIdMap
+								.get(GlobalMenuId.resourceImportMenuId));
+				GlobalImport.flag = false;
+				return false;
+			}
+			if (!"业务报文头编号".equals(cell19)) {
+				log.error("index页的第20列应该为 [业务报文头编号] !");
+				UserOperationLogUtil.saveLog("index页的最后一列应该为 [业务报文头编号] !",
+						GlobalMenuId.menuIdMap
+								.get(GlobalMenuId.resourceImportMenuId));
+				GlobalImport.flag = false;
+				return false;
 			}
 		}
 		return true;

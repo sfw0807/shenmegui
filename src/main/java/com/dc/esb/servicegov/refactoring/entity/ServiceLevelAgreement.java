@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="SLA")
+@Table(name="SG_SLA")
 @IdClass(ServiceLevelAgreementPK.class)
 public class ServiceLevelAgreement {
 	@Id

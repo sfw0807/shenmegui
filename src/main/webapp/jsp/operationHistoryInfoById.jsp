@@ -24,6 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="<%=path%>/js/jquery.ui.core.js"></script>
 		<script src="<%=path%>/js/jquery.ui.widget.js"></script>
 		<script src="<%=path%>/js/jquery.ui.datepicker.js"></script>
+		<script src="<%=path%>/js/json/json2.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/operationHistoryManager.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/layout.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/operationHistory.js" type="text/javascript"></script>
@@ -101,18 +102,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input  type = "button" value="删除节点" id="deleteOperationSDA" />
 					<input  type = "button" value="保存" id="saveOperationSDA" />
 				</div>			
-				--><table cellpadding="0" cellspacing="0" border="0" class="display" id="operationHistorySDATable">
-				   <tfoot>
-		              <tr>		              	 
-		             	 <th><input type="text" id="seq" name="seq" value="序号" class="search_init"/></th>
-		                 <th><input type="text" id="structId" name="structId" value="英文名称" class="search_init"/></th>
-		                 <th><input type="text" id="metadataId" name="metadataId" value="元数据ID" class="search_init"/></th>
-		                 <th><input type="text" id="type" name="type" value="类型" class="search_init"/></th>
-		                 <th><input type="text" id="required" name="required" value="是否必输" class="search_init"/></th>
-		                 <th><input type="text" id="remark" name="remark" value="备注" class="search_init"/></th>
-		              </tr>
-		           </tfoot>
-				</table>
+				-->
+				<div class="ui-widget-header" style="margin-bottom: 0.5em;padding: 0.2em;">
+					<input  type = "button" value="查看SDA" id="seesda" class="ui-button ui-widget ui-state-default ui-corner-all" role="button" aria-disabled="false" />
+				</div>				
 			</div>
 			
 			<div id="tabs-2"><!--

@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>-->
+    <!--<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>-->
+    <!--<meta name="viewport" content="width=device-width"/>-->
+    <link href="/assets/favicon-160d25a7a41b36769a195df3acef4f7b.ico" rel="shortcut icon"
+          type="image/vnd.microsoft.icon"/>
+
+    <title>神州数码 | 服务治理平台</title>
+    <link data-turbolinks-track="true" href="./assets/sgHome.css" media="all"
+          rel="stylesheet"/>
+
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <script type="text/javascript" src="https://gumroad.com/js/gumroad.js"></script>
+    <script data-turbolinks-track="true" src="./assets/sgHome.js"></script>
+</head>
+<body>
+<nav class="navbar filter-bar fixed-absolute" role="navigation">
+    <div class="container">
+        <div class="notification">
+            <div id="notif-message" class="notif-message" style="display: none;" notice-type=success>
+            </div>
+        </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand" href="/">
+                <div class="logo">
+                    <img src="./thumb.png"/>
+                </div>
+                <p>神州 <br>数码
+                </p>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#"></a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!--
+          <li>
+                  <a href="javascript:void(0)" onclick="showSearchForm(this)">
+                      <i class="icon-search icon-2x"></i>
+                      <p>Search</p>
+                  </a>
+                </li>
+          -->
+
+                <li class="active">
+                    <a href="/">
+                        <i class="icon-home icon-2x"></i>
+
+                        <p>管理首页</p>
+                    </a></li>
+                <li>
+                    <a href="#feedbackModal" role="button" data-toggle="modal">
+                        <i class="icon-bullhorn icon-2x"></i>
+
+                        <p>使用说明</p>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-male-sign-alt icon-2x"></i>
+
+                        <p>账户</p>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0)" onclick="openLoginModal();" role="button" data-toggle="modal">登录</a>
+                        </li>
+                        <!--<li class="divider"></li>-->
+                        <!--<li><a data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();"></a>-->
+                        <!--</li>-->
+                    </ul>
+                </li>
+            </ul>
+
+            <form accept-charset="UTF-8" action="/search" class="navbar-form navbar-right" method="get" role="search"
+                  style="display:none">
+                <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;"/></div>
+                <div class="input-group">
+
+                    <input class="form-control search" id="search" name="search"
+                           placeholder="Search themes and freebies..." type="text"/>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</nav>
+
+
+<div class="modal fade login" id="loginModal">
+    <div class="modal-dialog login animated">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">登录:</h4>
+            </div>
+            <div class="modal-body">
+                <div class="box">
+                    <div class="content">
+                        <div class="error inside-alert"></div>
+                        <div class="form loginBox">
+                            <!--
+                            -->
+                            <form accept-charset="UTF-8" action="/login" data-remote="true" html="{:multipart=&gt;true}"
+                                  method="post">
+                                <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden"
+                                                                                      value="&#x2713;"/></div>
+                                <input class="form-control" id="账号" name="email" placeholder="账号" type="text"/>
+                                <input class="form-control" id="密码" name="password" placeholder="密码"
+                                       type="password"/>
+                                <input class="btn btn-default btn-login" name="commit" type="submit" value="登录"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="content registerBox" style="display:none;">
+                        <div class="form">
+                            <form accept-charset="UTF-8" action="/register" data-remote="true"
+                                  html="{:multipart=&gt;true}" method="post">
+                                <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden"
+                                                                                      value="&#x2713;"/></div>
+                                <input class="form-control" id="email" name="email" placeholder="Email" type="text"/>
+                                <input class="form-control" id="password" name="password" placeholder="Password"
+                                       type="password"/>
+                                <input class="form-control" id="password_confirmation" name="password_confirmation"
+                                       placeholder="Repeat Password" type="password"/>
+                                <input class="btn btn-default btn-register" name="commit" type="submit"
+                                       value="Create account"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="forgot login-footer">
+            <span>Looking to 
+                 <a href="javascript: showRegisterForm();">create an account</a>
+            ?</span>
+                </div>
+                <div class="forgot register-footer" style="display:none">
+                    <span>Already have an account?</span>
+                    <a href="javascript: showLoginForm();">Login</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="parallax parallax-small">
+    <div class="over-gradient"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="hello">
+                    <a href="http://get-shit-done-pro.herokuapp.com">服务治理平台</a>
+                    <small>让服务治理,配置开发更加轻松!</small>
+                </h1>
+            </div>
+            <div class="col-md-6">
+                <div class="actions pull-right">
+                    <a class="btn btn-lg btn-fill btn-warning" onclick="openLoginModal();">立即登录</a>
+                </div>
+                <div class="actions pull-right">
+                    <a class="btn btn-lg btn-default"
+                       href="http://www.creative-tim.com/product/get-shit-done-pro">游客模式</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="main">
+
+<div class="page-title">
+    <div class="container">
+        <h1 class="title">最新功能</h1>
+    </div>
+</div>
+
+<div class="container">
+<div class="row">
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="card">
+        <div class="thumbnail">
+            <img alt="Opt alp thumbnail"
+                 src="http://s3.amazonaws.com/creativetim_bucket/products/27/opt_alp_thumbnail.jpg?1419424997"/>
+            <a href="/product/awesome-landing-page">
+                <div class="thumb-cover">
+                </div>
+            </a>
+
+            <div class="details">
+                <div class="user hidden">
+                    <div class="user-photo">
+                        <img alt="Thumb"
+                             src="http://s3.amazonaws.com/creativetim_bucket/photos/2/thumb.png?1394973934"/>
+                    </div>
+                    <div class="name">Tim</div>
+                </div>
+                <div class="numbers">
+                    <b class="downloads"><i class="fa fa-arrow-circle-o-down"></i> 87</b>
+
+                    <b class="comments-icon"><i class="fa fa-comment"></i> 1</b>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="card-info">
+            <div class="moving">
+                <a href="/product/awesome-landing-page">
+                    <h3>Awesome Landing Page
+                        <div class="time pull-right">Free</div>
+                    </h3>
+                    <p>Be amazed by the best looking bootstrap landing page on the web! Your new app deserves an
+                        amazing...</p>
+                </a> <b class="actions">
+                <a href="/product/awesome-landing-page">Details</a>
+                <b class="separator">|</b>
+                <a class="blue-text" href="/live/awesome-landing-page" target="_blank">Live Preview</a>
+            </b>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="card">
+        <div class="thumbnail">
+            <img alt="Opt gsdp thumbnail"
+                 src="http://s3.amazonaws.com/creativetim_bucket/products/26/opt_gsdp_thumbnail.jpg?1414156906"/>
+            <a href="/product/get-shit-done-pro">
+                <div class="thumb-cover">
+                </div>
+            </a>
+
+            <div class="details">
+                <div class="user hidden">
+                    <div class="user-photo">
+                        <img alt="Thumb"
+                             src="http://s3.amazonaws.com/creativetim_bucket/photos/2/thumb.png?1394973934"/>
+                    </div>
+                    <div class="name">Tim</div>
+                </div>
+                <div class="numbers">
+                    <b class="downloads"><i class="fa fa-arrow-circle-o-down"></i> 87</b>
+
+                    <b class="comments-icon"><i class="fa fa-comment"></i> 15</b>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="card-info">
+            <div class="moving">
+                <a href="/product/get-shit-done-pro">
+                    <h3>Get Shit Done Pro
+                        <div class="time pull-right">$39</div>
+                    </h3>
+                    <p>Get Shit Done Kit Pro it&#39;s a Bootstrap Kit that comes with a huge number of
+                        customisable...</p>
+                </a> <b class="actions">
+                <a href="/product/get-shit-done-pro">Details</a>
+                <b class="separator">|</b>
+                <a class="blue-text" href="/live/get-shit-done-pro" target="_blank">Live Preview</a>
+            </b>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="card">
+        <div class="thumbnail">
+            <img alt="Opt wizard thumbnail"
+                 src="http://s3.amazonaws.com/creativetim_bucket/products/22/opt_wizard_thumbnail.jpg?1407329324"/>
+            <a href="/product/bootstrap-wizard">
+                <div class="thumb-cover">
+                </div>
+            </a>
+
+            <div class="details">
+                <div class="user hidden">
+                    <div class="user-photo">
+                        <img alt="Thumb"
+                             src="http://s3.amazonaws.com/creativetim_bucket/photos/2/thumb.png?1394973934"/>
+                    </div>
+                    <div class="name">Tim</div>
+                </div>
+                <div class="numbers">
+                    <b class="downloads"><i class="fa fa-arrow-circle-o-down"></i> 1414</b>
+
+                    <b class="comments-icon"><i class="fa fa-comment"></i> 16</b>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="card-info">
+            <div class="moving">
+                <a href="/product/bootstrap-wizard">
+                    <h3>Bootstrap Wizard
+                        <div class="time pull-right">Free</div>
+                    </h3>
+                    <p>Fully responsive wizard that comes with 3 useful examples and 5 bright colors. The
+                        Bootstrap...</p>
+                </a> <b class="actions">
+                <a href="/product/bootstrap-wizard">Details</a>
+                <b class="separator">|</b>
+                <a class="blue-text" href="/live/bootstrap-wizard" target="_blank">Live Preview</a>
+            </b>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="card">
+        <div class="thumbnail">
+            <img alt="Coming sssoon thumbnail"
+                 src="http://s3.amazonaws.com/creativetim_bucket/products/20/coming_sssoon_thumbnail.png?1414139407"/>
+            <a href="/product/coming-sssoon-page">
+                <div class="thumb-cover">
+                </div>
+            </a>
+
+            <div class="details">
+                <div class="user hidden">
+                    <div class="user-photo">
+                        <img alt="Thumb"
+                             src="http://s3.amazonaws.com/creativetim_bucket/photos/2/thumb.png?1394973934"/>
+                    </div>
+                    <div class="name">Tim</div>
+                </div>
+                <div class="numbers">
+                    <b class="downloads"><i class="fa fa-arrow-circle-o-down"></i> 7342</b>
+
+                    <b class="comments-icon"><i class="fa fa-comment"></i> 45</b>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="card-info">
+            <div class="moving">
+                <a href="/product/coming-sssoon-page">
+                    <h3>Coming Sssoon Page
+                        <div class="time pull-right">Free</div>
+                    </h3>
+                    <p>Free one page item based on Bootstrap 3. Use Coming Sssoon Page to create a following group
+                        users...</p>
+                </a> <b class="actions">
+                <a href="/product/coming-sssoon-page">Details</a>
+                <b class="separator">|</b>
+                <a class="blue-text" href="/live/coming-sssoon-page" target="_blank">Live Preview</a>
+            </b>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="card">
+        <div class="thumbnail">
+            <img alt="Opt rotating card thumbnail2"
+                 src="http://s3.amazonaws.com/creativetim_bucket/products/19/opt_rotating_card_thumbnail2.jpg?1403558578"/>
+            <a href="/product/rotating-css-card">
+                <div class="thumb-cover">
+                </div>
+            </a>
+
+            <div class="details">
+                <div class="user hidden">
+                    <div class="user-photo">
+                        <img alt="Thumb"
+                             src="http://s3.amazonaws.com/creativetim_bucket/photos/2/thumb.png?1394973934"/>
+                    </div>
+                    <div class="name">Tim</div>
+                </div>
+                <div class="numbers">
+                    <b class="downloads"><i class="fa fa-arrow-circle-o-down"></i> 1420</b>
+
+                    <b class="comments-icon"><i class="fa fa-comment"></i> 17</b>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="card-info">
+            <div class="moving">
+                <a href="/product/rotating-css-card">
+                    <h3>Rotating CSS Card
+                        <div class="time pull-right">Free</div>
+                    </h3>
+                    <p>We found that sometimes when we work at different websites, we want to show a lot of
+                        information...</p>
+                </a> <b class="actions">
+                <a href="/product/rotating-css-card">Details</a>
+                <b class="separator">|</b>
+                <a class="blue-text" href="/live/rotating-css-card" target="_blank">Live Preview</a>
+            </b>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="card">
+        <div class="thumbnail">
+            <img alt="Opt navbar thumbnail3"
+                 src="http://s3.amazonaws.com/creativetim_bucket/products/18/opt_navbar_thumbnail3.jpg?1403558714"/>
+            <a href="/product/navbar-with-icons">
+                <div class="thumb-cover">
+                </div>
+            </a>
+
+            <div class="details">
+                <div class="user hidden">
+                    <div class="user-photo">
+                        <img alt="Thumb"
+                             src="http://s3.amazonaws.com/creativetim_bucket/photos/2/thumb.png?1394973934"/>
+                    </div>
+                    <div class="name">Tim</div>
+                </div>
+                <div class="numbers">
+                    <b class="downloads"><i class="fa fa-arrow-circle-o-down"></i> 1413</b>
+
+                    <b class="comments-icon"><i class="fa fa-comment"></i> 13</b>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="card-info">
+            <div class="moving">
+                <a href="/product/navbar-with-icons">
+                    <h3>Navbar With Icons
+                        <div class="time pull-right">Free</div>
+                    </h3>
+                    <p>It looks like everybody who used Bootstrap wanted to integrate a more beautiful and
+                        interesting...</p>
+                </a> <b class="actions">
+                <a href="/product/navbar-with-icons">Details</a>
+                <b class="separator">|</b>
+                <a class="blue-text" href="/live/navbar-with-icons" target="_blank">Live Preview</a>
+            </b>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="card">
+        <div class="thumbnail">
+            <img alt="Gsdk thumbnail3"
+                 src="http://s3.amazonaws.com/creativetim_bucket/products/17/GSDK_thumbnail3.png?1408635348"/>
+            <a href="/product/get-shit-done-kit">
+                <div class="thumb-cover">
+                </div>
+            </a>
+
+            <div class="details">
+                <div class="user hidden">
+                    <div class="user-photo">
+                        <img alt="Thumb"
+                             src="http://s3.amazonaws.com/creativetim_bucket/photos/2/thumb.png?1394973934"/>
+                    </div>
+                    <div class="name">Tim</div>
+                </div>
+                <div class="numbers">
+                    <b class="downloads"><i class="fa fa-arrow-circle-o-down"></i> 4859</b>
+
+                    <b class="comments-icon"><i class="fa fa-comment"></i> 32</b>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="card-info">
+            <div class="moving">
+                <a href="/product/get-shit-done-kit">
+                    <h3>Get Shit Done Kit
+                        <div class="time pull-right">Free</div>
+                    </h3>
+                    <p>Free Bootstrap 3 UI Kit, the best starting point for any online project you are building.
+                        It...</p>
+                </a> <b class="actions">
+                <a href="/product/get-shit-done-kit">Details</a>
+                <b class="separator">|</b>
+                <a class="blue-text" href="/live/get-shit-done-kit" target="_blank">Live Preview</a>
+            </b>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="card">
+        <div class="thumbnail">
+            <img alt="Opt full calendar thumbnail3"
+                 src="http://s3.amazonaws.com/creativetim_bucket/products/11/opt_full_calendar_thumbnail3.jpg?1403558825"/>
+            <a href="/product/full-calendar">
+                <div class="thumb-cover">
+                </div>
+            </a>
+
+            <div class="details">
+                <div class="user hidden">
+                    <div class="user-photo">
+                        <img alt="Thumb"
+                             src="http://s3.amazonaws.com/creativetim_bucket/photos/2/thumb.png?1394973934"/>
+                    </div>
+                    <div class="name">Tim</div>
+                </div>
+                <div class="numbers">
+                    <b class="downloads"><i class="fa fa-arrow-circle-o-down"></i> 957</b>
+
+                    <b class="comments-icon"><i class="fa fa-comment"></i> 14</b>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="card-info">
+            <div class="moving">
+                <a href="/product/full-calendar">
+                    <h3>Full Calendar
+                        <div class="time pull-right">Free</div>
+                    </h3>
+                    <p>Looking for a visual organisation of task or meetings? This is the perfect tool to do so. Tim
+                        has...</p>
+                </a> <b class="actions">
+                <a href="/product/full-calendar">Details</a>
+                <b class="separator">|</b>
+                <a class="blue-text" href="/live/full-calendar" target="_blank">Live Preview</a>
+            </b>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="card">
+        <div class="thumbnail">
+            <img alt="Opt login template"
+                 src="http://s3.amazonaws.com/creativetim_bucket/products/12/opt_login_template.jpg?1403558944"/>
+            <a href="/product/login-and-register-modal">
+                <div class="thumb-cover">
+                </div>
+            </a>
+
+            <div class="details">
+                <div class="user hidden">
+                    <div class="user-photo">
+                        <img alt="Thumb"
+                             src="http://s3.amazonaws.com/creativetim_bucket/photos/2/thumb.png?1394973934"/>
+                    </div>
+                    <div class="name">Tim</div>
+                </div>
+                <div class="numbers">
+                    <b class="downloads"><i class="fa fa-arrow-circle-o-down"></i> 1079</b>
+
+                    <b class="comments-icon"><i class="fa fa-comment"></i> 19</b>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="card-info">
+            <div class="moving">
+                <a href="/product/login-and-register-modal">
+                    <h3>Login and Register Modal
+                        <div class="time pull-right">Free</div>
+                    </h3>
+                    <p>Do you want your login/register process to be seamless? Just add this awesome modal that is
+                        easy...</p>
+                </a> <b class="actions">
+                <a href="/product/login-and-register-modal">Details</a>
+                <b class="separator">|</b>
+                <a class="blue-text" href="/live/login-and-register-modal" target="_blank">Live Preview</a>
+            </b>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="card">
+        <div class="thumbnail">
+            <img alt="With gold" src="http://s3.amazonaws.com/creativetim_bucket/products/13/with-gold.jpg?1412781154"/>
+            <a href="/product/feedback-form">
+                <div class="thumb-cover">
+                </div>
+            </a>
+
+            <div class="details">
+                <div class="user hidden">
+                    <div class="user-photo">
+                        <img alt="Thumb"
+                             src="http://s3.amazonaws.com/creativetim_bucket/photos/2/thumb.png?1394973934"/>
+                    </div>
+                    <div class="name">Tim</div>
+                </div>
+                <div class="numbers">
+                    <b class="downloads"><i class="fa fa-arrow-circle-o-down"></i> 553</b>
+
+                    <b class="comments-icon"><i class="fa fa-comment"></i> 5</b>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="card-info">
+            <div class="moving">
+                <a href="/product/feedback-form">
+                    <h3>Feedback Form
+                        <div class="time pull-right">Free</div>
+                    </h3>
+                    <p>You know that everybody hates feedback forms and nobody wants to complete a long and ugly
+                        one?...</p>
+                </a> <b class="actions">
+                <a href="/product/feedback-form">Details</a>
+                <b class="separator">|</b>
+                <a class="blue-text" href="/live/feedback-form" target="_blank">Live Preview</a>
+            </b>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <div class="card">
+        <div class="thumbnail">
+            <img alt="Opt datepicker thumbnail2"
+                 src="http://s3.amazonaws.com/creativetim_bucket/products/14/opt_datepicker_thumbnail2.jpg?1403559194"/>
+            <a href="/product/datepicker">
+                <div class="thumb-cover">
+                </div>
+            </a>
+
+            <div class="details">
+                <div class="user hidden">
+                    <div class="user-photo">
+                        <img alt="Thumb"
+                             src="http://s3.amazonaws.com/creativetim_bucket/photos/2/thumb.png?1394973934"/>
+                    </div>
+                    <div class="name">Tim</div>
+                </div>
+                <div class="numbers">
+                    <b class="downloads"><i class="fa fa-arrow-circle-o-down"></i> 716</b>
+
+                    <b class="comments-icon"><i class="fa fa-comment"></i> 12</b>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="card-info">
+            <div class="moving">
+                <a href="/product/datepicker">
+                    <h3>Datepicker
+                        <div class="time pull-right">Free</div>
+                    </h3>
+                    <p>Since every project needs a datepicker, we created a nice personalized one inspired by iOS7.
+                        Like...</p>
+                </a> <b class="actions">
+                <a href="/product/datepicker">Details</a>
+                <b class="separator">|</b>
+                <a class="blue-text" href="/live/datepicker" target="_blank">Live Preview</a>
+            </b>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="footer-title ">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h1 class="title">We are social: </h1>
+            </div>
+            <div class="col-md-2">
+                <a href="https://dribbble.com/creativetim" class="social dribbble" rel="publisher"><i
+                        class="fa fa-dribbble"></i> Dribbble</a>
+            </div>
+            <div class="col-md-2">
+                <a href="https://www.facebook.com/CreativeTim" class="social facebook"><i
+                        class="fa fa-facebook-square"></i> Facebook</a>
+
+            </div>
+            <div class="col-md-2">
+                <a href="https://twitter.com/CreativeTim" class="social twitter"><i class="fa fa-twitter"></i>
+                    Twitter</a>
+            </div>
+            <div class="col-md-2">
+                <a href="https://plus.google.com/+CreativetimPage" class="social google"><i
+                        class="fa fa-google-plus-square"></i> Google+</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="overlayer">
+        <div class="container">
+            <div class="row support">
+                <div class="col-sm-3">
+                    <h4>Help and Support</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="/about-tim">About Tim</a></li>
+                        <li><a href="/contact-us">Contact Us</a></li>
+                        <li><a href="/bootstrap">Bootstrap</a></li>
+                        <li><a href="#feedbackModal" role="button" data-toggle="modal" class="blue-link">Give
+                            Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h4>Happy people</h4>
+                    <ul class="list-unstyled social-list">
+                        <li><h3 class="numbers-dont-lie"><b>14,439</b> accounts</h3></li>
+                        <li><h3 class="numbers-dont-lie"><b>19,952</b> downloads</h3></li>
+
+                    </ul>
+                </div>
+                <div class="col-sm-4">
+                    <h4>Newsletter</h4>
+
+                    <p>Get tips and tricks in your inbox every month.</p>
+
+
+                    <form accept-charset="UTF-8" action="/newsletter" class="form-inline" data-remote="true"
+                          html="{:multipart=&gt;true}" method="post">
+                        <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden"
+                                                                              value="&#x2713;"/></div>
+                        <div class="form-group">
+                            <label class="sr-only" for="exampleInputEmail2">Email address</label>
+                            <input class="form-control" id="subscribe_email" name="subscribe_email"
+                                   placeholder="Enter Email" type="email"/>
+                        </div>
+                        <input class="btn btn-info btn-fill" name="commit" type="submit" value="Subscribe"/>
+                    </form>
+                    <h3 class="subscribers">
+                        703
+                        Subscribers</h3>
+                </div>
+                <div class="col-sm-2">
+                    <h4>神州数码</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="/terms">Terms &amp; Conditions</a></li>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/license">Licenses</a></li>
+                        <li>all rights reserved.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="credits">
+                    &copy; 2015 Creative Tim, made with <i class="icon-heart heart" alt="love"></i> for a better web.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-account">
+        <div class="modal-content">
+            <form accept-charset="UTF-8" action="/give_feedback" data-remote="true" enctype="multipart/form-data"
+                  method="post">
+                <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;"/></div>
+                <div class="modal-body">
+                    <textarea class="form-control" id="text_content" name="text[content]"
+                              placeholder="Leave a comment for other creative minds..." rows="7">
+                    </textarea>
+                    <input class="btn btn-block btn-info btn-fill" name="commit" type="submit" value="Give feedback"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="requestInvitationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-account">
+        <div class="modal-content">
+            <form accept-charset="UTF-8" action="/request_invitation" data-remote="true" enctype="multipart/form-data"
+                  method="post">
+                <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;"/></div>
+
+                <div class="modal-body">
+
+                    <textarea class="form-control" id="text_content" name="text[content]"
+                              placeholder="Show us your portfolio and we will come back with an invitation as soon as possible."
+                              rows="7">
+                    </textarea>
+                    <input class="btn btn-block btn-info btn-fill" name="commit" type="submit"
+                           value="Request Invitation"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-46172202-1', 'creative-tim.com');
+    ga('send', 'pageview');
+
+</script>
+
+</body>
+
+
+</html>

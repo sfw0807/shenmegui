@@ -1,12 +1,12 @@
 package com.dc.esb.servicegov.refactoring.service.impl;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.Criterion;
@@ -15,13 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
-
-
-import com.dc.esb.servicegov.refactoring.controller.WSDLExportController;
-import com.dc.esb.servicegov.refactoring.dao.impl.HeadSDADAOImpl;
 import com.dc.esb.servicegov.exception.DataException;
+import com.dc.esb.servicegov.refactoring.dao.impl.HeadSDADAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.IdaDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.InvokeInfoDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.MetadataDAOImpl;
@@ -30,8 +25,8 @@ import com.dc.esb.servicegov.refactoring.dao.impl.OperationDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.RemainingServiceDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.SDADAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.ServiceDAOImpl;
-import com.dc.esb.servicegov.refactoring.entity.HeadSDA;
 import com.dc.esb.servicegov.refactoring.dao.impl.SvcAsmRelateViewDAOImpl;
+import com.dc.esb.servicegov.refactoring.entity.HeadSDA;
 import com.dc.esb.servicegov.refactoring.entity.IDA;
 import com.dc.esb.servicegov.refactoring.entity.Metadata;
 import com.dc.esb.servicegov.refactoring.entity.MetadataStructsAttr;
@@ -40,10 +35,11 @@ import com.dc.esb.servicegov.refactoring.entity.RemainingService;
 import com.dc.esb.servicegov.refactoring.entity.SDA;
 import com.dc.esb.servicegov.refactoring.entity.SvcAsmRelateView;
 import com.dc.esb.servicegov.refactoring.service.ServiceManager;
+import com.dc.esb.servicegov.refactoring.util.AuditUtil;
 import com.dc.esb.servicegov.refactoring.util.ServiceStateUtils;
 import com.dc.esb.servicegov.refactoring.vo.HeadSDAVO;
-import com.dc.esb.servicegov.refactoring.vo.SDAVO;
 import com.dc.esb.servicegov.refactoring.vo.SDA4I;
+import com.dc.esb.servicegov.refactoring.vo.SDAVO;
 import com.dc.esb.servicegov.vo.MetadataViewBean;
 import com.dc.esb.servicegov.vo.RelationNewVO;
 import com.dc.esb.servicegov.vo.RelationVo;
@@ -174,7 +170,7 @@ public class ServiceManagerImpl implements ServiceManager {
 	 * 
 	 * @param id
 	 * @return
-	 * @throws DataException
+	 * @throws com.dc.esb.servicegov.exception.DataException
 	 */
 	public MetadataViewBean getMetadataById(String id) throws DataException {
 		MetadataViewBean metadataViewBean = null;
@@ -202,8 +198,17 @@ public class ServiceManagerImpl implements ServiceManager {
 		metadataViewBean.setMetadataName(metadata.getName());
 		metadataViewBean.setType(metadata.getType());
 		metadataViewBean.setLength(metadata.getLength());
+		metadataViewBean.setScale(metadata.getScale());
 
 		return metadataViewBean;
+	}
+	
+	public Metadata getMetadataByMid(String id) {
+		List<Metadata> lstMetadata = metadataDAO.findBy("metadataId", id);
+		if (lstMetadata != null) {
+			return lstMetadata.get(0);
+		}
+		return null;
 	}
 	
 	public List<Operation> getOperationById(String id) {
@@ -223,7 +228,7 @@ public class ServiceManagerImpl implements ServiceManager {
 	 * 
 	 * @param interfaceId
 	 * @return
-	 * @throws DataException
+	 * @throws com.dc.esb.servicegov.exception.DataException
 	 */
 	@Transactional
 	public SDA4I getSDA4IofInterfaceId(String interfaceId) throws DataException {
@@ -273,7 +278,6 @@ public class ServiceManagerImpl implements ServiceManager {
 			String[]ids) {
 		
 		Criterion criterion = Restrictions.in("interfaceId", ids);
-//		List<InvokeInfo> list = invokeDAO.find(criterion);
 		
 		List<SvcAsmRelateView> list = svcAsmRelateViewDAOImpl.find(criterion);
 		
@@ -287,8 +291,14 @@ public class ServiceManagerImpl implements ServiceManager {
 			String ecode = vo.getInterfaceId();
 			if (map.containsKey(ecode)) {
 				RelationVo o = map.get(ecode);
-				o.setConsumerSystemAb(o.getConsumerSystemAb() 
-						+ "、" + vo.getConsumerSystemAb());
+				// 调用方不相同合并多个调用方
+				if (!o.getConsumerSystemAb().equals(vo.getConsumerSystemAb())) {
+					o.setConsumerSystemAb(o.getConsumerSystemAb() 
+							+ "、" + vo.getConsumerSystemAb());
+				}
+				if (!CollectionUtils.isEqualCollection(o.getMsgConvert(), vo.getMsgConvert())) {
+					o.getMsgConvert().addAll(vo.getMsgConvert());
+				}
 			} else {
 				map.put(ecode, vo);
 			}
@@ -300,7 +310,11 @@ public class ServiceManagerImpl implements ServiceManager {
 		while(ito.hasNext()) {
 			RelationVo r = ito.next();
 			if (r.getPassbySys() != null && r.getPassbySys().equals("ZHIPP")) {
-				r.setConsumerSystemAb("ZHIPP(" + r.getConsumerSystemAb() + ")");
+				if (r.getConsumerSystemAb() != null) {
+					r.setConsumerSystemAb("ZHIPP(" + r.getConsumerSystemAb() + ")");
+				} else {
+					r.setConsumerSystemAb("ZHIPP");
+				}
 			}
 		}
 		return listVO;
@@ -328,6 +342,9 @@ public class ServiceManagerImpl implements ServiceManager {
 				RelationVo o = map.get(ecode);
 				o.setConsumerSystemAb(o.getConsumerSystemAb() 
 						+ "、" + vo.getConsumerSystemAb());
+				if (!CollectionUtils.isEqualCollection(o.getMsgConvert(), vo.getMsgConvert())) {
+					o.getMsgConvert().addAll(vo.getMsgConvert());
+				}
 			} else {
 				map.put(ecode, vo);
 			}
@@ -366,6 +383,9 @@ public class ServiceManagerImpl implements ServiceManager {
 				RelationVo o = map.get(ecode);
 				o.setConsumerSystemAb(o.getConsumerSystemAb() 
 						+ "、" + vo.getConsumerSystemAb());
+				if (!CollectionUtils.isEqualCollection(o.getMsgConvert(), vo.getMsgConvert())) {
+					o.getMsgConvert().addAll(vo.getMsgConvert());
+				}
 			} else {
 				map.put(ecode, vo);
 			}
@@ -413,9 +433,13 @@ public class ServiceManagerImpl implements ServiceManager {
 			log.info("获取服务分类为[" + categoryId + "]的服务...");
 		}
 		try {
-			services = serviceDAO.findBy("categoryId", categoryId);
+			Map<String,String> map = new HashMap<String,String>();
+			map.put("categoryId", categoryId);
+			map.put("auditState", AuditUtil.passed);
+			services = serviceDAO.findBy(map);
+//			services = serviceDAO.findBy("categoryId", categoryId);
 		} catch (Exception e) {
-			log.error("获取全部服务信息失败", e);
+			log.error("获取全部审核通过的服务信息失败", e);
 		}
 		return services;
 	}
@@ -473,7 +497,7 @@ public class ServiceManagerImpl implements ServiceManager {
 	@Override
 	public List<Operation> getOperationsByServiceId(String id) {
 		if (log.isInfoEnabled()) {
-			log.info("查找服务ID为[" + id + "]的所有操作信息...");
+			log.info("正在查找服务["+id+"]下的所有操作");
 		}
 		List<Operation> list = operationDAO.findBy("serviceId", id);
 		if (list == null) {
@@ -688,5 +712,61 @@ public class ServiceManagerImpl implements ServiceManager {
 			sdaMap = null;
 		}
 		return root;
+	}
+
+	/**
+	 * get 待审核 audit serviceList
+	 */
+	@Override
+	public List<com.dc.esb.servicegov.refactoring.entity.Service> getAuditServices() {
+		return serviceDAO.findBy("auditState", "1");
+	}
+
+	@Override
+	public boolean auditService(String serviceId, String auditState) {
+		// TODO Auto-generated method stub
+		com.dc.esb.servicegov.refactoring.entity.Service service = this.getServiceById(serviceId);
+		if(service == null){
+			log.error("审核的服务不存在!");
+			return false;
+		}
+		else{
+			service.setAuditState(auditState);
+		    serviceDAO.save(service);
+		}
+		return true;
+	}
+	@Override
+	public boolean submitService(String serviceId) {
+		// TODO Auto-generated method stub
+		com.dc.esb.servicegov.refactoring.entity.Service service = this.getServiceById(serviceId);
+		if(service == null){
+			log.error("审核的服务不存在!");
+			return false;
+		}
+		else{
+			service.setAuditState(AuditUtil.submit);
+		    serviceDAO.save(service);
+		}
+		return true;
+	}
+	public List<com.dc.esb.servicegov.refactoring.entity.Service> getAllServiceOrderByServiceId() {
+		List<com.dc.esb.servicegov.refactoring.entity.Service> services = new ArrayList<com.dc.esb.servicegov.refactoring.entity.Service>();
+		try {
+			services = serviceDAO.getAll("serviceId", true);
+		} catch (Exception e) {
+			log.error("获取全部服务信息失败", e);
+		}
+		return services;
+	}
+
+	@Override
+	public boolean checkServicePassed(String serviceId) {
+		// TODO Auto-generated method stub
+		com.dc.esb.servicegov.refactoring.entity.Service service = serviceDAO.findUniqueBy("serviceId", serviceId);
+		if(AuditUtil.passed.equals(service.getAuditState())){
+			return true;
+		}
+		return false;
 	}
 }

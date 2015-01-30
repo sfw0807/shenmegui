@@ -132,5 +132,17 @@ var serviceInfoManager = {
                 callBack(result);
             }
         });
+    },
+    submitService: function(callBack, params) {
+        $.ajax({
+            "type": "POST",
+            "contentType": "application/json; charset=utf-8",
+            "url": "../serviceInfo/submit",
+            "dataType": "json",
+            "data":JSON.stringify(params),
+            "success": function(result) {
+                callBack(result);
+            }
+        });
     }
 }

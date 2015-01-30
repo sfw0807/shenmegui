@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include  file= "/jsp/header/header.jsp"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -48,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			.ui-draggable,.ui-droppable {
 				background-position: top;
 			}
-		</style>
+    		</style>
 
 	</head>
 	<body>
@@ -116,7 +117,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</th>
 							<th>
 								<input type="text" name="modifyTimes" id="modifyTimes" value="修订次数"
-									class="search_init" />
+									class="search_init" style="display:none"/>
 							</th>
 							<th>
 								<input type="text" name="onlineDate" id="onlineDate" value="上线日期"
@@ -128,7 +129,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</th>
 							<th>
 								<input type="text" name="field" id="field" value="备注"
-									class="search_init" />
+									class="search_init" style="display:none"/>
 							</th>
 						</tr>
 					</tfoot>

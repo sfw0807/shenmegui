@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ include  file= "/jsp/header/header.jsp"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -15,9 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 		<link rel="stylesheet" href="<%=path %>/themes/smoothness/jquery-ui-1.8.4.custom.css" />
 		<link rel="stylesheet" href="<%=path %>/js/jquery-ui/development-bundle/themes/base/jquery.ui.all.css" />
-		<link rel="stylesheet" href="<%=path %>/css/index.css" /
-		<script src="<%=path %>/js/jquery-ui/js/jquery-1.10.2.js"></script>
-		<script src="<%=path %>/js/jquery-1.8.2.js"></script>
+		<link rel="stylesheet" href="<%=path %>/css/index.css"/>
 		<script src="<%=path %>/js/jquery.bgiframe-2.1.2.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.core.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.widget.js"></script>

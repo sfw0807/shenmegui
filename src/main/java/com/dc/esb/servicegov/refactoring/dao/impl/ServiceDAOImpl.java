@@ -14,7 +14,7 @@ public class ServiceDAOImpl extends HibernateDAO<Service, String> {
 	 * new transaction to save service
 	 * @param service
 	 */
-	public void TxSaveService(com.dc.esb.servicegov.refactoring.entity.Service service){
+	public void TxSaveService(Service service){
 		Session session = getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {

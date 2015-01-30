@@ -1,5 +1,8 @@
 package com.dc.esb.servicegov.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dc.esb.servicegov.entity.ServiceInvokeRelation;
 import com.dc.esb.servicegov.refactoring.entity.SvcAsmRelateView;
 
@@ -16,6 +19,9 @@ public class RelationVo {
 	private String functionType;
 	private String passbySys;
 	private String msgType;
+	private String inMsgType;
+	private String outMsgType;
+	private List<String> msgConvert = new ArrayList<String>();
 
 	public RelationVo(ServiceInvokeRelation sr) {
 		this.recordId = sr.getRecordId();
@@ -30,6 +36,12 @@ public class RelationVo {
 	}
 	
 	public RelationVo(SvcAsmRelateView sr) {
+		this.inMsgType = sr.getConsumeMsgType();
+		this.outMsgType = sr.getProvideMsgType();
+		String o = this.inMsgType + "-" + this.outMsgType;
+		if (!this.msgConvert.contains(o)) {
+			this.msgConvert.add(o);
+		}
 		this.providerSystemAb = sr.getPrdSysAB();
 		this.providerSystemId = sr.getPrdSysID();
 		this.consumerSystemAb = sr.getCsmSysAB();
@@ -45,6 +57,30 @@ public class RelationVo {
 		this.msgType = sr.getProvideMsgType();
 	}
 	
+	public List<String> getMsgConvert() {
+		return msgConvert;
+	}
+
+	public void setMsgConvert(List<String> msgConvert) {
+		this.msgConvert = msgConvert;
+	}
+
+	public String getInMsgType() {
+		return inMsgType;
+	}
+
+	public void setInMsgType(String inMsgType) {
+		this.inMsgType = inMsgType;
+	}
+
+	public String getOutMsgType() {
+		return outMsgType;
+	}
+
+	public void setOutMsgType(String outMsgType) {
+		this.outMsgType = outMsgType;
+	}
+
 	public String getMsgType() {
 		return msgType;
 	}

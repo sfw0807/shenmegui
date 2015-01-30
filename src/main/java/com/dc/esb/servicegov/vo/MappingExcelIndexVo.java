@@ -1,5 +1,8 @@
 package com.dc.esb.servicegov.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MappingExcelIndexVo {
 	private String interfaceId;
 	private String interfaceName;
@@ -14,7 +17,14 @@ public class MappingExcelIndexVo {
 	private String serviceRemark;
 	private String operationRemark;
 	private String providerSysId;
+	private List<String> msgConvert = new ArrayList<String>();
 	
+	public List<String> getMsgConvert() {
+		return msgConvert;
+	}
+	public void setMsgConvert(List<String> msgConvert) {
+		this.msgConvert = msgConvert;
+	}
 	public String getOperationRemark() {
 		return operationRemark;
 	}

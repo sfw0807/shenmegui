@@ -1,6 +1,7 @@
 $(function() {
 	var tables = {};
-	var asInitVals = new Array();
+    var isChrome = (navigator.appVersion.indexOf("Chrome") != -1) ? true : false;
+    var asInitVals = [];
 	$('#tabs').tabs();
 	$("#tab1").click(function(e) {
 		if(tables["operationSDATable"]){
@@ -178,7 +179,7 @@ $(function() {
 		tables["operationSDATable"].fnAdjustColumnSizing(true);
 
 	};
-	operationManager.getSDAInfoByOperationId(operationId,serviceId, initChildTable);
+	//operationManager.getSDAInfoByOperationId(operationId,serviceId, initChildTable);
 
 	//初始化操作Grid的搜索框
 	var initoperationSDATableFooter = function initoperationSDATableFooter() {
@@ -205,7 +206,7 @@ $(function() {
 					}
 				});
 	};
-	initoperationSDATableFooter();
+	//initoperationSDATableFooter();
 
 	//初始化SLA表格的方法
 	var initoperationSlaTable = function initoperationSlaTable(result) {
@@ -223,8 +224,8 @@ $(function() {
 			"aoColumnDefs" : [
 					{
 						"sClass" : "center",
-						"aTargets" : [ 0,1, 2]
-					},
+						"aTargets" : [0,1,2]
+					}
 				],
 			"bJQueryUI": true,
 			"bAutoWidth" : true,
@@ -326,13 +327,6 @@ $(function() {
 				});
 	};
 	initoperationOlaTableFooter();
-	//编辑基本服务定义
-	$("#editOperationDef").click(function() {
-		$('#operationId').attr("disabled",false);
-		$('#operationName').attr("disabled",false);
-		$('#operationRemark').attr("disabled",false);
-		$('#state').attr("disabled",false);
-	});
 	//时间控件  
 //	$("#publishDate").datepicker({
 //		"changeMonth":true,
@@ -833,6 +827,21 @@ $(function() {
 				}
 			}		
 		}
+	});
+	var isIE  = (navigator.appVersion.indexOf("MSIE") != -1) ? true : false;
+	if(isIE){
+		$("#operationOlaTable").attr("style","width:1180px");
+		$("#operationSlaTable").attr("style","width:1180px");
+	}
+	$("#seesda").click(function(){
+        if(isChrome){
+            var winOption = "height=800px,width=1200px,top=50,scrollbars=yes,resizable=yes,fullscreen=0";
+//            var winOption = "height=1200px,width=1200px,top=50,left=50,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,fullscreen=0";
+            return  window.open("../jsp/sda.jsp?serviceOperation="+operationId+serviceId, window, winOption);
+        }else{
+            window.showModalDialog("../jsp/sda.jsp",operationId+serviceId,"dialogWidth:1200px;dialogHeight:800px;resizable=yes");
+        }
+
 	});
 });
 var editStructId = function editStructId(input,content,id,sdaNode){

@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,16 @@ public class SLAViewController {
 	@RequestMapping(method = RequestMethod.GET, value = "/export/{params}", headers = "Accept=application/json")
 	public @ResponseBody boolean exportSlaExcel(HttpServletRequest request,
 			HttpServletResponse response,
-			@PathVariable String params){
+			@PathVariable String params) throws UnsupportedEncodingException{
+//		try {
+//			request.setCharacterEncoding("UTF-8");
+//			response.setCharacterEncoding("UTF-8");
+//			params = new String(params.getBytes("iso-8859-1"),"UTF-8");
+//		} catch (UnsupportedEncodingException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+		params = java.net.URLDecoder.decode(params, "UTF-8");
 		InputStream in = null;
 		OutputStream out = null;
 		boolean success = false;
