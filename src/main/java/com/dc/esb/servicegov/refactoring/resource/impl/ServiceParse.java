@@ -24,9 +24,9 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class ServiceParse implements IParse {
 
-    private Log log = LogFactory.getLog(ServiceParse.class);
+    private static final Log log = LogFactory.getLog(ServiceParse.class);
 
-    private ExcelTool excelTool = ExcelTool.getInstance();
+    private static final ExcelTool excelTool = ExcelTool.getInstance();
     private String initVersion;
     private String initOperationVersion;
     private String initOperationState;
@@ -121,11 +121,10 @@ public class ServiceParse implements IParse {
         }
         //获取场景名称
         operationName = excelTool.getCellContent(row.getCell(4));
-        // 新文档格式
-        if ("".equals(excelTool.getCellContent(interfaceSheet, 2, 0))) {
-            serviceRemark = excelTool.getCellContent(interfaceSheet, 2, 7);
-            operationRemark = excelTool.getCellContent(interfaceSheet, 3, 7);
-        }
+        //获取服务备注
+        serviceRemark = excelTool.getCellContent(interfaceSheet, 2, 7);
+        //获取场景备注
+        operationRemark = excelTool.getCellContent(interfaceSheet, 3, 7);
         // 获取服务分组
         categoryId = serviceId.substring(0, 5);
         try {
@@ -140,11 +139,7 @@ public class ServiceParse implements IParse {
             // insert SDA;
             log.info("begin to import sevice SDA!");
             // 判断哪种格式的文档，从第7行或第5行开始解析SDA
-            if ("".equals(excelTool.getCellContent(interfaceSheet, 2, 0))) {
-                structIndex = 7;
-            } else {
-                structIndex = 5;
-            }
+            structIndex = 7;
             insertSDA();
             log.info("import service infos finished!");
         } catch (Exception e) {
@@ -153,12 +148,13 @@ public class ServiceParse implements IParse {
         return true;
     }
 
-    public void insertService() {
+    private void insertService() {
         com.dc.esb.servicegov.refactoring.entity.Service service = new com.dc.esb.servicegov.refactoring.entity.Service();
         service.setServiceId(serviceId);
         service.setServiceName(serviceName);
         service.setServiceRemark(serviceRemark);
         service.setCategoryId(categoryId);
+        //operateFlag: true为覆盖导入,false为不覆盖导入
         if (GlobalImport.operateFlag) {
             com.dc.esb.servicegov.refactoring.entity.Service tmpService = serviceDAO.findUniqueBy("serviceId", serviceId);
             if (tmpService != null) {
@@ -189,7 +185,7 @@ public class ServiceParse implements IParse {
         log.info("insert service finished!");
     }
 
-    public void insertOperation() {
+    private void insertOperation() {
         Operation operation = new Operation();
         operation.setOperationId(operationId);
         operation.setOperationName(operationName);
@@ -230,7 +226,7 @@ public class ServiceParse implements IParse {
         log.info("insert operation finished!");
     }
 
-    public void insertServiceHeader() {
+    private void insertServiceHeader() {
         ServiceHeadRelate svcheader = new ServiceHeadRelate();
         svcheader.setSheadId(shead);
         svcheader.setServiceId(serviceId);
@@ -238,7 +234,7 @@ public class ServiceParse implements IParse {
         log.info("insert service header finished!");
     }
 
-    public void insertOLA() {
+    private void insertOLA() {
         OLA ola = new OLA();
         ola.setOperationId(operationId);
         ola.setServiceId(serviceId);
@@ -251,7 +247,7 @@ public class ServiceParse implements IParse {
         log.info("insert OLA finished!");
     }
 
-    public void insertSDA() {
+    private void insertSDA() {
         Node sdaNode = this.getSDANodes();
         seq = 0;
         list = new ArrayList<SDA>();
@@ -264,7 +260,7 @@ public class ServiceParse implements IParse {
     }
 
     // 递归插入node
-    public void renderInsertSDANode(Node node) {
+    private void renderInsertSDANode(Node node) {
         seq++;
         SDA sda = new SDA();
         sda.setId(node.getId());
@@ -288,7 +284,11 @@ public class ServiceParse implements IParse {
         }
     }
 
-    public Node getSDANodes() {
+    /**
+     * 获取SDA树
+     * @return
+     */
+    private Node getSDANodes() {
         // 根节点
         Node root = new Node();
         String rootId = GenerateUUID.genRandom();
@@ -317,7 +317,7 @@ public class ServiceParse implements IParse {
         return root;
     }
 
-    public void appendRequestNodeChildren(Node requestNode) {
+    private void appendRequestNodeChildren(Node requestNode) {
         // 添加SvcBody节点
         Node svcBodyRequestNode = new Node();
         svcBodyRequestNode.setId(GenerateUUID.genRandom());
@@ -332,7 +332,7 @@ public class ServiceParse implements IParse {
         structIndex++;
     }
 
-    public void appendResponseNodeChildren(Node responseNode) {
+    private void appendResponseNodeChildren(Node responseNode) {
         // 添加SvcBody节点
         Node SvcBodyResponseNode = new Node();
         SvcBodyResponseNode.setId(GenerateUUID.genRandom());
@@ -346,7 +346,7 @@ public class ServiceParse implements IParse {
     }
 
     // 递归增加节点
-    public boolean renderNode(Node node, String renderType) {
+    private boolean renderNode(Node node, String renderType) {
         boolean flag = true;
         String remark = ExcelHelper.getSDARemark(interfaceSheet, structIndex);
         String type = ExcelHelper.getSDAType(interfaceSheet, structIndex);
@@ -445,7 +445,7 @@ public class ServiceParse implements IParse {
     }
 
     // 根据structIndex、node生成ChildNode节点
-    public Node createChildNode(Node parentNode, String required, String type, String metadataId, String remark) {
+    private Node createChildNode(Node parentNode, String required, String type, String metadataId, String remark) {
         if (!"".equals(required) && !"Y".equals(required) && !"N".equals(required)) {
             log.error("服务" + serviceId + operationId + "元数据页[是否必输]列只能是'Y'或'N' !");
             UserOperationLogUtil.saveLog("服务" + serviceId + operationId + "元数据页[是否必输]列只能是'Y'或'N' !", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
@@ -477,12 +477,12 @@ public class ServiceParse implements IParse {
      */
     private String getLastPrefix(String prefix) {
         if (null != prefix) {
-            if (prefix.indexOf(".") < 0) {
+            if (prefix.contains(".")) {
                 prefix = "";
             } else {
                 String prefixWithoutLastDot = prefix.substring(0,
                         prefix.lastIndexOf("."));
-                if (prefixWithoutLastDot.indexOf(".") < 0) {
+                if (prefixWithoutLastDot.contains(".")) {
                     prefix = "";
                 } else {
                     prefix = prefixWithoutLastDot.substring(0,

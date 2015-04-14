@@ -9,6 +9,9 @@ import com.dc.esb.servicegov.refactoring.resource.impl.InterfaceParse;
 import com.dc.esb.servicegov.refactoring.resource.impl.InvokeInfoParse;
 import com.dc.esb.servicegov.refactoring.resource.impl.ServiceParse;
 
+/**
+ *
+ */
 public class ResourceExcelImportTask implements ResourceExcelImportBaseTask {
 
 	private Row row;
@@ -30,7 +33,6 @@ public class ResourceExcelImportTask implements ResourceExcelImportBaseTask {
 			InterfaceParse interfaceParse, ServiceParse serviceParse,
 			IndexInterfaceParse indexInterfaceParse,
 			IndexServiceParse indexServiceParse) {
-		// TODO Auto-generated method stub
 		this.invokeInfoParse = invokeInfoParse;
 		this.interfaceParse = interfaceParse;
 		this.serviceParse = serviceParse;

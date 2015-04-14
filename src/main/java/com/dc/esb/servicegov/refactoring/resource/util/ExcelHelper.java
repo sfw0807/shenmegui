@@ -26,6 +26,7 @@ public class ExcelHelper {
                 .getCellContent(interfaceSheet, row, SDA_TYPE_COL);
         type = type.replace("（", "(");
         type = type.replace("）", ")");
+        type = type.toLowerCase();
         return type;
     }
 
@@ -64,6 +65,7 @@ public class ExcelHelper {
                 .getCellContent(interfaceSheet, row, IDA_TYPE_COL);
         type = type.replace("（", "(");
         type = type.replace("）", ")");
+        type = type.toLowerCase();
         return type;
     }
 
