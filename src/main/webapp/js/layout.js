@@ -842,11 +842,11 @@ var metadataTableLayout = [
     {
         "sTitle": "更新时间",
         "mData": "updateTime"
-    },
-    {
-        "sTitle": "操作",
-        "mData": ""
     }
+    //{
+    //    "sTitle": "操作",
+    //    "mData": ""
+    //}
 ];
 var mdtUsedTableLayout = [
     {

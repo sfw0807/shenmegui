@@ -60,6 +60,27 @@ public class Utils {
 		return scale;
 	}
 
+	public static String getDataLengthFromLength(String lengthValue){
+		String length = "";
+		if (lengthValue.indexOf(",") > 0) {
+			length = lengthValue.substring(0, lengthValue
+					.indexOf(","));
+		} else {
+			length = lengthValue;
+		}
+		return length;
+	}
+
+	public static String getDataScaleFromLength(String lengthValue){
+		String scale = "";
+		if (lengthValue.indexOf(",") > 0) {
+			scale = lengthValue.substring(lengthValue.indexOf(",") + 1,
+					lengthValue.length());
+		}
+		return scale;
+	}
+
+
 	// 基础版本号，修改
 	public static String modifyversionno(String versionno) {
 		String[] num = versionno.split("\\.");

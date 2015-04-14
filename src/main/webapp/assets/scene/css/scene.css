@@ -1,0 +1,31 @@
+.ui-menu {
+    position: absolute;
+    width: 100px;
+}
+
+.demo-description {
+    clear: both;
+    padding: 12px;
+    font-size: 1.3em;
+    line-height: 1.4em;
+}
+
+.ui-draggable,.ui-droppable {
+    background-position: top;
+}
+a:link{
+    text-decoration:none;
+    color:blue;
+}
+a:visited{
+    text-decoration:underline;
+    color:blue;
+}
+a:hover{
+    text-decoration:underline;
+    color:blue;
+}
+a:active{
+    text-decoration:underline;
+    color:blue;
+}

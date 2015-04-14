@@ -76,7 +76,7 @@ public class IndexServiceParse {
 		}
 		operationName = excelTool.getCellContent(row.getCell(4));
 		// 获取服务分组
-		categoryId = serviceId.substring(1, 6);
+		categoryId = serviceId.substring(0, 5);
 		try {
 			// insert service
 			insertService();

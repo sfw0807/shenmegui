@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="oracle_sg" uuid="2e847f3e-c6d3-41c6-b0c8-b63e9ed68e60">
+      <user-name>esb</user-name>
+      <user-password>dfcfdfd9dfc8</user-password>
+      <schema-pattern>*.ESB</schema-pattern>
+      <default-schemas>*.ESB</default-schemas>
+    </data-source>
+  </component>
+</project>

@@ -17,10 +17,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" href="<%=path %>/themes/smoothness/jquery-ui-1.8.4.custom.css" />
 		<link rel="stylesheet" href="<%=path %>/css/index.css" />
 		<link rel="stylesheet" href="<%=path %>/css/demos.css" />
-
-		<script src="<%=path %>/js/jquery.bgiframe-2.1.2.js"></script>
-	    <script src="<%=path %>/js/jquery.ui.core.js"></script>
-	    <script src="<%=path %>/js/jquery.ui.widget.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.mouse.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.button.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.position.js"></script>
@@ -28,57 +24,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    <script src="<%=path %>/js/jquery.ui.draggable.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.resizable.js"></script>
 	    <script src="<%=path %>/js/jquery.ui.dialog.js"></script>
-	    <script src="<%=path %>/js/jquery.effects.core.js"></script>
         <script src="<%=path %>/js/jquery-ui-tabs.js"></script>
         <script src="<%=path %>/js/combo-box.js"></script>
         <script src='<%=path %>/js/jquery.datatables/js/jquery.dataTables.js' type="text/javascript"></script>
 		<link rel='stylesheet' type='text/css' href='<%=path %>/js/jquery.datatables/css/jquery.dataTables.css' />
 		<script src="<%=path %>/js/jquery.fileDownload.js" type="text/javascript"></script>
 		<script src="<%=path %>/js/layout.js" type="text/javascript"></script>
-		<script src="<%=path %>/js/serviceInfoManager.js" type="text/javascript"></script>
-		<script src="<%=path %>/js/serviceInfo.js" type="text/javascript"></script>
-		<script src="<%=path %>/js/json/json2.js" type="text/javascript"></script>
-		<style>
-		   .ui-combobox {
-		      position: relative;
-		      display: inline-block;
-	          }
-	       .ui-combobox-toggle {
-		      position: absolute;
-		      top: 0;
-		      bottom: 0;
-		      margin-left: -1px;
-		      padding: 0;
-		      /* adjust styles for IE 6/7 */
-		      *height: 1.7em;
-		      *top: 0.1em;
-	          }
-	       .ui-combobox-input {
-		     margin: 0;
-		     padding: 0.3em;
-	          }
-		   .ui-menu {
-				position: absolute;
-				width: 100px;
-			  }
-		   .demo-description {
-				clear: both;
-				padding: 12px;
-				font-size: 1.3em;
-				line-height: 1.4em;
-			  }
-		   .ui-draggable,.ui-droppable {
-				background-position: top;
-			  }
-			#dialog-form label input select{ display:block; }
-			#dialog-form select{ margin-bottom:12px; width:95%; padding: .4em; }
-		    input.text { margin-bottom:12px; width:95%; padding: .4em; }
-		    fieldset { padding:0; border:0; margin-top:25px; }
-		    .ui-dialog .ui-state-error { padding: .3em; }
-		    .validateTips { border: 0px solid transparent; padding: 0.3em; }
-	  </style>
-
-
+		<script src="<%=path %>/assets/service/js/serviceInfoManager.js" type="text/javascript"></script>
+		<script src="<%=path %>/assets/service/js/serviceInfo.js" type="text/javascript"></script>
+		<link rel='stylesheet' type='text/css' href='<%=path%>/assets/service/css/service.css' />
 	</head>
 	<body>
 		<div id="tabs" style="width: 100%">

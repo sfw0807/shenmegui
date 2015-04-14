@@ -1,35 +1,20 @@
 package com.dc.esb.servicegov.refactoring.service.impl;
+
 import com.dc.esb.servicegov.refactoring.entity.Operation;
 import com.dc.esb.servicegov.refactoring.entity.Service;
-import com.dc.esb.servicegov.refactoring.excel.impl.ExcelGenerateTask;
-import com.dc.esb.servicegov.refactoring.excel.impl.ExcelGenerateTaskFactory;
 import com.dc.esb.servicegov.refactoring.exception.DataException;
 import com.dc.esb.servicegov.refactoring.service.PdfGenerator;
 import com.dc.esb.servicegov.refactoring.util.PdfUtils;
-import com.dc.esb.servicegov.vo.RelationVo;
-import com.lowagie.text.Chapter;
-import com.lowagie.text.Document;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.Section;
+import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfWriter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,9 +1,10 @@
 package com.dc.esb.servicegov.refactoring.resource.impl;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
+import com.dc.esb.servicegov.refactoring.resource.ResourceExcelImportTask;
+import com.dc.esb.servicegov.refactoring.util.ExcelTool;
+import com.dc.esb.servicegov.refactoring.util.GlobalImport;
+import com.dc.esb.servicegov.refactoring.util.GlobalMenuId;
+import com.dc.esb.servicegov.refactoring.util.UserOperationLogUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -14,11 +15,9 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dc.esb.servicegov.refactoring.resource.ResourceExcelImportTask;
-import com.dc.esb.servicegov.refactoring.util.ExcelTool;
-import com.dc.esb.servicegov.refactoring.util.GlobalImport;
-import com.dc.esb.servicegov.refactoring.util.GlobalMenuId;
-import com.dc.esb.servicegov.refactoring.util.UserOperationLogUtil;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Service
 public class ResourceExcelImport {
@@ -165,7 +164,7 @@ public class ResourceExcelImport {
 			String cell4 = excelTool.getCellContent(row.getCell(4));
 			String cell5 = excelTool.getCellContent(row.getCell(5));
 			String cell6 = excelTool.getCellContent(row.getCell(6));
-			String cell19 = excelTool.getCellContent(row.getCell(19));
+			String cell18 = excelTool.getCellContent(row.getCell(18));
 			if (!"交易代码".equals(cell0)) {
 				log.error("index页的第1列应该为 [交易代码] !");
 				UserOperationLogUtil.saveLog("index页的第1列应该为 [交易代码] !",
@@ -222,14 +221,14 @@ public class ResourceExcelImport {
 				GlobalImport.flag = false;
 				return false;
 			}
-			if (!"业务报文头编号".equals(cell19)) {
-				log.error("index页的第20列应该为 [业务报文头编号] !");
-				UserOperationLogUtil.saveLog("index页的最后一列应该为 [业务报文头编号] !",
-						GlobalMenuId.menuIdMap
-								.get(GlobalMenuId.resourceImportMenuId));
-				GlobalImport.flag = false;
-				return false;
-			}
+//			if (!"业务报文头编号".equals(cell18)) {
+//				log.error("index页的第20列应该为 [业务报文头编号] !");
+//				UserOperationLogUtil.saveLog("index页的最后一列应该为 [业务报文头编号] !",
+//						GlobalMenuId.menuIdMap
+//								.get(GlobalMenuId.resourceImportMenuId));
+//				GlobalImport.flag = false;
+//				return false;
+//			}
 		}
 		return true;
 	}

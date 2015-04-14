@@ -1,19 +1,16 @@
 package com.dc.esb.servicegov.refactoring.resource.impl;
 
 
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.dc.esb.servicegov.refactoring.dao.impl.IdaDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.IdaPROPDAOImpl;
 import com.dc.esb.servicegov.refactoring.dao.impl.InterfaceExtendsDAOImpl;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.MetadataInfo;
 import com.dc.esb.servicegov.refactoring.resource.metadataNode.MetadataNode;
 import com.dc.esb.servicegov.refactoring.util.DefaultTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class XMPassedInterfaceDataFromDB extends AbstractDataFromDB {

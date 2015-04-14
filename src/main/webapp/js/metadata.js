@@ -36,7 +36,7 @@ $(function() {
 			"aoColumnDefs" : [
 				{
 					"sClass" : "center",
-					"aTargets" : [ 0, 1, 2, 3, 4, 5 , 6, 7, 8]
+					"aTargets" : [ 0, 1, 2, 3, 4, 5 , 6, 7]
 				}
 			],
 			"bJQueryUI": "true",

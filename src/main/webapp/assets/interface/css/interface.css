@@ -1,0 +1,37 @@
+.ui-menu {
+    position: absolute;
+    width: 100px;
+}
+
+.demo-description {
+    clear: both;
+    padding: 12px;
+    font-size: 1.3em;
+    line-height: 1.4em;
+}
+
+.ui-draggable, .ui-droppable {
+    background-position: top;
+}
+
+.ui-combobox {
+    position: relative;
+    display: inline-block;
+}
+
+.ui-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+    /* adjust styles for IE 6/7 */
+    *height: 1.5em;
+    *top: 0.1em;
+}
+
+.ui-combobox-input {
+    margin: 0;
+    padding: 0.3em;
+    *weight: 15em
+}

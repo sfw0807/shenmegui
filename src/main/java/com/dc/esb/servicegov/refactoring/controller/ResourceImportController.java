@@ -1,10 +1,10 @@
 package com.dc.esb.servicegov.refactoring.controller;
 
-import java.io.InputStream;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.dc.esb.servicegov.refactoring.dao.impl.FunctionDAOImpl;
+import com.dc.esb.servicegov.refactoring.resource.impl.MetadataImport;
+import com.dc.esb.servicegov.refactoring.resource.impl.ResourceExcelImport;
+import com.dc.esb.servicegov.refactoring.util.GlobalImport;
+import com.dc.esb.servicegov.refactoring.util.GlobalMenuId;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.dc.esb.servicegov.refactoring.dao.impl.FunctionDAOImpl;
-import com.dc.esb.servicegov.refactoring.resource.impl.MetadataImport;
-import com.dc.esb.servicegov.refactoring.resource.impl.ResourceExcelImport;
-import com.dc.esb.servicegov.refactoring.util.GlobalImport;
-import com.dc.esb.servicegov.refactoring.util.GlobalMenuId;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
+
 
 @Controller
 @RequestMapping("/import")
@@ -32,7 +31,16 @@ public class ResourceImportController {
 	private FunctionDAOImpl functionDAO;
 	@Autowired
 	private MetadataImport metadataImport;
-	
+
+	/**
+	 * 映射文档导入
+	 * @param request
+	 * @param response
+	 * @param file
+	 * @param operateFlag
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/mapping")
 	public @ResponseBody
 	String importMapping(HttpServletRequest request,
@@ -89,6 +97,14 @@ public class ResourceImportController {
 		}
 	}
 
+	/**
+	 * 上线文档导入
+	 * @param request
+	 * @param response
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/online")
 	public @ResponseBody
 	String getOnlineInfo(HttpServletRequest request,HttpServletResponse response,
@@ -129,7 +145,15 @@ public class ResourceImportController {
 			return "导入失败,文件类型不支持";
 		}
 	}
-	
+
+	/**
+	 * 元数据导入
+	 * @param request
+	 * @param response
+	 * @param file
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/metadata")
 	public @ResponseBody
 	String importMetadata(HttpServletRequest request,

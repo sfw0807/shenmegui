@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%--<%@ include file="/jsp/header/header.jsp" %>--%>
+<%@ include file="/jsp/header/header.jsp" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -7,49 +8,27 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-    <title>addopertation.jsp</title>
+    <title>新增／修改操作</title>
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="this is my page">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-
-    <!--<link rel="stylesheet" type="text/css" href="./styles.css">--><!--
-		
-		<link rel="stylesheet" href="/themes/smoothness/jquery-ui-1.8.4.custom.css" />
-		<link rel="stylesheet" href="/css/index.css" />
-		<script src="/js/jquery-ui/js/jquery-1.10.2.js"></script>
-		<script src="/js/jquery-1.8.2.js"></script>	
-		<script src="/js/jquery-ui-tabs.js"></script>
-		<script src='/js/jquery.datatables/js/jquery.dataTables.js' type="text/javascript"></script>
-		<link rel='stylesheet' type='text/css' href='/js/jquery.datatables/css/jquery.dataTables.css' />
-		
-		<script src="/js/jquery.ui.core.js"></script>
-		<script src="/js/jquery.ui.widget.js"></script>
-		<script src="/js/jquery.ui.datepicker.js"></script>
-		-->
     <link rel="stylesheet" href="<%=path%>/themes/smoothness/jquery-ui-1.8.4.custom.css"/>
     <link rel="stylesheet" href="<%=path%>/js/jquery-ui/development-bundle/themes/base/jquery.ui.all.css"/>
     <link rel="stylesheet" href="<%=path%>/css/index.css"/>
-
-    <script src="<%=path%>/js/jquery-ui/js/jquery-1.10.2.js"></script>
-    <script src="<%=path%>/js/jquery-1.8.2.js"></script>
-    <script src="<%=path%>/js/jquery-ui-tabs.js"></script>
     <script src="<%=path%>/js/jquery.datatables/js/jquery.dataTables.js" type="text/javascript"></script>
     <link rel='stylesheet' type='text/css' href='<%=path%>/js/jquery.datatables/css/jquery.dataTables.css'/>
-    <script src="<%=path %>/js/jquery.bgiframe-2.1.2.js"></script>
     <script src="<%=path %>/js/jquery.ui.core.js"></script>
     <script src="<%=path %>/js/jquery.ui.widget.js"></script>
     <script src="<%=path %>/js/jquery.ui.mouse.js"></script>
     <script src="<%=path %>/js/jquery.ui.button.js"></script>
     <script src="<%=path %>/js/jquery.ui.position.js"></script>
-    <script src="<%=path %>/js/jquery.ui.autocomplete.js"></script>
     <script src="<%=path %>/js/jquery.ui.draggable.js"></script>
     <script src="<%=path %>/js/jquery.ui.resizable.js"></script>
     <script src="<%=path %>/js/jquery.ui.dialog.js"></script>
     <script src="<%=path %>/js/jquery.effects.core.js"></script>
     <script src="<%=path %>/js/jquery-ui-tabs.js"></script>
     <script src="<%=path %>/js/combo-box.js"></script>
-    <script src="<%=path%>/js/jquery.ui.datepicker.js"></script>
-    <script src="<%=path%>/js/operationManager.js" type="text/javascript"></script>
+    <script src="<%=path%>/assets/scene/js/operationManager.js" type="text/javascript"></script>
     <script src="<%=path%>/js/layout.js" type="text/javascript"></script>
     <script src="<%=path%>/js/addOperation.js" type="text/javascript"></script>
     <style>
@@ -80,28 +59,45 @@
     </ul>
     <div id="tabs-0">
         <div class="ui-widget-header" style="margin-bottom: 0.5em;padding: 0.2em;">
-            <input type="button" value="编辑" id="editOperationDef"/>
             <input type="button" value="保存" id="saveOperationDef"/>
         </div>
         <table style="width:50%" id="operationTable">
             <tr>
-                <td><label style="width:16%">&nbsp;&nbsp;&nbsp;&nbsp;操作ID<font color="red">*</font>:</label><input
-                        type="text" id="operationId" value="" style="width:80%"/></td>
-                <td><label style="width:19%">&nbsp;&nbsp;&nbsp;服务ID<font color="red">*</font>:</label><input type="text"
-                                                                                                             id="serviceId"
-                                                                                                             value=""
-                                                                                                             style="width:80%"/>
+                <td>
+                    <label style="width:16%">操作ID<font color="red">*</font>:</label>
+                </td>
+                <td>
+                    <input
+                            type="text" id="operationId" value="" style="width:80%"/>
                 </td>
             </tr>
             <tr>
-                <td><label style="width:16%">&nbsp;操作名称<font color="red">*</font>:</label><input type="text"
-                                                                                                 id="operationName"
-                                                                                                 value=""
-                                                                                                 style="width:80%"/>
+                <td>
+                    <label style="width:19%">服务ID<font color="red">*</font>:</label>
                 </td>
                 <td>
-                    <label style="width:19%">&nbsp;&nbsp; 操作状态<font color="red">*</font>:</label>
-                    <!--<input type="text" id="state" value="" style="width:80%"  disabled="true"/>-->
+                    <input type="text"
+                           id="serviceId"
+                           value=""
+                           style="width:80%"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label style="width:16%">操作名称<font color="red">*</font>:</label>
+                </td>
+                <td>
+                    <input type="text"
+                           id="operationName"
+                           value=""
+                           style="width:80%"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label style="width:19%">操作状态<font color="red">*</font>:</label>
+                </td>
+                <td>
                     <select id="state" class="text ui-widget-content ui-corner-all">
                         <option value="服务定义">服务定义</option>
                         <option value="开发">开发</option>
@@ -114,23 +110,25 @@
                 </td>
             </tr>
             <tr>
-                <td><label style="width:16%"> &nbsp;&nbsp; 操作描述:</label><input type="text" id="operationRemark" value=""
-                                                                               style="width:80%;position:relative;z-index:10000"/>
+                <td>
+                    <label style="width:16%">操作描述:</label>
+                </td>
+                <td>
+                    <input type="text" id="operationRemark" value=""
+                           style="width:80%;position:relative;z-index:10000"/>
                 </td>
             </tr>
             <tr>
-                <td><label style="width:19%">开发版本号<font color="red">*</font>:</label><input type="text" id="version"
-                                                                                            value="" style="width:77%"
-                                                                                            value="1.0.0"/></td>
-                <!--
-                                        <td><label style="width:19%">上线版本号:</label><input type="text" id="publishVersion" value="" style="width:80%" disabled="true"/></td>
-                                    --></tr>
-            <!--
-
-                                <tr>
-                                    <td><label style="width:16%"> &nbsp;&nbsp; 上线时间:</label><input type="text" id="publishDate" value="" style="width:80%;position:relative;z-index:10000" disabled="true"/></td>
-                                </tr>
-                            --></table>
+                <td>
+                    <label style="width:19%">开发版本号<font color="red">*</font>:</label>
+                </td>
+                <td>
+                    <input type="text" id="version"
+                           value="" style="width:80%"
+                           value="1.0.0"/>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <div id="tabs-1">

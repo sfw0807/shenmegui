@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel='stylesheet' type='text/css' href='<%=path %>/js/jquery.datatables/css/jquery.dataTables.css' />
 		<script src="<%=path %>/js/jquery.fileDownload.js" type="text/javascript"></script>
 		<script src="<%=path %>/js/layout.js" type="text/javascript"></script>
-		<script src="<%=path %>/js/serviceInfoManager.js" type="text/javascript"></script>
+		<script src="<%=path %>/assets/service/js/serviceInfoManager.js" type="text/javascript"></script>
 		<script src="<%=path %>/js/operationsByServiceId.js" type="text/javascript"></script>
 		<script src="<%=path %>/js/json/json2.js" type="text/javascript"></script>
 		<style>

@@ -8,15 +8,13 @@
 <!DOCTYPE html >
 <html>
 <head>
-    <title>服务管理</title>
-
-    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-    <meta http-equiv="description" content="this is my page">
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-
     <link href="<%=path1%>/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="<%=path1%>/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <script src="<%=path1 %>/js/jquery-1.8.2.js"></script>
+    <script src="<%=path1 %>/js/jquery.ui.core.js"></script>
+    <script src="<%=path1 %>/js/jquery.ui.widget.js"></script>
+    <script src="<%=path1 %>/js/jquery.effects.core.js"></script>
+    <script src="<%=path1%>/js/json/json2.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="navbar navbar-inverse" style="font-size: 100%">

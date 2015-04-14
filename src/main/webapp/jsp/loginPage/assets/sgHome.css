@@ -6638,8 +6638,8 @@ button.close {
  */
 @font-face {
     font-family: 'FontAwesome';
-    src: url("/assets/font-awesome/fontawesome-webfont-b64d4ac71dc58ef78afbc23d0aee020d.eot");
-    src: url("/assets/font-awesome/fontawesome-webfont-b64d4ac71dc58ef78afbc23d0aee020d.eot?#iefix") format("embedded-opentype"), url("/assets/font-awesome/fontawesome-webfont-7b07ce57a267815b7902936332129d46.woff") format("woff"), url("/assets/font-awesome/fontawesome-webfont-9fdf91a58be546aefdb0d503cc72528a.ttf") format("truetype"), url("/assets/font-awesome/fontawesome-webfont-3f8802daf26a29590af69a9be2630c82.svg#fontawesomeregular") format("svg");
+    /*src: url("/assets/font-awesome/fontawesome-webfont-b64d4ac71dc58ef78afbc23d0aee020d.eot");*/
+    /*src: url("/assets/font-awesome/fontawesome-webfont-b64d4ac71dc58ef78afbc23d0aee020d.eot?#iefix") format("embedded-opentype"), url("/assets/font-awesome/fontawesome-webfont-7b07ce57a267815b7902936332129d46.woff") format("woff"), url("/assets/font-awesome/fontawesome-webfont-9fdf91a58be546aefdb0d503cc72528a.ttf") format("truetype"), url("/assets/font-awesome/fontawesome-webfont-3f8802daf26a29590af69a9be2630c82.svg#fontawesomeregular") format("svg");*/
     font-weight: normal;
     font-style: normal
 }
@@ -10192,7 +10192,7 @@ h2, .h2 {
 }
 
 .live-view .logo {
-    background: url("https://s3.amazonaws.com/creativetim_bucket/new_logo.png");
+    /*background: url("https://s3.amazonaws.com/creativetim_bucket/new_logo.png");*/
     background-size: 100%;
     border-radius: 50%;
     border: 1px solid #333;
@@ -10360,7 +10360,7 @@ h2, .h2 {
 }
 
 .parallax-product {
-    background: url("https://s3.amazonaws.com/creativetim_bucket/background.jpg") no-repeat fixed;
+    /*background: url("https://s3.amazonaws.com/creativetim_bucket/background.jpg") no-repeat fixed;*/
     background-size: 100% auto;
     height: 554px;
     padding-top: 100px
@@ -11115,7 +11115,7 @@ iframe .full-tim {
 
 .footer {
     background-color: #444444;
-    background-image: url("https://s3.amazonaws.com/creativetim_bucket/background.jpg");
+    /*background-image: url("https://s3.amazonaws.com/creativetim_bucket/background.jpg");*/
     background-attachment: fixed;
     background-position: 0 -60px
 }
@@ -11256,7 +11256,7 @@ iframe .full-tim {
 
 .contact {
     background-color: #FFFFFF;
-    background: url("https://s3.amazonaws.com/creativetim_bucket/map2.png");
+    /*background: url("https://s3.amazonaws.com/creativetim_bucket/map2.png");*/
     background-position: 0 80px;
     position: relative;
     color: #FFFFFF;
@@ -11352,7 +11352,7 @@ iframe .full-tim {
 
 body.soon {
     background-color: #21093e;
-    background-image: url("https://s3.amazonaws.com/creativetim_bucket/milky_blur.png")
+    /*background-image: url("https://s3.amazonaws.com/creativetim_bucket/milky_blur.png")*/
 }
 
 @media (min-width: 1130px) {
@@ -12551,8 +12551,8 @@ body.soon {
 
 @font-face {
     font-family: 'ios7-style-font-icons';
-    src: url(/assets/fonts/ios7-style-font-icons-7b9d91df0757fb0993707030f5575ba4.eot);
-    src: url(/assets/fonts/ios7-style-font-icons-7b9d91df0757fb0993707030f5575ba4.eot?#iefix) format("embedded-opentype"), url(/assets/fonts/ios7-style-font-icons-e87d1a8c050823c7ec5c93a1eea6268f.ttf) format("truetype"), url(/assets/fonts/ios7-style-font-icons-f7ace2fa6509206b1dae01fb137378f8.woff) format("woff");
+    /*src: url(/assets/fonts/ios7-style-font-icons-7b9d91df0757fb0993707030f5575ba4.eot);*/
+    /*src: url(/assets/fonts/ios7-style-font-icons-7b9d91df0757fb0993707030f5575ba4.eot?#iefix) format("embedded-opentype"), url(/assets/fonts/ios7-style-font-icons-e87d1a8c050823c7ec5c93a1eea6268f.ttf) format("truetype"), url(/assets/fonts/ios7-style-font-icons-f7ace2fa6509206b1dae01fb137378f8.woff) format("woff");*/
     font-weight: normal;
     font-style: normal
 }

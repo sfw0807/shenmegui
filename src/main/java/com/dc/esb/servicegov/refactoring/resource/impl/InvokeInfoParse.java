@@ -40,29 +40,37 @@ public class InvokeInfoParse {
 		String operationId = excelTool.getCellContent(row.getCell(3));
 		String serviceIdAndName = excelTool.getCellContent(row.getCell(2));
 		serviceIdAndName = serviceIdAndName.replace("（", "(");
+		//判断结束
 		if("".equals(serviceIdAndName) && "".equals(interfaceId) &&"".equals(operationId)){
 			log.info("读取到index页空白行,导入结束!");
 			return false;
 		}
+		//获取ServiceID
 		String serviceId = serviceIdAndName.substring(serviceIdAndName
 				.indexOf("(") + 1, serviceIdAndName.lastIndexOf(")"));
+		//判断服务是否存在
 		if ("".equals(serviceId)) {
 			log.error("服务" + serviceId + "index页[服务Id]不能为空!");
 			UserOperationLogUtil.saveLog("服务" + serviceId + "index页[服务Id]不能为空!", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
 			GlobalImport.flag = false;
 			return false;
 		}
+		//判断场景是否存在
 		if ("".equals(operationId)) {
 			log.error("服务" + serviceId + operationId + "index页[操作Id]不能为空!");
 			UserOperationLogUtil.saveLog("服务" + serviceId + operationId + "index页[操作Id]不能为空!", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
 			GlobalImport.flag = false;
 			return false;
 		}
+		//获取穿透标示
 		String through = excelTool.getCellContent(row.getCell(17));
+		//获取报文头
 		String shead = excelTool.getCellContent(row.getCell(19));
+		//设置默认报文头
 		if("".equals(shead)){
 			shead = "SHEAD";
 		}
+		//获取报文转化格式
 		String msgChange = excelTool.getCellContent(row.getCell(12));
 		if ("".equals(msgChange)) {
 			log.error("服务" + serviceId + operationId + "index页[报文转换方向]不能为空!");
@@ -77,15 +85,20 @@ public class InvokeInfoParse {
 		msgChange = msgChange.replace(")", "");
 		msgChange = msgChange.replace("->", "-");
 		String funcType = excelTool.getCellContent(row.getCell(16));
-		String prdSysId = excelTool.getCellContent(row.getCell(8));
+		//获取提供方系统ID
+		String prdSysAB = excelTool.getCellContent(row.getCell(8));
+		String prdSysId = systemDAO.getSystemIdByAb(prdSysAB);
 		// 判断提供方是否存在
-		if ("".equals(systemDAO.getSystemAbById(prdSysId))) {
+		if ("".equals(prdSysId)) {
 			log.error("服务" + serviceId + operationId + "提供方系统["+prdSysId +"]简称不存在，请先添加提供方系统到服务治理平台！");
 			UserOperationLogUtil.saveLog("服务" + serviceId + operationId + "提供方系统["+prdSysId+"]简称不存在，请先添加提供方系统到服务治理平台！", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
 			GlobalImport.flag = false;
 			return false;
 		}
+		//获取消费方系统简称
 		String csmSysAb = excelTool.getCellContent(row.getCell(5));
+		csmSysAb = csmSysAb.replace("（", "(");
+		csmSysAb = csmSysAb.replace("）", ")");
 		// 报文转换方向
 		String direction = excelTool.getCellContent(row.getCell(7));
 		if ("".equals(direction)
@@ -101,19 +114,15 @@ public class InvokeInfoParse {
 		} else {
 			direction = "0";
 		}
-		csmSysAb = csmSysAb.replace("（", "(");
-		csmSysAb = csmSysAb.replace("）", ")");
 		String modifyUser = excelTool.getCellContent(row.getCell(10));
 		// String updateDate = excelTool.getCellContent(row.getCell(11));
 		// get provide and consume message type
 		String provideMsgType = msgChange.substring(msgChange.indexOf("-") + 1);
 		String consumeMsgType = msgChange.substring(0, msgChange.indexOf("-"));
+		//处理经由系统
 		String passedSys = "";
 		if (csmSysAb.contains("(")) {
 			passedSys = csmSysAb.substring(0, csmSysAb.indexOf("("));
-		}
-		if ("IPP".equals(passedSys)) {
-			passedSys = "ZHIPP";
 		}
 		if (log.isInfoEnabled()) {
 			log.info("parse row contents finished!");
@@ -136,7 +145,7 @@ public class InvokeInfoParse {
 				if(csmSysId.equals("")){
 					log.info("调用方系统 [" + consumeAb + "]未找到系统Id！");
 				}
-				if(!"填单机".equals(consumeAb) && !"".equals(consumeAb) && "".equals(csmSysId)){
+				if("".equals(consumeAb) && "".equals(csmSysId)){
 					log.error("调用方系统 [" + consumeAb + "]未找到系统Id,导入失败！");
 					UserOperationLogUtil.saveLog("调用方系统 [" + consumeAb + "]未找到系统Id,导入失败！", GlobalMenuId.menuIdMap.get(GlobalMenuId.resourceImportMenuId));
 					GlobalImport.flag = false;
