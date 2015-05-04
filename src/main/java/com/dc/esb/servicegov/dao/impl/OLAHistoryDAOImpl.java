@@ -1,6 +1,9 @@
 package com.dc.esb.servicegov.dao.impl;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -28,7 +31,7 @@ public class OLAHistoryDAOImpl extends HibernateDAO<OLAHistory, String> {
 				olaHistory.setOlaValue(ola.getOlaValue());
 				olaHistory.setOlaRemark(ola.getOlaRemark());
 				olaHistory.setModifyUser(ola.getModifyUser());
-				olaHistory.setUpdateTime(ola.getUpdateTime());
+				olaHistory.setUpdateTime(getNowTime());
 				this.save(olaHistory);
 			}	
 			isSuccess = true;
@@ -44,5 +47,20 @@ public class OLAHistoryDAOImpl extends HibernateDAO<OLAHistory, String> {
 		query.setString(0, serviceId);
 		query.setString(1, operationId);
 		query.executeUpdate();
+	}
+
+	/***
+	 *
+	 *获取当前时间
+	 *
+	 */
+	public String getNowTime()
+	{
+
+		Date date=new Date();
+		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String updateTime=format.format(date);
+
+		return updateTime;
 	}
 }

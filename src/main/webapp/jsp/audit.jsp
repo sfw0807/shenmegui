@@ -142,6 +142,7 @@
                     <input type="text" name="auditState" id="auditState" value="审核状态"
                            class="search_init"/>
                 </th>
+                <th></th>
             </tr>
             </tfoot>
         </table>

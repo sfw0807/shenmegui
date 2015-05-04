@@ -1,6 +1,9 @@
 package com.dc.esb.servicegov.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -76,21 +79,72 @@ public class ServiceInfoController {
                            HttpServletResponse response, @RequestBody Service service) {
         boolean flag = false;
         try {
-//    		
-//    		request.setCharacterEncoding("UTF-8");
-//			response.setCharacterEncoding("UTF-8");
-//			params = new String(params.getBytes("iso8859-1"),"UTF-8");
-//    	    ObjectMapper mapper = new ObjectMapper();
-//		    mapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
-//		    // json Object convert to Metadata
-//		    com.dc.esb.servicegov.entity.Service service =
-//			mapper.readValue(params, com.dc.esb.servicegov.entity.Service.class);
+            String version = service.getVersion();
+            service.setVersion(getNewVersion(version));
+            service.setUpdateTime(getNowTime());
+
             flag = serviceManager.insertOrUpdateService(service);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return flag;
     }
+
+
+    /***
+     *
+     *获取当前时间
+     *
+     */
+    public String getNowTime()
+    {
+
+        Date date=new Date();
+        DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String updateTime=format.format(date);
+
+        return updateTime;
+    }
+
+
+    /**
+     * 版本号+1
+     *
+     */
+    public String getNewVersion(String version)
+    {
+        String[] vs = version.split("\\.");
+        String temp = "";
+        for (int i = 0; i < vs.length; i++) {
+            temp += vs[i];
+        }
+
+        int versionNum = Integer.parseInt(temp);
+        versionNum++;
+
+        String versionString = Integer.toString(versionNum);
+        int versionLength = versionString.length();
+
+        char[] aa= new char[versionString.length()];
+        aa = versionString.toCharArray();
+
+        String tempVersion = "";
+        for(int i = 0; i < versionLength; i++)
+        {
+            if(i == (versionLength - 2))
+            {
+                tempVersion += "." + aa[i] + ".";
+            }else
+            {
+                tempVersion += aa[i];
+            }
+
+        }
+
+
+        return tempVersion;
+    }
+
 
     /**
      * 根据ID删除服务
@@ -279,15 +333,6 @@ public class ServiceInfoController {
                 thirdNode.setNodeValue(service.getServiceName());
                 thirdNode.setParentNodeId(serviceCategory.getCategoryId());
                 serviceNodeList.add(thirdNode);
-//        	    List<Operation> operationList = serviceManager.getOperationsByServiceId(service.getServiceId());
-//        	    for(Operation operation:operationList){
-//            	    ServiceNode fourthNode = new ServiceNode();
-//            	    fourthNode.setNodeId(operation.getOperationId());
-//            	    fourthNode.setNodeName(operation.getOperationId());
-//            	    fourthNode.setNodeValue(operation.getOperationName());
-//            	    fourthNode.setParentNodeId(service.getServiceId());
-//            	    serviceNodeList.add(fourthNode);        	    	
-//        	    }
             }
         }
         return serviceNodeList;

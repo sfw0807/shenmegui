@@ -8,7 +8,7 @@
 var operationHistoryManager = {
     getAllHistory: function(operationId,serviceId,callback) {
         $.ajax({
-            url: '../operationHistory/allHistory/'+serviceId+operationId,
+            url: '../operationHistory/allHistory/'+serviceId+"/"+operationId,
             type: 'GET',
             success: function(result) {
                callback(result);

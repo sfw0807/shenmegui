@@ -8,6 +8,10 @@ import com.dc.esb.servicegov.dao.impl.HibernateDAO;
 import com.dc.esb.servicegov.entity.Operation;
 import com.dc.esb.servicegov.entity.OperationHistory;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 @Repository
 public class OperationHistoryDAOImpl extends HibernateDAO<OperationHistory, String> {
@@ -29,7 +33,7 @@ public class OperationHistoryDAOImpl extends HibernateDAO<OperationHistory, Stri
 			operationHistory.setServiceVersion(operation.getService().getVersion());
 			operationHistory.setRemark(operation.getRemark());
 			operationHistory.setModifyUser(operation.getModifyUser());
-			operationHistory.setUpdateTime(operation.getUpdateTime());
+			operationHistory.setUpdateTime(getNowTime());
 			this.save(operationHistory);	
 			isSuccess = true;
 		}catch(Exception e){
@@ -45,4 +49,21 @@ public class OperationHistoryDAOImpl extends HibernateDAO<OperationHistory, Stri
 		query.setString(1, operationId);
 		query.executeUpdate();
 	}
+
+	/***
+	 *
+	 *获取当前时间
+	 *
+	 */
+	public String getNowTime()
+	{
+
+		Date date=new Date();
+		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String updateTime=format.format(date);
+
+		return updateTime;
+	}
+
+
 }

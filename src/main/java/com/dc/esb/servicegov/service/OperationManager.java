@@ -27,4 +27,6 @@ public interface OperationManager {
 	public boolean auditOperation(String operationId, String serviceId, String auditState);
 	public boolean checkOperationPassed(String operationId, String serviceId);
 	public boolean submitOperation(String operationId, String serviceId);
+    //接口定义问题，服务下有多个场景
+	Operation getOperationByServiceId(String serviceId);
 }

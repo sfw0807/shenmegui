@@ -822,15 +822,26 @@ $(function () {
         $("#operationOlaTable").attr("style", "width:1180px");
         $("#operationSlaTable").attr("style", "width:1180px");
     }
-    $("#seesda").click(function () {
-        if (isChrome) {
-            var winOption = "height=800px,width=1200px,top=50,scrollbars=yes,resizable=yes,fullscreen=0";
-            return  window.open("../jsp/sda.jsp?serviceId=" + serviceId + "&operationId=" + operationId, window, winOption);
-        } else {
-            window.showModalDialog("../jsp/sda.jsp?serviceId=" + serviceId + "&operationId=" + operationId, "", "dialogWidth:1200px;dialogHeight:800px;resizable=yes");
-        }
+	    $("#seesda").click(function () {
+	        if (isChrome) {
+	            var winOption = "height=800px,width=1200px,top=50,scrollbars=yes,resizable=yes,fullscreen=0";
+	            return  window.open("../jsp/sda.jsp?serviceId=" + serviceId + "&operationId=" + operationId, window, winOption);
+	        } else {
+	            window.showModalDialog("../jsp/sda.jsp?serviceId=" + serviceId + "&operationId=" + operationId, "", "dialogWidth:1200px;dialogHeight:800px;resizable=yes");
+	        }
 
-    });
+	    });
+
+
+        $("#seesdaView").click(function () {
+            if (isChrome) {
+                var winOption = "height=800px,width=1200px,top=50,scrollbars=yes,resizable=yes,fullscreen=0";
+                return  window.open("../jsp/sdaView.jsp?serviceId=" + serviceId + "&operationId=" + $("#operationId").val(), window, winOption);
+            } else {
+                window.showModalDialog("../jsp/sdaView.jsp?serviceId=" + serviceId + "&operationId=" + operationId, "", "dialogWidth:1200px;dialogHeight:800px;resizable=yes");
+            }
+
+        });
 });
 var editStructId = function editStructId(input, content, id, sdaNode) {
     if ("" === input.value || null === input.value) {

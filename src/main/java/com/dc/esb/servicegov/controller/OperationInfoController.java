@@ -1,9 +1,6 @@
 package com.dc.esb.servicegov.controller;
 
-import com.dc.esb.servicegov.entity.OLA;
-import com.dc.esb.servicegov.entity.Operation;
-import com.dc.esb.servicegov.entity.SDA;
-import com.dc.esb.servicegov.entity.SLA;
+import com.dc.esb.servicegov.entity.*;
 import com.dc.esb.servicegov.service.*;
 import com.dc.esb.servicegov.vo.OperationInfoVO;
 import com.dc.esb.servicegov.vo.SDAVO;
@@ -13,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,6 +46,7 @@ public class OperationInfoController {
     public
     @ResponseBody
     List<OperationInfoVO> getAllOperationInfo() {
+
         List<OperationInfoVO> operationInfoVOInfos = new ArrayList<OperationInfoVO>();
         operationInfoVOInfos = operationManager.getAllOperations();
         return operationInfoVOInfos;
@@ -150,6 +151,10 @@ public class OperationInfoController {
     public
     @ResponseBody
     boolean addOperation(@RequestBody Operation operation) {
+        //修改保存信息 版本号 最后一位+1
+        String newversion = getNewVersion(operation.getVersion());
+        operation.setVersion(newversion);
+        operation.setUpdateTime(getNowTime());
         boolean operationSuccess = operationManager.saveOperation(operation);
         String operationId = operation.getOperationId();
         String serviceId = operation.getServiceId();
@@ -158,6 +163,46 @@ public class OperationInfoController {
             flag = initSDA(operationId, serviceId);
         }
         return operationSuccess && flag;
+    }
+
+
+    /***
+     *
+     *获取当前时间
+     *
+     */
+    public String getNowTime()
+    {
+
+        Date date=new Date();
+        DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String updateTime=format.format(date);
+
+        return updateTime;
+    }
+
+    /**
+     * 第二个逗号后数字+1 （版本号）
+     *
+     */
+    public String getNewVersion(String version)
+    {
+        String[] vs = version.split("\\.");
+        String one = "";
+        String two = "";
+        String three = "";
+
+        one = vs[0];
+        two = vs[1];
+        three = vs[2];
+
+        int versionNum = Integer.parseInt(three);
+        versionNum++;
+
+        String versionThree = Integer.toString(versionNum);
+        String newVersion = one +"."+ two + "." + versionThree;
+
+        return newVersion;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addSDA", headers = "Accept=application/json")
@@ -330,13 +375,10 @@ public class OperationInfoController {
         return sdaManager.saveSDA(sdaList);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/deployOperation/{operationandservice}", headers = "Accept=application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/deployOperation/{serviceId}/{operationId}", headers = "Accept=application/json")
     public
     @ResponseBody
-    boolean deployOperation(@PathVariable String operationandservice) {
-        log.error("*************************************" + operationandservice);
-        String operationId = operationandservice.substring(10);
-        String serviceId = operationandservice.substring(0, 10);
+    boolean deployOperation(@PathVariable("serviceId") String serviceId, @PathVariable("operationId") String operationId) {
         return operationManager.deployOperation(operationId, serviceId);
     }
 

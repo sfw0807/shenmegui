@@ -36,7 +36,7 @@ $(function() {
 			"aoColumnDefs" : [
 				{
 					"sClass" : "center",
-					"aTargets" : [ 0, 1, 2, 3, 4, 5 , 6]
+					"aTargets" : [ 0, 1, 2, 3, 4, 5 , 6, 7]
 				}
 			],
 			"bJQueryUI": "true",
@@ -248,7 +248,35 @@ $(function() {
 		});
 	    $( "#dialog-form" ).dialog( "open" );
      });
-     
+
+     // 选取元数据
+     $('#choice').button().click(function(){
+         tips.text('');
+         var table = tables["metadataTable"];
+          // 选择的行数
+         var rowsSelected = table.$("tr.row_selected");
+         if(rowsSelected.length == 0){
+             alert('请选择一条记录!');
+             return false;
+            }
+         if(rowsSelected.length > 1){
+             alert('请只选择一条记录!');
+             return false;
+            }
+
+      // 赋值修改的元数据记录
+         var selectedDatas;
+         selectedDatas = table.fnGetData(table.$("tr.row_selected")[0]);
+
+         // 赋值修改的元数据记录
+         metadataId.val(selectedDatas["metadataId"]);
+    //     alert("123"+selectedDatas["metadataId"]);
+         window.opener.getNewLinkValue(selectedDatas["metadataId"]);
+         window.close();
+     });
+
+
+
      // 修改元数据
      $('#modify').button().click(function(){
             tips.text('');

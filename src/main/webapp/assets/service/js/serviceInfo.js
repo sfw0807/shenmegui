@@ -13,7 +13,6 @@ $(function () {
      *
      */
     var initserviceInfoTable = function initserviceInfoTable(result) {
-        console.log(result);
         //初始化对Grid的操作事件
         var columnClickEventInit = function columnClickEventInit() {
             $("#serviceInfoTable tbody tr").unbind("click");

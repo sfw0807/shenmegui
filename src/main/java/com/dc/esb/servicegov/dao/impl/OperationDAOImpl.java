@@ -9,10 +9,9 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.*;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Repository
 public class OperationDAOImpl extends HibernateDAO<Operation, OperationPK> {
@@ -56,6 +55,21 @@ public class OperationDAOImpl extends HibernateDAO<Operation, OperationPK> {
             List<Operation> operationList = this.findBy(paramMap);
             Operation operation = operationList.get(0);
             operation.setState(ServiceStateUtils.DEVELOP);
+            String version = operation.getVersion();
+
+            String[] vs = version.split("\\.");
+            String one = "";
+            String two = "";
+            String three = "";
+
+            one = vs[0];
+            two = vs[1];
+            three = "0";
+            int num = Integer.parseInt(two);
+            num++;
+            String newVersion = one + "." + Integer.toString(num) + "." + three;
+            operation.setVersion(newVersion);
+
             isSuccess = true;
         } catch (Exception e) {
             log.error("error in deploy operation[" + operationId + "]", e);
@@ -132,9 +146,10 @@ public class OperationDAOImpl extends HibernateDAO<Operation, OperationPK> {
                 String x1 = version.split("\\.")[0];
                 String x2 = version.split("\\.")[1];
                 String x3 = version.split("\\.")[2];
-                x3 = (Integer.parseInt(x3) + 1) + "";
-                operation.setVersion(x1 + "." + x2 + "." + x3);
+                x1 = (Integer.parseInt(x1) + 1) + "";
+                operation.setVersion(x1 + ".0.0");
                 operation.setState(ServiceStateUtils.PUBLISH);
+                operation.setUpdateTime(getNowTime());
             } else {
                 log.error("该操作未经过投产验证,不能上线");
             }
@@ -143,6 +158,21 @@ public class OperationDAOImpl extends HibernateDAO<Operation, OperationPK> {
             log.error(e, e);
         }
         return isSuccess;
+    }
+
+    /***
+     *
+     *获取当前时间
+     *
+     */
+    public String getNowTime()
+    {
+
+        Date date=new Date();
+        DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String updateTime=format.format(date);
+
+        return updateTime;
     }
 
     public Operation getOperation(String operationId, String serviceId) {

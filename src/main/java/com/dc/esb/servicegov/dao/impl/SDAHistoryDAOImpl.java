@@ -1,6 +1,9 @@
 package com.dc.esb.servicegov.dao.impl;
 
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -33,7 +36,7 @@ public class SDAHistoryDAOImpl extends HibernateDAO<SDAHistory, String> {
 				sdaHistory.setServiceVersion(sda.getOperation().getService().getVersion());
 				sdaHistory.setParentId(sda.getParentId());
 				sdaHistory.setModifyUser(sda.getModifyUser());
-				sdaHistory.setUpdateTime(sda.getUpdateTime());
+				sdaHistory.setUpdateTime(getNowTime());
 				this.save(sdaHistory);
 			}	
 			isSuccess = true;
@@ -50,4 +53,20 @@ public class SDAHistoryDAOImpl extends HibernateDAO<SDAHistory, String> {
 		query.setString(1, operationId);
 		query.executeUpdate();
 	}
+
+	/***
+	 *
+	 *获取当前时间
+	 *
+	 */
+	public String getNowTime()
+	{
+
+		Date date=new Date();
+		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String updateTime=format.format(date);
+
+		return updateTime;
+	}
+
 }

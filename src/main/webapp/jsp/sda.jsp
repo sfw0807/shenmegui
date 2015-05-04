@@ -29,7 +29,10 @@
                        border:1px solid #D3D3D3;
                        color:#333333;background:url('<%=path%>/js/ligerUI/lib/ligerUI/skins/Gray/images/ui/button.gif') repeat-x center center;"/>
         英文名称：<input type="text" id="structId"/>
-        元数据ID：<input type="text" id="metadataId"/>
+        <%--元数据ID：<input type="text" id="metadataId"/>--%>
+      <!--  元数据ID：<input type="text" id="metadataId" readonly="readonly" /><input type="button" value="选择ID" id="metadataIdButton"/>-->
+   		元数据ID：<input type="text" id="metadataId" disabled="true" /><a href="javascript:onclick=bt_choice()">选择ID</a>
+
         类型：<select id="type">
         <option value="string">string</option>
         <option value="char">char</option>

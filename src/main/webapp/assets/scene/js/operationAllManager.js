@@ -31,7 +31,7 @@ var operationManager = {
     },
     deployOperation: function(operationId,serviceId) {
         $.ajax({
-            url: '../operationInfo/deployOperation/'+serviceId+operationId,
+            url: '../operationInfo/deployOperation/'+serviceId+"/"+operationId,
             type: 'GET',
             success: function(result) {
                if(result){

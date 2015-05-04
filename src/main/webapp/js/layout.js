@@ -835,10 +835,10 @@ var metadataTableLayout = [
         "sTitle": "精度",
         "mData": "scale"
     },
-    //{
-    //    "sTitle": "操作用户",
-    //    "mData": "modifyUser"
-    //},
+    {
+        "sTitle": "操作用户",
+        "mData": "modifyUser"
+    },
     {
         "sTitle": "更新时间",
         "mData": "updateTime"
@@ -1245,10 +1245,6 @@ var configExportTableLayout = [
         "mData": "field"
     }
 ];
-
-var configExportTableLayout2 = [
-
-];
 var userTableLayout = [
 	{
         "sTitle": "用户ID",
@@ -1404,6 +1400,10 @@ var auditServiceInfoTableLayout = [
         "sTitle": "操作用户",
         "mData": "modifyUser"
     }
+    //{
+    //    "sTitle": "动作",
+    //    "mData": "operationId"
+    //}
 ];
 var passwordTableLayout = [
     {

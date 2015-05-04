@@ -36,12 +36,10 @@ public class OperationHistoryController {
     @Autowired
     private SDAHistoryDAOImpl sdaHistoryDao;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/allHistory/{operationandservice}", headers = "Accept=application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/allHistory/{serviceId}/{operationId}", headers = "Accept=application/json")
     public
     @ResponseBody
-    List<OperationHistory> getAllHistoryVersion(@PathVariable String operationandservice) {
-        String operationId = operationandservice.substring(10);
-        String serviceId = operationandservice.substring(0, 10);
+    List<OperationHistory> getAllHistoryVersion(@PathVariable(value="serviceId") String serviceId, @PathVariable(value = "operationId") String operationId) {
         return operationManager.getAllHistoryOperation(operationId, serviceId);
     }
 

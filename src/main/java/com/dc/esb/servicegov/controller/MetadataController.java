@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -120,6 +123,8 @@ public class MetadataController {
                                 HttpServletResponse response, @RequestBody Metadata metadata) {
         boolean flag = true;
         try {
+
+            metadata.setUpdateTime(getNowTime());
             metadataManager.updateEntity(metadata);
         } catch (Exception e) {
             flag = false;
@@ -127,6 +132,22 @@ public class MetadataController {
         }
         return flag;
     }
+
+    /***
+     *
+     *获取当前时间
+     *
+     */
+    public String getNowTime()
+    {
+
+        Date date=new Date();
+        DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String updateTime=format.format(date);
+
+        return updateTime;
+    }
+
 
     /**
      * mdtused List

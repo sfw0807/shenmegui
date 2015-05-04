@@ -116,9 +116,11 @@ $(function(){
 				},
 				{
 					"mRender" : function ( data, type, row ) {
-						return '<a href="auditSDAById.jsp?operationId='+row["operationId"]
+						return '<a href="operationInfoByIdView.jsp?operationId='+row["operationId"]
 							+'&serviceId='+row["serviceId"]
+							+'&version='+row["version"]
 							+'" target="_blank">' + '查看' + '</a>';
+
 					},
 					"aTargets" : [6]
 				}

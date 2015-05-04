@@ -19,7 +19,6 @@ var manager;
 $(function () {
     var setManagerCallBack = function setManagerCallBack (gridManager){
         manager = gridManager;
-        console.log(manager);
     };
     sdaManager.getSDAInfoByOperationId(operationId, serviceId, setManagerCallBack);
     $("#randomUUID").click(function () {
@@ -36,9 +35,19 @@ $(function () {
         }
         operationManager.randomUUID();
     });
-    console.log(manager);
     //manager = sdaManager.getManager();
 });
+
+function bt_choice()
+{
+	window.open("../jsp/metadataManagerChoice.jsp","","toolbar=no,location=no,titlebar=no,resizable=yes,scrollbars=yes,top=0,left=0");
+}
+
+function getNewLinkValue(value){
+	//获取子页面的值
+	document.getElementById("metadataId").value=value;
+}
+
 function refreshSeq() {
     var table = document.getElementById("gridId");
     for (var i = table.rows.length - 1; i >= 0; i--) {

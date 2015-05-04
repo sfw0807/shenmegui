@@ -72,17 +72,6 @@ public class OperationManagerImpl implements OperationManager {
 				operationVO.setRemark((operation.getRemark()!=null)?operation.getRemark().trim():"");
 				operationVO.setPublishVersion("");
 				operationVO.setPublishDate("");	
-//				List pubList = operationDao.getPublishInfo(operation.getOperationId());
-//				if(null!=pubList && pubList.size()>0){
-//					Map map = (Map)pubList.get(0);
-//					String onlineDate = (String) map.get("ONLINE_DATE");
-//					String operationVersion = (String) map.get("OPERATION_VERSION");
-//					operationVO.setPublishVersion(operationVersion);
-//					operationVO.setPublishDate(onlineDate);				
-//				}else{
-//					operationVO.setPublishVersion("");
-//					operationVO.setPublishDate("");	
-//				}
 				operationInfoVo.add(operationVO);
 			}
 		}catch(Exception e){
@@ -99,6 +88,15 @@ public class OperationManagerImpl implements OperationManager {
 		Operation operation = operationDao.findBy(paramMap).get(0);
 		return operation;
 	}
+    //TODO 该方法错误需要修改
+	public Operation getOperationByServiceId(String serviceId) {
+		Map<String,String> paramMap = new HashMap<String,String>();
+		paramMap.put("serviceId", serviceId);
+		Operation operation = operationDao.findBy(paramMap).get(0);
+		return operation;
+	}
+
+
 	public SDAVO getSDAByOperation(String operationId,String serviceId){
 		SDAVO root = null;
 		if(null!=operationId){	
@@ -186,7 +184,16 @@ public class OperationManagerImpl implements OperationManager {
 		return sdaList;
 	}
 	public boolean deployOperation(String operationId, String serviceId) {
-		return operationDao.deployOperation(operationId, serviceId);
+		boolean bakFlag = saveOperationHistoryVersion(operationId, serviceId);
+		if(bakFlag)
+		{
+			return operationDao.deployOperation(operationId, serviceId);
+		}else
+		{
+			return false;
+		}
+
+
 	}
 	public boolean redefOperation(String operationId, String serviceId) {
 		boolean bakFlag = saveOperationHistoryVersion(operationId, serviceId);

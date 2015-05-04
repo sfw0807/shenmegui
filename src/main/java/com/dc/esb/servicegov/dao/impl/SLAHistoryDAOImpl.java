@@ -8,6 +8,9 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -27,7 +30,7 @@ public class SLAHistoryDAOImpl extends HibernateDAO<SLAHistory, String> {
                 slaHistory.setSlaValue(sla.getSlaValue());
                 slaHistory.setSlaRemark(sla.getSlaRemark());
                 slaHistory.setModifyUser(sla.getModifyUser());
-                slaHistory.setUpdateTime(sla.getUpdateTime());
+                slaHistory.setUpdateTime(getNowTime());
                 this.save(slaHistory);
             }
             isSuccess = true;
@@ -50,5 +53,20 @@ public class SLAHistoryDAOImpl extends HibernateDAO<SLAHistory, String> {
             return false;
         }
         return true;
+    }
+
+    /***
+     *
+     *获取当前时间
+     *
+     */
+    public String getNowTime()
+    {
+
+        Date date=new Date();
+        DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String updateTime=format.format(date);
+
+        return updateTime;
     }
 }
