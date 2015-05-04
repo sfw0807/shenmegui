@@ -1,0 +1,17 @@
+package com.dc.esb.servicegov.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.dc.esb.servicegov.vo.PublishInfoVO;
+
+
+public abstract interface PublishInfoManager {
+	public abstract List<PublishInfoVO> getAllPublishTotalInfos(Map<String, String> mapConditions);
+	public abstract List<String> getPublishServiceIdsOrOperationIds(String onlineDate, String prdMsgType,
+                                                                    String csmMsgType, String spFlag);
+	public abstract List<String> getAddServiceIdsOrOperationIds(String onlineDate, String prdMsgType,
+                                                                String csmMsgType, String spFlag);
+	public abstract List<String> getModifyServiceIdsOrOperationIds(String onlineDate, String prdMsgType,
+                                                                   String csmMsgType, String spFlag);
+}

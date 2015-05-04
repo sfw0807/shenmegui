@@ -4,26 +4,26 @@ import java.io.Serializable;
 
 import javax.persistence.Embeddable;
 
-@Embeddable
+//@Embeddable
 public class MetaStructPK implements Serializable{
-	
-	private String structId;
-	private String elementId;
-	
-	public String getStructId() {
-		return structId;
-	}
-	public void setStructId(String structId) {
-		this.structId = structId;
-	}
-	public String getElementId() {
-		return elementId;
-	}
-	public void setElementId(String elementId) {
-		this.elementId = elementId;
-	}
-	
-	@Override
+
+    private String structId;
+    private String elementId;
+
+    public String getStructId() {
+        return structId;
+    }
+    public void setStructId(String structId) {
+        this.structId = structId;
+    }
+    public String getElementId() {
+        return elementId;
+    }
+    public void setElementId(String elementId) {
+        this.elementId = elementId;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof  MetaStructPK)){
             return false;
@@ -44,6 +44,6 @@ public class MetaStructPK implements Serializable{
         }
         return hashCode;
     }
-	
+
 
 }

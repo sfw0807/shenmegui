@@ -460,20 +460,20 @@ body {
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="<%=path%>/js/jquery.js"></script>
-<script src="<%=path%>/js/bootstrap-transition.js"></script>
-<script src="<%=path%>/js/bootstrap-alert.js"></script>
-<script src="<%=path%>/js/bootstrap-modal.js"></script>
-<script src="<%=path%>/js/bootstrap-dropdown.js"></script>
-<script src="<%=path%>/js/bootstrap-scrollspy.js"></script>
-<script src="<%=path%>/js/bootstrap-tab.js"></script>
-<script src="<%=path%>/js/bootstrap-tooltip.js"></script>
-<script src="<%=path%>/js/bootstrap-popover.js"></script>
-<script src="<%=path%>/js/bootstrap-button.js"></script>
-<script src="<%=path%>/js/bootstrap-collapse.js"></script>
-<script src="<%=path%>/js/bootstrap-carousel.js"></script>
-<script src="<%=path%>/js/bootstrap-typeahead.js"></script>
-<script src="<%=path%>/js/bootstrap.min.js"></script>
-<script src="<%=path%>/js/bootstrap.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap-transition.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap-alert.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap-modal.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap-dropdown.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap-scrollspy.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap-tab.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap-tooltip.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap-popover.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap-button.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap-collapse.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap-carousel.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap-typeahead.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="<%=path%>/plugins/bootstrap/js/bootstrap.js"></script>
 <script src="<%=path%>/js/holder.js"></script>
 <script>
     !function ($) {

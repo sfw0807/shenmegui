@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
 String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String ctx = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -11,11 +11,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     
-    <link rel="stylesheet" type="text/css" href="<%= path%>/js/multi-select/css/jquery.multiselect.css" />
-	<link rel="stylesheet" type="text/css" href="<%= path%>/js/multi-select/css/jquery.multiselect.filter.css" />
-	<link rel="stylesheet" type="text/css" href="<%= path%>/js/jquery-ui/css/redmond/jquery.ui.theme.css" />
-	<link rel="stylesheet" type="text/css" href="<%= path%>/js/jquery-ui/css/redmond/jquery-ui.css" />
-	<link rel="stylesheet" href="<%= path%>/themes/smoothness/jquery-ui-1.8.4.custom.css" />
+    <%--<link rel="stylesheet" type="text/css" href="<%= path%>/js/multi-select/css/jquery.multiselect.css" />--%>
+	<%--<link rel="stylesheet" type="text/css" href="<%= path%>/js/multi-select/css/jquery.multiselect.filter.css" />--%>
+	<%--<link rel="stylesheet" type="text/css" href="<%= path%>/js/jquery-ui/css/redmond/jquery.ui.theme.css" />--%>
+	<%--<link rel="stylesheet" type="text/css" href="<%= path%>/js/jquery-ui/css/redmond/jquery-ui.css" />--%>
+	<%--<link rel="stylesheet" href="<%= path%>/themes/smoothness/jquery-ui-1.8.4.custom.css" />--%>
 	<link rel="stylesheet" href="<%= path%>/css/index.css" />
 	<link rel="stylesheet" type="text/css" href="<%= path%>/js/jquery.datatables/css/jquery.dataTables.css" />
 	<script src="<%= path%>/js/jquery-ui/js/jquery-1.10.2.js"></script>

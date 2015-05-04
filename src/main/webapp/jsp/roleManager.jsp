@@ -1,8 +1,13 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" pageEncoding="UTF-8"%>
 <%
 String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+String ctx = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
+<%@ include file="/jsp/includes/header.jsp" %>
+<%@ include file="/jsp/includes/jquery.jsp" %>
+<%@ include file="/jsp/includes/jquery-ui.jsp" %>
+<%@ include file="/jsp/includes/jquery-plugins.jsp" %>
+<%@ include file="/jsp/includes/datatable.jsp" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -13,20 +18,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
-		<link rel="stylesheet"
-			href="<%=path%>/themes/smoothness/jquery-ui-1.8.4.custom.css" />
+		<%--<link rel="stylesheet"--%>
+			<%--href="<%=path%>/themes/smoothness/jquery-ui-1.8.4.custom.css" />--%>
 		<link rel="stylesheet" href="<%=path%>/css/index.css" />
-		<script src="<%=path%>/js/jquery-ui/js/jquery-1.10.2.js"></script>
-	    <script src="<%=path%>/js/jquery.ui.core.js"></script>
-	    <script src="<%=path%>/js/jquery.ui.widget.js"></script>
-	    <script src="<%=path%>/js/jquery.ui.button.js"></script>
-	    <script src="<%=path%>/js/jquery.ui.position.js"></script>
-	    <script src="<%=path%>/js/jquery.ui.autocomplete.js"></script>
-       <script src="<%=path%>/js/jquery-ui-tabs.js"></script>
-       <script src="<%=path%>/js/jquery.ui.button.js"></script>
-       <script src='<%=path%>/js/jquery.datatables/js/jquery.dataTables.js' type="text/javascript"></script>
-		<link rel='stylesheet' type='text/css'
-			href='<%=path%>/js/jquery.datatables/css/jquery.dataTables.css' />
+		<%--<script src="<%=path%>/js/jquery-ui/js/jquery-1.10.2.js"></script>--%>
+	    <%--<script src="<%=path%>/js/jquery.ui.core.js"></script>--%>
+	    <%--<script src="<%=path%>/js/jquery.ui.widget.js"></script>--%>
+	    <%--<script src="<%=path%>/js/jquery.ui.button.js"></script>--%>
+	    <%--<script src="<%=path%>/js/jquery.ui.position.js"></script>--%>
+	    <%--<script src="<%=path%>/js/jquery.ui.autocomplete.js"></script>--%>
+       <%--<script src="<%=path%>/js/jquery-ui-tabs.js"></script>--%>
+       <%--<script src="<%=path%>/js/jquery.ui.button.js"></script>--%>
+       <%--<script src='<%=path%>/js/jquery.datatables/js/jquery.dataTables.js' type="text/javascript"></script>--%>
+		<%--<link rel='stylesheet' type='text/css'--%>
+			<%--href='<%=path%>/js/jquery.datatables/css/jquery.dataTables.css' />--%>
 		<script src="<%=path%>/js/jquery.fileDownload.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/layout.js" type="text/javascript"></script>
 		<script src="<%=path%>/js/roleAllManager.js" type="text/javascript"></script>

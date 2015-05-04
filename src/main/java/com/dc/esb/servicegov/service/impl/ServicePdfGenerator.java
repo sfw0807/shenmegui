@@ -1,18 +1,16 @@
 package com.dc.esb.servicegov.service.impl;
 
+import com.dc.esb.servicegov.entity.Operation;
 import com.dc.esb.servicegov.entity.Service;
 import com.dc.esb.servicegov.exception.DataException;
 import com.dc.esb.servicegov.service.PdfGenerator;
 import com.dc.esb.servicegov.util.PdfUtils;
-import com.lowagie.text.Document;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.Section;
+import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfWriter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,8 +22,7 @@ import java.util.List;
  * Date: 14-5-29
  * Time: 下午3:37
  */
-@org.springframework.stereotype.Component
-@Qualifier("servicePdfGenerator")
+@Component
 public class ServicePdfGenerator implements PdfGenerator<List<Service>> {
     private static final Log log = LogFactory.getLog(OperationPdfGenerator.class);
     private static final String TMP_PDF_DIR = "D:/pdftmp";
@@ -40,9 +37,15 @@ public class ServicePdfGenerator implements PdfGenerator<List<Service>> {
     public File generate(List<Service> services) throws Exception {
         File pdfFile = null;
         FileOutputStream out = null;
+		String pdfDir = "tmppdf";
+		File pdfDirFile = new File(pdfDir);
+		if(!pdfDirFile.exists()){
+			pdfDirFile.mkdirs();
+		}
         try {
             if (null != services) {
-                String pdfPath = TMP_PDF_DIR + File.separator + "浦发银行服务手册.pdf";
+            	String serviceCateGoryId = services.get(0).getCategoryId();
+                String pdfPath = pdfDir+File.separator +"浦发银行服务手册-"+serviceCateGoryId+".pdf";
                 pdfFile = new File(pdfPath);
                 if (pdfFile.exists()) {
                     boolean deleted = pdfFile.delete();
@@ -60,9 +63,19 @@ public class ServicePdfGenerator implements PdfGenerator<List<Service>> {
                         .setInitialLeading(16);
                 document.open();
                 try {
+                	int i=0;
                     for (Service service : services) {
                         try {
-                            render(service, document, null);
+                        	String serviceId = service.getServiceId();
+                        	String serviceName = service.getServiceName();
+                            Phrase servicePhrase = new Phrase(serviceName, PdfUtils.ST_SONG_BIG_BOLD_FONT);
+                            Paragraph serviceParagraph = new Paragraph(servicePhrase);
+                        	Chapter chapter = new Chapter(serviceParagraph, i++);
+                        	Section serviceSection = chapter.addSection(serviceParagraph);
+                        	serviceSection.setBookmarkTitle(serviceId + "(" + serviceName.trim() + ")");
+                        	serviceSection.setBookmarkOpen(false);
+                        	serviceSection.setNumberStyle(Section.NUMBERSTYLE_DOTTED_WITHOUT_FINAL_DOT);
+                            render(service, document, serviceSection);
                         } catch (Exception e) {
                             String errorMsg = "为服务[" + service.getServiceId() + ":" + service.getServiceName() + "]创建pdf时失败！";
                             log.error(errorMsg, e);
@@ -79,7 +92,9 @@ public class ServicePdfGenerator implements PdfGenerator<List<Service>> {
                 throw new DataException(errorMsg);
             }
         } finally {
-            out.close();
+        	if(out!=null){
+        		out.close();
+        	}
         }
         return pdfFile;
     }
@@ -104,7 +119,7 @@ public class ServicePdfGenerator implements PdfGenerator<List<Service>> {
         PdfUtils.renderInLine(":", serviceTitlePhrase, PdfUtils.NORMAL_MIDDLE_BOLD_FONT);
         PdfUtils.renderInLine(serviceId, serviceTitlePhrase, PdfUtils.NORMAL_MIDDLE_BOLD_FONT);
         PdfUtils.renderInLine("(", serviceTitlePhrase, PdfUtils.NORMAL_MIDDLE_BOLD_FONT);
-        PdfUtils.renderInLine(serviceName, serviceTitlePhrase, PdfUtils.ST_SONG_MIDDLE_BOLD_FONT);
+        PdfUtils.renderInLine(serviceName.trim(), serviceTitlePhrase, PdfUtils.ST_SONG_MIDDLE_BOLD_FONT);
         PdfUtils.renderInLine(")", serviceTitlePhrase, PdfUtils.NORMAL_MIDDLE_BOLD_FONT);
         Paragraph paragraph = new Paragraph(serviceTitlePhrase);
         //添加目录
@@ -112,9 +127,9 @@ public class ServicePdfGenerator implements PdfGenerator<List<Service>> {
         subSection.setBookmarkTitle(serviceId + "(" + serviceName + ")");
         subSection.setBookmarkOpen(false);
         subSection.setNumberStyle(Section.NUMBERSTYLE_DOTTED_WITHOUT_FINAL_DOT);
-//        section.add(serviceTitlePhrase);
+        section.add(serviceTitlePhrase);
         paragraph.setSpacingAfter(10);
-//        document.add(paragraph);
+        document.add(paragraph);
         String serviceRemark = service.getServiceRemark();
         //添加功能描述
         serviceRemark = serviceRemark == null ? "尚无关于服务的描述。" : serviceRemark;
@@ -125,20 +140,23 @@ public class ServicePdfGenerator implements PdfGenerator<List<Service>> {
         PdfUtils.renderInLine(serviceRemark, descPhrase, PdfUtils.ST_SONG_MIDDLE_FONT);
         Paragraph descParagraph = new Paragraph(descPhrase);
         subSection.add(descParagraph);
-//        document.add(descParagraph);
-        //添加场景说明
-        List<Service> operations = serviceManager.getOpertions(serviceId);
-        if (null != operations) {
+        document.add(descParagraph);
+        //添加操作说明
+        List<Operation> operations = serviceManager.getOperationsByServiceId(serviceId);
+        if (null != operations && operations.size() > 0) {
             Phrase opDescTitlePhrase = new Phrase();
             PdfUtils.renderInLine("该服务存在以下的操作", opDescTitlePhrase, PdfUtils.ST_SONG_MIDDLE_FONT);
             PdfUtils.renderInLine(":", opDescTitlePhrase, PdfUtils.NORMAL_MIDDLE_FONT);
             Paragraph opDescTitleParagraph = new Paragraph(opDescTitlePhrase);
             subSection.add(opDescTitleParagraph);
-//            document.add(opDescTitleParagraph);
-
+            document.add(opDescTitleParagraph);
+            operationPdfGenerator.generate(operations, document, subSection);
+        }else{
+            Phrase opDescTitlePhrase = new Phrase();
+            PdfUtils.renderInLine("该服务下暂无操作", opDescTitlePhrase, PdfUtils.ST_SONG_MIDDLE_FONT);
+            Paragraph opDescTitleParagraph = new Paragraph(opDescTitlePhrase);
+            subSection.add(opDescTitleParagraph);
+            document.add(opDescTitleParagraph);
         }
-        operationPdfGenerator.generate(operations, document, subSection);
     }
-
-
 }

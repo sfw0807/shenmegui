@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root package_type="fix" encoding="GB18030">
+  <CARDNO length="16" metadataid="CardNo"/>
+  <ACCNO length="13" metadataid="AcctNo"/>
+  <CURRTYPE length="3" metadataid="Ccy"/>
+  <STARTDATE length="8" metadataid="BegDt"/>
+  <ENDDATE length="8" metadataid="EndDt"/>
+</root>

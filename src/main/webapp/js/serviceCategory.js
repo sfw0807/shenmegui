@@ -151,7 +151,7 @@ $(function() {
 		 parentId.append("<option value='"+result[i].categoryId+"'>"+result[i].categoryId+":"+result[i].categoryName+"</option>");
 	 }
      initCategoryInfo();
-     parentId.combobox();
+     //parentId.combobox();
 	 // 校验提示
 	 function updateTips( t ) {
 			tips

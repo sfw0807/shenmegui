@@ -27,21 +27,21 @@ public class RemainingServicePK implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof  RemainingServicePK)){
+        if (!(obj instanceof RemainingServicePK)) {
             return false;
         }
         RemainingServicePK another = (RemainingServicePK) obj;
-        return ((null == this.serviceId) ?(null == another.getServiceId()):(this.serviceId.equals(another.getServiceId())))&&
-                ((null == this.operationId) ?(null == another.getOperationId()):(this.operationId.equals(another.getOperationId())));
+        return ((null == this.serviceId) ? (null == another.getServiceId()) : (this.serviceId.equals(another.getServiceId()))) &&
+                ((null == this.operationId) ? (null == another.getOperationId()) : (this.operationId.equals(another.getOperationId())));
     }
 
     @Override
     public int hashCode() {
         int hashCode = 0;
-        if(null != serviceId){
+        if (null != serviceId) {
             hashCode ^= serviceId.hashCode();
         }
-        if(null != operationId){
+        if (null != operationId) {
             hashCode ^= operationId.hashCode();
         }
         return hashCode;

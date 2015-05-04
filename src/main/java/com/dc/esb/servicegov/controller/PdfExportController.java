@@ -1,16 +1,13 @@
 package com.dc.esb.servicegov.controller;
 
+import com.dc.esb.servicegov.entity.Operation;
 import com.dc.esb.servicegov.entity.Service;
 import com.dc.esb.servicegov.entity.ServiceCategory;
-import com.dc.esb.servicegov.service.PdfGenerator;
-import com.dc.esb.servicegov.service.impl.PlatformPdfGenerator;
-import com.dc.esb.servicegov.service.impl.ServiceCategoryManagerImpl;
-import com.dc.esb.servicegov.service.impl.ServiceCategoryPdfGenerator;
-import com.dc.esb.servicegov.service.impl.ServiceManagerImpl;
+import com.dc.esb.servicegov.service.impl.*;
+import com.dc.esb.servicegov.util.PdfUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,7 +28,7 @@ import java.util.List;
  * Time: 下午2:41
  */
 @Controller
-@RequestMapping("/export")
+@RequestMapping("/pdfExport")
 public class PdfExportController {
 
     private static final Log log = LogFactory.getLog(PdfExportController.class);
@@ -40,42 +38,188 @@ public class PdfExportController {
     @Autowired
     private ServiceCategoryManagerImpl serviceCategoryManager;
     @Autowired
-    @Qualifier("servicePdfGenerator")
-    private PdfGenerator<List<Service>> servicePdfGenerator;
+    private OperationPdfGenerator operationPdfGenerator;
     @Autowired
-    @Qualifier("serviceCategoryPdfGenerator")
     private ServiceCategoryPdfGenerator serviceCategoryPdfGenerator;
     @Autowired
-    @Qualifier("platformPdfGenerator")
-    private PlatformPdfGenerator platformPdfGenerator;
+    private ServicePdfGenerator servicePdfGenerator;
 
-
-    @RequestMapping(method = RequestMethod.GET, value = "/servicepdf/{id}", headers = "Accept=application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/operationpdf/{serviceId}", headers = "Accept=application/json")
     public
     @ResponseBody
-    boolean exportService(@PathVariable String id) {
+    boolean exportOperationPdfByServiceId(@PathVariable String serviceId, HttpServletRequest request, HttpServletResponse response) {
+        InputStream in = null;
+        OutputStream out = null;
+        File pdfDir = new File("tmppdf");
         try {
-            List<Service> services = serviceManager.getServiceById(id);
-            servicePdfGenerator.generate(services);
+            List<Operation> operations = serviceManager.getOperationsByServiceId(serviceId);
+            File pdfFile = operationPdfGenerator.generate(operations);
+            if (null != pdfFile && pdfFile.exists()) {
+                try {
+                    response.setContentType("application/pdf");
+                    response.addHeader(
+                            "Content-Disposition",
+                            "attachment;filename="
+                                    + new String(pdfFile.getName().getBytes(
+                                    "gbk"), "iso-8859-1"));
+                    in = new BufferedInputStream(
+                            new FileInputStream(pdfFile));
+                    out = new BufferedOutputStream(response.getOutputStream());
+                    long fileLength = pdfFile.length();
+                    byte[] cache = null;
+                    if (fileLength > Integer.MAX_VALUE) {
+                        cache = new byte[Integer.MAX_VALUE];
+                    } else {
+                        cache = new byte[(int) fileLength];
+                    }
+                    int i = 0;
+                    while ((i = in.read(cache)) > 0) {
+                        out.write(cache, 0, i);
+                    }
+                    out.flush();
+                } catch (Exception e) {
+                    log.error(e, e);
+                } finally {
+                    if (null != in) {
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            log.error(e, e);
+                        }
+                    }
+                    if (null != out) {
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            log.error(e, e);
+                        }
+                    }
+                }
+            }
         } catch (Exception e) {
             log.error(e, e);
         }
+        deleteFile(pdfDir);
         return true;
 
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/categorypdf/{id}", headers = "Accept=application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/servicepdf/{categoryId}", headers = "Accept=application/json")
     public
     @ResponseBody
-    boolean exportCategory(@PathVariable String id) {
+    boolean exportServiceByCategoryId(@PathVariable String categoryId, HttpServletRequest request, HttpServletResponse response) {
+        InputStream in = null;
+        OutputStream out = null;
+        File pdfDir = new File("tmppdf");
         try {
-            ServiceCategory category = serviceCategoryManager.getCategoryById(id);
-            List<ServiceCategory> categories = new ArrayList<ServiceCategory>();
-            categories.add(category);
-            serviceCategoryPdfGenerator.generate(categories);
+            List<Service> services = serviceCategoryManager.getServiceByCategoryId(categoryId);
+            File pdfFile = servicePdfGenerator.generate(services);
+            if (null != pdfFile && pdfFile.exists()) {
+                try {
+                    response.setContentType("application/pdf");
+                    response.addHeader(
+                            "Content-Disposition",
+                            "attachment;filename="
+                                    + new String(pdfFile.getName().getBytes(
+                                    "gbk"), "iso-8859-1"));
+                    in = new BufferedInputStream(
+                            new FileInputStream(pdfFile));
+                    out = new BufferedOutputStream(response.getOutputStream());
+                    long fileLength = pdfFile.length();
+                    byte[] cache = null;
+                    if (fileLength > Integer.MAX_VALUE) {
+                        cache = new byte[Integer.MAX_VALUE];
+                    } else {
+                        cache = new byte[(int) fileLength];
+                    }
+                    int i = 0;
+                    while ((i = in.read(cache)) > 0) {
+                        out.write(cache, 0, i);
+                    }
+                    out.flush();
+                } catch (Exception e) {
+                    log.error(e, e);
+                } finally {
+                    if (null != in) {
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            log.error(e, e);
+                        }
+                    }
+                    if (null != out) {
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            log.error(e, e);
+                        }
+                    }
+                }
+            }
         } catch (Exception e) {
             log.error(e, e);
         }
+        deleteFile(pdfDir);
+        return true;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/categorypdf/{categoryId}", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    boolean exportCategoryByParentCategoryId(@PathVariable String categoryId, HttpServletRequest request, HttpServletResponse response) {
+        InputStream in = null;
+        OutputStream out = null;
+        File pdfDir = new File("tmppdf");
+        try {
+            List<ServiceCategory> serviceCategorys = serviceCategoryManager.getSubServiceCategoryByParentId(categoryId);
+            File pdfFile = serviceCategoryPdfGenerator.generate(serviceCategorys);
+
+            if (null != pdfFile && pdfFile.exists()) {
+                try {
+                    response.setContentType("application/pdf");
+                    response.addHeader(
+                            "Content-Disposition",
+                            "attachment;filename="
+                                    + new String(pdfFile.getName().getBytes(
+                                    "gbk"), "iso-8859-1"));
+                    in = new BufferedInputStream(
+                            new FileInputStream(pdfFile));
+                    out = new BufferedOutputStream(response.getOutputStream());
+                    long fileLength = pdfFile.length();
+                    byte[] cache = null;
+                    if (fileLength > Integer.MAX_VALUE) {
+                        cache = new byte[Integer.MAX_VALUE];
+                    } else {
+                        cache = new byte[(int) fileLength];
+                    }
+                    int i = 0;
+                    while ((i = in.read(cache)) > 0) {
+                        out.write(cache, 0, i);
+                    }
+                    out.flush();
+                } catch (Exception e) {
+                    log.error(e, e);
+                } finally {
+                    if (null != in) {
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            log.error(e, e);
+                        }
+                    }
+                    if (null != out) {
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            log.error(e, e);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error(e, e);
+        }
+        deleteFile(pdfDir);
         return true;
     }
 
@@ -83,54 +227,124 @@ public class PdfExportController {
     public
     @ResponseBody
     boolean exportAll(HttpServletRequest request, HttpServletResponse response) {
+        InputStream in = null;
+        OutputStream out = null;
+        File pdfDir = null;
         try {
-            File pdfFile = platformPdfGenerator.generate(null);
-            InputStream in = null;
-            OutputStream out = null;
-            try {
-                response.setContentType("application/pdf");
-                response.addHeader("Content-Disposition", "attachment;filename=" + new String(pdfFile.getName().getBytes("gbk"), "iso-8859-1"));
-                in = new BufferedInputStream(new FileInputStream(pdfFile));
-                out = new BufferedOutputStream(response.getOutputStream());
-                long fileLength = pdfFile.length();
-                byte[] cache = null;
-                if (fileLength > Integer.MAX_VALUE) {
-                    cache = new byte[Integer.MAX_VALUE];
-                } else {
-                    cache = new byte[(int) fileLength];
-                }
-                int i = 0;
-                while ((i = in.read(cache)) > 0) {
-                    out.write(cache, 0, i);
-                }
-                out.flush();
-            } catch (Exception e) {
-                log.error(e, e);
-            } finally {
-                if (null != in) {
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        log.error(e, e);
-                    }
-
-                }
-                if (null != out) {
-                    try {
-                        in.close();
-                    } catch (IOException e) {
-                        log.error(e, e);
-                    }
-
-                }
-
+            String[] ids = {"0100", "0200", "0300", "0400", "0500", "0600",
+                    "0700", "0800", "0900", "1000", "1100", "1200", "1300"};
+            Thread[] threadArray = new Thread[ids.length];
+            /***** 多线程 *******/
+            for (int i = 0; i < ids.length; i++) {
+                Thread t = new ServiceCategoryPdfGenerateTask(ids[i],
+                        serviceCategoryManager, serviceCategoryPdfGenerator);
+                t.start();
+                threadArray[i] = t;
             }
-
+//			Thread.sleep(1000 * 120);
+            boolean endFlag = true;
+            int hasDeadNum = 0;
+            while (endFlag) {
+                for (int i = 0; i < threadArray.length; i++) {
+                    if (!threadArray[i].isAlive()) {
+                        hasDeadNum++;
+                    }
+                }
+                if (hasDeadNum == threadArray.length) {
+                    endFlag = false;
+                }
+                hasDeadNum = 0;
+            }
+            /***** 多线程 *******/
+            String allPath = "tmppdf"
+                    + File.separator
+                    + "浦发银行服务手册-all.pdf";
+            File pdfAllFile = null;
+            pdfDir = new File("tmppdf");
+            if (pdfDir.exists()) {
+                if (pdfDir.isDirectory()) {
+                    File[] files = pdfDir.listFiles();
+                    String[] paramStr = new String[files.length + 1];
+                    for (int i = 0; i < paramStr.length - 1; i++) {
+                        paramStr[i] = files[i].getAbsolutePath();
+                    }
+                    paramStr[files.length] = allPath;
+                    //sort
+                    List<String> tmpList = new ArrayList<String>();
+                    for (int i = 0; i < paramStr.length; i++) {
+                        tmpList.add(paramStr[i]);
+                    }
+                    Collections.sort(tmpList);
+                    paramStr = tmpList.toArray(paramStr);
+//					for (int i = 0; i < paramStr.length; i++) {
+//						System.out.println(paramStr[i]);
+//					}
+                    pdfAllFile = PdfUtils.mergePdfFile(paramStr);
+                }
+            }
+            if (null != pdfAllFile && pdfAllFile.exists()) {
+                try {
+                    response.setContentType("application/pdf");
+                    response.addHeader(
+                            "Content-Disposition",
+                            "attachment;filename="
+                                    + new String(pdfAllFile.getName().getBytes(
+                                    "gbk"), "iso-8859-1"));
+                    in = new BufferedInputStream(
+                            new FileInputStream(pdfAllFile));
+                    out = new BufferedOutputStream(response.getOutputStream());
+                    long fileLength = pdfAllFile.length();
+                    byte[] cache = null;
+                    if (fileLength > Integer.MAX_VALUE) {
+                        cache = new byte[Integer.MAX_VALUE];
+                    } else {
+                        cache = new byte[(int) fileLength];
+                    }
+                    int i = 0;
+                    while ((i = in.read(cache)) > 0) {
+                        out.write(cache, 0, i);
+                    }
+                    out.flush();
+                } catch (Exception e) {
+                    log.error(e, e);
+                } finally {
+                    if (null != in) {
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            log.error(e, e);
+                        }
+                    }
+                    if (null != out) {
+                        try {
+                            in.close();
+                        } catch (IOException e) {
+                            log.error(e, e);
+                        }
+                    }
+                }
+            }
         } catch (Exception e) {
             log.error(e, e);
         }
+        deleteFile(pdfDir);
         return true;
     }
 
-
+    public boolean deleteFile(File file) {
+        boolean deleteResult = true;
+        if (file.isDirectory()) {
+            File[] subFiles = file.listFiles();
+            if (null != subFiles) {
+                for (File subFile : subFiles) {
+                    deleteResult = deleteFile(subFile);
+                }
+            }
+        }
+        deleteResult = file.delete();
+        if (!deleteResult) {
+            log.error("删除临时文件[" + file.getAbsolutePath() + "]失败！");
+        }
+        return deleteResult;
+    }
 }

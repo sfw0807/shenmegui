@@ -1,6 +1,9 @@
 package com.dc.esb.servicegov.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,7 +12,7 @@ import javax.persistence.*;
  * Time: 下午4:59
  */
 @Entity
-@Table(name="REMAINING_SERVICE")
+@Table(name = "REMAINING_SERVICE")
 @IdClass(RemainingServicePK.class)
 public class RemainingService {
     @Id

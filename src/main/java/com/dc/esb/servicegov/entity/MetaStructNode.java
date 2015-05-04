@@ -12,22 +12,22 @@ import javax.persistence.Table;
  * Date: 14-6-24
  * Time: 下午1:01
  */
-@Entity
-@Table(name="SG_MM_MDT_METADATA_STRUCTS")
-@IdClass(MetaStructPK.class)
+//@Entity
+//@Table(name="SG_MM_MDT_METADATA_STRUCTS")
+//@IdClass(MetaStructPK.class)
 public class MetaStructNode {
-	
-    @Id
+
+//    @Id
     private String structId;
-    @Id
+//    @Id
     private String elementId;
-    @Column(name="ELEMENTNAME")
+//    @Column(name="ELEMENTNAME")
     private String elementName;
-    @Column(name="METADATAID")
+//    @Column(name="METADATAID")
     private String metadataId;
-    @Column(name="ISREQUIRED")
+//    @Column(name="ISREQUIRED")
     private String required;
-    @Column(name="REMARK")
+//    @Column(name="REMARK")
     private String remark;
 
     public String getStructId() {
@@ -70,11 +70,11 @@ public class MetaStructNode {
         this.remark = remark;
     }
 
-	public String getMetadataId() {
-		return metadataId;
-	}
+    public String getMetadataId() {
+        return metadataId;
+    }
 
-	public void setMetadataId(String metadataId) {
-		this.metadataId = metadataId;
-	}
+    public void setMetadataId(String metadataId) {
+        this.metadataId = metadataId;
+    }
 }

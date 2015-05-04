@@ -11,31 +11,31 @@ import javax.persistence.Table;
  * Date: 14-5-27
  * Time: 上午10:43
  */
-@Entity
-@Table(name = "SG_MM_MSM_SDA_R")
+//@Entity
+//@Table(name = "SG_MM_MSM_SDA_R")
 public class SDANode {
-    @Id
-    @Column(name = "RESOURCEID")
+//    @Id
+//    @Column(name = "RESOURCEID")
     private String resourceId;
-    @Column(name = "STRUCTNAME")
+//    @Column(name = "STRUCTNAME")
     private String structName;
-    @Column(name = "STRUCTALIAS")
+//    @Column(name = "STRUCTALIAS")
     private String structAlias;
-    @Column(name = "SERVICEID")
+//    @Column(name = "SERVICEID")
     private String serviceId;
-    @Column(name = "STRUCTINDEX")
+//    @Column(name = "STRUCTINDEX")
     private int structIndex;
-    @Column(name = "METADATAID")
+//    @Column(name = "METADATAID")
     private String metadataId;
-    @Column(name = "ACTIONID")
+//    @Column(name = "ACTIONID")
     private String actionId;
-    @Column(name = "PARENTRESOURCEID")
+//    @Column(name = "PARENTRESOURCEID")
     private String parentResourceId;
-    @Column(name = "TYPE")
+//    @Column(name = "TYPE")
     private String type;
-    @Column(name = "REMARK")
+//    @Column(name = "REMARK")
     private String remark;
-    @Column(name = "REQUIRED")
+//    @Column(name = "REQUIRED")
     private String required;
 
     public String getResourceId() {
@@ -80,14 +80,14 @@ public class SDANode {
 
 
     public String getMetadataId() {
-		return metadataId;
-	}
+        return metadataId;
+    }
 
-	public void setMetadataId(String metadataId) {
-		this.metadataId = metadataId;
-	}
+    public void setMetadataId(String metadataId) {
+        this.metadataId = metadataId;
+    }
 
-	public String getActionId() {
+    public String getActionId() {
         return actionId;
     }
 

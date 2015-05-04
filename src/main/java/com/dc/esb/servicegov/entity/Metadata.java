@@ -4,37 +4,41 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Administrator
- * Date: 14-5-27
- * Time: 上午11:07
- */
 @Entity
-@Table(name = "SG_MM_MDT_METADATA")
-public class Metadata {
+@Table(name = "METADATA")
+public class Metadata implements Serializable {
+
+    private static final long serialVersionUID = 69589445122445721l;
+
     @Id
-    @Column(name = "METADATAID")
+    @Column(name = "metadata_id")
     private String metadataId;
-    @Column(name = "METADATANAME")
-    private String metadataName;
-    @Column(name = "GROUPACTIONID")
-    private String groupActionId;
-    @Column(name = "METADATADESC")
-    private String metadataDesc;
-    @Column(name = "CODEVALUE")
-    private String codeValue;
-    @Column(name = "STATE")
-    private String state;
-    @Column(name = "ACTIONID")
-    private String actionId;
-    @Column(name = "RELEASEID")
-    private String releaseId;
-    @Column(name = "VERSIONNUM")
-    private String versionNum;
-    @Column(name = "OPERATEUSERID")
-    private String operateUserId;
+    @Column(name = "metadata_name")
+    private String name;
+    @Column(name = "metadata_remark")
+    private String remark;
+    @Column(name = "type")
+    private String type;
+    @Column(name = "length")
+    private String length;
+    @Column(name = "scale")
+    private String scale;
+    @Column(name = "modifyuser")
+    private String modifyUser;
+    @Column(name = "updatetime")
+    private String updateTime;
+
+    public String getTypeLengthAndScale() {
+        if (length == null || length.equals("")) {
+            return type;
+        } else if (scale == null || "".equals(scale)) {
+            return type + "(" + length + ")";
+        } else {
+            return type + "(" + length + "," + scale + ")";
+        }
+    }
 
     public String getMetadataId() {
         return metadataId;
@@ -44,75 +48,59 @@ public class Metadata {
         this.metadataId = metadataId;
     }
 
-    public String getMetadataName() {
-        return metadataName;
+    public String getName() {
+        return name;
     }
 
-    public void setMetadataName(String metadataName) {
-        this.metadataName = metadataName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getGroupActionId() {
-        return groupActionId;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setGroupActionId(String groupActionId) {
-        this.groupActionId = groupActionId;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
-    public String getMetadataDesc() {
-        return metadataDesc;
+    public String getType() {
+        return type;
     }
 
-    public void setMetadataDesc(String metadataDesc) {
-        this.metadataDesc = metadataDesc;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getCodeValue() {
-        return codeValue;
+    public String getLength() {
+        return length;
     }
 
-    public void setCodeValue(String codeValue) {
-        this.codeValue = codeValue;
+    public void setLength(String length) {
+        this.length = length;
     }
 
-    public String getState() {
-        return state;
+    public String getScale() {
+        return scale;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setScale(String scale) {
+        this.scale = scale;
     }
 
-    public String getActionId() {
-        return actionId;
+    public String getModifyUser() {
+        return modifyUser;
     }
 
-    public void setActionId(String actionId) {
-        this.actionId = actionId;
+    public void setModifyUser(String modifyUser) {
+        this.modifyUser = modifyUser;
     }
 
-    public String getReleaseId() {
-        return releaseId;
+    public String getUpdateTime() {
+        return updateTime;
     }
 
-    public void setReleaseId(String releaseId) {
-        this.releaseId = releaseId;
-    }
-
-    public String getVersionNum() {
-        return versionNum;
-    }
-
-    public void setVersionNum(String versionNum) {
-        this.versionNum = versionNum;
-    }
-
-    public String getOperateUserId() {
-        return operateUserId;
-    }
-
-    public void setOperateUserId(String operateUserId) {
-        this.operateUserId = operateUserId;
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 }

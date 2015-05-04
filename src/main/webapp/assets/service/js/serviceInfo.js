@@ -13,6 +13,7 @@ $(function () {
      *
      */
     var initserviceInfoTable = function initserviceInfoTable(result) {
+        console.log(result);
         //初始化对Grid的操作事件
         var columnClickEventInit = function columnClickEventInit() {
             $("#serviceInfoTable tbody tr").unbind("click");
@@ -103,7 +104,6 @@ $(function () {
                 }
             }
         }
-
         serviceInfoManager.checkExistOperation(delids, checkExistOperation);
     });
 
@@ -162,8 +162,8 @@ $(function () {
             categoryId.append("<option value='" + result[i].categoryId + "'>" + result[i].categoryId + ":" + result[i].categoryName + "</option>");
     };
     initCategoryInfo();
-    categoryId.combobox();
-    state.combobox();
+    //categoryId.combobox();
+    //state.combobox();
 
 
     // 校验提示
@@ -229,7 +229,6 @@ $(function () {
         $('.ui-combobox:eq(0) a').show();
         $('.ui-combobox:eq(0) a').removeAttr("style");
 
-        //$( "#dialog-form" ).dialog("destroy");
         $("#dialog:ui-dialog").dialog("destroy");
         $("#dialog-form").dialog({
             title: "新增服务",
@@ -248,23 +247,23 @@ $(function () {
                     bValid = bValid && checkInvalidChar(serviceName, "服务名称包含特殊字符");
                     bValid = bValid && checkInvalidChar(serviceRemark, "服务描述包含特殊字符");
                     bValid = bValid && checkRegexp(version, /^([0-9.])+$/, "版本号只能是数字或.号");
-
                     // 判断服务是否已经存在,不存在做插入操作
                     if (bValid) {
                         // 获取combobox下拉框的值
-                        var categoryValue = $('.ui-combobox:eq(0) input').val();
+                        var categoryValue = $("#form_categoryId option:selected").text();
                         if (categoryValue == null || categoryValue == "") {
                             alert('请选择服务分组!');
                             return false;
                         }
                         categoryValue = categoryValue.substring(0, categoryValue.indexOf(":"));
+                        console.log(categoryValue);
                         // 服务ID的第1位到第5位，必须与分组ID相同
                         var tempValue = serviceId.val().substring(0, 5);
                         if (categoryValue != tempValue) {
                             alert('服务ID的第1位到第5位，必须与分组ID相同!');
                             return false;
                         }
-                        var stateValue = $('.ui-combobox:eq(1) input').val();
+                        var stateValue = $('#form_state option:selected').text();
                         var params = {
                             serviceId: serviceId.val(),
                             serviceName: serviceName.val(),
@@ -351,8 +350,9 @@ $(function () {
 
                     if (bValid) {
                         // 获取combobox下拉框的值
-                        var categoryValue = $('.ui-combobox:eq(0) input').val();
-                        var stateValue = $('.ui-combobox:eq(1) input').val();
+                        var categoryValue = $("#form_categoryId option:selected").text();
+                        categoryValue = categoryValue.substring(0, categoryValue.indexOf(":"));
+                        var stateValue = $("#form_state option:selected").text();
                         var params = {
                             serviceId: serviceId.val(),
                             serviceName: serviceName.val(),

@@ -11,27 +11,27 @@ import javax.persistence.Table;
  * Date: 14-5-27
  * Time: 上午10:59
  */
-@Entity
-@Table(name = "SG_MM_MSM_SDA_PROP_R")
+//@Entity
+//@Table(name = "SG_MM_MSM_SDA_PROP_R")
 public class SDANodeProperty {
-    @Id
-    @Column(name = "RESOURCEID")
+//    @Id
+//    @Column(name = "RESOURCEID")
     private String resouceId;
-    @Column(name = "PROPERTYNAME")
+//    @Column(name = "PROPERTYNAME")
     private String propertyName;
-    @Column(name = "PROPERTYALIAS")
+//    @Column(name = "PROPERTYALIAS")
     private String propertyAlias;
-    @Column(name = "PROPERTYVALUE")
+//    @Column(name = "PROPERTYVALUE")
     private String propertyValue;
-    @Column(name = "REMARK")
+//    @Column(name = "REMARK")
     private String remark;
-    @Column(name = "PROPERTYINDEX")
+//    @Column(name = "PROPERTYINDEX")
     private int properyIndex;
-    @Column(name = "GROUPID")
+//    @Column(name = "GROUPID")
     private String groupId;
-    @Column(name = "ACTIONID")
+//    @Column(name = "ACTIONID")
     private String actionId;
-    @Column(name = "STRUCTID")
+//    @Column(name = "STRUCTID")
     private String structId;
 
     public String getResouceId() {

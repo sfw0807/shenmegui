@@ -1,7 +1,12 @@
 package com.dc.esb.servicegov.excel;
 
-public interface IConfigGenerater<I, O> {
-	public O generate(I in) throws Exception;
-	
 
+import java.util.List;
+import java.util.Map;
+
+public interface IConfigGenerater<I, O> {
+	
+	public List<O> getAllExportData();
+	public List<O> getExportDataByConditions(Map<String, String> mapConditions);
+	
 }

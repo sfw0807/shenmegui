@@ -722,7 +722,7 @@
 	
     <filter>
     	<filter-name>NoCache</filter-name>
-    	<filter-class>com.dc.esb.servicegov.refactoring.util.ForceNoCacheFilter</filter-class>
+    	<filter-class>com.dc.esb.servicegov.util.ForceNoCacheFilter</filter-class>
     </filter>
     <filter-mapping>
     	<filter-name>NoCache</filter-name>

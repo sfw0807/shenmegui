@@ -17,23 +17,23 @@ public class SDA {
     private SDANode value;
     private List<SDA> childNode;
     private String xpath;
-    
+
     public void addChild(SDA sda){
-    	if(null == childNode){
-    		childNode = new ArrayList<SDA>();
-    	}
-    	childNode.add(sda);
+        if(null == childNode){
+            childNode = new ArrayList<SDA>();
+        }
+        childNode.add(sda);
     }
 
     public String getXpath() {
-		return xpath;
-	}
+        return xpath;
+    }
 
-	public void setXpath(String xpath) {
-		this.xpath = xpath;
-	}
+    public void setXpath(String xpath) {
+        this.xpath = xpath;
+    }
 
-	public List<SDANodeProperty> getProperties() {
+    public List<SDANodeProperty> getProperties() {
         return properties;
     }
 

@@ -1,15 +1,19 @@
 package com.dc.esb.servicegov.entity;
 
-/**
- * Created with IntelliJ IDEA.
- *
- * @author: Vincent Fan
- * Date: 14-8-22
- * Time: 下午5:07
- */
-public class OperationPK {
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import java.io.Serializable;
 
+@Embeddable
+public class OperationPK implements Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = -4475847273526716383L;
+    @Column(name = "OPERATION_ID")
     private String operationId;
+    @Column(name = "SERVICE_ID")
     private String serviceId;
 
     public String getOperationId() {
@@ -30,25 +34,23 @@ public class OperationPK {
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof  OperationPK)){
+        if (!(obj instanceof OperationPK)) {
             return false;
         }
         OperationPK another = (OperationPK) obj;
-        return ((null == this.operationId) ?(null == another.getServiceId()):(this.operationId.equals(another.getOperationId())))&&
-                ((null == this.serviceId) ?(null == another.getServiceId()):(this.serviceId.equals(another.getServiceId())));
+        return ((null == this.operationId) ? (null == another.getOperationId()) : (this.operationId.equals(another.getOperationId()))) &&
+                ((null == this.serviceId) ? (null == another.getServiceId()) : (this.serviceId.equals(another.getServiceId())));
     }
 
     @Override
     public int hashCode() {
         int hashCode = 0;
-        if(null != serviceId){
-            hashCode ^= serviceId.hashCode();
-        }
-        if(null != operationId){
+        if (null != operationId) {
             hashCode ^= operationId.hashCode();
+        }
+        if (null != serviceId) {
+            hashCode ^= serviceId.hashCode();
         }
         return hashCode;
     }
-
-
 }

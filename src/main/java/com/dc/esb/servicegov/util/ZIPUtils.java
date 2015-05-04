@@ -5,7 +5,6 @@ import org.apache.commons.logging.LogFactory;
 
 import java.io.*;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 /**

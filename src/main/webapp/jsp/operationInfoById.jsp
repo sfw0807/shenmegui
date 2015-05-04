@@ -1,9 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 <%
     String path = request.getContextPath();
-    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+    String ctx = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 %>
-<%@ include file="/jsp/header/header.jsp" %>
+<%@ include file="/jsp/includes/header.jsp" %>
+<%@ include file="/jsp/includes/jquery.jsp" %>
+<%@ include file="/jsp/includes/jquery-ui.jsp" %>
+<%@ include file="/jsp/includes/jquery-plugins.jsp" %>
+<%@ include file="/jsp/includes/datatable.jsp" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -12,19 +16,19 @@
     <meta http-equiv="keywords" content="scene">
     <meta http-equiv="description" content="modify scene">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="<%=path%>/themes/smoothness/jquery-ui-1.8.4.custom.css"/>
-    <link rel="stylesheet" href="<%=path%>/js/jquery-ui/development-bundle/themes/base/jquery.ui.all.css"/>
+    <%--<link rel="stylesheet" href="<%=path%>/themes/smoothness/jquery-ui-1.8.4.custom.css"/>--%>
+    <%--<link rel="stylesheet" href="<%=path%>/js/jquery-ui/development-bundle/themes/base/jquery.ui.all.css"/>--%>
     <link rel="stylesheet" href="<%=path%>/css/index.css"/>
-    <script src="<%=path%>/js/jquery-ui-tabs.js"></script>
-    <script src='<%=path%>/js/jquery.datatables/js/jquery.dataTables.js' type="text/javascript"></script>
-    <link rel='stylesheet' type='text/css' href='<%=path%>/js/jquery.datatables/css/jquery.dataTables.css'/>
-    <script src="<%=path%>/js/jquery.ui.core.js"></script>
-    <script src="<%=path%>/js/jquery.ui.widget.js"></script>
-    <script src="<%=path%>/js/jquery.ui.datepicker.js"></script>
+    <%--<script src="<%=path%>/js/jquery-ui-tabs.js"></script>--%>
+    <%--<script src='<%=path%>/js/jquery.datatables/js/jquery.dataTables.js' type="text/javascript"></script>--%>
+    <%--<link rel='stylesheet' type='text/css' href='<%=path%>/js/jquery.datatables/css/jquery.dataTables.css'/>--%>
+    <%--<script src="<%=path%>/js/jquery.ui.core.js"></script>--%>
+    <%--<script src="<%=path%>/js/jquery.ui.widget.js"></script>--%>
+    <%--<script src="<%=path%>/js/jquery.ui.datepicker.js"></script>--%>
     <script src="<%=path%>/assets/scene/js/operationManager.js" type="text/javascript"></script>
     <script src="<%=path%>/assets/scene/js/editOperation.js" type="text/javascript"></script>
     <script src="<%=path%>/js/layout.js" type="text/javascript"></script>
-    <link rel='stylesheet' type='text/css' href='<%=path%>/js/jquery.datatables/css/jquery.dataTables.css'/>
+    <%--<link rel='stylesheet' type='text/css' href='<%=path%>/js/jquery.datatables/css/jquery.dataTables.css'/>--%>
 </head>
 
 <div id="tabs" style="width:100%">

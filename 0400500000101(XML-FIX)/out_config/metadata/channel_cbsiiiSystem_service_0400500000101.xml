@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root package_type="fix">
+  <TOTALNUM length="5" metadataid="TotRcrdNum"/>
+  <DtlInfArry type="array" metadataid="DtlInfArry" size="" is_struct="false">
+    <CARDNO length="16" metadataid="CardNo"/>
+    <ACCNO length="13" metadataid="AcctNo"/>
+    <CURRTYPE length="3" metadataid="Ccy"/>
+    <TRANDATE length="8" metadataid="TxnDt"/>
+    <TRANLOCUS length="3" metadataid="TxnSubBrId"/>
+    <TRANFLOW length="10" metadataid="TxnSeqNo"/>
+    <TRANAMT length="14S2" metadataid="TxnAmt"/>
+    <IPFLAG length="1" metadataid="InOutInd"/>
+    <REMARK length="42" metadataid="RmkInf"/>
+    <VOUCHERNO length="7" metadataid="VchrNo"/>
+  </DtlInfArry>
+</root>

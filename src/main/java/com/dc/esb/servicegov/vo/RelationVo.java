@@ -1,171 +1,172 @@
 package com.dc.esb.servicegov.vo;
 
+import com.dc.esb.servicegov.entity.ServiceInvokeRelation;
+import com.dc.esb.servicegov.entity.SvcAsmRelateView;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dc.esb.servicegov.entity.ServiceInvokeRelation;
-import com.dc.esb.servicegov.refactoring.entity.SvcAsmRelateView;
+public class RelationVO {
 
-public class RelationVo {
+    private String recordId;
+    private String providerSystemId;
+    private String consumerSystemAb;
+    private String providerSystemAb;
+    private String serviceId;
+    private String operationId;
+    private String type;
+    private String interfaceId;
+    private String functionType;
+    private String passbySys;
+    private String msgType;
+    private String inMsgType;
+    private String outMsgType;
+    private List<String> msgConvert = new ArrayList<String>();
 
-	private String recordId;
-	private String providerSystemId;
-	private String consumerSystemAb;
-	private String providerSystemAb;
-	private String serviceId;
-	private String operationId;
-	private String type;
-	private String interfaceId;
-	private String functionType;
-	private String passbySys;
-	private String msgType;
-	private String inMsgType;
-	private String outMsgType;
-	private List<String> msgConvert = new ArrayList<String>();
+    public RelationVO(ServiceInvokeRelation sr) {
+        this.recordId = sr.getRecordId();
+        this.providerSystemId = sr.getProviderSystemId();
+        this.consumerSystemAb = sr.getConsumerSystemAb();
+        this.serviceId = sr.getServiceId();
+        this.operationId = sr.getOperationId();
+        this.type = sr.getType();
+        this.interfaceId = sr.getInterfaceId();
+        this.functionType = sr.getFunctionType();
+        this.passbySys = sr.getPassbySys();
+    }
 
-	public RelationVo(ServiceInvokeRelation sr) {
-		this.recordId = sr.getRecordId();
-		this.providerSystemId = sr.getProviderSystemId();
-		this.consumerSystemAb = sr.getConsumerSystemAb();
-		this.serviceId = sr.getServiceId();
-		this.operationId = sr.getOperationId();
-		this.type = sr.getType();
-		this.interfaceId = sr.getInterfaceId();
-		this.functionType = sr.getFunctionType();
-		this.passbySys = sr.getPassbySys();
-	}
-	
-	public RelationVo(SvcAsmRelateView sr) {
-		this.inMsgType = sr.getConsumeMsgType();
-		this.outMsgType = sr.getProvideMsgType();
-		String o = this.inMsgType + "-" + this.outMsgType;
-		if (!this.msgConvert.contains(o)) {
-			this.msgConvert.add(o);
-		}
-		this.providerSystemAb = sr.getPrdSysAB();
-		this.providerSystemId = sr.getPrdSysID();
-		this.consumerSystemAb = sr.getCsmSysAB();
-		this.serviceId = sr.getServiceId();
-		this.operationId = sr.getOperationId();
-		this.interfaceId = sr.getInterfaceId();
-		if (null == sr.getPassbySysAB()) {
-			this.passbySys = "";
-		} else {
-			this.passbySys = sr.getPassbySysAB();
-		}
-		this.type = sr.getDirection();
-		this.msgType = sr.getProvideMsgType();
-	}
-	
-	public List<String> getMsgConvert() {
-		return msgConvert;
-	}
+    public RelationVO(SvcAsmRelateView sr) {
+        this.inMsgType = sr.getConsumeMsgType();
+        this.outMsgType = sr.getProvideMsgType();
+        String o = this.inMsgType + "-" + this.outMsgType;
+        if (!this.msgConvert.contains(o)) {
+            this.msgConvert.add(o);
+        }
+        this.providerSystemAb = sr.getPrdSysAB();
+        this.providerSystemId = sr.getPrdSysID();
+        this.consumerSystemAb = sr.getCsmSysAB();
+        this.serviceId = sr.getServiceId();
+        this.operationId = sr.getOperationId();
+        this.interfaceId = sr.getInterfaceId();
+        if (null == sr.getPassbySysAB()) {
+            this.passbySys = "";
+        } else {
+            this.passbySys = sr.getPassbySysAB();
+        }
+        this.type = sr.getDirection();
+        this.msgType = sr.getProvideMsgType();
+    }
 
-	public void setMsgConvert(List<String> msgConvert) {
-		this.msgConvert = msgConvert;
-	}
+    public List<String> getMsgConvert() {
+        return msgConvert;
+    }
 
-	public String getInMsgType() {
-		return inMsgType;
-	}
+    public void setMsgConvert(List<String> msgConvert) {
+        this.msgConvert = msgConvert;
+    }
 
-	public void setInMsgType(String inMsgType) {
-		this.inMsgType = inMsgType;
-	}
+    public String getInMsgType() {
+        return inMsgType;
+    }
 
-	public String getOutMsgType() {
-		return outMsgType;
-	}
+    public void setInMsgType(String inMsgType) {
+        this.inMsgType = inMsgType;
+    }
 
-	public void setOutMsgType(String outMsgType) {
-		this.outMsgType = outMsgType;
-	}
+    public String getOutMsgType() {
+        return outMsgType;
+    }
 
-	public String getMsgType() {
-		return msgType;
-	}
+    public void setOutMsgType(String outMsgType) {
+        this.outMsgType = outMsgType;
+    }
 
-	public void setMsgType(String msgType) {
-		this.msgType = msgType;
-	}
+    public String getMsgType() {
+        return msgType;
+    }
 
-	public String getRecordId() {
-		return recordId;
-	}
+    public void setMsgType(String msgType) {
+        this.msgType = msgType;
+    }
 
-	public void setRecordId(String recordId) {
-		this.recordId = recordId;
-	}
+    public String getRecordId() {
+        return recordId;
+    }
 
-	public String getProviderSystemId() {
-		return providerSystemId;
-	}
+    public void setRecordId(String recordId) {
+        this.recordId = recordId;
+    }
 
-	public void setProviderSystemId(String providerSystemId) {
-		this.providerSystemId = providerSystemId;
-	}
+    public String getProviderSystemId() {
+        return providerSystemId;
+    }
 
-	public String getProviderSystemAb() {
-		return providerSystemAb;
-	}
+    public void setProviderSystemId(String providerSystemId) {
+        this.providerSystemId = providerSystemId;
+    }
 
-	public void setProviderSystemAb(String providerSystemAb) {
-		this.providerSystemAb = providerSystemAb;
-	}
+    public String getProviderSystemAb() {
+        return providerSystemAb;
+    }
 
-	public String getConsumerSystemAb() {
-		return consumerSystemAb;
-	}
+    public void setProviderSystemAb(String providerSystemAb) {
+        this.providerSystemAb = providerSystemAb;
+    }
 
-	public void setConsumerSystemAb(String consumerSystemAb) {
-		this.consumerSystemAb = consumerSystemAb;
-	}
+    public String getConsumerSystemAb() {
+        return consumerSystemAb;
+    }
 
-	public String getServiceId() {
-		return serviceId;
-	}
+    public void setConsumerSystemAb(String consumerSystemAb) {
+        this.consumerSystemAb = consumerSystemAb;
+    }
 
-	public void setServiceId(String serviceId) {
-		this.serviceId = serviceId;
-	}
+    public String getServiceId() {
+        return serviceId;
+    }
 
-	public String getOperationId() {
-		return operationId;
-	}
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
+    }
 
-	public void setOperationId(String operationId) {
-		this.operationId = operationId;
-	}
+    public String getOperationId() {
+        return operationId;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setOperationId(String operationId) {
+        this.operationId = operationId;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getInterfaceId() {
-		return interfaceId;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setInterfaceId(String interfaceId) {
-		this.interfaceId = interfaceId;
-	}
+    public String getInterfaceId() {
+        return interfaceId;
+    }
 
-	public String getFunctionType() {
-		return functionType;
-	}
+    public void setInterfaceId(String interfaceId) {
+        this.interfaceId = interfaceId;
+    }
 
-	public void setFunctionType(String functionType) {
-		this.functionType = functionType;
-	}
+    public String getFunctionType() {
+        return functionType;
+    }
 
-	public String getPassbySys() {
-		return passbySys;
-	}
+    public void setFunctionType(String functionType) {
+        this.functionType = functionType;
+    }
 
-	public void setPassbySys(String passbySys) {
-		this.passbySys = passbySys;
-	}
+    public String getPassbySys() {
+        return passbySys;
+    }
+
+    public void setPassbySys(String passbySys) {
+        this.passbySys = passbySys;
+    }
+
 }

@@ -13,17 +13,17 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import com.dc.esb.servicegov.entity.SDANode;
+import com.dc.esb.servicegov.entity.SDA;
 
 public class MappingExcelUtils {
 	
-	public static List<Map<String, SDANode>> lstStructName = new ArrayList<Map<String, SDANode>>();
+	public static List<Map<String, SDA>> lstStructName = new ArrayList<Map<String, SDA>>();
 	
-	public static List<Map<String, SDANode>> getLstStructName() {
+	public static List<Map<String, SDA>> getLstStructName() {
 		return lstStructName;
 	}
 
-	public static void addLstStructName(List<Map<String, SDANode>> l) {
+	public static void addLstStructName(List<Map<String, SDA>> l) {
 		lstStructName.addAll(l);
 	}
 

@@ -3,8 +3,8 @@ package com.dc.esb.servicegov.vo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dc.esb.servicegov.entity.SDANode4I;
 import com.dc.esb.servicegov.entity.SDANodeProperty;
+import com.dc.esb.servicegov.entity.IDA;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +15,7 @@ import com.dc.esb.servicegov.entity.SDANodeProperty;
 public class SDA4I {
 	
 	private List<SDANodeProperty> properties;
-    private SDANode4I value;
+    private IDA value;
     private List<SDA4I> childNode;
     private String xpath;
     
@@ -42,11 +42,11 @@ public class SDA4I {
         this.properties = properties;
     }
     
-    public SDANode4I getValue() {
+    public IDA getValue() {
         return value;
     }
 
-    public void setValue(SDANode4I value) {
+    public void setValue(IDA value) {
         this.value = value;
     }
 

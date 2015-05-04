@@ -93,7 +93,7 @@ public class HibernateDAO<T, PK extends Serializable> {
         getSession().save(entity);
         logger.debug("insert entity: {}", entity);
     }
-    
+
     /**
      * 保存新增或修改的对象.
      */
@@ -113,16 +113,17 @@ public class HibernateDAO<T, PK extends Serializable> {
         getSession().delete(entity);
         logger.debug("delete entity: {}", entity);
     }
-    
+
     /**
      * 删除ENTITY LIST
+     *
      * @param list
      */
     public void delete(final List<T> list) {
-    	Assert.notNull(list, "list不能为空");
-    	for (T entity : list) {
-    		delete(entity);
-    	}
+        Assert.notNull(list, "list不能为空");
+        for (T entity : list) {
+            delete(entity);
+        }
     }
 
     /**
@@ -192,7 +193,7 @@ public class HibernateDAO<T, PK extends Serializable> {
         for (Map.Entry<String, String> entry : properties.entrySet()) {
             Criterion criterion = Restrictions.eq(entry.getKey(), entry.getValue());
             criteria.add(criterion);
-            if(null != orderByProperties){
+            if (null != orderByProperties) {
                 criteria.addOrder(Order.asc(orderByProperties));
             }
         }

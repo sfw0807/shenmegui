@@ -1,27 +1,5 @@
 package com.dc.esb.servicegov.wsdl.impl;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.Namespace;
-import org.dom4j.QName;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.dc.esb.servicegov.dao.impl.MetaStructNodeDAOImpl;
 import com.dc.esb.servicegov.entity.MetaStructNode;
 import com.dc.esb.servicegov.entity.SDANode;
@@ -32,6 +10,19 @@ import com.dc.esb.servicegov.service.impl.ServiceManagerImpl;
 import com.dc.esb.servicegov.vo.MetadataViewBean;
 import com.dc.esb.servicegov.vo.SDA;
 import com.dc.esb.servicegov.wsdl.WSDLGenerator;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.dom4j.*;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,6 +30,7 @@ import com.dc.esb.servicegov.wsdl.WSDLGenerator;
  * Date: 14-6-20
  * Time: 上午2:07
  */
+//TODO 需要修改
 @Component
 public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> {
 
@@ -61,8 +53,8 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
     }
 
     private List<Service> getAbstractService(Service service){
-        Service abService = null;
-        return  serviceManager.getParentService(service);
+//        return  serviceManager.getParentService(service);
+        return null;
     }
 
     public boolean generate(Service serviceDO, String dirPath) {
@@ -70,15 +62,16 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
         String serviceId = serviceDO.getServiceId();
         BufferedOutputStream schemaOut = null;
         try {
-            List<Service> operations = serviceManager.getOpertions(serviceId);
+//            List<Service> operations = serviceManager.getOpertions(serviceId);
+            List<Service> operations = null;
             // 无SDA数据的操作，从操作列表中删除
             List<Service> delList = new ArrayList<Service>();
-            for(int i=0;i<operations.size();i++){
-            	Service operationDO = operations.get(i);
-            	if(serviceManager.checkSdaExists(operationDO.getServiceId()) == false){
-            		delList.add(operationDO);
-            	}
-            }
+//            for(int i=0;i<operations.size();i++){
+//            	Service operationDO = operations.get(i);
+//            	if(serviceManager.checkSdaExists(operationDO.getServiceId()) == false){
+//            		delList.add(operationDO);
+//            	}
+//            }
             operations.removeAll(delList);
 //            List<Service> sHeadServices = serviceManager.getServiceById("SHEAD");
             List<Service> sHeadServices = getAbstractService(serviceDO);
@@ -103,7 +96,8 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
             if (null != sHeadServices) {
                 Service sHeadService = sHeadServices.get(0);
                 if (null != sHeadService) {
-                    SDA sHeadSDA = serviceManager.getSDAofService(sHeadService);
+//                    SDA sHeadSDA = serviceManager.getSDAofService(sHeadService);
+                    SDA sHeadSDA = null;
                     List<SDA> childSDAs = sHeadSDA.getChildNode();
                     if (null == childSDAs) {
                         throw new DataException("sda 异常");
@@ -156,7 +150,8 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
                 String operationId = operationDO.getServiceId();
                 //Todo
                 String tmpOperationId = handleDupOperationIdIssue(operationId);
-                SDA sda = serviceManager.getSDAofService(operationDO);
+//                SDA sda = serviceManager.getSDAofService(operationDO);
+                SDA sda = null;
                 List<SDA> childSDAs = sda.getChildNode();
                 if (null == childSDAs) {
                     throw new DataException("sda 异常");
@@ -318,7 +313,8 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
                 String metadataId = sdaNode.getMetadataId();
                 if (null != metadataId) {
                     metadataId = metadataId.trim();
-                    MetadataViewBean metadata = metadataManager.getMetadataById(metadataId);
+//                    MetadataViewBean metadata = metadataManager.getMetadataById(metadataId);
+                    MetadataViewBean metadata = null;
                     String metadataType = metadata.getType();
                     nodeElement.addAttribute("ref", "s:" + metadataId);
                     if (!uniqueMap.containsKey(sdaNode.getStructName())) {
@@ -354,7 +350,8 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
 
         List<MetaStructNode> metaStructNodes = metaStructNodeDAO.findBy("structId", nodeName);
         for (MetaStructNode metaStructNode : metaStructNodes) {
-            MetadataViewBean metadata = metadataManager.getMetadataById(metaStructNode.getElementId());
+            MetadataViewBean metadata = null;
+//            MetadataViewBean metadata = metadataManager.getMetadataById(metaStructNode.getElementId());
             String metadataId = metadata.getMetadataId();
             String metadataType = metadata.getType();
             Element nodeElement = element.addElement(QN_ELEM);
@@ -421,7 +418,8 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
                 String metadataId = sdaNode.getMetadataId();
                 if (null != metadataId) {
                     metadataId = metadataId.trim();
-                    MetadataViewBean metadata = metadataManager.getMetadataById(metadataId);
+                    MetadataViewBean metadata = null;
+//                    MetadataViewBean metadata = metadataManager.getMetadataById(metadataId);
                     String metadataType = metadata.getType();
                     if (null != parentElem) {
                         nodeElement.addAttribute("ref", "s:" + metadataId);
@@ -463,7 +461,8 @@ public class SpdbServiceSchemaGenerator implements WSDLGenerator<List<Service>> 
 
     public boolean generate(String serviceId, String dirPath) {
 
-        List<Service> services = serviceManager.getServiceById(serviceId);
+//        List<Service> services = serviceManager.getServiceById(serviceId);
+        List<Service> services = null;
         for (Service service : services) {
             generate(service, dirPath);
         }

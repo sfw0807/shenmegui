@@ -6,106 +6,72 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.dc.esb.servicegov.vo.*;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dc.esb.servicegov.dao.impl.InterfaceDAOImpl;
-import com.dc.esb.servicegov.dao.impl.InterfaceExtendInfoDAO;
-import com.dc.esb.servicegov.dao.impl.MetadataAttributeDAOImpl;
-import com.dc.esb.servicegov.dao.impl.MetadataDAOImpl;
-import com.dc.esb.servicegov.dao.impl.RelationViewDAOImpl;
-import com.dc.esb.servicegov.dao.impl.RelationViewNewDAOImpl;
-import com.dc.esb.servicegov.dao.impl.RemainingServiceDAOImpl;
-import com.dc.esb.servicegov.dao.impl.SDANode4IDAOImpl;
-import com.dc.esb.servicegov.dao.impl.SDANodeDAOImpl;
-import com.dc.esb.servicegov.dao.impl.SDANodePropertyDAOImpl;
-import com.dc.esb.servicegov.dao.impl.ServiceDAOImpl;
-import com.dc.esb.servicegov.dao.impl.ServiceExtendInfoDAOImpl;
-import com.dc.esb.servicegov.dao.impl.ServiceInvokeRelationDAOImpl;
-import com.dc.esb.servicegov.dao.impl.ServiceOlaDAOImpl;
-import com.dc.esb.servicegov.dao.impl.ServiceSlaDAOImpl;
-import com.dc.esb.servicegov.dao.impl.SystemDAOImpl;
-import com.dc.esb.servicegov.entity.Interface;
-import com.dc.esb.servicegov.entity.InterfaceExtendInfo;
-import com.dc.esb.servicegov.entity.Metadata;
-import com.dc.esb.servicegov.entity.MetadataAttribute;
-import com.dc.esb.servicegov.entity.RelationView;
-import com.dc.esb.servicegov.entity.RelationViewNew;
-import com.dc.esb.servicegov.entity.RemainingService;
-import com.dc.esb.servicegov.entity.SDANode;
-import com.dc.esb.servicegov.entity.SDANode4I;
-import com.dc.esb.servicegov.entity.SDANodeProperty;
-import com.dc.esb.servicegov.entity.Service;
-import com.dc.esb.servicegov.entity.ServiceExtendInfo;
-import com.dc.esb.servicegov.entity.ServiceInvokeRelation;
-import com.dc.esb.servicegov.entity.ServiceOLA;
-import com.dc.esb.servicegov.entity.ServiceSLA;
-import com.dc.esb.servicegov.entity.System;
 import com.dc.esb.servicegov.exception.DataException;
-import com.dc.esb.servicegov.vo.InterfaceVo;
-import com.dc.esb.servicegov.vo.MetadataViewBean;
-import com.dc.esb.servicegov.vo.RelationNewVO;
-import com.dc.esb.servicegov.vo.RelationVo;
-import com.dc.esb.servicegov.vo.SDA;
-import com.dc.esb.servicegov.vo.SDA4I;
-import com.dc.esb.servicegov.vo.ServiceInvokeVo;
+import com.dc.esb.servicegov.dao.impl.HeadSDADAOImpl;
+import com.dc.esb.servicegov.dao.impl.IdaDAOImpl;
+import com.dc.esb.servicegov.dao.impl.InvokeInfoDAOImpl;
+import com.dc.esb.servicegov.dao.impl.MetadataDAOImpl;
+import com.dc.esb.servicegov.dao.impl.MetadataStructsAttrDAOImpl;
+import com.dc.esb.servicegov.dao.impl.OperationDAOImpl;
+import com.dc.esb.servicegov.dao.impl.RemainingServiceDAOImpl;
+import com.dc.esb.servicegov.dao.impl.SDADAOImpl;
+import com.dc.esb.servicegov.dao.impl.ServiceDAOImpl;
+import com.dc.esb.servicegov.dao.impl.SvcAsmRelateViewDAOImpl;
+import com.dc.esb.servicegov.entity.HeadSDA;
+import com.dc.esb.servicegov.entity.IDA;
+import com.dc.esb.servicegov.entity.Metadata;
+import com.dc.esb.servicegov.entity.MetadataStructsAttr;
+import com.dc.esb.servicegov.entity.Operation;
+import com.dc.esb.servicegov.entity.RemainingService;
+import com.dc.esb.servicegov.entity.SDA;
+import com.dc.esb.servicegov.entity.SvcAsmRelateView;
+import com.dc.esb.servicegov.service.ServiceManager;
+import com.dc.esb.servicegov.util.AuditUtil;
+import com.dc.esb.servicegov.util.ServiceStateUtils;
+import com.dc.esb.servicegov.vo.RelationVO;
 
-/**
- * Created with IntelliJ IDEA. User: Administrator Date: 14-5-27 Time: 上午11:23
- */
-@org.springframework.stereotype.Service
+@Service
 @Transactional
-public class ServiceManagerImpl {
-
-	private static final Log log = LogFactory.getLog(ServiceManagerImpl.class);
+public class ServiceManagerImpl implements ServiceManager {
+	private Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private ServiceDAOImpl serviceDAO;
 	@Autowired
-	private SDANodeDAOImpl sdaNodeDAO;
-	@Autowired
-	private SDANode4IDAOImpl sdaNode4IDAO;
-	@Autowired
-	private SDANodePropertyDAOImpl sdaNodePropertyDAO;
-	@Autowired
-	private MetadataDAOImpl metadataDAO;
-	@Autowired
-	private MetadataAttributeDAOImpl metadataAttrDAO;
-	@Autowired
-	private ServiceExtendInfoDAOImpl serviceExtendInfoDAO;
-	@Autowired
-	private ServiceInvokeRelationDAOImpl serviceInvokeRelationDAO;
-	@Autowired
-	private SystemDAOImpl systemDAO;
+	private OperationDAOImpl operationDAO;
 	@Autowired
 	private RemainingServiceDAOImpl remainingServiceDAO;
 	@Autowired
-	private InterfaceDAOImpl interfaceDAO;
+	private HeadSDADAOImpl headSDADAO;
 	@Autowired
-	private InterfaceExtendInfoDAO interfaceExtendDAO;
+	private InvokeInfoDAOImpl invokeDAO;
 	@Autowired
-	private ServiceSlaDAOImpl serviceSlaDAO;
+	private SvcAsmRelateViewDAOImpl svcAsmRelateViewDAOImpl;
 	@Autowired
-	private ServiceOlaDAOImpl serviceOlaDAO;
+	private IdaDAOImpl idaDAO;
 	@Autowired
-	private RelationViewDAOImpl relationDAO;
+	private SDADAOImpl sdaDAO;
 	@Autowired
-	private RelationViewNewDAOImpl relationNewDAO;
+	private MetadataDAOImpl metadataDAO;
+	@Autowired
+	private MetadataStructsAttrDAOImpl metadataAttrDAO;
 
-	public List<RelationView> getRelationViewList() {
-		return relationDAO.getAll();
-	}
-	
 	public List<RelationNewVO> getRelationViewListNew() {
 		List<RelationNewVO> lstVO = new ArrayList<RelationNewVO>();
 		Map<String, RelationNewVO> map = new HashMap<String, RelationNewVO>();
-		List<RelationViewNew> lst = relationNewDAO.getAll();
-		Iterator<RelationViewNew> it = lst.iterator();
+		List<SvcAsmRelateView> lst = svcAsmRelateViewDAOImpl.getAll();
+		Iterator<SvcAsmRelateView> it = lst.iterator();
 		while(it.hasNext()) {
-			RelationViewNew r = it.next();
+			SvcAsmRelateView r = it.next();
 			RelationNewVO vo = new RelationNewVO(r);
 			String ecode = vo.getEcode();
 			if (map.containsKey(ecode)) {
@@ -114,8 +80,12 @@ public class ServiceManagerImpl {
 					o.setConsumerSys(o.getConsumerSys() 
 							+ "、" + vo.getConsumerSys());
 				}
-				if (!o.getSourceSys().contains(vo.getSourceSys())) {
-					o.setSourceSys(o.getSourceSys()+"、"+ vo.getSourceSys());
+				if (vo.getSourceSys()!=null &&!o.getSourceSys().contains(vo.getSourceSys())) {
+					if (o.getSourceSys().equals("")) {
+						o.setSourceSys(vo.getSourceSys());
+					} else {
+						o.setSourceSys(o.getSourceSys()+"、"+ vo.getSourceSys());
+					}
 				}
 				
 			} else {
@@ -126,284 +96,54 @@ public class ServiceManagerImpl {
 		for (Map.Entry<String, RelationNewVO> e : map.entrySet()) {
 			lstVO.add(e.getValue());
 		}
-//		Iterator<RelationNewVO> ito = lstVO.iterator();
-//		while(ito.hasNext()) {
-//			RelationNewVO r = ito.next();
-//			if (r.getConsumerSys().contains("ZHIPP")) {
-//				r.setSourceSys(sourceSys)
-//			}
-//		}
 		return lstVO;
 	}
 	
-	public List<ServiceSLA> getServiceSlaById(String id) {
-		return serviceSlaDAO.findBy("relationId", id);
-	}
-
-	public List<ServiceOLA> getServiceOlaById(String id) {
-		return serviceOlaDAO.findBy("relationId", id);
-	}
-
-	public List<ServiceExtendInfo> getServiceExtendInfoByOperationId(String id) {
-		return serviceExtendInfoDAO.findBy("relationId", id);
-	}
-
-	public boolean isConsumerSysLinked(String id) {
-		Criterion[] criterions = new Criterion[3];
-		criterions[0] = Restrictions.eq("consumerSystemAb", id);
-		criterions[1] = Restrictions.ne("operationId", "");
-		criterions[2] = Restrictions.ne("interfaceId", "");
-		if (serviceInvokeRelationDAO.find(criterions).size() > 0)
-			return true;
-		else
-			return false;
-	}
-
-	public boolean isProviderSysLinked(String id) {
-		Criterion[] criterions = new Criterion[3];
-		criterions[0] = Restrictions.eq("providerSystemId", id);
-		criterions[1] = Restrictions.ne("operationId", "");
-		criterions[2] = Restrictions.ne("interfaceId", "");
-		if (serviceInvokeRelationDAO.find(criterions).size() > 0)
-			return true;
-		else
-			return false;
-	}
-
-	/**
-	 * 得到Interface INFO
-	 * 
-	 * @param interfaceId
-	 * @return
-	 */
-	public InterfaceVo getInterfaceInfo(String interfaceId) {
-
-		Interface inter = null;
-		Criterion criterion = Restrictions.eq("interfaceId", interfaceId);
-		inter = interfaceDAO.findUnique(criterion);
-		InterfaceVo vo = new InterfaceVo(inter);
-		ServiceInvokeRelation relation = serviceInvokeRelationDAO.findBy(
-				"interfaceId", interfaceId).get(0);
-		vo.setConsumerSys(relation.getConsumerSystemAb());
-		vo.setProviderSys(relation.getProviderSystemId());
-		return vo;
-	}
-
-	/**
-	 * 
-	 * @param relationId
-	 * @return
-	 */
-	public List<InterfaceExtendInfo> getInterfaceExtendInfo(String relationId) {
-		return interfaceExtendDAO.findBy("relationId", relationId);
-	}
-
-	/**
-	 * 得到所有系统
-	 * 
-	 * @return
-	 */
-	public List<System> getAllSys() {
-		return systemDAO.getAll("systemId", true);
-	}
-
-	@Transactional
-	public List<RelationVo> getInvokerRelationByInterfaceIds(
-			String[]ids) {
-		
-		Criterion criterion = Restrictions.in("interfaceId", ids);
-		List<ServiceInvokeRelation> list = serviceInvokeRelationDAO.find(criterion);
-		List<RelationVo> listVO = new ArrayList<RelationVo>();
-		
-		Map<String, RelationVo> map = new HashMap<String, RelationVo>();
-		Iterator<ServiceInvokeRelation> it = list.iterator();
-		while(it.hasNext()) {
-			ServiceInvokeRelation r = it.next();
-			RelationVo vo = new RelationVo(r);
-			String ecode = vo.getInterfaceId();
-			if (map.containsKey(ecode)) {
-				RelationVo o = map.get(ecode);
-				o.setConsumerSystemAb(o.getConsumerSystemAb() 
-						+ "、" + vo.getConsumerSystemAb());
-			} else {
-				map.put(ecode, vo);
-			}
+	public MetadataStructsAttr getMetadataAttrById(String mid) {
+		List<MetadataStructsAttr> lst = metadataAttrDAO.findBy("structId", mid);
+		if (lst.size() == 0) {
+			return null;
 		}
-		for (Map.Entry<String, RelationVo> e : map.entrySet()) {
-			listVO.add(e.getValue());
-		}
-		Iterator<RelationVo> ito = listVO.iterator();
-		while(ito.hasNext()) {
-			RelationVo r = ito.next();
-			if (r.getPassbySys().equals("ZHIPP")) {
-				r.setConsumerSystemAb("ZHIPP(" + r.getConsumerSystemAb() + ")");
-			}
-		}
-		return listVO;
+		return metadataAttrDAO.findBy("structId", mid).get(0);
 	}
 	
-	/**
-	 * 
-	 * @param system
-	 *            id
-	 * @return
-	 */
-	public List<RelationVo> getServiceInvokeRelationByProvider(
-			String id) {
-		List<ServiceInvokeRelation> list = new ArrayList<ServiceInvokeRelation>();
-		List<RelationVo> listVO = new ArrayList<RelationVo>();
-		
-		Map<String, RelationVo> map = new HashMap<String, RelationVo>();
-		list = serviceInvokeRelationDAO.findBy("providerSystemId", id);
-		Iterator<ServiceInvokeRelation> it = list.iterator();
-		while(it.hasNext()) {
-			ServiceInvokeRelation r = it.next();
-			RelationVo vo = new RelationVo(r);
-			String ecode = vo.getInterfaceId();
-			if (map.containsKey(ecode)) {
-				RelationVo o = map.get(ecode);
-				o.setConsumerSystemAb(o.getConsumerSystemAb() 
-						+ "、" + vo.getConsumerSystemAb());
-			} else {
-				map.put(ecode, vo);
-			}
+	public List<com.dc.esb.servicegov.entity.Service> getAllServices() {
+		List<com.dc.esb.servicegov.entity.Service> services = new ArrayList<com.dc.esb.servicegov.entity.Service>();
+		if (log.isInfoEnabled()) {
+			log.info("获取全部服务信息...");
 		}
-		for (Map.Entry<String, RelationVo> e : map.entrySet()) {
-			listVO.add(e.getValue());
+		try {
+			services = serviceDAO.getAll();
+		} catch (Exception e) {
+			log.error("获取全部服务信息失败", e);
 		}
-		Iterator<RelationVo> ito = listVO.iterator();
-		while(ito.hasNext()) {
-			RelationVo r = ito.next();
-			if (r.getPassbySys().equals("ZHIPP")) {
-				r.setConsumerSystemAb("ZHIPP(" + r.getConsumerSystemAb() + ")");
-			}
-		}
-		return listVO;
-	}
-
-	/**
-	 * 
-	 * @param system
-	 *            id
-	 * @return
-	 */
-	public List<RelationVo> getServiceInvokeRelationByConsumer(
-			String id) {
-		List<ServiceInvokeRelation> list = new ArrayList<ServiceInvokeRelation>();
-		List<RelationVo> listVO = new ArrayList<RelationVo>();
-		Map<String, RelationVo> map = new HashMap<String, RelationVo>();
-		list = serviceInvokeRelationDAO.findBy("consumerSystemAb", id);
-		Iterator<ServiceInvokeRelation> it = list.iterator();
-		while(it.hasNext()) {
-			ServiceInvokeRelation r = it.next();
-			RelationVo vo = new RelationVo(r);
-			String ecode = vo.getInterfaceId();
-			if (map.containsKey(ecode)) {
-				RelationVo o = map.get(ecode);
-				o.setConsumerSystemAb(o.getConsumerSystemAb() 
-						+ "、" + vo.getConsumerSystemAb());
-			} else {
-				map.put(ecode, vo);
-			}
-		}
-		for (Map.Entry<String, RelationVo> e : map.entrySet()) {
-			listVO.add(e.getValue());
-		}
-		Iterator<RelationVo> ito = listVO.iterator();
-		while(ito.hasNext()) {
-			RelationVo r = ito.next();
-			if (r.getPassbySys().equals("ZHIPP")) {
-				r.setConsumerSystemAb("ZHIPP(" + r.getConsumerSystemAb() + ")");
-			}
-		}
-		return listVO;
+		return services;
 	}
 
 	@Transactional
-	public List<Service> getServiceById(String serviceId) {
-		List<Service> service = null;
-		if (null != serviceId) {
-			service = serviceDAO.findBy("serviceId", serviceId);
-		}
-		return service;
-	}
-
-	@Transactional
-	public List<Service> getAllServices() {
-		return serviceDAO.findBy("type", "服务");
-	}
-
-	@Transactional
-	public List<Service> getAllOperation() {
-		return serviceDAO.findBy("type", "场景");
-	}
-
-	@Transactional
-	public List<ServiceInvokeVo> getServiceInvokeInfo(String serviceId) {
-		List<ServiceInvokeVo> serviceInvokeVos = null;
-		List<ServiceInvokeRelation> serviceInvokeRelations = serviceInvokeRelationDAO
-				.findBy("serviceId", serviceId);
-		if (null != serviceInvokeRelations) {
-			serviceInvokeVos = new ArrayList<ServiceInvokeVo>();
-			for (ServiceInvokeRelation serviceInvokeRelation : serviceInvokeRelations) {
-				ServiceInvokeVo serviceInvokeVo = new ServiceInvokeVo(
-						serviceInvokeRelation);
-				String serviceConsumerAb = serviceInvokeRelation
-						.getConsumerSystemAb();
-				String serviceProviderId = serviceInvokeRelation
-						.getProviderSystemId();
-				String servicePassBySysAb = serviceInvokeRelation
-						.getPassbySys();
-				System serviceConsumer = systemDAO.findUniqueBy(
-						"systemAbbreviation", serviceConsumerAb);
-				System serviceProvider = systemDAO.findUniqueBy("systemId",
-						serviceProviderId);
-				System servicePassBySys = systemDAO.findUniqueBy(
-						"systemAbbreviation", servicePassBySysAb);
-				String serviceConsumerName = serviceConsumer != null ? serviceConsumer
-						.getSystemName()
-						: null;
-				String serviceProviderName = serviceProvider != null ? serviceProvider
-						.getSystemName()
-						: null;
-				String servicePassBySysName = servicePassBySys != null ? servicePassBySys
-						.getSystemName()
-						: null;
-				serviceInvokeVo.setConsumerName(serviceConsumerName);
-				serviceInvokeVo.setProviderName(serviceProviderName);
-				serviceInvokeVo.setPassBySysName(servicePassBySysName);
-				serviceInvokeVos.add(serviceInvokeVo);
-			}
-		}
-		return serviceInvokeVos;
-	}
-
-	@Transactional
-	public SDA getSDAofService(Service service) throws DataException {
-		SDA root = null;
-		if (null != service) {
+	public SDAVO getSDAofRelation(RelationVO relation) throws DataException {
+		SDAVO root = null;
+		if (null != relation) {
 			Map<String, String> params = new HashMap<String, String>();
-			params.put("serviceId", service.getServiceId().trim());
-			List<SDANode> nodes = sdaNodeDAO.findBy(params, "structIndex");
+			params.put("serviceId", relation.getServiceId().trim());
+			params.put("operationId", relation.getOperationId().trim());
+			List<SDA> nodes = sdaDAO.findBy(params, "seq");
 			// 获取node节点的属性
-			Map<String, SDA> sdaMap = new HashMap<String, SDA>(nodes.size());
+			Map<String, SDAVO> sdaMap = new HashMap<String, SDAVO>(nodes.size());
 			String tmpPath = "/";
-			for (SDANode sdaNode : nodes) {
-				SDA sda = new SDA();
-				// List<SDANodeProperty> nodeProperties =
-				// sdaNodePropertyDAO.findBy("structId",
-				// sdaNode.getResourceId());
+			for (SDA sdaNode : nodes) {
+				SDAVO sda = new SDAVO();
 				sda.setValue(sdaNode);
 				// sda.setProperties(nodeProperties);
-				sdaMap.put(sdaNode.getResourceId(), sda);
-				String parentResourceId = sdaNode.getParentResourceId();
+				sdaMap.put(sdaNode.getId(), sda);
+				String parentResourceId = sdaNode.getParentId();
 				if ("/".equalsIgnoreCase(parentResourceId)) {
 					root = sda;
 					sda.setXpath("/");
 				}
 				String metadataId = sda.getValue().getMetadataId();
-				String structName = sda.getValue().getStructName();
-				SDA parentSDA = sdaMap.get(parentResourceId);
+				String structName = sda.getValue().getStructId();
+				SDAVO parentSDA = sdaMap.get(parentResourceId);
 
 				if (null != parentSDA) {
 					parentSDA.addChild(sda);
@@ -414,325 +154,12 @@ public class ServiceManagerImpl {
 					if ("response".equalsIgnoreCase(structName)) {
 						tmpPath = "/response";
 					}
-					// if (!parentSDA.getXpath().equals("/")) {
-					// sda.setXpath(parentSDA.getXpath() + "/" +
-					// sda.getValue().getMetadataId());
-					// } else {
-					// sda.setXpath("/" + sda.getValue().getMetadataId());
-					// }
 				}
 			}
 			sdaMap = null;
 		}
 		return root;
 	}
-
-	/**
-	 * 
-	 * @param interfaceId
-	 * @return
-	 * @throws com.dc.esb.servicegov.exception.DataException
-	 */
-	@Transactional
-	public SDA4I getSDA4IofInterfaceId(String interfaceId) throws DataException {
-		SDA4I root = null;
-		if (null != interfaceId) {
-			root = new SDA4I();
-			Map<String, String> params = new HashMap<String, String>();
-			// if (log.isDebugEnabled()) {
-			// log.debug("查找根节点，服务id为[" + service.getServiceId() + "],
-			// 父节点为[/]");
-			// }
-			params.put("interfaceId", interfaceId);
-			// log.info("interfaceId:"+interfaceId);
-			// params.put("parentResourceId", "/");
-			List<SDANode4I> nodes = sdaNode4IDAO.findBy(params, "structIndex");
-			Map<String, SDA4I> sdaMap = new HashMap<String, SDA4I>(nodes.size());
-			String tmpPath = "/";
-			for (SDANode4I sdaNode : nodes) {
-				SDA4I sda = new SDA4I();
-				sda.setValue(sdaNode);
-				sdaMap.put(sdaNode.getResourceId(), sda);
-				String parentResourceId = sdaNode.getParentResourceId();
-				if ("/".equalsIgnoreCase(parentResourceId)) {
-					root = sda;
-					sda.setXpath("/");
-				}
-				String structName = sda.getValue().getStructName();
-				String metadataId = sda.getValue().getMetadataId();
-				SDA4I parentSDA = sdaMap.get(parentResourceId);
-				sda.setXpath(tmpPath + "/" + metadataId);
-				if (null != parentSDA) {
-					parentSDA.addChild(sda);
-					if ("request".equalsIgnoreCase(structName)) {
-						tmpPath = "/request";
-					}
-					if ("response".equalsIgnoreCase(structName)) {
-						tmpPath = "/response";
-					}
-					// if (!parentSDA.getXpath().equals("/")) {
-					// sda.setXpath(parentSDA.getXpath() + "/" +
-					// sda.getValue().getMetadataId());
-					// } else {
-					// sda.setXpath("/" + sda.getValue().getMetadataId());
-					// }
-				}
-			}
-		}
-		return root;
-	}
-
-	@Transactional
-	public SDA4I getSDA4IVOInterfaceId(String interfaceId) throws DataException {
-
-		SDA4I sda = null;
-		if (null != interfaceId) {
-			sda = new SDA4I();
-			Map<String, String> params = new HashMap<String, String>();
-			// if (log.isDebugEnabled()) {
-			// log.debug("查找根节点，服务id为[" + service.getServiceId() + "],
-			// 父节点为[/]");
-			// }
-			params.put("interfaceId", interfaceId);
-			params.put("parentResourceId", "/");
-			List<SDANode4I> nodes = sdaNode4IDAO.findBy(params, "structIndex");
-			if (nodes.size() > 1) {
-				String errorMsg = "一个sda只能有一个root节点";
-				log.error(errorMsg);
-				throw new DataException(errorMsg);
-			}
-			// 获取node节点
-			SDANode4I node = nodes.get(0);
-			if (log.isDebugEnabled()) {
-				log.debug("获取到根节点[" + node + "]");
-			}
-			// 获取node节点的属性
-			List<SDANodeProperty> nodeProperties = sdaNodePropertyDAO.findBy(
-					"structId", node.getResourceId());
-			sda.setValue(node);
-			sda.setProperties(nodeProperties);
-			List<SDA4I> childSDA = getChildSDANodes4I(sda);
-			sda.setChildNode(childSDA);
-		}
-		return sda;
-	}
-
-	public List<SDA> getChildSDANodes(SDA sda) throws DataException {
-		List<SDA> childSdas = null;
-		if (null != sda) {
-			SDANode sdaNode = sda.getValue();
-			if (null == sdaNode) {
-				String errorMsg = "sda的数据节点为空!";
-				log.error(errorMsg);
-				throw new DataException(errorMsg);
-			}
-			if (sdaNode.getParentResourceId().equals("/")) {
-				sda.setXpath("/" + sdaNode.getMetadataId());
-			}
-			String nodeResourceId = sdaNode.getResourceId();
-			// 获取所有的数据子节点
-			Map<String, String> params = new HashMap<String, String>();
-			params.put("parentResourceId", nodeResourceId);
-			List<SDANode> childNodes = sdaNodeDAO.findBy(params, "structIndex");
-			if (null != childNodes && childNodes.size() > 0) {
-				childSdas = new ArrayList<SDA>();
-			}
-			for (SDANode childNode : childNodes) {
-				// 获取子节点的属性信息
-				List<SDANodeProperty> childNodeProperties = sdaNodePropertyDAO
-						.findBy("structId", childNode.getResourceId());
-				SDA childSDA = new SDA();
-				childSDA.setValue(childNode);
-				childSDA.setProperties(childNodeProperties);
-				if (childNode.getParentResourceId().equals("/")) {
-					sda.setXpath("/");
-				}
-				if (!sda.getXpath().equals("/")) {
-					childSDA.setXpath(sda.getXpath() + "/"
-							+ childNode.getMetadataId());
-				} else {
-					childSDA.setXpath("/" + childNode.getMetadataId());
-				}
-				// 递归获取节点自己的子节点
-				List<SDA> grandChildNodes = getChildSDANodes(childSDA);
-				if (null != grandChildNodes) {
-					childSDA.setChildNode(grandChildNodes);
-				}
-				childSdas.add(childSDA);
-			}
-		}
-		return childSdas;
-	}
-
-//	public List<SDA> getChildNodesOfSda(SDA sda) {
-//		SDANode value = sda.getValue();
-//		Map<String, String> params = new HashMap<String, String>();
-//		params.put("parentResourceId", nodeResourceId);
-//		List<SDANode> childNodes = sdaNodeDAO.findBy(params, "structIndex");
-//	}
-//	
-	
-	@Transactional
-	public List<SDANode> getRelateChildSDANodes(SDANode sdaNode)
-			throws DataException {
-		List<SDANode> childNodes = null;
-		if (null != sdaNode) {
-			String nodeResourceId = sdaNode.getResourceId();
-			// 获取所有的数据子节点
-			Map<String, String> params = new HashMap<String, String>();
-			params.put("parentResourceId", nodeResourceId);
-			childNodes = sdaNodeDAO.findBy(params, "structIndex");
-		}
-		return childNodes;
-	}
-
-	@Transactional
-	public List<SDA4I> getChildSDANodes4I(SDA4I sda) throws DataException {
-		List<SDA4I> childSdas = null;
-		if (null != sda) {
-			SDANode4I sdaNode = sda.getValue();
-			if (null == sdaNode) {
-				String errorMsg = "sda的数据节点为空!";
-				log.error(errorMsg);
-				throw new DataException(errorMsg);
-			}
-			// if (sdaNode.getParentResourceId().equals("/")) {
-			// sda.setXpath("/" + sdaNode.getMetadataId());
-			// }
-			String nodeResourceId = sdaNode.getResourceId();
-			// 获取所有的数据子节点
-			Map<String, String> params = new HashMap<String, String>();
-			params.put("parentResourceId", nodeResourceId);
-			List<SDANode4I> childNodes = sdaNode4IDAO.findBy(params,
-					"structIndex");
-			if (null != childNodes && childNodes.size() > 0) {
-				childSdas = new ArrayList<SDA4I>();
-			}
-			for (SDANode4I childNode : childNodes) {
-				// 获取子节点的属性信息
-				List<SDANodeProperty> childNodeProperties = sdaNodePropertyDAO
-						.findBy("structId", childNode.getResourceId());
-				SDA4I childSDA = new SDA4I();
-				childSDA.setValue(childNode);
-				childSDA.setProperties(childNodeProperties);
-				// if (!sda.getXpath().equals("/")) {
-				// childSDA.setXpath(sda.getXpath() + "/" +
-				// childNode.getMetadataId());
-				// } else {
-				// childSDA.setXpath("/" + childNode.getMetadataId());
-				// }
-				// 递归获取节点自己的子节点
-				List<SDA4I> grandChildNodes = getChildSDANodes4I(childSDA);
-				if (null != grandChildNodes) {
-					childSDA.setChildNode(grandChildNodes);
-				}
-				childSdas.add(childSDA);
-			}
-		}
-		return childSdas;
-	}
-
-	@Transactional
-	public List<Service> getOpertions(String serviceId) throws DataException {
-		List<Service> operations = null;
-		List<ServiceExtendInfo> serviceExtendInfos = serviceExtendInfoDAO
-				.findBy("superServiceId", serviceId);
-		if (null != serviceExtendInfos) {
-			operations = new ArrayList<Service>();
-			for (ServiceExtendInfo serviceExtendInfo : serviceExtendInfos) {
-				String operationRelationId = serviceExtendInfo.getRelationId();
-				if (null != operationRelationId) {
-					List<Service> services = serviceDAO.findBy("resourceId",
-							operationRelationId);
-					if (null == services) {
-						String errorMsg = "服务[" + serviceId + "]的操作["
-								+ operationRelationId + "]不存在";
-						log.error(errorMsg);
-						throw new DataException((errorMsg));
-					}
-					if (services.size() == 0) {
-						String errorMsg = "服务[" + serviceId + "]的操作["
-								+ operationRelationId + "]不存在";
-						log.error(errorMsg);
-						throw new DataException(errorMsg);
-					}
-					if (services.size() > 1) {
-						String errorMsg = "服务[" + serviceId + "]的中存在重复的操作";
-						log.error(errorMsg);
-						throw new DataException(errorMsg);
-					}
-					operations.add(services.get(0));
-				}
-			}
-		}
-		return operations;
-	}
-
-	@Transactional
-	public List<Service> getServiceOfOperation(Service operation) {
-		List<Service> superServices = null;
-		if (null != operation) {
-			superServices = new ArrayList<Service>();
-			String operationResourceId = operation.getResourceId();
-			List<ServiceExtendInfo> serviceExtendInfos = serviceExtendInfoDAO
-					.findBy("relationId", operationResourceId);
-			for (ServiceExtendInfo serviceExtendInfo : serviceExtendInfos) {
-				String serviceId = serviceExtendInfo.getSuperServiceId();
-				List<Service> services = serviceDAO.findBy("serviceId",
-						serviceId);
-				superServices.addAll(services);
-			}
-		}
-		return superServices;
-	}
-
-	@Transactional
-	public List<Service> getServiceByOperationId(String operationId) {
-		List<Service> services = null;
-		List<ServiceInvokeRelation> serviceInvokeRelations = serviceInvokeRelationDAO
-				.findBy("operationId", operationId);
-		if (null != serviceInvokeRelations) {
-			List<String> serviceIds = new ArrayList<String>();
-			services = new ArrayList<Service>();
-			for (ServiceInvokeRelation serviceInvokeRelation : serviceInvokeRelations) {
-				String serviceId = serviceInvokeRelation.getServiceId();
-				serviceIds.remove(serviceId);
-				serviceIds.add(serviceId);
-			}
-			for (String serviceId : serviceIds) {
-				Service service = serviceDAO.findUniqueBy("serviceId",
-						serviceId);
-				services.add(service);
-			}
-		}
-		return services;
-	}
-
-	public Service getServiceByResourceId(String resourceId) {
-		return serviceDAO.findUniqueBy("resourceId", resourceId);
-	}
-
-	@Transactional
-	public List<Service> getParentService(Service service) {
-		List<ServiceExtendInfo> serviceExtendInfos = serviceExtendInfoDAO
-				.findBy("relationId", service.getResourceId());
-		ServiceExtendInfo serviceExtendInfo = serviceExtendInfos.get(0);
-		String serviceId = serviceExtendInfo.getSuperServiceId();
-		return getServiceById(serviceId);
-	}
-
-	@Transactional
-	public List<RemainingService> getRemainingServiceByServiceId(
-			String serviceId) {
-		return remainingServiceDAO.findBy("serviceId", serviceId);
-	}
-
-	@Transactional
-	public List<ServiceInvokeRelation> getInvokerRelationByInterfaceId(
-			String interfaceid) {
-		return serviceInvokeRelationDAO.findBy("interfaceId", interfaceid);
-	}
-	
 	
 	/**
 	 * 获得Excel导出左侧interface metadataviewbean
@@ -762,52 +189,580 @@ public class ServiceManagerImpl {
 
 		Metadata metadata = metadatas.get(0);
 		String metadataId = metadata.getMetadataId();
-		List<SDANode4I> lstSDANode4I = sdaNode4IDAO.findBy("metadataId", metadataId);
-		if (lstSDANode4I.size() == 0) 
-			return null;
-		SDANode4I node = lstSDANode4I.get(0);
 		metadataViewBean = new MetadataViewBean();
 		metadataViewBean.setMetadataId(metadataId);
-		metadataViewBean.setMetadataName(metadata.getMetadataName());
-		metadataViewBean.setType(node.getType());
-		metadataViewBean.setLength(node.getLength());
+		metadataViewBean.setMetadataName(metadata.getName());
+		metadataViewBean.setType(metadata.getType());
+		metadataViewBean.setLength(metadata.getLength());
+		metadataViewBean.setScale(metadata.getScale());
 
 		return metadataViewBean;
 	}
 	
+	public Metadata getMetadataByMid(String id) {
+		List<Metadata> lstMetadata = metadataDAO.findBy("metadataId", id);
+		if (lstMetadata != null) {
+			return lstMetadata.get(0);
+		}
+		return null;
+	}
+	
+	public List<Operation> getOperationById(String id) {
+		return operationDAO.findBy("operationId", id);
+	}
+	
+	@Transactional
+	public List<com.dc.esb.servicegov.entity.Service> getServicesById(String serviceId) {
+		List<com.dc.esb.servicegov.entity.Service> service = null;
+		if (null != serviceId) {
+			service = serviceDAO.findBy("serviceId", serviceId);
+		}
+		return service;
+	}
+	
 	/**
 	 * 
-	 * @param id
+	 * @param interfaceId
 	 * @return
 	 * @throws com.dc.esb.servicegov.exception.DataException
 	 */
-	public MetadataViewBean getServiceMetadataInfo(String id) throws DataException {
-		MetadataViewBean metadataViewBean = new MetadataViewBean();
-		List<MetadataAttribute> lstMetadataAttr = metadataAttrDAO.findBy("metadataId", id);
-		for (MetadataAttribute attr:lstMetadataAttr) {
-			if (attr.getAttributeId().equals("length")) {
-				metadataViewBean.setLength(attr.getAttributeValue());
-			} else if (attr.getAttributeId().equals("scale")) {
-				metadataViewBean.setScale(attr.getAttributeValue());
-			} else if (attr.getAttributeId().equals("type")) {
-				metadataViewBean.setType(attr.getAttributeValue());
+	@Transactional
+	public SDA4I getSDA4IofInterfaceId(String interfaceId) throws DataException {
+		SDA4I root = null;
+		if (null != interfaceId) {
+			root = new SDA4I();
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("interfaceId", interfaceId);
+			List<IDA> nodes = idaDAO.findBy(params, "seq");
+			Map<String, SDA4I> sdaMap = new HashMap<String, SDA4I>(nodes.size());
+			String tmpPath = "/";
+			for (IDA sdaNode : nodes) {
+				SDA4I sda = new SDA4I();
+				sda.setValue(sdaNode);
+				sdaMap.put(sdaNode.getId(), sda);
+				String parentResourceId = sdaNode.getParentId();
+				if ("/".equalsIgnoreCase(parentResourceId)) {
+					root = sda;
+					sda.setXpath("/");
+				}
+				String structName = sda.getValue().getStructName();
+				String metadataId = sda.getValue().getMetadataId();
+				SDA4I parentSDA = sdaMap.get(parentResourceId);
+				sda.setXpath(tmpPath + "/" + metadataId);
+				if (null != parentSDA) {
+					parentSDA.addChild(sda);
+					if ("request".equalsIgnoreCase(structName)) {
+						tmpPath = "/request";
+					}
+					if ("response".equalsIgnoreCase(structName)) {
+						tmpPath = "/response";
+					}
+				}
 			}
 		}
-		return metadataViewBean;
+		return root;
+	}
+	
+	public SvcAsmRelateView getRelationViewByInterfaceId(String id) {
+		Criterion criterion = Restrictions.eq("interfaceId", id);
+		SvcAsmRelateView view = svcAsmRelateViewDAOImpl.find(criterion).get(0);
+		return view;
+	}
+	
+	@Transactional
+	public List<RelationVO> getInvokerRelationByInterfaceIds(
+			String[]ids) {
+		
+		Criterion criterion = Restrictions.in("interfaceId", ids);
+		
+		List<SvcAsmRelateView> list = svcAsmRelateViewDAOImpl.find(criterion);
+		
+		List<RelationVO> listVO = new ArrayList<RelationVO>();
+		
+		Map<String, RelationVO> map = new HashMap<String, RelationVO>();
+		Iterator<SvcAsmRelateView> it = list.iterator();
+		while(it.hasNext()) {
+			SvcAsmRelateView r = it.next();
+			RelationVO vo = new RelationVO(r);
+			String ecode = vo.getInterfaceId();
+			if (map.containsKey(ecode)) {
+				RelationVO o = map.get(ecode);
+				// 调用方不相同合并多个调用方
+				if (!o.getConsumerSystemAb().equals(vo.getConsumerSystemAb())) {
+					o.setConsumerSystemAb(o.getConsumerSystemAb() 
+							+ "、" + vo.getConsumerSystemAb());
+				}
+				if (!CollectionUtils.isEqualCollection(o.getMsgConvert(), vo.getMsgConvert())) {
+					o.getMsgConvert().addAll(vo.getMsgConvert());
+				}
+			} else {
+				map.put(ecode, vo);
+			}
+		}
+		for (Map.Entry<String, RelationVO> e : map.entrySet()) {
+			listVO.add(e.getValue());
+		}
+		Iterator<RelationVO> ito = listVO.iterator();
+		while(ito.hasNext()) {
+			RelationVO r = ito.next();
+			if (r.getPassbySys() != null && r.getPassbySys().equals("ZHIPP")) {
+				if (r.getConsumerSystemAb() != null) {
+					r.setConsumerSystemAb("ZHIPP(" + r.getConsumerSystemAb() + ")");
+				} else {
+					r.setConsumerSystemAb("ZHIPP");
+				}
+			}
+		}
+		return listVO;
+	}
+	
+	/**
+	 * 
+	 * @param system
+	 *            id
+	 * @return
+	 */
+	public List<RelationVO> getServiceInvokeRelationByProvider(
+			String id) {
+		List<SvcAsmRelateView> list = new ArrayList<SvcAsmRelateView>();
+		List<RelationVO> listVO = new ArrayList<RelationVO>();
+		
+		Map<String, RelationVO> map = new HashMap<String, RelationVO>();
+		list = svcAsmRelateViewDAOImpl.findBy("prdSysID", id);
+		Iterator<SvcAsmRelateView> it = list.iterator();
+		while(it.hasNext()) {
+			SvcAsmRelateView r = it.next();
+			RelationVO vo = new RelationVO(r);
+			String ecode = vo.getInterfaceId();
+			if (map.containsKey(ecode)) {
+				RelationVO o = map.get(ecode);
+				o.setConsumerSystemAb(o.getConsumerSystemAb() 
+						+ "、" + vo.getConsumerSystemAb());
+				if (!CollectionUtils.isEqualCollection(o.getMsgConvert(), vo.getMsgConvert())) {
+					o.getMsgConvert().addAll(vo.getMsgConvert());
+				}
+			} else {
+				map.put(ecode, vo);
+			}
+		}
+		for (Map.Entry<String, RelationVO> e : map.entrySet()) {
+			listVO.add(e.getValue());
+		}
+		Iterator<RelationVO> ito = listVO.iterator();
+		while(ito.hasNext()) {
+			RelationVO r = ito.next();
+			if (r.getPassbySys().equals("ZHIPP")) {
+				r.setConsumerSystemAb("ZHIPP(" + r.getConsumerSystemAb() + ")");
+			}
+		}
+		return listVO;
+	}
+	
+	/**
+	 * 
+	 * @param system
+	 *            id
+	 * @return
+	 */
+	public List<RelationVO> getServiceInvokeRelationByConsumer(
+			String id) {
+		List<SvcAsmRelateView> list = new ArrayList<SvcAsmRelateView>();
+		List<RelationVO> listVO = new ArrayList<RelationVO>();
+		Map<String, RelationVO> map = new HashMap<String, RelationVO>();
+		list = svcAsmRelateViewDAOImpl.findBy("csmSysId", id);
+		Iterator<SvcAsmRelateView> it = list.iterator();
+		while(it.hasNext()) {
+			SvcAsmRelateView r = it.next();
+			RelationVO vo = new RelationVO(r);
+			String ecode = vo.getInterfaceId();
+			if (map.containsKey(ecode)) {
+				RelationVO o = map.get(ecode);
+				o.setConsumerSystemAb(o.getConsumerSystemAb() 
+						+ "、" + vo.getConsumerSystemAb());
+				if (!CollectionUtils.isEqualCollection(o.getMsgConvert(), vo.getMsgConvert())) {
+					o.getMsgConvert().addAll(vo.getMsgConvert());
+				}
+			} else {
+				map.put(ecode, vo);
+			}
+		}
+		for (Map.Entry<String, RelationVO> e : map.entrySet()) {
+			listVO.add(e.getValue());
+		}
+		Iterator<RelationVO> ito = listVO.iterator();
+		while(ito.hasNext()) {
+			RelationVO r = ito.next();
+			if (r.getPassbySys().equals("ZHIPP")) {
+				r.setConsumerSystemAb("ZHIPP(" + r.getConsumerSystemAb() + ")");
+			}
+		}
+		return listVO;
+	}
+	
+	public boolean isConsumerSysLinked(String id) {
+		Criterion[] criterions = new Criterion[3];
+		criterions[0] = Restrictions.eq("consumeSysId", id);
+		criterions[1] = Restrictions.ne("operationId", "");
+		criterions[2] = Restrictions.ne("ecode", "");
+		if (invokeDAO.find(criterions).size() > 0)
+			return true;
+		else
+			return false;
+	}
+
+	public boolean isProviderSysLinked(String id) {
+		Criterion[] criterions = new Criterion[3];
+		criterions[0] = Restrictions.eq("provideSysId", id);
+		criterions[1] = Restrictions.ne("operationId", "");
+		criterions[2] = Restrictions.ne("ecode", "");
+		if (invokeDAO.find(criterions).size() > 0)
+			return true;
+		else
+			return false;
+	}
+	
+	@Override
+	public List<com.dc.esb.servicegov.entity.Service> getServicesByCategory(
+			String categoryId) {
+		List<com.dc.esb.servicegov.entity.Service> services = new ArrayList<com.dc.esb.servicegov.entity.Service>();
+		if (log.isInfoEnabled()) {
+			log.info("获取服务分类为[" + categoryId + "]的服务...");
+		}
+		try {
+			Map<String,String> map = new HashMap<String,String>();
+			map.put("categoryId", categoryId);
+			map.put("auditState", AuditUtil.passed);
+			services = serviceDAO.findBy(map);
+//			services = serviceDAO.findBy("categoryId", categoryId);
+		} catch (Exception e) {
+			log.error("获取全部审核通过的服务信息失败", e);
+		}
+		return services;
+	}
+
+	@Override
+	public com.dc.esb.servicegov.entity.Service getServiceById(
+			String id) {
+		if (log.isInfoEnabled()) {
+			log.info("获取服务ID为[" + id + "]的服务...");
+		}
+		return serviceDAO.findUniqueBy("serviceId", id);
 	}
 
 	/**
-	 * 检查是否存在SDA
-	 * @param operationId
-	 * @return
+	 * 删除服务 （删除服务、操作、以及操作涉及的SDA、SLA、OLA InvokeRelation表）
 	 */
-	@Transactional
-	public boolean checkSdaExists(String operationId){
+	@Override
+	public boolean delServiceById(String id) {
+		// TODO Auto-generated method stub
 		boolean flag = true;
-		List<SDANode> list = sdaNodeDAO.findBy("serviceId", operationId);
-		if(list == null || list.size() <= 0 || list.size() == 5){
+		if (log.isInfoEnabled()) {
+			log.info("删除服务ID为[" + id + "]的服务...");
+		}
+		try {
+			serviceDAO.delete(id);
+		} catch (Exception e) {
+			log.error("delete failed!", e);
 			flag = false;
 		}
 		return flag;
+	}
+
+	@Override
+	public boolean insertOrUpdateService(
+			com.dc.esb.servicegov.entity.Service service) {
+		// TODO Auto-generated method stub
+		boolean flag = true;
+		if (log.isInfoEnabled()) {
+			log.info("新增或修改服务ID为[" + service.getServiceId() + "]的服务...");
+		}
+		try {
+			serviceDAO.save(service);
+		} catch (Exception e) {
+			log.error("delete failed!", e);
+			flag = false;
+		}
+		return flag;
+	}
+
+	/**
+	 * 查看某一个服务下的所有操作信息
+	 * 
+	 * @param id
+	 */
+	@Override
+	public List<Operation> getOperationsByServiceId(String id) {
+		if (log.isInfoEnabled()) {
+			log.info("正在查找服务["+id+"]下的所有操作");
+		}
+		List<Operation> list = operationDAO.findBy("serviceId", id);
+		if (list == null) {
+			list = new ArrayList<Operation>();
+		}
+		return list;
+	}
+
+	/**
+	 * 发布服务
+	 */
+	@Override
+	public boolean deployService(String id) {
+		// TODO Auto-generated method stub\
+		if (log.isInfoEnabled()) {
+			log.info("deploy service...");
+		}
+		boolean flag = true;
+		try {
+			// 发布服务
+			com.dc.esb.servicegov.entity.Service service = this
+					.getServiceById(id);
+			service.setState(ServiceStateUtils.DEVELOP);
+			serviceDAO.save(service);
+			// 发布服务下所有操作
+			List<Operation> operationList = getOperationsByServiceId(id);
+			for (Operation operation : operationList) {
+				operationDAO.deployOperation(operation.getOperationId(),
+						operation.getServiceId());
+			}
+		} catch (Exception e) {
+			log.error("deploy service failed!", e);
+			flag = false;
+		}
+		return flag;
+	}
+
+	/**
+	 * 上线服务
+	 */
+	@Override
+	public boolean publishService(String id) {
+		if (log.isInfoEnabled()) {
+			log.info("publish service...");
+		}
+		boolean flag = true;
+		try {
+			// 上线服务
+			com.dc.esb.servicegov.entity.Service service = this
+					.getServiceById(id);
+			service.setState(ServiceStateUtils.PUBLISH);
+			String version = service.getVersion();
+			String[] num = version.split("\\.");
+			num[2] = String.valueOf(Integer.parseInt(num[2]) + 1);
+			version = num[0] + "." + num[1] + "." + num[2];
+			service.setVersion(version);
+			serviceDAO.save(service);
+			// 上线服务下所有操作
+			List<Operation> operationList = getOperationsByServiceId(id);
+			for (Operation operation : operationList) {
+				operationDAO.publishOperation(operation.getOperationId(),
+						operation.getServiceId());
+			}
+		} catch (Exception e) {
+			log.error("publish service failed!", e);
+			flag = false;
+		}
+		return flag;
+	}
+
+	/**
+	 * 重定义服务
+	 */
+	@Override
+	public boolean redefService(String id) {
+		if (log.isInfoEnabled()) {
+			log.info("redef service...");
+		}
+		boolean flag = true;
+		try {
+			// 发布服务
+			com.dc.esb.servicegov.entity.Service service = this
+					.getServiceById(id);
+			service.setState(ServiceStateUtils.DEFINITION);
+			String version = service.getVersion();
+			String[] num = version.split("\\.");
+			num[1] = String.valueOf(Integer.parseInt(num[1]) + 1);
+			version = num[0] + "." + num[1] + ".0";
+			service.setVersion(version);
+			serviceDAO.save(service);
+			// 发布服务下所有操作
+			List<Operation> operationList = getOperationsByServiceId(id);
+			for (Operation operation : operationList) {
+				operationDAO.redefOperation(operation.getOperationId(),
+						operation.getServiceId());
+			}
+		} catch (Exception e) {
+			log.error("redef service failed!", e);
+			flag = false;
+		}
+		return flag;
+	}
+
+	public List<RemainingService> getRemainingServiceByServiceId(String id) {
+		return remainingServiceDAO.findBy("serviceId", id);
+	}
+	public boolean checkSdaExists(String operationId,String serviceId){
+		boolean flag = true;
+		Map<String,String> paramMap = new HashMap<String,String>();
+		paramMap.put("operationId", operationId);
+		paramMap.put("serviceId", serviceId);
+		List<SDA> list = sdaDAO.findBy(paramMap);
+		if(list == null || list.size() <= 0){
+			flag = false;
+		}
+		log.error("operationId:"+operationId+",serviceId:"+serviceId+",是否有sda"+flag);
+		return flag;
+	}
+
+	public HeadSDAVO getHeadSDAofService(String serviceId) {
+		HeadSDAVO root = null;
+		if (null != serviceId) {
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("headId", serviceId);
+			List<HeadSDA> nodes = headSDADAO.findBy(params, "structIndex");
+			// 获取node节点的属性
+			Map<String, HeadSDAVO> sdaMap = new HashMap<String, HeadSDAVO>(nodes.size());
+			String tmpPath = "/";
+			for (HeadSDA sdaNode : nodes) {
+				HeadSDAVO sda = new HeadSDAVO();
+				// List<SDANodeProperty> nodeProperties =
+				// sdaNodePropertyDAO.findBy("structId",
+				// sdaNode.getResourceId());
+				sda.setValue(sdaNode);
+				// sda.setProperties(nodeProperties);
+				sdaMap.put(sdaNode.getId(), sda);
+				String parentResourceId = sdaNode.getParentId();
+				if ("/".equalsIgnoreCase(parentResourceId)) {
+					root = sda;
+					sda.setXpath("/");
+				}
+				String metadataId = sda.getValue().getStructName();
+				String structName = sda.getValue().getStructName();
+				HeadSDAVO parentSDA = sdaMap.get(parentResourceId);
+
+				if (null != parentSDA) {
+					parentSDA.addChild(sda);
+					sda.setXpath(tmpPath + "/" + metadataId);
+					if ("request".equalsIgnoreCase(structName)) {
+						tmpPath = "/request";
+					}
+					if ("response".equalsIgnoreCase(structName)) {
+						tmpPath = "/response";
+					}
+					// if (!parentSDA.getXpath().equals("/")) {
+					// sda.setXpath(parentSDA.getXpath() + "/" +
+					// sda.getValue().getMetadataId());
+					// } else {
+					// sda.setXpath("/" + sda.getValue().getMetadataId());
+					// }
+				}
+			}
+			sdaMap = null;
+		}
+		return root;
+	}
+
+	public SDAVO getSDAofService(Operation operationDO) {
+		SDAVO root = null;
+		if (null != operationDO.getOperationId()) {
+			Map<String, String> params = new HashMap<String, String>();
+			params.put("operationId", operationDO.getOperationId());
+			params.put("serviceId", operationDO.getServiceId());
+			List<SDA> nodes = sdaDAO.findBy(params, "seq");
+			// 获取node节点的属性
+			Map<String, SDAVO> sdaMap = new HashMap<String, SDAVO>(nodes.size());
+			String tmpPath = "/";
+			for (SDA sdaNode : nodes) {
+				SDAVO sda = new SDAVO();
+				// List<SDANodeProperty> nodeProperties =
+				// sdaNodePropertyDAO.findBy("structId",
+				// sdaNode.getResourceId());
+				sda.setValue(sdaNode);
+				// sda.setProperties(nodeProperties);
+				sdaMap.put(sdaNode.getId(), sda);
+				String parentResourceId = sdaNode.getParentId();
+				if ("/".equalsIgnoreCase(parentResourceId)) {
+					root = sda;
+					sda.setXpath("/");
+				}
+				String metadataId = sda.getValue().getStructId();
+				String structName = sda.getValue().getStructId();
+				SDAVO parentSDA = sdaMap.get(parentResourceId);
+
+				if (null != parentSDA) {
+					parentSDA.addChild(sda);
+					sda.setXpath(tmpPath + "/" + metadataId);
+					if ("request".equalsIgnoreCase(structName)) {
+						tmpPath = "/request";
+					}
+					if ("response".equalsIgnoreCase(structName)) {
+						tmpPath = "/response";
+					}
+					// if (!parentSDA.getXpath().equals("/")) {
+					// sda.setXpath(parentSDA.getXpath() + "/" +
+					// sda.getValue().getMetadataId());
+					// } else {
+					// sda.setXpath("/" + sda.getValue().getMetadataId());
+					// }
+				}
+			}
+			sdaMap = null;
+		}
+		return root;
+	}
+
+	/**
+	 * get 待审核 audit serviceList
+	 */
+	@Override
+	public List<com.dc.esb.servicegov.entity.Service> getAuditServices() {
+		return serviceDAO.findBy("auditState", "1");
+	}
+
+	@Override
+	public boolean auditService(String serviceId, String auditState) {
+		// TODO Auto-generated method stub
+		com.dc.esb.servicegov.entity.Service service = this.getServiceById(serviceId);
+		if(service == null){
+			log.error("审核的服务不存在!");
+			return false;
+		}
+		else{
+			service.setAuditState(auditState);
+		    serviceDAO.save(service);
+		}
+		return true;
+	}
+	@Override
+	public boolean submitService(String serviceId) {
+		// TODO Auto-generated method stub
+		com.dc.esb.servicegov.entity.Service service = this.getServiceById(serviceId);
+		if(service == null){
+			log.error("审核的服务不存在!");
+			return false;
+		}
+		else{
+			service.setAuditState(AuditUtil.submit);
+		    serviceDAO.save(service);
+		}
+		return true;
+	}
+	public List<com.dc.esb.servicegov.entity.Service> getAllServiceOrderByServiceId() {
+		List<com.dc.esb.servicegov.entity.Service> services = new ArrayList<com.dc.esb.servicegov.entity.Service>();
+		try {
+			services = serviceDAO.getAll("serviceId", true);
+		} catch (Exception e) {
+			log.error("获取全部服务信息失败", e);
+		}
+		return services;
+	}
+
+	@Override
+	public boolean checkServicePassed(String serviceId) {
+		// TODO Auto-generated method stub
+		com.dc.esb.servicegov.entity.Service service = serviceDAO.findUniqueBy("serviceId", serviceId);
+		if(AuditUtil.passed.equals(service.getAuditState())){
+			return true;
+		}
+		return false;
 	}
 }

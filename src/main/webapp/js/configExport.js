@@ -105,6 +105,7 @@ $(function() {
                 var provideMsgType = selectedDatas["provideMsgType"];
                 var through = selectedDatas["through"];
                 var prdSysId = selectedDatas["provideSysInfo"];
+				var consumeSysId = selectedDatas["consumeSysInfo"];
                 var direction = selectedDatas["direction"];
                 if(direction == '提供方'){
                    direction = '1';
@@ -119,7 +120,9 @@ $(function() {
                    through = '1';
                 }
                 prdSysId = prdSysId.substring(0,prdSysId.indexOf("/"));
-                var info = ecode+","+consumeMsgType+","+provideMsgType+","+through+","+serviceId+","+operationId+","+prdSysId+","+direction;
+				consumeSysId = consumeSysId.substring(0,consumeSysId.indexOf("/"));
+                var info = ecode+","+consumeMsgType+","+provideMsgType+","+through+","+serviceId+","+operationId+","+prdSysId+","+direction+","+consumeSysId;
+				console.log(info);
                 params = params + info + ":";
                 ecodeArr += ecode + ",";
             }

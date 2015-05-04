@@ -14,17 +14,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
 		<link
-			href="<%=path%>/js/ligerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css"
+			href="<%=path%>/plugins/ligerUI/lib/ligerUI/skins/Aqua/css/ligerui-all.css"
 			rel="stylesheet" type="text/css" />
-		<link href="<%=path%>/js/ligerUI/lib/ligerUI/skins/Gray/css/all.css"
+		<link href="<%=path%>/plugins/ligerUI/lib/ligerUI/skins/Gray/css/all.css"
 			rel="stylesheet" />		
-		<script src="<%=path%>/js/ligerUI/lib/jquery/jquery-1.3.2.min.js"
+		<script src="<%=path%>/plugins/ligerUI/lib/jquery/jquery-1.3.2.min.js"
 			type="text/javascript">
 		</script>
-		<script src="<%=path%>/js/ligerUI/lib/ligerUI/js/core/base.js"
+		<script src="<%=path%>/plugins/ligerUI/lib/ligerUI/js/core/base.js"
 			type="text/javascript">
 		</script>
-		<script src="<%=path%>/js/ligerUI/lib/ligerUI/js/plugins/ligerTree.js"
+		<script src="<%=path%>/plugins/ligerUI/lib/ligerUI/js/plugins/ligerTree.js"
 			type="text/javascript">
 		</script>
 <style type="text/css">

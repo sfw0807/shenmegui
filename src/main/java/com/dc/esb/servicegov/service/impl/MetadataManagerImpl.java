@@ -2,112 +2,165 @@ package com.dc.esb.servicegov.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.dc.esb.servicegov.entity.*;
+import com.dc.esb.servicegov.entity.System;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dc.esb.servicegov.dao.impl.MetaStructNodeDAOImpl;
-import com.dc.esb.servicegov.dao.impl.MetadataAttributeDAOImpl;
+import com.dc.esb.servicegov.dao.impl.InvokeInfoDAOImpl;
 import com.dc.esb.servicegov.dao.impl.MetadataDAOImpl;
-import com.dc.esb.servicegov.entity.MetaStructNode;
+import com.dc.esb.servicegov.dao.impl.MetadataStructsAttrDAOImpl;
+import com.dc.esb.servicegov.dao.impl.OperationDAOImpl;
+import com.dc.esb.servicegov.dao.impl.SDADAOImpl;
+import com.dc.esb.servicegov.dao.impl.ServiceDAOImpl;
+import com.dc.esb.servicegov.dao.impl.SystemDAOImpl;
 import com.dc.esb.servicegov.entity.Metadata;
-import com.dc.esb.servicegov.entity.MetadataAttribute;
-import com.dc.esb.servicegov.exception.DataException;
-import com.dc.esb.servicegov.vo.MetadataViewBean;
+import com.dc.esb.servicegov.entity.MetadataStructsAttr;
+import com.dc.esb.servicegov.service.MetadataManager;
+import com.dc.esb.servicegov.vo.MetadataUsedInfo;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Administrator
- * Date: 14-5-29
- * Time: 下午2:03
- */
-@Component
+@Service
 @Transactional
-public class MetadataManagerImpl {
+public class MetadataManagerImpl implements MetadataManager{
+	private Log log = LogFactory.getLog(MetadataManagerImpl.class);
+	
+	@Autowired
+	private MetadataDAOImpl metadataDAO;
+	@Autowired
+	private OperationDAOImpl operationDAO;
+	@Autowired
+	private ServiceDAOImpl serviceDAO;
+	@Autowired
+	private InvokeInfoDAOImpl invokeInfoDAO;
+	@Autowired
+	private SystemDAOImpl systemDAO;
+	@Autowired
+	private SDADAOImpl SdaDAO;
+	@Autowired
+	private MetadataStructsAttrDAOImpl metaAttrDAO;
 
-    private static final Log log = LogFactory.getLog(MetadataManagerImpl.class);
+	@Override
+	public void delByEntity(Metadata metadata) {
+		// TODO Auto-generated method stub
+		if(metadata != null){
+			delById(metadata.getMetadataId());
+		}
+	}
+	
+	/**
+    * 
+    * @param structId
+    * @return
+    */
+   public List<MetadataStructsAttr> getMetaStructById(String structId) {
+   	return metaAttrDAO.findBy("structId", structId);
+   }
 
-    @Autowired
-    private MetadataDAOImpl metadataDAO;
-    @Autowired
-    private MetadataAttributeDAOImpl metadataAttributeDAO;
-    @Autowired
-    private MetaStructNodeDAOImpl metaStructNodeDAO;
-    
-    public boolean IsPaintNodeEnd(String mid) {
-    	List<MetaStructNode> l = new ArrayList<MetaStructNode>();
-    	l = metaStructNodeDAO.findBy("structId", mid);
-    	if (l.size() == 0)
-    		return true;
-    	return false;
-    }
-    
-    public Metadata getMetadataByMid(String mid){
+	public Metadata getMetadataByMid(String mid){
     	List<Metadata> list = metadataDAO.findBy("metadataId", mid);
     	if (list != null) {
     		return metadataDAO.findBy("metadataId", mid).get(0);
     	}
     	return null;
     }
-    
-    /**
-     * 
-     * @param structId
-     * @return
-     */
-    public List<MetaStructNode> getMetaStructById(String structId) {
-    	return metaStructNodeDAO.findBy("structId", structId);
-    }
-    
-    public MetadataViewBean getMetadataById(String id) throws DataException {
-        MetadataViewBean metadataViewBean = null;
-        List<Metadata> metadatas = metadataDAO.findBy("metadataId", id);
-        if (null == metadatas) {
-            String errorMsg = "元数据[" + id + "]不存在！";
-            log.error(errorMsg);
-            throw new DataException(errorMsg);
-        }
-        if (metadatas.size() == 0) {
-            String errorMsg = "元数据[" + id + "]不存在！";
-            log.error(errorMsg);
-            throw new DataException(errorMsg);
-        }
-        if (metadatas.size() > 1) {
-            String errorMsg = "元数据[" + id + "]存在重复项！";
-            log.error(errorMsg);
-            throw new DataException(errorMsg);
-        }
-        Metadata metadata = metadatas.get(0);
-        String metadataId = metadata.getMetadataId();
-        metadataViewBean = new MetadataViewBean();
-        metadataViewBean.setMetadataId(metadata.getMetadataId());
-        metadataViewBean.setMetadataName(metadata.getMetadataName());
-        List<MetadataAttribute> metadataAttributes = getMetadataAttributesById(metadataId);
-        if (null != metadataAttributes) {
-            for (MetadataAttribute metadataAttribute : metadataAttributes) {
-                if ("type".equalsIgnoreCase(metadataAttribute.getAttributeId())) {
-                    metadataViewBean.setType(metadataAttribute.getAttributeValue());
-                }
-                if ("length".equalsIgnoreCase(metadataAttribute.getAttributeId())) {
-                    metadataViewBean.setLength(metadataAttribute.getAttributeValue());
-                }
-                if ("scale".equalsIgnoreCase(metadataAttribute.getAttributeId())) {
-                    metadataViewBean.setScale(metadataAttribute.getAttributeValue());
-                }
-            }
-        }
-        return metadataViewBean;
-    }
+	
+	@Override
+	public void delById(String id) {
+		// TODO Auto-generated method stub
+		try{
+		   metadataDAO.delete(id);
+		}
+		catch(Exception e){
+			log.error("delete metadata ["+id+"] failed!" + e);
+		}
+		log.info("delete metadata ["+id+"] successed!");
+	}
 
-    @Transactional
-    public List<MetadataAttribute> getMetadataAttributesById(String metadataId) {
-        List<MetadataAttribute> metadataAttributes = null;
-        if (null != metadataId) {
-            metadataAttributes = metadataAttributeDAO.findBy("metadataId", metadataId);
-        }
-        return metadataAttributes;
-    }
+	@Override
+	public List<Metadata> getAllMetadata() {
+		// TODO Auto-generated method stub
+		return metadataDAO.getAll();
+	}
+
+	@Override
+	public void insert(Metadata metadata) {
+		// TODO Auto-generated method stub
+		try {
+			
+			metadataDAO.save(metadata);
+		} catch (Exception e) {
+			log.error("insert metadata [" + metadata.getMetadataId() + "] failed!" + e);
+		}
+		log.info("insert metadata [" + metadata.getMetadataId() + "] successed!");
+	}
+
+	@Override
+	public void update(String id) {
+		// TODO Auto-generated method stub
+		try {
+		Metadata metadata = getMetadataById(id);
+		metadataDAO.save(metadata);
+		} catch (Exception e) {
+			log.error("update metadata [" + id + "] failed!" + e);
+		}
+		log.info("update metadata [" + id + "] successed!");
+	}
+
+	@Override
+	public void updateEntity(Metadata metadata) {
+		// TODO Auto-generated method stub
+		try {
+			metadataDAO.save(metadata);
+		} catch (Exception e) {
+			log.error("update metadata [" + metadata.getMetadataId() + "] failed!" + e);
+		}
+		log.info("update metadata [" + metadata.getMetadataId() + "] successed!");
+	}
+
+	@Override
+	public Metadata getMetadataById(String id) {
+		// TODO Auto-generated method stub
+		Metadata metadata = metadataDAO.findUniqueBy("metadataId", id);
+		return metadata;
+	}
+	
+	/**
+	 * extend method 元数据调用情况信息查询
+	 */
+	public List<MetadataUsedInfo> getUsedInfoByMetadataId(String id) {
+		List<MetadataUsedInfo> returnList = new ArrayList<MetadataUsedInfo>();
+		List<Map<String, String>> sdaList = SdaDAO.getSdaByMetadataId(id);
+		for (Map<String, String> tempMap : sdaList) {
+			String serviceId = tempMap.get("SERVICE_ID");
+			com.dc.esb.servicegov.entity.Service service = serviceDAO
+					.findUniqueBy("serviceId", serviceId);
+			String operationId = tempMap.get("OPERATION_ID");
+			Operation operation = operationDAO.findUniqueBy("operationId",
+					operationId);
+			List<String> prdList = invokeInfoDAO.getPrdSysIdByOidAndSid(
+					serviceId, operationId);
+			for (String prdSysId : prdList) {
+				MetadataUsedInfo metadataUsedInfo = new MetadataUsedInfo();
+				System system = systemDAO
+						.findUniqueBy("systemId", prdSysId);
+				if (system == null) {
+					system = new com.dc.esb.servicegov.entity.System();
+				}
+				metadataUsedInfo.setMetadataId(id);
+				metadataUsedInfo.setOperationId(operationId);
+				metadataUsedInfo.setOperationName(operation.getOperationName());
+				metadataUsedInfo.setServiceId(serviceId);
+				metadataUsedInfo.setServiceName(service.getServiceName());
+				metadataUsedInfo.setPrdSysAB(system.getSystemAb());
+				metadataUsedInfo.setPrdSysName(system.getSystemName());
+				returnList.add(metadataUsedInfo);
+			}
+		}
+		return returnList;
+	}
 }

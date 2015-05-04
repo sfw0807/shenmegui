@@ -5,28 +5,39 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Administrator
- * Date: 14-6-9
- * Time: 下午3:17
- */
 @Entity
-@Table(name = "SG_MM_SYS_SYSINFO")
+@Table(name = "SG_SYSTEM")
 public class System {
+
     @Id
-    @Column(name = "ORGID")
+    @Column(name = "SYS_ID")
     private String systemId;
-    @Column(name = "SYSENGAB")
-    private String systemAbbreviation;
-    @Column(name = "SYSNAME")
+    @Column(name = "SYS_AB")
+    private String systemAb;
+    @Column(name = "SYS_NAME")
     private String systemName;
-    @Column(name = "SYSTYPE")
-    private String systemType;
-    @Column(name = "SYSMSGTYPE")
-    private String systemMsgType;
-    @Column(name = "SYSREMARK")
-    private String systemRemark;
+    @Column(name = "REMARK")
+    private String remark;
+    @Column(name = "MODIFYUSER")
+    private String modifyUser;
+    @Column(name = "UPDATETIME")
+    private String updateTime;
+    @Column(name = "FIRST_PUBLISH_DATE")
+    private String firstPublishDate;
+    @Column(name = "AVGRESTIME")
+    private String avgResTime;
+    @Column(name = "MAXRESTIME")
+    private String maxResTime;
+    @Column(name = "MAXCONNUM")
+    private Integer maxConNum;
+    @Column(name = "TIMEOUT")
+    private String timeOut;
+    @Column(name = "SUCCESSRATE")
+    private String successRate;
+    @Column(name = "OUTMAXCONNUM")
+    private Integer outMaxConNum;
+    @Column(name = "SECOND_PUBLISH_DATE")
+    private String secondPublishDate;
 
     public String getSystemId() {
         return systemId;
@@ -36,12 +47,12 @@ public class System {
         this.systemId = systemId;
     }
 
-    public String getSystemAbbreviation() {
-        return systemAbbreviation;
+    public String getSystemAb() {
+        return systemAb;
     }
 
-    public void setSystemAbbreviation(String systemAbbreviation) {
-        this.systemAbbreviation = systemAbbreviation;
+    public void setSystemAb(String systemAb) {
+        this.systemAb = systemAb;
     }
 
     public String getSystemName() {
@@ -52,27 +63,91 @@ public class System {
         this.systemName = systemName;
     }
 
-    public String getSystemType() {
-        return systemType;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setSystemType(String systemType) {
-        this.systemType = systemType;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
-    public String getSystemMsgType() {
-        return systemMsgType;
+    public String getModifyUser() {
+        return modifyUser;
     }
 
-    public void setSystemMsgType(String systemMsgType) {
-        this.systemMsgType = systemMsgType;
+    public void setModifyUser(String modifyUser) {
+        this.modifyUser = modifyUser;
     }
 
-    public String getSystemRemark() {
-        return systemRemark;
+    public String getUpdateTime() {
+        return updateTime;
     }
 
-    public void setSystemRemark(String systemRemark) {
-        this.systemRemark = systemRemark;
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getFirstPublishDate() {
+        return firstPublishDate;
+    }
+
+    public void setFirstPublishDate(String firstPublishDate) {
+        this.firstPublishDate = firstPublishDate;
+    }
+
+    public String getAvgResTime() {
+        return avgResTime;
+    }
+
+    public void setAvgResTime(String avgResTime) {
+        this.avgResTime = avgResTime;
+    }
+
+    public String getMaxResTime() {
+        return maxResTime;
+    }
+
+    public void setMaxResTime(String maxResTime) {
+        this.maxResTime = maxResTime;
+    }
+
+    public Integer getMaxConNum() {
+        return maxConNum;
+    }
+
+    public void setMaxConNum(Integer maxConNum) {
+        this.maxConNum = maxConNum;
+    }
+
+    public String getTimeOut() {
+        return timeOut;
+    }
+
+    public void setTimeOut(String timeOut) {
+        this.timeOut = timeOut;
+    }
+
+    public String getSuccessRate() {
+        return successRate;
+    }
+
+    public void setSuccessRate(String successRate) {
+        this.successRate = successRate;
+    }
+
+    public Integer getOutMaxConNum() {
+        return outMaxConNum;
+    }
+
+    public void setOutMaxConNum(Integer outMaxConNum) {
+        this.outMaxConNum = outMaxConNum;
+    }
+
+    public String getSecondPublishDate() {
+        return secondPublishDate;
+    }
+
+    public void setSecondPublishDate(String secondPublishDate) {
+        this.secondPublishDate = secondPublishDate;
     }
 }

@@ -36,7 +36,7 @@ $(function() {
 			"aoColumnDefs" : [
 				{
 					"sClass" : "center",
-					"aTargets" : [ 0, 1, 2, 3, 4, 5 , 6, 7]
+					"aTargets" : [ 0, 1, 2, 3, 4, 5 , 6]
 				}
 			],
 			"bJQueryUI": "true",
@@ -194,7 +194,7 @@ $(function() {
      $('#add').button().click(function(){
      	tips.text('');
      	metadataId.removeAttr("readonly");
-     	$( "#dialog-form" ).dialog("destroy");
+     	$( "#dialog:ui-dialog" ).dialog("destroy");
         $( "#dialog-form" ).dialog({
         	"title": "新增元数据",
 			autoOpen: false,

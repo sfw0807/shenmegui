@@ -835,10 +835,10 @@ var metadataTableLayout = [
         "sTitle": "精度",
         "mData": "scale"
     },
-    {
-        "sTitle": "操作用户",
-        "mData": "modifyUser"
-    },
+    //{
+    //    "sTitle": "操作用户",
+    //    "mData": "modifyUser"
+    //},
     {
         "sTitle": "更新时间",
         "mData": "updateTime"
@@ -1244,6 +1244,10 @@ var configExportTableLayout = [
         "sTitle": "备注",
         "mData": "field"
     }
+];
+
+var configExportTableLayout2 = [
+
 ];
 var userTableLayout = [
 	{

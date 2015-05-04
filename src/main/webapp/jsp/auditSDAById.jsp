@@ -1,10 +1,15 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" pageEncoding="UTF-8" %>
 <%
 	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
+	String ctx = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
+<%@ include file="/jsp/includes/header.jsp" %>
+<%@ include file="/jsp/includes/jquery.jsp" %>
+<%@ include file="/jsp/includes/jquery-ui.jsp" %>
+<%@ include file="/jsp/includes/jquery-plugins.jsp" %>
+<%@ include file="/jsp/includes/datatable.jsp" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 	<head>
@@ -13,27 +18,11 @@
 		<meta http-equiv="description" content="this is my page">
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-			<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
 		<link rel="stylesheet" type="text/css"
-			href="<%=path%>/js/multi-select/css/jquery.multiselect.css" />
+			href="<%=ctx%>/js/multi-select/css/jquery.multiselect.css" />
 		<link rel="stylesheet" type="text/css"
-			href="<%=path%>/js/multi-select/css/jquery.multiselect.filter.css" />
-		<link rel="stylesheet" type="text/css"
-			href="<%=path%>/js/jquery-ui/css/redmond/jquery.ui.theme.css" />
-		<link rel="stylesheet" type="text/css"
-			href="<%=path%>/js/jquery-ui/css/redmond/jquery-ui.css" />
-		<link rel="stylesheet"
-			href="<%=path%>/themes/smoothness/jquery-ui-1.8.4.custom.css" />
-		<link rel="stylesheet" href="<%=path%>/css/index.css" />
-		<link rel="stylesheet" type="text/css"
-			href="<%=path%>/js/jquery.datatables/css/jquery.dataTables.css" />
-
-		<script src="<%=path%>/js/jquery-ui/js/jquery-1.10.2.js"></script>
-		<script src="<%=path%>/js/jquery.datatables/js/jquery.dataTables.js"
-			type="text/javascript"></script>
-		<script src="<%=path%>/js/layout.js" type="text/javascript"></script>
-		<script src="<%=path%>/js/jquery-ui.min.js" type="text/javascript"></script>
-		<script src="<%=path%>/js/combo-box.js" type="text/javascript"></script>
+			href="<%=ctx%>/js/multi-select/css/jquery.multiselect.filter.css" />
+		<link rel="stylesheet" href="<%=ctx%>/css/index.css" />
 		<style>
 .ui-menu {
 	position: absolute;
