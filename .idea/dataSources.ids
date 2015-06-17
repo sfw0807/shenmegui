@@ -8,13 +8,19 @@
     <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact"/>
     <schema name="ESB" catalog=""/>
     <table name="ACCOUNTS_INFO" schema="ESB" catalog="" type="VIEW">
-      <column name="USERID" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
-      <column name="USERNAME" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
-      <column name="USERPASSWORD" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USERID" sqlType="UNDEFINED" precision="0" scale="0" nullable="true" jdbcType="1111"/>
+      <column name="USERNAME" sqlType="UNDEFINED" precision="0" scale="0" nullable="true" jdbcType="1111"/>
+      <column name="USERPASSWORD" sqlType="UNDEFINED" precision="0" scale="0" nullable="true" jdbcType="1111"/>
     </table>
     <table name="AUDITSTATE" schema="ESB" catalog="" type="TABLE">
       <column name="ID" sqlType="VARCHAR2" precision="25" scale="0" nullable="false" jdbcType="12"/>
       <column name="STATE" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
+    </table>
+    <table name="CON_FILE_PATH" schema="ESB" catalog="" type="TABLE">
+      <column name="NAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="FILE_PATH" sqlType="VARCHAR2" precision="200" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USERNAME" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PASSWORD" sqlType="VARCHAR2" precision="50" scale="0" nullable="true" jdbcType="12"/>
     </table>
     <table name="DEFAULT_INTERFACE" schema="ESB" catalog="" type="TABLE">
       <column name="INTERFACEID" sqlType="VARCHAR2" precision="40" scale="0" nullable="false" jdbcType="12"/>
@@ -160,6 +166,15 @@
       <column name="ELEMENTID" sqlType="VARCHAR2" precision="100" scale="0" nullable="false" jdbcType="12"/>
       <column name="ATTRIBUTEID" sqlType="VARCHAR2" precision="100" scale="0" nullable="true" jdbcType="12"/>
       <column name="ATTRIBUTEVALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+    </table>
+    <table name="NB_DEFINE" schema="ESB" catalog="" type="TABLE">
+      <column name="PARAMETER" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="NB_BYTE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PARAMETER_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="NB_LENGTH" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="NB_DECIMAL" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CHANGE_LENGTH" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="PARAMETER_ANOTHER_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
     </table>
     <table name="OLA" schema="ESB" catalog="" type="TABLE">
       <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -464,8 +479,8 @@
       <column name="VERSIONST" sqlType="VARCHAR2" precision="40" scale="0" nullable="true" jdbcType="12"/>
     </table>
     <table name="USER_INFO" schema="ESB" catalog="" type="VIEW">
-      <column name="SEQ_NO" sqlType="NUMBER" precision="22" scale="0" nullable="true" jdbcType="3"/>
-      <column name="USERID" sqlType="VARCHAR2" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SEQ_NO" sqlType="UNDEFINED" precision="0" scale="0" nullable="true" jdbcType="1111"/>
+      <column name="USERID" sqlType="UNDEFINED" precision="0" scale="0" nullable="true" jdbcType="1111"/>
     </table>
   </data-source>
 </component>

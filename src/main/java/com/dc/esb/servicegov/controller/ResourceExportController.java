@@ -1,5 +1,6 @@
 package com.dc.esb.servicegov.controller;
 
+import com.dc.esb.servicegov.dao.impl.ConFilePathDAOImpl;
 import com.dc.esb.servicegov.dao.impl.SystemDAOImpl;
 import com.dc.esb.servicegov.entity.InvokeInfo;
 import com.dc.esb.servicegov.exception.DataException;
@@ -13,6 +14,7 @@ import com.dc.esb.servicegov.service.impl.OperationManagerImpl;
 import com.dc.esb.servicegov.service.impl.ServiceManagerImpl;
 import com.dc.esb.servicegov.util.FileUtil;
 import com.dc.esb.servicegov.vo.DuplicateInvokeVO;
+import com.jcraft.jsch.ChannelSftp;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,9 @@ public class ResourceExportController {
     @Autowired
     private LogManager logManager;
     private String functionId = "15";
+
+    @Autowired
+    private ConFilePathDAOImpl conFilePathDAO;
 
     @RequestMapping(method = RequestMethod.GET, value = "/mapfile/{ecode}", headers = "Accept=application/json")
     public
@@ -273,6 +278,126 @@ public class ResourceExportController {
             }
             return success;
         }
+    }
+
+
+    /**
+     * 发布服务
+     *
+     * @param request
+     * @param response
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    @RequestMapping(method = RequestMethod.GET, value = "/publish/{params}", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    boolean publishConfig(HttpServletRequest request,
+                           HttpServletResponse response, @PathVariable
+                           String params) throws Exception {
+        String host = "12.99.99.78";
+        String username="esb78";
+        String password="esb78";
+        int port = 22;
+        ChannelSftp sftp = null;
+        String localPath = "D://vara/test";
+        String remotePath = "/home/esb/var/tset";
+        String localFileName = "test.txt";
+        final String seperator = "/";
+        //传输文件到ESB
+//        MySFTP ftp = new MySFTP();
+//        ftp.connect();
+//        ftp.upload();
+//        ftp.disconnect();
+//        System.exit(0);
+
+
+//传输到ESB成功 删除临时文件  否则不删除
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        params = new String(params.getBytes("iso-8859-1"), "UTF-8");
+        // log.info("....." + request.getRealPath("/"));
+        synchronized (ResourceExportController.class) {
+            log.info("export params :" + params);
+            boolean success = true;
+            List<InvokeInfo> list = new ArrayList<InvokeInfo>();
+            if (params.indexOf(":") > 0) {
+                String[] paramArr = params.split(":");
+                for (String uniqueStr : paramArr) {
+                    String strArr[] = uniqueStr.split(",");
+                    InvokeInfo invoke = new InvokeInfo();
+                    invoke.setEcode(strArr[0]);
+                    invoke.setConsumeMsgType(strArr[1]);
+                    invoke.setProvideMsgType(strArr[2]);
+                    invoke.setThrough("0".equals(strArr[3]) ? "是" : "否");
+                    invoke.setServiceId(strArr[4]);
+                    invoke.setOperationId(strArr[5]);
+                    invoke.setProvideSysId(strArr[6]);
+                    invoke.setDirection(strArr[7]);
+                    invoke.setConsumeSysId(strArr[8]);
+                    list.add(invoke);
+                }
+            } else {
+                String strArr[] = params.split(",");
+                InvokeInfo invoke = new InvokeInfo();
+                invoke.setEcode(strArr[0]);
+                invoke.setConsumeMsgType(strArr[1]);
+                invoke.setProvideMsgType(strArr[2]);
+                invoke.setThrough("0".equals(strArr[3]) ? "是" : "否");
+                invoke.setServiceId(strArr[4]);
+                invoke.setOperationId(strArr[5]);
+                invoke.setProvideSysId(strArr[6]);
+                invoke.setDirection(strArr[7]);
+                invoke.setConsumeSysId(strArr[8]);
+                list.add(invoke);
+            }
+            // 配置文件导出返回Files
+            File[] files = cfe.exportConfigFiles(list);
+            files[0].getAbsolutePath();
+            String filePath = files[0].getParentFile().getParentFile().getAbsolutePath();
+            localPath = filePath;
+            remotePath = "";
+
+
+            //  String url = System.getProperty(configZip.getPath());
+            // 删除文件的根目录
+            String[] delPathArr = new String[list.size()];
+            for (int i = 0; i < list.size(); i++) {
+                InvokeInfo tempInvoke = list.get(i);
+                delPathArr[i] = tempInvoke.getServiceId() + tempInvoke.getOperationId() + "(" + tempInvoke.getConsumeMsgType()
+                        + "-" + tempInvoke.getProvideMsgType() + ")";
+                // 删除具有-SOP标志的操作对应的其他路径
+                String tempOperationId = tempInvoke.getOperationId();
+                if (tempOperationId.contains("-")) {
+                    String tempPath = tempInvoke.getServiceId()
+                            + tempOperationId.substring(0, tempOperationId
+                            .indexOf("-")) + "("
+                            + tempInvoke.getConsumeMsgType() + "-"
+                            + tempInvoke.getProvideMsgType() + ")";
+                    File delfile = new File(tempPath);
+                    FileUtil.deleteFile(delfile);
+                }
+            }
+            // 删除serviceId + operation文件及所有子文件
+            for (String delPath : delPathArr) {
+                File delfile = new File(delPath);
+                FileUtil.deleteFile(delfile);
+            }
+            // 删除mergeConfigFiles
+            File configFileDir = new File(merge_configFile_dir);
+            if (null != configFileDir) {
+                FileUtil.deleteFile(configFileDir);
+            }
+            // 删除mergeSqlFiles
+            File sqlFileDir = new File(merge_sqlFile_dir);
+            if (null != sqlFileDir) {
+                FileUtil.deleteFile(sqlFileDir);
+            }
+            return success;
+        }
+
     }
 
     /**

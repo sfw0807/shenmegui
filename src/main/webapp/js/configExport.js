@@ -190,6 +190,55 @@ $(function() {
             rowsSelected.toggleClass("row_selected");
 	});
 	
+	$('#publish').button().click(function () {
+		var table = tables["configExportTable"];
+		// 选择的行数
+		var rowsSelected = table.$("tr.row_selected");
+		if(rowsSelected.length == 0){
+			alert('请选择要发布配置的接口!');
+			return false;
+		}
+		var params = '';
+		var ecodeArr = '';
+		for(var i=0;i<rowsSelected.length;i++){
+			var selectedDatas = table.fnGetData(table.$("tr.row_selected")[i]);
+			var ecode = selectedDatas["interfaceInfo"];
+			ecode = ecode.substring(0,ecode.indexOf("/"));
+			var serviceId = selectedDatas["serviceInfo"];
+			serviceId = serviceId.substring(0,serviceId.indexOf("/"));
+			var operationId = selectedDatas["operationInfo"];
+			operationId = operationId.substring(0,operationId.indexOf("/"));
+			var consumeMsgType = selectedDatas["consumeMsgType"];
+			var provideMsgType = selectedDatas["provideMsgType"];
+			var through = selectedDatas["through"];
+			var prdSysId = selectedDatas["provideSysInfo"];
+			var consumeSysId = selectedDatas["consumeSysInfo"];
+			var direction = selectedDatas["direction"];
+			if(direction == '提供方'){
+				direction = '1';
+			}
+			else if(direction == '调用方'){
+				direction = '0';
+			}
+			if(through == '是'){
+				through = '0';
+			}
+			else{
+				through = '1';
+			}
+			prdSysId = prdSysId.substring(0,prdSysId.indexOf("/"));
+			consumeSysId = consumeSysId.substring(0,consumeSysId.indexOf("/"));
+			var info = ecode+","+consumeMsgType+","+provideMsgType+","+through+","+serviceId+","+operationId+","+prdSysId+","+direction+","+consumeSysId;
+			console.log(info);
+			params = params + info + ":";
+			ecodeArr += ecode + ",";
+		}
+		params = params.substring(0,params.length-1);
+		ecodeArr = ecodeArr.substring(0,ecodeArr.length-1);
+		window.open("../jsp/pointManage.jsp?params="+params+"","Sample","fullscreen=no,toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no, copyhistory=no,width=700,height=440,left=200,top=200");
+
+	});
+
 	$('#exportMdt').button().click(function () {
          $.fileDownload("../export/exportMetadata", {});
 	});

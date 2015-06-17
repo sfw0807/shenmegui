@@ -1661,3 +1661,22 @@ var publishServicesTableLayout = [
         "mData": "serviceName"
 	}
 ];
+
+var configExportManagerTableLayout = [
+    {
+        "sTitle": "服务器名称",
+        "mData": "name"
+    },
+    {
+        "sTitle": "文件地址",
+        "mData": "filePath"
+    },
+    {
+        "sTitle": "用户名",
+        "mData": "username"
+    },
+    {
+        "sTitle": "密码",
+        "mData": "password"
+	}
+];

@@ -1,6 +1,7 @@
 package com.dc.esb.servicegov.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -80,7 +81,7 @@ public class InterfaceManagementController {
     public
     @ResponseBody
     InterfaceListVO getVO(@PathVariable String params) {
-        return interfaceManager.getInterfaceVO(params);
+            return interfaceManager.getInterfaceVO(params);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/insert", headers = "Accept=application/json")
@@ -130,41 +131,28 @@ public class InterfaceManagementController {
         interfaceManager.deleteInterfaceInfos(params);
     }
 
-    @SuppressWarnings("unchecked")
-    @RequestMapping(method = RequestMethod.GET, value = "/saveIDA/{params}", headers = "Accept=application/json")
+    @RequestMapping(method = RequestMethod.POST, value = "/saveIDAs", headers = "Accept=application/json")
     public
     @ResponseBody
-    void saveIDA(HttpServletRequest request,
-                 HttpServletResponse response, @PathVariable String params) {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+    boolean addIDAs(@RequestBody IDA[] idas) {
+        String interfaceId = idas[0].getInterfaceId();
+        boolean isDeleteSuccess = interfaceManager.deleteIDAsByInterfaceId(interfaceId);
+        if (isDeleteSuccess) {
+            return  interfaceManager.saveIDA(Arrays.asList(idas));
+        } else {
+            return false;
+        }
 
-        Map<String, String> map = null;
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            map = mapper.readValue(params, Map.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (map == null) {
-            return;
-        }
-        interfaceManager.saveIDA(map);
     }
 
     private void renderIDAVO(IDAVO idaVO) {
         IDA node = idaVO.getValue();
-        node.setStructName("|--" + node.getStructName());
-        node.setStructName(this.indentSpace + node.getStructName());
         idaList.add(node);
         List<IDAVO> children = idaVO.getChildNodes();
         if (children != null) {
-            String tmpIndent = this.indentSpace;
-            this.indentSpace += "&nbsp;&nbsp;&nbsp;&nbsp;";
             for (IDAVO child : children) {
                 renderIDAVO(child);
             }
-            this.indentSpace = tmpIndent;
         }
     }
 

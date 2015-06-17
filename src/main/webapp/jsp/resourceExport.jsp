@@ -77,6 +77,7 @@
             <input type='button' id='exportMapFile' value='导出MapFile'></input>
             <input type='button' id='exportMdt' value='导出元数据'></input>
             <input type='button' id='batchExportConfig' value='批量导出配置'></input>
+            <input type='button' id='publish' value='发布'></input>
         </div>
         <div class="ui-widget-header" style="margin-bottom:0.5em;padding:0.2em;">
             <input type='button' id='checkAll' value='全选'></input>

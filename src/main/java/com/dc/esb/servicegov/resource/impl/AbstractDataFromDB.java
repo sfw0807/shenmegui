@@ -402,7 +402,10 @@ public abstract class AbstractDataFromDB implements IDataFromDB {
 	 */
 	protected String getTopResourceIdByMap(){
 		for(Map<String,String> map: dataMap){
-			if("/".equals(map.get("parentId"))){
+			String parentId = map.get("parentId");
+			parentId = parentId.replace("\n", "");
+			parentId = parentId.trim();
+			if("/".equals(parentId)){
 				return map.get("id");
 			}
 		}

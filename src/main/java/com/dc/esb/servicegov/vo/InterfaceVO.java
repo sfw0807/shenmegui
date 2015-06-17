@@ -22,6 +22,8 @@ public class InterfaceVO {
     private String providerMsgType;
     private String passBySys;
 
+    private String direction;
+
     public String getInterfaceId() {
         return interfaceId;
     }
@@ -127,4 +129,11 @@ public class InterfaceVO {
         this.serviceId = serviceId;
     }
 
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
 }

@@ -4,6 +4,7 @@
     String ctx = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 %>
 <%@ include file="/jsp/includes/jquery.jsp" %>
+<%@ include file="/jsp/includes/jquery-ui.jsp" %>
 <%@ include file="/jsp/includes/ligerUI.jsp" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -12,6 +13,7 @@
     <title>SDA查看</title>
     <link href="<%=path%>/assets/scene/css/sda.css" rel="stylesheet"/>
     <script src="<%=path%>/assets/scene/js/sdaManager.js"></script>
+    <script src="<%=path%>/js/metadataManager.js"></script>
     <script src="<%=path%>/assets/scene/js/sda.js"></script>
 </head>
 <body style="padding: 4px">
@@ -56,12 +58,19 @@
     <a class="l-button" onclick="appendToCurrentNodeDown()" style="width: 100px;">增加兄弟节点(下)</a>
     <a class="l-button" onclick="up()" style="width: 100px;">节点上移</a>
     <a class="l-button" onclick="down()" style="width: 100px;">节点下移</a>
+    <a class="l-button" id="showMdtInfoBtn" style="width: 100px;">查看元数据</a>
     <a class="l-button" onclick="saveSDA()" style="width: 100px;">保存</a>
 
     <div class="l-clear">
     </div>
 </div>
 <div id="maingrid">
+</div>
+<div id="metadataInfoDialog" title="原数据信息">
+    <div>
+
+    </div>
+    <div>2</div>
 </div>
 <div>
 </div>

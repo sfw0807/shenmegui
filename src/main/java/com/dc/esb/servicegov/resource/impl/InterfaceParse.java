@@ -379,7 +379,7 @@ public class InterfaceParse implements IParse {
                 flag = false;
             }
         }
-        // response递归出口
+        // response递归出
         if (RESPONSE.equals(renderType)) {
             if ("".equals(imdtNode) && !remark.contains("不映射") && !remark.contains("给空白")) {
                 flag = false;

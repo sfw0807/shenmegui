@@ -59,6 +59,7 @@ public class InvokeInfo {
 		this.provideMsgType = vo.getProviderMsgType();
 		this.passbySysId = vo.getPassBySys();
 		this.updateTime = new Timestamp(java.lang.System.currentTimeMillis());
+		this.direction = vo.getDirection();
 	}
 	
 	public String getServiceId() {

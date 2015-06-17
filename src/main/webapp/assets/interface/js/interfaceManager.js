@@ -68,6 +68,7 @@ var interfaceManager = {
             "data": params,
             "dataType": 'json',
             "success": function(result) {
+                console.log(result);
                 callBack(result);
             }
         });

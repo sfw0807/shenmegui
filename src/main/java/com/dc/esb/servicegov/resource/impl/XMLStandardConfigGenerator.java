@@ -2,7 +2,6 @@ package com.dc.esb.servicegov.resource.impl;
 
 import com.dc.esb.servicegov.dao.impl.RemainingServiceDAOImpl;
 import com.dc.esb.servicegov.entity.InvokeInfo;
-import com.dc.esb.servicegov.entity.Metadata;
 import com.dc.esb.servicegov.resource.metadataNode.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,24 +22,15 @@ import static com.dc.esb.servicegov.util.PackerUnPackerConstants.PROVIDER;
 @Component
 public class XMLStandardConfigGenerator extends AbstractGenerater {
 
-    // private InterfaceDataFromDB interfaceDataFromDB;
-    @Autowired
-    private DefaultInterfaceFetcher defaultInterfaceFetcher;
-    @Autowired
-    private MetadataStructHelper metadataStructHelper;
     @Autowired
     private RemainingServiceDAOImpl remainingServiceDAO;
-    //	@Autowired
     @Autowired
     private ServiceDataFromDB serviceDataFromDB;
-    private SoapHelper soapHelper;
-    private SDAHelper sdaHelper;
-    private boolean exportBoth = false;
+
     private String prdMsgType;
     private String csmMsgType;
     private String serviceId;
 
-    List<String> attrExclude;
     List<String> attrInculde;
     private List<File> defaultInterfaceFiles = null;
 
@@ -153,9 +143,6 @@ public class XMLStandardConfigGenerator extends AbstractGenerater {
                 }
                 this.saveXMLFile(reqSoapFile, providerReqSoapXML);
             }
-
-
-
         } else if (PROVIDER.equalsIgnoreCase(interfaceType)) {
             log.info("[标准配置生成]:开始生成提供方标准配置");
             String dir = serviceId + operationId + "(" + csmMsgType + "-"
@@ -278,20 +265,6 @@ public class XMLStandardConfigGenerator extends AbstractGenerater {
         }
 
         return this.defaultInterfaceFiles;
-    }
-
-    /**
-     * check wsdl old or new; true: new ,false: old
-     *
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public boolean checkWsdlOldOrNew() {
-        List list = remainingServiceDAO.findBy("serviceId", serviceId);
-        if (list != null && list.size() > 0) {
-            return false;
-        }
-        return true;
     }
 
 

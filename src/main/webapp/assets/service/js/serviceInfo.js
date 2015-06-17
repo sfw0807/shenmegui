@@ -136,7 +136,6 @@ $(function () {
 
     });
 
-
     var serviceId = $("#form_serviceId"),
         serviceName = $("#form_serviceName"),
         serviceRemark = $("#form_serviceRemark"),
@@ -219,7 +218,6 @@ $(function () {
 
         tips.text('');
         version.val("1.0.0");
-        console.log("1.0.0");
         $('.ui-combobox input').each(function () {
             this.value = '';
         });

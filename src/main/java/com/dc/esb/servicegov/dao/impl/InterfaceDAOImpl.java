@@ -69,7 +69,7 @@ public class InterfaceDAOImpl extends HibernateDAO<Interface, String> {
     @SuppressWarnings("unchecked")
     public List<InterfaceListVO> getInterfaceVOByEcode(String ecode) {
         String sql = "select ir.ECODE,i.INTERFACE_ID,i.INTERFACE_NAME,ir.SERVICE_ID,ir.OPERATION_ID,"
-                + " ir.CONSUME_MSG_TYPE,ir.PROVIDE_MSG_TYPE,o.OPERATION_NAME,i.REMARK,i.THROUGH,"
+                + " ir.CONSUME_MSG_TYPE,ir.PROVIDE_MSG_TYPE,o.OPERATION_NAME,i.REMARK,i.THROUGH,ir.DIRECTION,"
                 + " csmSys.SYS_AB as CONSUMER_SYSAB,csmSys.SYS_NAME  as CONSUMER_SYSNAME,csmSys.SYS_ID as CONSUMER_SYSID,"
                 + " prdSys.SYS_AB as PROVIDER_SYSAB,prdSys.SYS_NAME as PROVIDER_SYSNAME,prdSys.SYS_ID as PROVIDER_SYSID,"
                 + " psbSys.SYS_AB as PASSBY_SYSAB,psbSys.SYS_NAME as PASSBY_SYSNAME"

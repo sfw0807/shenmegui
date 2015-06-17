@@ -485,9 +485,6 @@ public class ESBConfigSqlGenerator implements
 			String serviceIdentifySql = generateServiceIdentifySql();
 			log.info("生成sql[" + serviceIdentifySql + "]");
 			outputStream.write(serviceIdentifySql.getBytes());
-			// 去掉commit@
-			// String commit = generateCommit();
-			// outputStream.write(commit.getBytes());
 			outputStream.flush();
 		} catch (IOException e) {
 			log.error("创建sql文件[" + sqlFilePath + "]失败!", e);

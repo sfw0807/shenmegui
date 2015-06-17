@@ -38,6 +38,24 @@ public class MetadataController {
     }
 
     /**
+     * get metadata info by id
+     *
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/list/{metadataId}", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    Metadata getByMetadataId(@PathVariable String metadataId) {
+        if (null != metadataId) {
+            metadataId = metadataId.trim();
+            metadataId = metadataId.replaceAll("\r|\n", "");
+            return metadataManager.getMetadataByMid(metadataId);
+        }
+        return null;
+    }
+
+
+    /**
      * check metadata exists
      *
      * @return
@@ -133,17 +151,14 @@ public class MetadataController {
         return flag;
     }
 
-    /***
-     *
-     *获取当前时间
-     *
+    /**
+     * 获取当前时间
      */
-    public String getNowTime()
-    {
+    public String getNowTime() {
 
-        Date date=new Date();
-        DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String updateTime=format.format(date);
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String updateTime = format.format(date);
 
         return updateTime;
     }

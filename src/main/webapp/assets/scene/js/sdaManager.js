@@ -23,8 +23,8 @@ var sdaManager = {
                             { display: '序号', name: 'seq', id: 'seq', width: 50, align: 'left' },
                             { display: '英文名称', name: 'structId', id: 'structId', width: 350, align: 'left' },
                             { display: '元数据ID', name: 'metadataId', id: 'metadataId', width: 350, align: 'left' },
-                            { display: '类型', name: 'type', id: 'type', width: 50, align: 'left' },
-                            { display: '是否必输', name: 'required', id:'required',width: 60, align: 'left' },
+                            { display: '类型', name: 'type', id: 'type', width: 50, align: 'left',hide:true },
+                            { display: '是否必输', name: 'required', id:'required',width: 60, align: 'left', hide:true },
                             { display: '备注', name: 'remark', id:'remark',width: 450, align: 'left' },
                             { display: 'id', name: 'id', id:'id', align: 'left',hide:true },
                             { display: 'pid', name: 'pid', id:'pid', align: 'left',hide:true }
@@ -42,7 +42,6 @@ var sdaManager = {
         });
     },
     "getManager": function () {
-        console.log(sdaManager.manager);
         return sdaManager.manager;
     }
 };

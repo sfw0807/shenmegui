@@ -1,10 +1,13 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
-<%--<%@ include file="/jsp/header/header.jsp" %>--%>
-<%@ include file="/jsp/includes/header.jsp" %>
+<%@ page language="java" pageEncoding="UTF-8" %>
 <%
     String path = request.getContextPath();
-    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+    String ctx = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 %>
+<%@ include file="/jsp/includes/header.jsp" %>
+<%@ include file="/jsp/includes/jquery.jsp" %>
+<%@ include file="/jsp/includes/jquery-ui.jsp" %>
+<%@ include file="/jsp/includes/jquery-plugins.jsp" %>
+<%@ include file="/jsp/includes/datatable.jsp" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -12,22 +15,7 @@
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="this is my page">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="<%=path%>/themes/smoothness/jquery-ui-1.8.4.custom.css"/>
-    <link rel="stylesheet" href="<%=path%>/js/jquery-ui/development-bundle/themes/base/jquery.ui.all.css"/>
     <link rel="stylesheet" href="<%=path%>/css/index.css"/>
-    <script src="<%=path%>/js/jquery.datatables/js/jquery.dataTables.js" type="text/javascript"></script>
-    <link rel='stylesheet' type='text/css' href='<%=path%>/js/jquery.datatables/css/jquery.dataTables.css'/>
-    <script src="<%=path %>/js/jquery.ui.core.js"></script>
-    <script src="<%=path %>/js/jquery.ui.widget.js"></script>
-    <script src="<%=path %>/js/jquery.ui.mouse.js"></script>
-    <script src="<%=path %>/js/jquery.ui.button.js"></script>
-    <script src="<%=path %>/js/jquery.ui.position.js"></script>
-    <script src="<%=path %>/js/jquery.ui.draggable.js"></script>
-    <script src="<%=path %>/js/jquery.ui.resizable.js"></script>
-    <script src="<%=path %>/js/jquery.ui.dialog.js"></script>
-    <script src="<%=path %>/js/jquery.effects.core.js"></script>
-    <script src="<%=path %>/js/jquery-ui-tabs.js"></script>
-    <script src="<%=path %>/js/combo-box.js"></script>
     <script src="<%=path%>/assets/scene/js/operationManager.js" type="text/javascript"></script>
     <script src="<%=path%>/js/layout.js" type="text/javascript"></script>
     <script src="<%=path%>/js/addOperation.js" type="text/javascript"></script>

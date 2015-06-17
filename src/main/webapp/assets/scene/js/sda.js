@@ -17,7 +17,7 @@ function tip(message) {
 }
 var manager;
 $(function () {
-    var setManagerCallBack = function setManagerCallBack (gridManager){
+    var setManagerCallBack = function setManagerCallBack(gridManager) {
         manager = gridManager;
     };
     sdaManager.getSDAInfoByOperationId(operationId, serviceId, setManagerCallBack);
@@ -35,17 +35,15 @@ $(function () {
         }
         operationManager.randomUUID();
     });
-    //manager = sdaManager.getManager();
 });
 
-function bt_choice()
-{
-	window.open("../jsp/metadataManagerChoice.jsp","","toolbar=no,location=no,titlebar=no,resizable=yes,scrollbars=yes,top=0,left=0");
+function bt_choice() {
+    window.open("../jsp/metadataManagerChoice.jsp", "", "toolbar=no,location=no,titlebar=no,resizable=yes,scrollbars=yes,top=0,left=0");
 }
 
-function getNewLinkValue(value){
-	//获取子页面的值
-	document.getElementById("metadataId").value=value;
+function getNewLinkValue(value) {
+    //获取子页面的值
+    document.getElementById("metadataId").value = value;
 }
 
 function refreshSeq() {
@@ -113,11 +111,7 @@ function addRow(withchildren) {
         return;
     }
     var parentRow = selectRow;
-
-    if (manager.isLeaf(parentRow)) {
-        alert('叶节点不能增加子节点');
-        return;
-    }
+    manager.upgrade(parentRow);
     manager.add(data, null, true, parentRow);
     refreshSeq();
 }
@@ -216,14 +210,14 @@ function saveSDA() {
     var sdaArray = [];
     var table = document.getElementById("gridId");
     for (var i = table.rows.length - 1; i >= 0; i--) {
-        var seq = table.rows[i].cells[0].innerText;
-        var id = table.rows[i].cells[6].innerText;
-        var structId = table.rows[i].cells[1].innerText;
-        var metadataId = table.rows[i].cells[2].innerText;
-        var type = table.rows[i].cells[3].innerText;
-        var required = table.rows[i].cells[4].innerText;
-        var remark = table.rows[i].cells[5].innerText;
-        var parentId = table.rows[i].cells[7].innerText;
+        var seq = table.rows[i].cells[0].innerText.replace(/\n/ig,"");
+        var id = table.rows[i].cells[6].innerText.replace(/\n/ig,"");
+        var structId = table.rows[i].cells[1].innerText.replace(/\n/ig,"");
+        var metadataId = table.rows[i].cells[2].innerText.replace(/\n/ig,"");
+        var type = table.rows[i].cells[3].innerText.replace(/\n/ig,"");
+        var required = table.rows[i].cells[4].innerText.replace(/\n/ig,"");
+        var remark = table.rows[i].cells[5].innerText.replace(/\n/ig,"");
+        var parentId = table.rows[i].cells[7].innerText.replace(/\n/ig,"");
         var params = {
             id: id,
             structId: structId,
@@ -240,3 +234,34 @@ function saveSDA() {
     }
     sdaManager.saveSDA(sdaArray);
 }
+
+$(function(){
+    var dialog = $("#metadataInfoDialog").dialog({
+        autoOpen: false,
+        height: 300,
+        width: 350,
+        modal: true,
+        buttons: {
+            "关闭": function () {
+                dialog.dialog("close");
+            }
+        }
+    });
+
+    $("#showMdtInfoBtn").click(function(){
+        var selectRow = manager.getSelectedRow();
+        console.log(selectRow);
+        var metadataId = selectRow["metadataId"];
+        if(metadataId){
+            var getMetadataInfoCallBack = function getMetadataInfoCallBack(metadataInfo) {
+                dialog.dialog("open");
+            }
+            metadataManager.getMetadataInfoById(metadataId, getMetadataInfoCallBack);
+        }else{
+
+        }
+    });
+
+});
+
+

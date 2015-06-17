@@ -90,22 +90,6 @@ public class IdaDAOImpl extends HibernateDAO<IDA, String> {
         super.save(node);
     }
 
-    @Override
-    public void delete(IDA node) {
-
-        Integer seq = node.getSeq();
-        if ("request".equals(node.getStructName())) {
-            seq = 2;
-        } else if ("response".equals(node.getStructName())) {
-            seq = 3;
-        }
-
-        Query query = super.getSession().createSQLQuery(
-                "update ida set seq=seq-1 where " + "interface_id=" + "'"
-                        + node.getInterfaceId() + "'" + " and seq >= " + seq);
-        query.executeUpdate();
-        super.save(node);
-    }
 
     @Override
     public void delete(String id) {

@@ -48,9 +48,7 @@ public class SDAManagerImpl implements SDAManager {
 					sdaDao.delete(sda);	
 				}
 				isSuccess = true;
-				//sdaDao.getSession().getTransaction().commit();
 			}catch(Exception e){
-				//sdaDao.getSession().getTransaction().rollback();
 				log.error("error in delete sda of "+operationId, e);
 			}			
 		}

@@ -17,6 +17,15 @@ var metadataManager = {
             }
         });
     },
+    getMetadataInfoById : function (id, callBack) {
+        $.ajax({
+            url: "../metadata/list/"+id,
+            type: "GET",
+            success: function(result) {
+                callBack(result);
+            }
+        });
+    },
     getMdtUsedById : function (id,callBack) {
 		$.ajax({
             url: "../metadata/mdtused/"+id,
