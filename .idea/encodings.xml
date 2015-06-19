@@ -3,8 +3,5 @@
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
     <file url="file://$PROJECT_DIR$/../MyPages/jjTest/baowen2" charset="GBK" />
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/sql/sg_servgov_dbScript_tables_GBK/AUDITSTATE.sql" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/sql/sg_servgov_dbScript_tables_GBK/DEFAULT_INTERFACE.sql" charset="GBK" />
   </component>
 </project>
-

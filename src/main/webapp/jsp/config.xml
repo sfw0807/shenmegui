@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<system>
-	<node name="NetBank" label="NetBank" x="700" y="50" des="网银"  url="#"/>
-	<node name="ESB" label="ESB" x="500" y="50" des="企业服务总线"  url="#"/>
-	<node name="CORE" label="CORE" x="300" y="50" des="核心"  url="#"/>
-	<line fromName="ESB" toName="CORE"  des="ESB调用CORE" />
-	<line fromName="NetBank" toName="ESB"  des="NetBank调用ESB" />
-</system>

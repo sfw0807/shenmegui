@@ -7,5 +7,11 @@
       <schema-pattern>*.ESB</schema-pattern>
       <default-schemas>*.ESB</default-schemas>
     </data-source>
+    <data-source name="esbsg1" uuid="22c6e72b-54c8-4d7c-afb7-926556a74304">
+      <user-name>esbsg1</user-name>
+      <user-password>dfcfdfd9dfc8dfd9dfcddf9b</user-password>
+      <schema-pattern>*.ESBSG1</schema-pattern>
+      <default-schemas>*.ESB</default-schemas>
+    </data-source>
   </component>
 </project>

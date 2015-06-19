@@ -4,103 +4,231 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
 
 @Entity
-@Table(name = "METADATA")
-public class Metadata implements Serializable {
+@Table(name="METADATA")
+public class Metadata {
+	@Id
+    @Column(name = "METADATA_ID")
+	private String metadataId;
+	
+	 @Column(name = "METADATA_NAME")
+	 private String metadataName;
+	 
+	 @Column(name = "CHINESE_NAME")
+	 private String chineseName;
+	 
+	 @Column(name = "CATEGORY_WORD_ID")
+	 private String categoryWordId;
+	 
+	 @Column(name = "REMARK")
+	 private String remark;
+	 
+	 @Column(name = "TYPE")
+	 private String type;
+	 
+	 @Column(name = "LENGTH")
+	 private String length;
+	 
+	 @Column(name = "SCALE")
+	 private String scale;
+	 
+	 @Column(name = "ENUM_ID")
+	 private String enumId;
 
-    private static final long serialVersionUID = 69589445122445721l;
+	 @Column(name = "METADATA_ALIAS")
+	 private String metadataAlias;
+	 
+	 @Column(name = "BUSS_DEFINE")
+	 private String bussDefine;
+	 
+	 @Column(name = "BUSS_RULE")
+	 private String bussRule;
+	 
+	 @Column(name = "DATA_SOURCE")
+	 private String dataSource;
+	 
+	 @Column(name = "TEMPLATE_ID")
+	 private String templateId;
+	 
+	 @Column(name = "STATUS")
+	 private String status;
+	 
+	 @Column(name = "VERSION")
+	 private String version;
+	 
+	 @Column(name = "OPT_USER")
+	 private String potUser;
+	
+	 @Column(name = "OPT_DATE")
+	 private String potDate;
+	 
+	 @Column(name = "AUDIT_USER")
+	 private String auditUser;
+	
+	 @Column(name = "AUDIT_DATE")
+	 private String auditDate;
 
-    @Id
-    @Column(name = "metadata_id")
-    private String metadataId;
-    @Column(name = "metadata_name")
-    private String name;
-    @Column(name = "metadata_remark")
-    private String remark;
-    @Column(name = "type")
-    private String type;
-    @Column(name = "length")
-    private String length;
-    @Column(name = "scale")
-    private String scale;
-    @Column(name = "modifyuser")
-    private String modifyUser;
-    @Column(name = "updatetime")
-    private String updateTime;
+	public String getMetadataId() {
+		return metadataId;
+	}
 
-    public String getTypeLengthAndScale() {
-        if (length == null || length.equals("")) {
-            return type;
-        } else if (scale == null || "".equals(scale)) {
-            return type + "(" + length + ")";
-        } else {
-            return type + "(" + length + "," + scale + ")";
-        }
-    }
+	public void setMetadataId(String metadataId) {
+		this.metadataId = metadataId;
+	}
 
-    public String getMetadataId() {
-        return metadataId;
-    }
+	public String getMetadataName() {
+		return metadataName;
+	}
 
-    public void setMetadataId(String metadataId) {
-        this.metadataId = metadataId;
-    }
+	public void setMetadataName(String metadataName) {
+		this.metadataName = metadataName;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getChineseName() {
+		return chineseName;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setChineseName(String chineseName) {
+		this.chineseName = chineseName;
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public String getCategoryWordId() {
+		return categoryWordId;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
+	public void setCategoryWordId(String categoryWordId) {
+		this.categoryWordId = categoryWordId;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getRemark() {
+		return remark;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
-    public String getLength() {
-        return length;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setLength(String length) {
-        this.length = length;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public String getScale() {
-        return scale;
-    }
+	public String getLength() {
+		return length;
+	}
 
-    public void setScale(String scale) {
-        this.scale = scale;
-    }
+	public void setLength(String length) {
+		this.length = length;
+	}
 
-    public String getModifyUser() {
-        return modifyUser;
-    }
+	public String getScale() {
+		return scale;
+	}
 
-    public void setModifyUser(String modifyUser) {
-        this.modifyUser = modifyUser;
-    }
+	public void setScale(String scale) {
+		this.scale = scale;
+	}
 
-    public String getUpdateTime() {
-        return updateTime;
-    }
+	public String getEnumId() {
+		return enumId;
+	}
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
+
+	public String getMetadataAlias() {
+		return metadataAlias;
+	}
+
+	public void setMetadataAlias(String metadataAlias) {
+		this.metadataAlias = metadataAlias;
+	}
+
+	public String getBussDefine() {
+		return bussDefine;
+	}
+
+	public void setBussDefine(String bussDefine) {
+		this.bussDefine = bussDefine;
+	}
+
+	public String getBussRule() {
+		return bussRule;
+	}
+
+	public void setBussRule(String bussRule) {
+		this.bussRule = bussRule;
+	}
+
+	public String getDataSource() {
+		return dataSource;
+	}
+
+	public void setDataSource(String dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	public String getTemplateId() {
+		return templateId;
+	}
+
+	public void setTemplateId(String templateId) {
+		this.templateId = templateId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getPotUser() {
+		return potUser;
+	}
+
+	public void setPotUser(String potUser) {
+		this.potUser = potUser;
+	}
+
+	public String getPotDate() {
+		return potDate;
+	}
+
+	public void setPotDate(String potDate) {
+		this.potDate = potDate;
+	}
+
+	public String getAuditUser() {
+		return auditUser;
+	}
+
+	public void setAuditUser(String auditUser) {
+		this.auditUser = auditUser;
+	}
+
+	public String getAuditDate() {
+		return auditDate;
+	}
+
+	public void setAuditDate(String auditDate) {
+		this.auditDate = auditDate;
+	}
+
+	
+	 
 }

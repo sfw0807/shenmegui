@@ -1,153 +1,115 @@
 package com.dc.esb.servicegov.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "SG_SYSTEM")
-public class System {
+@Table(name = "SYSTEM")
+public class System implements Serializable{
 
-    @Id
-    @Column(name = "SYS_ID")
-    private String systemId;
-    @Column(name = "SYS_AB")
-    private String systemAb;
-    @Column(name = "SYS_NAME")
-    private String systemName;
-    @Column(name = "REMARK")
-    private String remark;
-    @Column(name = "MODIFYUSER")
-    private String modifyUser;
-    @Column(name = "UPDATETIME")
-    private String updateTime;
-    @Column(name = "FIRST_PUBLISH_DATE")
-    private String firstPublishDate;
-    @Column(name = "AVGRESTIME")
-    private String avgResTime;
-    @Column(name = "MAXRESTIME")
-    private String maxResTime;
-    @Column(name = "MAXCONNUM")
-    private Integer maxConNum;
-    @Column(name = "TIMEOUT")
-    private String timeOut;
-    @Column(name = "SUCCESSRATE")
-    private String successRate;
-    @Column(name = "OUTMAXCONNUM")
-    private Integer outMaxConNum;
-    @Column(name = "SECOND_PUBLISH_DATE")
-    private String secondPublishDate;
+	private static final long serialVersionUID = 1L;
 
-    public String getSystemId() {
-        return systemId;
-    }
+	@Id  
+	@Column(name = "SYSTEM_ID")
+	private String systemId;
+	
+	@Column(name = "SYSTEM_AB")
+	private String systemAb;
+	
+	@Column(name = "SYSTEM_CHINESE_NAME")
+	private String systemChineseName;
+	
+	@Column(name = "FEATURE_DESC")
+	private String featureDesc;
+	
+	@Column(name = "WORK_RANGE")
+	private String workRange;
+	
+	@Column(name = "PRINCIPAL1")
+	private String principal1;
+	
+	@Column(name = "PRINCIPAL2")
+	private String principal2;
+	
+	@Column(name = "OPT_USER")
+	private String optUser;
+	
+	@Column(name = "OPT_DATE")
+	private String optDate;
 
-    public void setSystemId(String systemId) {
-        this.systemId = systemId;
-    }
+	public String getSystemId() {
+		return systemId;
+	}
 
-    public String getSystemAb() {
-        return systemAb;
-    }
+	public void setSystemId(String systemId) {
+		this.systemId = systemId;
+	}
 
-    public void setSystemAb(String systemAb) {
-        this.systemAb = systemAb;
-    }
+	public String getSystemAb() {
+		return systemAb;
+	}
 
-    public String getSystemName() {
-        return systemName;
-    }
+	public void setSystemAb(String systemAb) {
+		this.systemAb = systemAb;
+	}
 
-    public void setSystemName(String systemName) {
-        this.systemName = systemName;
-    }
+	public String getSystemChineseName() {
+		return systemChineseName;
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public void setSystemChineseName(String systemChineseName) {
+		this.systemChineseName = systemChineseName;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
+	public String getFeatureDesc() {
+		return featureDesc;
+	}
 
-    public String getModifyUser() {
-        return modifyUser;
-    }
+	public void setFeatureDesc(String featureDesc) {
+		this.featureDesc = featureDesc;
+	}
 
-    public void setModifyUser(String modifyUser) {
-        this.modifyUser = modifyUser;
-    }
+	public String getWorkRange() {
+		return workRange;
+	}
 
-    public String getUpdateTime() {
-        return updateTime;
-    }
+	public void setWorkRange(String workRange) {
+		this.workRange = workRange;
+	}
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
+	public String getPrincipal1() {
+		return principal1;
+	}
 
-    public String getFirstPublishDate() {
-        return firstPublishDate;
-    }
+	public void setPrincipal1(String principal1) {
+		this.principal1 = principal1;
+	}
 
-    public void setFirstPublishDate(String firstPublishDate) {
-        this.firstPublishDate = firstPublishDate;
-    }
+	public String getPrincipal2() {
+		return principal2;
+	}
 
-    public String getAvgResTime() {
-        return avgResTime;
-    }
+	public void setPrincipal2(String principal2) {
+		this.principal2 = principal2;
+	}
 
-    public void setAvgResTime(String avgResTime) {
-        this.avgResTime = avgResTime;
-    }
+	public String getOptUser() {
+		return optUser;
+	}
 
-    public String getMaxResTime() {
-        return maxResTime;
-    }
+	public void setOptUser(String optUser) {
+		this.optUser = optUser;
+	}
 
-    public void setMaxResTime(String maxResTime) {
-        this.maxResTime = maxResTime;
-    }
+	public String getOptDate() {
+		return optDate;
+	}
 
-    public Integer getMaxConNum() {
-        return maxConNum;
-    }
-
-    public void setMaxConNum(Integer maxConNum) {
-        this.maxConNum = maxConNum;
-    }
-
-    public String getTimeOut() {
-        return timeOut;
-    }
-
-    public void setTimeOut(String timeOut) {
-        this.timeOut = timeOut;
-    }
-
-    public String getSuccessRate() {
-        return successRate;
-    }
-
-    public void setSuccessRate(String successRate) {
-        this.successRate = successRate;
-    }
-
-    public Integer getOutMaxConNum() {
-        return outMaxConNum;
-    }
-
-    public void setOutMaxConNum(Integer outMaxConNum) {
-        this.outMaxConNum = outMaxConNum;
-    }
-
-    public String getSecondPublishDate() {
-        return secondPublishDate;
-    }
-
-    public void setSecondPublishDate(String secondPublishDate) {
-        this.secondPublishDate = secondPublishDate;
-    }
+	public void setOptDate(String optDate) {
+		this.optDate = optDate;
+	}
 }

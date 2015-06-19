@@ -43,7 +43,7 @@
         timeToLiveSeconds="600"
         overflowToDisk="true"/>
 
-    <cache name="com.dc.esb.servicegov.entity.SLAView"
+    <cache name="com.dc.esb.servicegov.refactoring.entity.SLAView"
         maxElementsInMemory="1000"
         timeToLiveSeconds="600"
         overflowToDisk="true"/>
