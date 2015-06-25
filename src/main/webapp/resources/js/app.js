@@ -5,6 +5,7 @@ var LOAD_URL = {
 		SYSADMINUIEDIT : '/dataTemplate/sysadmin/grid2.html',
 		
 		SERVICEUI : '/dataTemplate/serviceadmin/index.html',
+		SLAUI :'/dataTemplate/serviceadmin/sla.html',
 		SERVICEUI2 : '/dataTemplate/serviceadmin/fwcjmx.html'
 
 	}
@@ -38,7 +39,6 @@ var SYSMENU = {
 									
 								},
 								onClick : function(node){
-										
 									if(typeof(node.children)=='undefined'){//编辑接口
 									
 										 var mid = node.id;

@@ -16,7 +16,7 @@
   <tr>
       <th>元数据名称</th>
     <td> <input class="easyui-textbox" type="text" style="width:100px" name="metadataId" id="metadataId"></td>
-   
+   高rid
    <th>中文名称</th>
     <td> <input class="easyui-textbox" type="text" style="width:100px" name="chineseName"  id="chineseName">
       </td>

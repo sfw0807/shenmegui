@@ -5,6 +5,7 @@ import com.dc.esb.servicegov.dao.support.HibernateDAO;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by vincentfxz on 15/6/19.
@@ -81,6 +82,10 @@ public abstract class BaseService<T, PK extends Serializable> {
      */
     public void deleteById(PK id) {
         getDAO().delete(id);
+    }
+
+    public List<T> findBy(Map<String, String> properties){
+        return getDAO().findBy(properties);
     }
 
 }
