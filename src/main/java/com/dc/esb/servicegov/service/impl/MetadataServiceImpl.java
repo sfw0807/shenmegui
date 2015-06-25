@@ -1,15 +1,19 @@
 package com.dc.esb.servicegov.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dc.esb.servicegov.dao.impl.MetadataDAOImpl;
+import com.dc.esb.servicegov.entity.CategoryWord;
 import com.dc.esb.servicegov.entity.Metadata;
-import org.springframework.transaction.annotation.Transactional;
+import com.dc.esb.servicegov.util.DateUtils;
 
 @Service
 @Transactional
@@ -18,7 +22,8 @@ public class MetadataServiceImpl {
     private MetadataDAOImpl metadataDAOImpl;
 
     public List<Metadata> getAllMetadata() {
-        return metadataDAOImpl.getAll();
+    	List<Metadata> list = metadataDAOImpl.getAll();
+        return list;
     }
 
     public List<Metadata> getByMetadataId(String metadataId) {
@@ -143,6 +148,7 @@ public class MetadataServiceImpl {
     }
 
     public boolean addMetadata(Metadata metadata) {
+		metadata.setOptDate(DateUtils.format(new Date()));
         metadataDAOImpl.save(metadata);
         return true;
     }
@@ -155,5 +161,81 @@ public class MetadataServiceImpl {
     public void deleteMetadata(String metadataId) {
         metadataDAOImpl.delete(metadataId);
     }
+    
+    public void deleteMetadatas(String metadataIds){
+    	String[] ids = metadataIds.split("\\,");
+    	if(ids != null && ids.length > 0){
+    		for(String metadataId : ids){
+    			deleteMetadata(metadataId);
+    		}
+    	}
+    }
 
+    public List<Metadata> queryByCondition(Map<String, String[]> values){
+    	String hql = " from Metadata a where 1=1 ";
+    	if(values != null && values.size() > 0){
+    		for(String key:values.keySet()){
+    			if(key.equals("metadataName") && values.get(key) != null && values.get(key).length > 0 ){
+    				if(StringUtils.isNotEmpty(values.get(key)[0])){
+    					hql += " and a.metadataName like '%" + values.get(key)[0] + "%' ";
+    				}
+    			}
+    			if(key.equals("chineseName") && values.get(key) != null && values.get(key).length > 0 ){
+    				if(StringUtils.isNotEmpty(values.get(key)[0])){
+    					hql += " and a.chineseName like '%" + values.get(key)[0] + "%' ";
+    				}
+    			}
+    			if(key.equals("metadataId") && values.get(key) != null && values.get(key).length > 0 ){
+    				if(StringUtils.isNotEmpty(values.get(key)[0])){
+    					hql += " and a.metadataId like '%" + values.get(key)[0] + "%' ";
+    				}
+    			}
+    			if(key.equals("metadataAlias") && values.get(key) != null && values.get(key).length > 0 ){
+    				if(StringUtils.isNotEmpty(values.get(key)[0])){
+    					hql += " and a.metadataAlias like '%" + values.get(key)[0] + "%' ";
+    				}
+    			}
+    			if(key.equals("status") && values.get(key) != null && values.get(key).length > 0 ){
+    				if(StringUtils.isNotEmpty(values.get(key)[0])){
+    					hql += " and a.status like '%" + values.get(key)[0] + "%' ";
+    				}
+    			}
+    			if(key.equals("version") && values.get(key) != null && values.get(key).length > 0 ){
+    				if(StringUtils.isNotEmpty(values.get(key)[0])){
+    					hql += " and a.version like '%" + values.get(key)[0] + "%' ";
+    				}
+    			}
+    			if(key.equals("startDate") && values.get(key) != null && values.get(key).length > 0 ){
+    				if(StringUtils.isNotEmpty(values.get(key)[0])){
+    					hql += " and a.optDate >'" + values.get(key)[0] + "' ";
+    				}
+    			}
+    			if(key.equals("endDate") && values.get(key) != null && values.get(key).length > 0 ){
+    				if(StringUtils.isNotEmpty(values.get(key)[0])){
+    					hql += " and a.optDate <'" + values.get(key)[0] + "' ";
+    				}
+    			}
+    			
+    			if(key.equals("categoryWordId") && values.get(key) != null && values.get(key).length > 0 ){
+    				if(StringUtils.isNotEmpty(values.get(key)[0])){
+    					hql += " and a.categoryWordId ='" + values.get(key)[0] + "' ";
+    				}
+    			}
+    		}
+    	}
+    	return metadataDAOImpl.find(hql);
+    }
+    
+    public boolean uniqueValid(String metadataId){
+    	List<Metadata> list = this.getByMetadataId(metadataId);
+    	if(list != null && list.size() > 0){
+    		return false;
+    	}
+    	return true;
+    }
+    
+    public List<CategoryWord> categoryWord(){
+    	String hql = "from CategoryWord";
+    	return metadataDAOImpl.find(hql);
+    }
 }

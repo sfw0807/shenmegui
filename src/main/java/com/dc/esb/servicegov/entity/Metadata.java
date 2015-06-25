@@ -58,10 +58,10 @@ public class Metadata {
 	 private String version;
 	 
 	 @Column(name = "OPT_USER")
-	 private String potUser;
+	 private String optUser;
 	
 	 @Column(name = "OPT_DATE")
-	 private String potDate;
+	 private String optDate;
 	 
 	 @Column(name = "AUDIT_USER")
 	 private String auditUser;
@@ -197,20 +197,22 @@ public class Metadata {
 		this.version = version;
 	}
 
-	public String getPotUser() {
-		return potUser;
+	
+
+	public String getOptUser() {
+		return optUser;
 	}
 
-	public void setPotUser(String potUser) {
-		this.potUser = potUser;
+	public void setOptUser(String optUser) {
+		this.optUser = optUser;
 	}
 
-	public String getPotDate() {
-		return potDate;
+	public String getOptDate() {
+		return optDate;
 	}
 
-	public void setPotDate(String potDate) {
-		this.potDate = potDate;
+	public void setOptDate(String optDate) {
+		this.optDate = optDate;
 	}
 
 	public String getAuditUser() {

@@ -1,6 +1,10 @@
 package com.dc.esb.servicegov.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,9 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.dc.esb.servicegov.entity.CategoryWord;
 import com.dc.esb.servicegov.entity.Metadata;
-import com.dc.esb.servicegov.service.MetadataService;
 import com.dc.esb.servicegov.service.impl.MetadataServiceImpl;
 
 @Controller
@@ -184,5 +189,52 @@ public class MetadataController {
 	boolean delete(@PathVariable String metadataId) {
 		metadataService.deleteMetadata(metadataId);
 		return true;
+	}
+	
+	@RequestMapping("/deletes")
+	@ResponseBody
+	public boolean deletes(String metadataIds) {
+		metadataService.deleteMetadatas(metadataIds);
+		return true;
+	}
+	
+	@RequestMapping("/query")
+	@ResponseBody
+	public Map<String, Object> query(HttpServletRequest request) {
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		@SuppressWarnings("unchecked")
+		List<?> rows = metadataService.queryByCondition(request.getParameterMap());
+
+		result.put("total", rows.size());
+		result.put("rows", rows);
+		return result;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/editPage", headers = "Accept=application/json")
+	public ModelAndView editPage(String metadataId) {
+		ModelAndView mv = new ModelAndView("../assets/metadata/edit");
+		List<Metadata> list = metadataService.getByMetadataId(metadataId);
+		if(list != null && list.size() > 0){
+			Metadata entity = list.get(0);
+			mv.addObject("entity", entity);
+		}
+		
+		return mv;
+	}
+	@RequestMapping(method = RequestMethod.GET, value = "/uniqueValid", headers = "Accept=application/json")
+	public @ResponseBody
+	boolean uniqueValid(String metadataId){
+		 return metadataService.uniqueValid(metadataId);
+	}
+	
+	//获取类别词接口
+	@RequestMapping("/categoryWord")
+	@ResponseBody
+	public  List<CategoryWord> categoryWord(){
+		
+		List<CategoryWord> rows = metadataService.categoryWord();
+		
+		return rows;
 	}
 }
