@@ -21,7 +21,7 @@ public class WorkItem {
 	@Column(name = "OPERATION_VERSION")
 	private String operationVersion;
 	
-	@Column(name = "DESC")
+	@Column(name = "DESCRIPTION")
 	private String desc;
 	
 	@Column(name = "VERSION")

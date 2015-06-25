@@ -1,6 +1,8 @@
 package com.dc.esb.servicegov.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -88,6 +90,21 @@ public class EnglishWordController {
     List<EnglishWord> getEnglishWordByRemark(@PathVariable String value) {
         String name = "remark";
         List<EnglishWord> words = englishWordService.getEnglishWordByName(name, value);
+        return words;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/get/EnglishWord/{englishWord}/ChineseWord/{chineseWord}/WordAb/{wordAb}", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    List<EnglishWord> getEnglishWordByRemark(@PathVariable(value = "englishWord") String englishWord, @PathVariable(value = "chineseWord") String chineseWord, @PathVariable(value = "wordAb") String wordAb) {
+        Map<String, String> params = new HashMap<String, String>();
+        if (!"itisanuniquevaluethatneverbeexisted".equals(englishWord))
+            params.put("englishWord", englishWord);
+        if (!"itisanuniquevaluethatneverbeexisted".equals(chineseWord))
+            params.put("chineseWord", chineseWord);
+        if (!"itisanuniquevaluethatneverbeexisted".equals(wordAb))
+            params.put("wordAb", wordAb);
+        List<EnglishWord> words = englishWordService.findBy(params);
         return words;
     }
 

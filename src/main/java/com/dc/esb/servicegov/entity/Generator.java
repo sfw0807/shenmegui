@@ -18,7 +18,7 @@ public class Generator {
 	@Column(name = "IMPLEMENTS")
 	private String implementsClazz;
 	
-	@Column(name = "DESC")
+	@Column(name = "DESCRIPTION")
 	private String desc;
 
 	public String getId() {

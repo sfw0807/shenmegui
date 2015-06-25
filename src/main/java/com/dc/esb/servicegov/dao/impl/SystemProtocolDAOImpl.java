@@ -1,9 +1,10 @@
 package com.dc.esb.servicegov.dao.impl;
 
-import com.dc.esb.servicegov.entity.SystemProtocol;
 import org.springframework.stereotype.Repository;
 
+import com.dc.esb.servicegov.entity.SystemProtocol;
+
 @Repository
-public class SystemProtocolDAOImpl extends HibernateDAO<SystemProtocol,String> {
+public class SystemProtocolDAOImpl extends BaseDAOImpl<SystemProtocol> {
 
 }

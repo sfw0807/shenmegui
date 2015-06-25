@@ -6,163 +6,173 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="IDA")
+@Table(name = "IDA")
 public class Ida {
-	@Id
+    @Id
     @Column(name = "ID")
-	private String id;
-	
-	@Column(name = "STRUCTNAME")
-	private String structName;
-	
-	@Column(name = "STRUCTALIAS")
-	private String structAlias;
-	
-	@Column(name = "METADATA_ID")
-	private String metadataId;
-	
-	@Column(name = "SEQ")
-	private String seq;
-	
-	 @Column(name = "TYPE")
-	 private String type;
-	 
-	 @Column(name = "SCALE")
-	 private String scale;
-	 
-	 @Column(name = "LENGTH")
-	 private String length;
-	 
-	 @Column(name = "REQUIRED")
-	 private String required;
-	 
-	 @Column(name = "RARENT_ID")
-	 private String rarentId;
-	 
-	 @Column(name = "INTERFACE_ID")
-	 private String interfaceId;
-	 
-	 
-	 @Column(name = "OPT_USER")
-	 private String potUser;
-	
-	 @Column(name = "OPT_DATE")
-	 private String potDate;
-	 
-	 @Column(name = "HEAD_ID")
-	 private String headId;
+    private String id;
 
-	public String getId() {
-		return id;
-	}
+    @Column(name = "STRUCTNAME")
+    private String structName;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @Column(name = "STRUCTALIAS")
+    private String structAlias;
 
-	public String getStructName() {
-		return structName;
-	}
+    @Column(name = "METADATA_ID")
+    private String metadataId;
 
-	public void setStructName(String structName) {
-		this.structName = structName;
-	}
+    @Column(name = "SEQ")
+    private String seq;
 
-	public String getStructAlias() {
-		return structAlias;
-	}
+    @Column(name = "TYPE")
+    private String type;
 
-	public void setStructAlias(String structAlias) {
-		this.structAlias = structAlias;
-	}
+    @Column(name = "SCALE")
+    private String scale;
 
-	public String getMetadataId() {
-		return metadataId;
-	}
+    @Column(name = "LENGTH")
+    private String length;
 
-	public void setMetadataId(String metadataId) {
-		this.metadataId = metadataId;
-	}
+    @Column(name = "REQUIRED")
+    private String required;
 
-	public String getSeq() {
-		return seq;
-	}
+    @Column(name = "RARENT_ID")
+    private String rarentId;
 
-	public void setSeq(String seq) {
-		this.seq = seq;
-	}
+    @Column(name = "INTERFACE_ID")
+    private String interfaceId;
 
-	public String getType() {
-		return type;
-	}
+    @Column(name = "OPT_USER")
+    private String potUser;
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    @Column(name = "OPT_DATE")
+    private String potDate;
 
-	public String getScale() {
-		return scale;
-	}
+    @Column(name = "HEAD_ID")
+    private String headId;
 
-	public void setScale(String scale) {
-		this.scale = scale;
-	}
+    @Column(name = "VERSION")
+    private String version;
 
-	public String getLength() {
-		return length;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setLength(String length) {
-		this.length = length;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getRequired() {
-		return required;
-	}
+    public String getStructName() {
+        return structName;
+    }
 
-	public void setRequired(String required) {
-		this.required = required;
-	}
+    public void setStructName(String structName) {
+        this.structName = structName;
+    }
 
-	public String getRarentId() {
-		return rarentId;
-	}
+    public String getStructAlias() {
+        return structAlias;
+    }
 
-	public void setRarentId(String rarentId) {
-		this.rarentId = rarentId;
-	}
+    public void setStructAlias(String structAlias) {
+        this.structAlias = structAlias;
+    }
 
-	public String getInterfaceId() {
-		return interfaceId;
-	}
+    public String getMetadataId() {
+        return metadataId;
+    }
 
-	public void setInterfaceId(String interfaceId) {
-		this.interfaceId = interfaceId;
-	}
+    public void setMetadataId(String metadataId) {
+        this.metadataId = metadataId;
+    }
 
-	public String getPotUser() {
-		return potUser;
-	}
+    public String getSeq() {
+        return seq;
+    }
 
-	public void setPotUser(String potUser) {
-		this.potUser = potUser;
-	}
+    public void setSeq(String seq) {
+        this.seq = seq;
+    }
 
-	public String getPotDate() {
-		return potDate;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setPotDate(String potDate) {
-		this.potDate = potDate;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getHeadId() {
-		return headId;
-	}
+    public String getScale() {
+        return scale;
+    }
 
-	public void setHeadId(String headId) {
-		this.headId = headId;
-	}
-	 
-	 
+    public void setScale(String scale) {
+        this.scale = scale;
+    }
+
+    public String getLength() {
+        return length;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
+    }
+
+    public String getRequired() {
+        return required;
+    }
+
+    public void setRequired(String required) {
+        this.required = required;
+    }
+
+    public String getRarentId() {
+        return rarentId;
+    }
+
+    public void setRarentId(String rarentId) {
+        this.rarentId = rarentId;
+    }
+
+    public String getInterfaceId() {
+        return interfaceId;
+    }
+
+    public void setInterfaceId(String interfaceId) {
+        this.interfaceId = interfaceId;
+    }
+
+    public String getPotUser() {
+        return potUser;
+    }
+
+    public void setPotUser(String potUser) {
+        this.potUser = potUser;
+    }
+
+    public String getPotDate() {
+        return potDate;
+    }
+
+    public void setPotDate(String potDate) {
+        this.potDate = potDate;
+    }
+
+    public String getHeadId() {
+        return headId;
+    }
+
+    public void setHeadId(String headId) {
+        this.headId = headId;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+
 }

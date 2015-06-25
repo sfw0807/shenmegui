@@ -15,7 +15,7 @@ public class WorkItemList {
 	@Column(name = "VERSION")
 	private String version;
 	
-	@Column(name = "DESC")
+	@Column(name = "DESCRIPTION")
 	private String desc;
 
 	public String getListId() {

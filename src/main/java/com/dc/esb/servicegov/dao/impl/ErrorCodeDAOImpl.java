@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import com.dc.esb.servicegov.entity.ErrorCode;
 
 @Repository
-public class ErrorCodeDAOImpl extends HibernateDAO<ErrorCode, String> {
+public class ErrorCodeDAOImpl extends BaseDAOImpl<ErrorCode> {
 }

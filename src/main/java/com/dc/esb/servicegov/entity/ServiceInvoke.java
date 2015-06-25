@@ -30,7 +30,7 @@ public class ServiceInvoke {
 	@Column(name = "TYPE")
 	private String type;
 	
-	@Column(name = "DESC")
+	@Column(name = "DESCRIPTION")
 	private String desc;
 	
 	@Column(name = "REMARK")

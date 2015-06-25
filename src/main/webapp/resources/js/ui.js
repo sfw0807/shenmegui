@@ -27,7 +27,7 @@ var uiinit = {
 		subtab : {
 			
 			add : function(arg){
-				$('#subtab').tabs('add',{
+				$('#subtab').tabs('a	dd',{
 					title:arg.title,
 					content:arg.content,
 					closable:true

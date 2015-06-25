@@ -6,85 +6,85 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="ENGLISH_WORD")
+@Table(name = "ENGLISH_WORD")
 public class EnglishWord {
-	@Id
+    @Id
     @Column(name = "ID")
-	private String id;
-	
-	@Column(name = "ENGLISH_WORD")
-	private String englishWord;
-	 
-	@Column(name = "WORD_AB")
-	private String wordAb;
-	
-	@Column(name = "CHINESE_WORD")
-	private String chineseWord;
-	
-	@Column(name = "OPT_USER")
-	private String potUser;
-	
-	@Column(name = "OPT_DATE")
-	private String potDate;
-	
-	@Column(name = "REMARK")
-	private String remark;
+    private String id;
 
-	public String getId() {
-		return id;
-	}
+    @Column(name = "ENGLISH_WORD")
+    private String englishWord;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @Column(name = "WORD_AB")
+    private String wordAb;
 
-	public String getEnglishWord() {
-		return englishWord;
-	}
+    @Column(name = "CHINESE_WORD")
+    private String chineseWord;
 
-	public void setEnglishWord(String englishWord) {
-		this.englishWord = englishWord;
-	}
+    @Column(name = "OPT_USER")
+    private String optUser;
 
-	public String getWordAb() {
-		return wordAb;
-	}
+    @Column(name = "OPT_DATE")
+    private String optDate;
 
-	public void setWordAb(String wordAb) {
-		this.wordAb = wordAb;
-	}
+    @Column(name = "REMARK")
+    private String remark;
 
-	public String getChineseWord() {
-		return chineseWord;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setChineseWord(String chineseWord) {
-		this.chineseWord = chineseWord;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getPotUser() {
-		return potUser;
-	}
+    public String getEnglishWord() {
+        return englishWord;
+    }
 
-	public void setPotUser(String potUser) {
-		this.potUser = potUser;
-	}
+    public void setEnglishWord(String englishWord) {
+        this.englishWord = englishWord;
+    }
 
-	public String getPotDate() {
-		return potDate;
-	}
+    public String getWordAb() {
+        return wordAb;
+    }
 
-	public void setPotDate(String potDate) {
-		this.potDate = potDate;
-	}
+    public void setWordAb(String wordAb) {
+        this.wordAb = wordAb;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public String getChineseWord() {
+        return chineseWord;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-	
-	
+    public void setChineseWord(String chineseWord) {
+        this.chineseWord = chineseWord;
+    }
+
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+
+    public String getOptUser() {
+        return optUser;
+    }
+
+    public void setOptUser(String optUser) {
+        this.optUser = optUser;
+    }
+
+    public String getOptDate() {
+        return optDate;
+    }
+
+    public void setOptDate(String optDate) {
+        this.optDate = optDate;
+    }
 }

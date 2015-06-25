@@ -2,6 +2,8 @@ package com.dc.esb.servicegov.service.impl;
 
 import java.util.List;
 
+import com.dc.esb.servicegov.dao.support.HibernateDAO;
+import com.dc.esb.servicegov.service.support.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +14,7 @@ import com.dc.esb.servicegov.service.EnglishWordService;
 
 @Service
 @Transactional
-public class EnglishWordServiceImpl implements EnglishWordService {
+public class EnglishWordServiceImpl extends BaseService implements EnglishWordService {
 
 	@Autowired
 	private EnglishWordDAOImpl englishWordDAOImpl;
@@ -35,4 +37,8 @@ public class EnglishWordServiceImpl implements EnglishWordService {
 
 	}
 
+	@Override
+	public HibernateDAO getDAO() {
+		return englishWordDAOImpl;
+	}
 }
