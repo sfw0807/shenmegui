@@ -61,23 +61,17 @@
 
 </fieldset>
 <table class="easyui-datagrid" title="基本信息维护" 
-			data-options="rownumbers:true,singleSelect:false,url:'../datagrid_data1.json',method:'get',toolbar:toolbar,pagination:true,
+			data-options="rownumbers:false,singleSelect:false,url:'../datagrid_data1.json',method:'get',toolbar:toolbar,pagination:true,
 				pageSize:10" style="height:370px; width:auto;">
   <thead>
     <tr>
-          <th data-options="field:'productid',checkbox:true"> </th>
-
-    
-      <th data-options="field:'itemid'">字段1 </th>
-      <th data-options="field:'status'">字段2 </th>
-      <th data-options="field:'listprice',align:'right'">字段3 </th>
-      <th data-options="field:'unitcost',width:80,align:'right'">字段4 </th>
-      <th data-options="field:'attr1'">消费方 </th>
-      <th data-options="field:'status',width:60,align:'center'">字段5 </th>
-      <th data-options="field:'attr1'"> 字段6 </th>
-      <th data-options="field:'attr1'"> 字段7 </th>
-      <th data-options="field:'attr1'">字段8 </th>
-      <th data-options="field:'attr1'">字段9 </th>
+      <th data-options="field:'itemid',width:'15%'">交易码 </th>
+      <th data-options="field:'status',width:'15%'">交易名称</th>
+      <th data-options="field:'listprice',align:'right',width:'20%'">功能描述</th>
+      <th data-options="field:'unitcost',width:'12%',align:'right'">交易状态</th>
+      <th data-options="field:'unitcost',width:'12%'">版本号</th>
+      <th data-options="field:'status',width:'15%',align:'center'">更新时间</th>
+      <th data-options="field:'unitcost'"> 更新用户</th>
     </tr>
   </thead>
 </table>

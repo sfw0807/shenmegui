@@ -1,5 +1,9 @@
 package com.dc.esb.servicegov.service;
 
-public interface WorkItemHandlerService {
+import com.dc.esb.servicegov.entity.WorkItem;
+import com.dc.esb.servicegov.entity.WorkItemHandler;
+import com.dc.esb.servicegov.service.support.BaseService;
+
+public interface WorkItemHandlerService extends BaseService<WorkItemHandler, String> {
 
 }

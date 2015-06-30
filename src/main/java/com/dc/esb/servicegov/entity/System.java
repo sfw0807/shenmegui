@@ -1,10 +1,15 @@
 package com.dc.esb.servicegov.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -41,6 +46,16 @@ public class System implements Serializable{
 	@Column(name = "OPT_DATE")
 	private String optDate;
 
+	
+	@OneToMany(mappedBy="system",fetch=FetchType.LAZY)
+//	@JoinColumns({
+//			
+//			@JoinColumn(columnDefinition="SYSTEM_ID",referencedColumnName="SYSTEM_ID")
+//	})
+	private List<ServiceInvoke> serviceInvokes;
+	
+	
+	
 	public String getSystemId() {
 		return systemId;
 	}
@@ -112,4 +127,13 @@ public class System implements Serializable{
 	public void setOptDate(String optDate) {
 		this.optDate = optDate;
 	}
+
+	public List<ServiceInvoke> getServiceInvokes() {
+		return serviceInvokes;
+	}
+
+	public void setServiceInvokes(List<ServiceInvoke> serviceInvoke) {
+		this.serviceInvokes = serviceInvoke;
+	}
+
 }

@@ -47,7 +47,7 @@
 
  </div>
 
- <ul class="easyui-tree mxsysadmintree" data-options="url:'/dataTemplate/tree.json',method:'get',animate:true"></ul>
+ <ul class="easyui-tree mxsysadmintree" data-options="url:'/interfaceHead/getAll',method:'get',animate:true"></ul>
 
 <%
 	}
@@ -58,7 +58,7 @@
  		<input class="easyui-searchbox" id="mxsysadmintreefilter" style="width:100%">
 
  </div>
-  <ul class="easyui-tree mxservicetree" data-options="url:'/dataTemplate/tree2.json',method:'get',animate:true"></ul>
+  <ul class="easyui-tree mxservicetree" data-options="url:'/service/getTree',method:'get',animate:true"></ul>
 
 <%
 	}
@@ -73,6 +73,12 @@
  <ul class="easyui-tree mslinktree" data-options="url:'/dataTemplate/tree3.json',method:'get',animate:true"></ul>
 <%
 	}
-	
-	
+	if(mid.equals("6")){
 %>
+<div class="tree-filter">
+ 		<input class="easyui-searchbox" id="mxsysadmintreefilter" style="width:100%">
+
+ </div>
+
+ <ul class="easyui-tree msinterfacetree" data-options="url:'/interface/getLeftTree',method:'get',animate:true"></ul>
+<%}%>

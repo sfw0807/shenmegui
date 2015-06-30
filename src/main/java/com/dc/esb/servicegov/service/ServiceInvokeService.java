@@ -1,5 +1,8 @@
 package com.dc.esb.servicegov.service;
 
-public interface ServiceInvokeService {
+import com.dc.esb.servicegov.entity.ServiceInvoke;
+import com.dc.esb.servicegov.service.support.BaseService;
+
+public interface ServiceInvokeService extends BaseService<ServiceInvoke, String> {
 
 }

@@ -14,27 +14,43 @@
  <legend>条件过滤</legend>
  <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <th>关键字</th>
-    <td>
-      <input class="easyui-textbox" type="text" name="name" ></td>
-   
-    <td><a href="#" class="easyui-linkbutton" plain="true" iconCls="icon-search">过滤</a></td>
-
+    <th>类别词中文名称</th>
+	    <td>
+	    	<input class="easyui-textbox" id="chineseWord"/>
+	    </td>
+    <th>类别词英文名称</th>
+    	<td>
+    		<input class="easyui-textbox" type="text" id="englishWord" >
+    	</td>
+  </tr>
+  <tr>
+	<th>类别词英文缩写</th>
+	    <td>
+	    	<input class="easyui-textbox" id="esglisgAb"/>
+	    </td>
+	<th>备注</th>
+	    <td>
+	    	<input class="easyui-textbox" id="remark"/>
+	    </td>
+	    <td>
+	   		<button href="#" onclick="search()" class="easyui-linkbutton" plain="true" iconCls="icon-search">过滤</button>
+	    </td>
   </tr>
 </table>
 
 </fieldset><table id="tt" style="height:370px; width:auto;"
 			title="所有类别词"
-			
-			 data-options="rownumbers:true,singleSelect:true,url:'datagrid_data1.json',method:'get',toolbar:toolbar,pagination:true,
+			 data-options="rownumbers:true,singleSelect:true,url:'/categoryWord/getAll',method:'get',toolbar:toolbar,pagination:true,
 				pageSize:10">
 		<thead>
 			<tr>
-				<th field="itemid" width="100" editor="{type:'validatebox',options:{required:true}}">Item ID</th>
-				<th field="productid" width="100" editor="text">Product ID</th>
-				<th field="listprice" width="100" align="right" editor="{type:'numberbox',options:{precision:1}}">List Price</th>
-				<th field="unitcost" width="100" align="right" editor="numberbox">Unit Cost</th>
-				<th field="attr1" width="150" editor="text">Attribute</th>
+				<th field="chineseWord" width="100" editor="{type:'validatebox',options:{required:true}}">类别词中文名称</th>
+				<th field="englishWord" width="100" editor="text">类别词英文名称</th>
+				<th field="esglisgAb" width="100" align="right" editor="{type:'text',options:{}}">类别词英文缩写</th>
+				<!-- <th field="esglisgab" width="100" align="right" editor="{type:'numberbox',options:{precision:1}}">类别词英文缩写</th> -->
+				<th field="remark" width="100" align="right" editor="text">备注</th>
+				<th field="potUser" width="150" editor="text">修订人</th>
+				<th field="potDate" width="150" editor="text">修订时间</th>
 			</tr>
 		</thead>
 	</table>
@@ -44,8 +60,8 @@
 <script type="text/javascript" src="/resources/js/jquery.min.js"></script> 
 <script type="text/javascript" src="/resources/js/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery.edatagrid.js"></script>
-
 <script type="text/javascript" src="/resources/js/ui.js"></script>
+<script type="text/javascript" src="/assets/categoryWord/js/categoryWordManager.js"> </script>
 <script type="text/javascript">
 		var toolbar = [{
 			text:'新增',
@@ -58,17 +74,80 @@
 			text:'删除',
 			iconCls:'icon-remove',
 			handler:function(){
-				$('#tt').edatagrid('destroyRow')
+				var row = $('#tt').edatagrid('getSelected');
+				var rowIndex = $('#tt').edatagrid('getRowIndex', row);
+				$('#tt').edatagrid('deleteRow', rowIndex);
+			}
+		},
+		{
+			text:'保存',
+			iconCls:'icon-save',
+			handler:function(){
+				//新增
+				var insetDatas = $('#tt').edatagrid('getChanges','inserted');
+				for(var i = 0; i < insetDatas.length; i++){
+					var changeData = insetDatas[i];
+					if(changeData.isNewRecord){
+						var data = {};
+						data.chineseWord = changeData.chineseWord;
+						data.englishWord = changeData.englishWord;
+						data.esglisgAb = changeData.esglisgAb;
+						data.remark = changeData.remark;
+						data.potUser = changeData.potUser;
+						data.potDate = changeData.potDate;
+						categoryWordManager.add(data,function(result){
+							if(result){
+								alert("保存成功");
+							}else{
+								alert("保存失败");
+							}
+						});
+					}
+				}
+				//删除
+				var deleteDatas = $('#tt').edatagrid('getChanges','deleted');
+				for(var i = 0; i < deleteDatas.length; i++){
+					var deleteData = deleteDatas[i];
+					categoryWordManager.deleteRow(deleteData.id,function(result){
+						if(result){
+							alert("保存成功");
+						}else{
+							alert("保存失败");
+						}
+					});
+				}
+				//修改
+				var updateDatas = $('#tt').edatagrid('getChanges','updated');
+				for(var i = 0; i < updateDatas.length; i++){
+					var updateData = updateDatas[i];
+					categoryWordManager.modify(updateData,function(result){
+						if(result){
+							alert("保存成功");
+						}else{
+							alert("保存失败");
+						}
+					});
+				}
 			}
 		}];
 		$(function(){
 			$('#tt').edatagrid({
-				autoSave:true,
+				autoSave:false,
 				saveUrl: '/',
 				updateUrl: '/',
 				destroyUrl: '/'
 			});
 		});
+		function search(){
+			var  param = {};
+			param.englishWord = $('#englishWord').val() ? $('#englishWord').val() : "isNull";
+			param.chineseWord = $('#chineseWord').val() ? $('#chineseWord').val() : "isNull";
+			param.esglisgAb = $('#esglisgAb').val() ? $('#esglisgAb').val() : "isNull";
+			param.remark = $('#remark').val() ? $('#remark').val() : "isNull";
+			categoryWordManager.getByParams(param,function(result){
+				$('#tt').edatagrid('loadData',result);
+			});
+		}
 	</script> 
 
 </body>

@@ -1,15 +1,25 @@
 package com.dc.esb.servicegov.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="INTERFACE")
 public class Interface {
 	@Id
 	@Column(name = "INTERFACE_ID")
+	@GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid",strategy="uuid")
 	private String interfaceId;
 	
 	@Column(name = "INTERFACE_NAME")
@@ -34,11 +44,15 @@ public class Interface {
 	private String version;
 	
 	@Column(name = "OPT_USER")
-	private String potUser;
+	private String optUser;
 	
 	@Column(name = "OPT_DATE")
-	private String potDate;
+	private String optDate;
 
+	
+	@OneToOne(mappedBy="inter")
+	private ServiceInvoke serviceInvoke;
+	
 	public String getInterfaceId() {
 		return interfaceId;
 	}
@@ -103,21 +117,28 @@ public class Interface {
 		this.version = version;
 	}
 
-	public String getPotUser() {
-		return potUser;
+	public String getOptUser() {
+		return optUser;
 	}
 
-	public void setPotUser(String potUser) {
-		this.potUser = potUser;
+	public void setOptUser(String optUser) {
+		this.optUser = optUser;
 	}
 
-	public String getPotDate() {
-		return potDate;
+	public String getOptDate() {
+		return optDate;
 	}
 
-	public void setPotDate(String potDate) {
-		this.potDate = potDate;
+	public void setOptDate(String optDate) {
+		this.optDate = optDate;
 	}
-	
+
+	public ServiceInvoke getServiceInvoke() {
+		return serviceInvoke;
+	}
+
+	public void setServiceInvoke(ServiceInvoke serviceInvoke) {
+		this.serviceInvoke = serviceInvoke;
+	}
 	
 }

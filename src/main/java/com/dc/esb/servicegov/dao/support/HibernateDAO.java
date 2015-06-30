@@ -205,6 +205,16 @@ public class HibernateDAO<T, PK extends Serializable> {
         return (T) createCriteria(criterion).uniqueResult();
     }
 
+    @Transactional
+    public T findUniqureBy(final Map<String, String> params){
+        Criteria criteria = getSession().createCriteria(entityClass);
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            Criterion criterion = Restrictions.eq(entry.getKey(), entry.getValue());
+            criteria.add(criterion);
+        }
+        return (T)criteria.uniqueResult();
+    }
+
     /**
      * 按HQL查询对象列表.
      *

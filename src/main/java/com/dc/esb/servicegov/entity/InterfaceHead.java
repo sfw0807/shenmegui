@@ -1,9 +1,20 @@
 package com.dc.esb.servicegov.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 
 @Entity
@@ -11,6 +22,8 @@ import javax.persistence.Table;
 public class InterfaceHead {
 	@Id
 	@Column(name = "HEAD_ID")
+	@GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid",strategy="uuid")
 	private String headId;
 	
 	@Column(name = "HEAD_NAME")
@@ -22,6 +35,13 @@ public class InterfaceHead {
 	@Column(name = "HEAD_REMARK")
 	private String headRemark;
 
+//	@OneToMany(targetEntity=Ida.class,cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+//	 @JoinColumns({
+//            @JoinColumn(name = "HEAD_ID", referencedColumnName = "HEAD_ID", insertable = false, updatable = false)
+//    })
+//	
+//	private List<Ida> idas;
+//	
 	public String getHeadId() {
 		return headId;
 	}
@@ -53,6 +73,14 @@ public class InterfaceHead {
 	public void setHeadRemark(String headRemark) {
 		this.headRemark = headRemark;
 	}
+
+//	public List<Ida> getIdas() {
+//		return idas;
+//	}
+//
+//	public void setIdas(List<Ida> idas) {
+//		this.idas = idas;
+//	}
 	
 	
 }

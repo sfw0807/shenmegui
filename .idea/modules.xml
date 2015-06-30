@@ -3,6 +3,38 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../MyPages/MyPages.iml" filepath="$PROJECT_DIR$/../MyPages/MyPages.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-audit/jbpm-audit.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-audit/jbpm-audit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-bpmn2/jbpm-bpmn2.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-bpmn2/jbpm-bpmn2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-bpmn2-emfextmodel/jbpm-bpmn2-emfextmodel.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-bpmn2-emfextmodel/jbpm-bpmn2-emfextmodel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-distribution/jbpm-distribution.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-distribution/jbpm-distribution.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-document/jbpm-document.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-document/jbpm-document.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-examples/jbpm-examples.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-examples/jbpm-examples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-executor/jbpm-executor.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-executor/jbpm-executor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-executor-cdi/jbpm-executor-cdi.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-executor-cdi/jbpm-executor-cdi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-executor-ejb/jbpm-executor-ejb.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-executor-ejb/jbpm-executor-ejb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-flow/jbpm-flow.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-flow/jbpm-flow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-flow-builder/jbpm-flow-builder.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-flow-builder/jbpm-flow-builder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task-audit/jbpm-human-task-audit.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task-audit/jbpm-human-task-audit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task-core/jbpm-human-task-core.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task-core/jbpm-human-task-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task-jpa/jbpm-human-task-jpa.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task-jpa/jbpm-human-task-jpa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task-workitems/jbpm-human-task-workitems.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task-workitems/jbpm-human-task-workitems.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-kie-services/jbpm-kie-services.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-kie-services/jbpm-kie-services.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-persistence-jpa/jbpm-persistence-jpa.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-persistence-jpa/jbpm-persistence-jpa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-query-jpa/jbpm-query-jpa.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-query-jpa/jbpm-query-jpa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-runtime-manager/jbpm-runtime-manager.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-runtime-manager/jbpm-runtime-manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-api/jbpm-services-api.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-api/jbpm-services-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-cdi/jbpm-services-cdi.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-cdi/jbpm-services-cdi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb-api/jbpm-services-ejb-api.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb-api/jbpm-services-ejb-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb-client/jbpm-services-ejb-client.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb-client/jbpm-services-ejb-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb-impl/jbpm-services-ejb-impl.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb-impl/jbpm-services-ejb-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb-timer/jbpm-services-ejb-timer.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb-timer/jbpm-services-ejb-timer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-shared-services/jbpm-shared-services.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-shared-services/jbpm-shared-services.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-test/jbpm-test.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-test/jbpm-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jbpm/jbpm-workitems/jbpm-workitems.iml" filepath="$PROJECT_DIR$/../jbpm/jbpm-workitems/jbpm-workitems.iml" />
       <module fileurl="file://$PROJECT_DIR$/servicegov.iml" filepath="$PROJECT_DIR$/servicegov.iml" />
     </modules>
   </component>

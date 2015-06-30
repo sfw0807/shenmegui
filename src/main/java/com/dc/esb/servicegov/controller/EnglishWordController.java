@@ -26,25 +26,24 @@ public class EnglishWordController {
     public
     @ResponseBody
     List<EnglishWord> getAll() {
-        List<EnglishWord> words = englishWordService.getEnglistWordAll();
+        List<EnglishWord> words = englishWordService.getAll();
         return words;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getById/{value}", headers = "Accept=application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/getById/{Id}", headers = "Accept=application/json")
     public
     @ResponseBody
-    List<EnglishWord> getEnglishWordById(@PathVariable String value) {
-        String name = "id";
-        List<EnglishWord> words = englishWordService.getEnglishWordByName(name, value);
-        return words;
+    EnglishWord getEnglishWordById(@PathVariable(value = "Id") String Id) {
+        return englishWordService.getById(Id);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getByEnglishWord/{value}", headers = "Accept=application/json")
     public
     @ResponseBody
     List<EnglishWord> getEnglishWordByEnglishWord(@PathVariable String value) {
-        String name = "englishWord";
-        List<EnglishWord> words = englishWordService.getEnglishWordByName(name, value);
+        Map<String,String> params = new HashMap<String, String>();
+        params.put("englishWord", value);
+        List<EnglishWord> words = englishWordService.findBy(params);
         return words;
     }
 
@@ -52,8 +51,9 @@ public class EnglishWordController {
     public
     @ResponseBody
     List<EnglishWord> getEnglishWordByWordAb(@PathVariable String value) {
-        String name = "wordAb";
-        List<EnglishWord> words = englishWordService.getEnglishWordByName(name, value);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("wordAb",value);
+        List<EnglishWord> words = englishWordService.findBy(params);
         return words;
     }
 
@@ -61,8 +61,9 @@ public class EnglishWordController {
     public
     @ResponseBody
     List<EnglishWord> getEnglishWordByChineseWord(@PathVariable String value) {
-        String name = "chineseWord";
-        List<EnglishWord> words = englishWordService.getEnglishWordByName(name, value);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("chineseWord",value);
+        List<EnglishWord> words = englishWordService.findBy(params);
         return words;
     }
 
@@ -70,8 +71,9 @@ public class EnglishWordController {
     public
     @ResponseBody
     List<EnglishWord> getEnglishWordByPotUser(@PathVariable String value) {
-        String name = "potUser";
-        List<EnglishWord> words = englishWordService.getEnglishWordByName(name, value);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("potUser",value);
+        List<EnglishWord> words = englishWordService.findBy(params);
         return words;
     }
 
@@ -79,8 +81,9 @@ public class EnglishWordController {
     public
     @ResponseBody
     List<EnglishWord> getEnglishWordByPotDate(@PathVariable String value) {
-        String name = "potDate";
-        List<EnglishWord> words = englishWordService.getEnglishWordByName(name, value);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("potDate",value);
+        List<EnglishWord> words = englishWordService.findBy(params);
         return words;
     }
 
@@ -88,8 +91,9 @@ public class EnglishWordController {
     public
     @ResponseBody
     List<EnglishWord> getEnglishWordByRemark(@PathVariable String value) {
-        String name = "remark";
-        List<EnglishWord> words = englishWordService.getEnglishWordByName(name, value);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("remark",value);
+        List<EnglishWord> words = englishWordService.findBy(params);
         return words;
     }
 
@@ -113,7 +117,7 @@ public class EnglishWordController {
     @ResponseBody
     boolean save(@RequestBody
                  EnglishWord word) {
-        englishWordService.editEnglishWord(word);
+        englishWordService.save(word);
         return true;
     }
 
@@ -122,7 +126,7 @@ public class EnglishWordController {
     @ResponseBody
     boolean modify(@RequestBody
                    EnglishWord word) {
-        englishWordService.editEnglishWord(word);
+        englishWordService.save(word);
         return true;
     }
 
@@ -131,7 +135,7 @@ public class EnglishWordController {
     @ResponseBody
     boolean delete(
             @PathVariable String id) {
-        englishWordService.removeEnglishWord(id);
+        englishWordService.deleteById(id);
         return true;
     }
 

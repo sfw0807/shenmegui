@@ -121,7 +121,7 @@
 					w:500,
 					iconCls:'icon-search',
 					title:"历史基线版本",
-					url : "/dataTemplate/historyVersion/grid.html"
+					url : "/dataTemplate/historyVersion/sla.html"
 				});	
 		}
 	</script> 

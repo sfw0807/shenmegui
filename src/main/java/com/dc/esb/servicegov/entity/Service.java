@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "SERVICE")
@@ -16,6 +19,8 @@ public class Service implements Serializable {
 	
 	@Id
 	@Column(name = "SERVICE_ID")
+	@GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid",strategy="uuid")
 	private String serviceId;
 	
 	@Column(name = "SERVICE_NAME")

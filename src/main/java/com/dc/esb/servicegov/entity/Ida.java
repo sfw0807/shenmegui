@@ -2,19 +2,22 @@ package com.dc.esb.servicegov.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "IDA")
 public class Ida {
     @Id
     @Column(name = "ID")
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid",strategy="uuid")
     private String id;
-
     @Column(name = "STRUCTNAME")
     private String structName;
-
     @Column(name = "STRUCTALIAS")
     private String structAlias;
 
@@ -36,8 +39,8 @@ public class Ida {
     @Column(name = "REQUIRED")
     private String required;
 
-    @Column(name = "RARENT_ID")
-    private String rarentId;
+    @Column(name = "PARENT_ID",updatable=false,insertable=true)
+    private String _parentId;
 
     @Column(name = "INTERFACE_ID")
     private String interfaceId;
@@ -54,6 +57,12 @@ public class Ida {
     @Column(name = "VERSION")
     private String version;
 
+//    @ManyToOne(targetEntity = InterfaceHead.class)
+//    @JoinColumns({
+//            @JoinColumn(name = "HEAD_ID", referencedColumnName = "HEAD_ID", insertable = false, updatable = false)
+//    })
+//    private InterfaceHead head;
+    
     public String getId() {
         return id;
     }
@@ -126,15 +135,15 @@ public class Ida {
         this.required = required;
     }
 
-    public String getRarentId() {
-        return rarentId;
-    }
+	public String get_parentId() {
+		return _parentId;
+	}
 
-    public void setRarentId(String rarentId) {
-        this.rarentId = rarentId;
-    }
+	public void set_parentId(String id) {
+		_parentId = id;
+	}
 
-    public String getInterfaceId() {
+	public String getInterfaceId() {
         return interfaceId;
     }
 
@@ -173,6 +182,14 @@ public class Ida {
     public void setVersion(String version) {
         this.version = version;
     }
+
+//	public InterfaceHead getHead() {
+//		return head;
+//	}
+//
+//	public void setHead(InterfaceHead head) {
+//		this.head = head;
+//	}
 
 
 }

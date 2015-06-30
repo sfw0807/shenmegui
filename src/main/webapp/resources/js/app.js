@@ -1,11 +1,10 @@
 var LOAD_URL = {
 		LEFTMENU : '/dataTemplate/leftMenu.jsp',
 		CHECKRULE:'/dataTemplate/checkRule.jsp',
-		SYSADMINUI : '/dataTemplate/sysadmin/grid.html',
+		SYSADMINUI : '/dataTemplate/sysadmin/sla.html',
 		SYSADMINUIEDIT : '/dataTemplate/sysadmin/grid2.html',
-		
+		PUBLICHEADER : '/jsp/sysadmin/interface_header.jsp',
 		SERVICEUI : '/dataTemplate/serviceadmin/index.html',
-		SLAUI :'/dataTemplate/serviceadmin/sla.html',
 		SERVICEUI2 : '/dataTemplate/serviceadmin/fwcjmx.html'
 
 	}
@@ -25,8 +24,13 @@ var SYSMENU = {
 							},   
 							prompt:'请输入关键词'  
 						});
+						
+						//报文管理
 						$('.mxsysadmintree').tree({
 								onContextMenu:function(e,node){
+									/*if(node.id=='root'){
+										return;
+									}*/
 									e.preventDefault();
 									$(this).tree('select',node.target);
 										if(typeof(node.children)!='undefined'){//编辑接口
@@ -39,21 +43,92 @@ var SYSMENU = {
 									
 								},
 								onClick : function(node){
+									if(node.id=='root'){
+										return;
+									}
 									if(typeof(node.children)=='undefined'){//编辑接口
-									
+										 var url = LOAD_URL.SYSADMINUIEDIT;
 										 var mid = node.id;
 										 var title = node.text;
+										 //公共报文头信息管理
+										 if(mid == 1){
+										     url = LOAD_URL.PUBLICHEADER;
+										 }
+										 
 										 if ($('#mainContentTabs').tabs('exists', title)){
 											$('#mainContentTabs').tabs('select', title);
 										 } else {
-											var content = '<iframe scrolling="auto" frameborder="0"  src="'+LOAD_URL.SYSADMINUIEDIT+'" style="width:100%;height:100%;"></iframe>';
+											var content = '<iframe scrolling="auto" frameborder="0"  src="'+url+'" style="width:100%;height:100%;"></iframe>';
 											$('#mainContentTabs').tabs('add',{
 												title:title,
 												content:content,
 												closable:true
 											});	
 										 }
-									}else{//基本信息
+									}
+									
+									else{//基本信息
+										 var mid = node.id;
+										 var title = node.text;
+										 
+										 var node = $('.mxsysadmintree').tree("getSelected");
+										 if ($('#mainContentTabs').tabs('exists', title)){
+											$('#mainContentTabs').tabs('select', title);
+										 } else {//LOAD_URL.SYSADMINUI+
+											var content = '<iframe scrolling="auto" frameborder="0"  src="'+LOAD_URL.PUBLICHEADER+'?headId='+node.id+'" style="width:100%;height:100%;"></iframe>';
+											$('#mainContentTabs').tabs('add',{
+												title:title,
+												content:content,
+												closable:true
+											});	
+										 }
+									}	
+								}
+							});
+							
+							//接口管理
+							$('.msinterfacetree').tree({
+								onContextMenu:function(e,node){
+									e.preventDefault();
+									$(this).tree('select',node.target);
+										if(typeof(node.children)!='undefined'){//编辑接口
+											
+											if(node.click=='disable'){
+												$('#mm-mxinterfacetree').menu('show',{
+													left: e.pageX,
+													top: e.pageY
+												});
+											}else{
+												$('#mm-mxinterfacedefinetree').menu('show',{
+													left: e.pageX,
+													top: e.pageY
+												});
+											}
+										
+										}
+									
+								},
+								onClick : function(node){
+									if(node.click=='disable'){
+										return;
+									}
+									
+									//alert(typeof(node.children));
+									//if(typeof(node.children)=='undefined'){//编辑接口
+									
+										 var mid = node.id;
+										 var title = node.text;
+										 if ($('#mainContentTabs').tabs('exists', title)){
+											$('#mainContentTabs').tabs('select', title);
+										 } else {//SYSADMINUIEDIT
+											var content = '<iframe scrolling="auto" frameborder="0"  src="'+LOAD_URL.SYSADMINUI+'" style="width:100%;height:100%;"></iframe>';
+											$('#mainContentTabs').tabs('add',{
+												title:title,
+												content:content,
+												closable:true
+											});	
+										 }
+									/*}else{//基本信息
 										 var mid = node.id;
 										 var title = node.text;
 										 if ($('#mainContentTabs').tabs('exists', title)){
@@ -66,7 +141,7 @@ var SYSMENU = {
 												closable:true
 											});	
 										 }
-									}	
+									}	*/
 								}
 							});
 							
@@ -191,6 +266,7 @@ var SYSTABMENU = {
 			
 	}
 }
+
 function appendSysapi(){
 		uiinit.win({
 			w:500,

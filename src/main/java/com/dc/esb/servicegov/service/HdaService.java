@@ -1,5 +1,8 @@
 package com.dc.esb.servicegov.service;
 
-public interface HdaService {
+/**
+ * 这个是服务的HDA管理还是接口的HDA管理
+ */
+public interface HdaService{
 
 }

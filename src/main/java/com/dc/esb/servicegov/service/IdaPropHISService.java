@@ -1,5 +1,8 @@
 package com.dc.esb.servicegov.service;
 
-public interface IdaPropHISService {
+import com.dc.esb.servicegov.entity.IdaPropHIS;
+import com.dc.esb.servicegov.service.support.BaseService;
+
+public interface IdaPropHISService extends BaseService<IdaPropHIS, String> {
 
 }

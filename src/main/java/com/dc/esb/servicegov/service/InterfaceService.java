@@ -1,5 +1,8 @@
 package com.dc.esb.servicegov.service;
 
-public interface InterfaceService {
+import com.dc.esb.servicegov.entity.Interface;
+import com.dc.esb.servicegov.service.support.BaseService;
+
+public interface InterfaceService  extends BaseService<Interface, String> {
 
 }

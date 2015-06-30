@@ -22,10 +22,69 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="jbpm-audit" />
+        <module name="jbpm-bpmn2" />
+        <module name="jbpm-bpmn2-emfextmodel" />
+        <module name="jbpm-document" />
+        <module name="jbpm-examples" />
+        <module name="jbpm-executor" />
+        <module name="jbpm-executor-cdi" />
+        <module name="jbpm-executor-ejb" />
+        <module name="jbpm-flow" />
+        <module name="jbpm-flow-builder" />
+        <module name="jbpm-human-task-audit" />
+        <module name="jbpm-human-task-core" />
+        <module name="jbpm-human-task-jpa" />
+        <module name="jbpm-human-task-workitems" />
+        <module name="jbpm-kie-services" />
+        <module name="jbpm-persistence-jpa" />
+        <module name="jbpm-query-jpa" />
+        <module name="jbpm-runtime-manager" />
+        <module name="jbpm-services-api" />
+        <module name="jbpm-services-cdi" />
+        <module name="jbpm-services-ejb-api" />
+        <module name="jbpm-services-ejb-client" />
+        <module name="jbpm-services-ejb-impl" />
+        <module name="jbpm-services-ejb-timer" />
+        <module name="jbpm-shared-services" />
+        <module name="jbpm-test" />
+        <module name="jbpm-workitems" />
         <module name="servicegov" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="jbpm" target="1.6" />
+      <module name="jbpm-audit" target="1.6" />
+      <module name="jbpm-bpmn2" target="1.6" />
+      <module name="jbpm-bpmn2-emfextmodel" target="1.6" />
+      <module name="jbpm-distribution" target="1.6" />
+      <module name="jbpm-document" target="1.6" />
+      <module name="jbpm-examples" target="1.6" />
+      <module name="jbpm-executor" target="1.6" />
+      <module name="jbpm-executor-cdi" target="1.6" />
+      <module name="jbpm-executor-ejb" target="1.6" />
+      <module name="jbpm-flow" target="1.6" />
+      <module name="jbpm-flow-builder" target="1.6" />
+      <module name="jbpm-human-task" target="1.6" />
+      <module name="jbpm-human-task-audit" target="1.6" />
+      <module name="jbpm-human-task-core" target="1.6" />
+      <module name="jbpm-human-task-jpa" target="1.6" />
+      <module name="jbpm-human-task-workitems" target="1.6" />
+      <module name="jbpm-kie-services" target="1.6" />
+      <module name="jbpm-persistence-jpa" target="1.6" />
+      <module name="jbpm-query-jpa" target="1.6" />
+      <module name="jbpm-runtime-manager" target="1.6" />
+      <module name="jbpm-services" target="1.6" />
+      <module name="jbpm-services-api" target="1.6" />
+      <module name="jbpm-services-cdi" target="1.6" />
+      <module name="jbpm-services-ejb" target="1.6" />
+      <module name="jbpm-services-ejb-api" target="1.6" />
+      <module name="jbpm-services-ejb-client" target="1.6" />
+      <module name="jbpm-services-ejb-impl" target="1.6" />
+      <module name="jbpm-services-ejb-timer" target="1.6" />
+      <module name="jbpm-shared-services" target="1.6" />
+      <module name="jbpm-test" target="1.6" />
+      <module name="jbpm-workitems" target="1.6" />
       <module name="servicegov" target="1.6" />
     </bytecodeTargetLevel>
   </component>

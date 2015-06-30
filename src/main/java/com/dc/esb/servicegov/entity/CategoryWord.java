@@ -1,15 +1,22 @@
 package com.dc.esb.servicegov.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="CATEGORY_WORD")
 public class CategoryWord {
 	@Id
-    @Column(name = "ID")
+	@Column(name = "ID")
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name="system-uuid",strategy="uuid")
 	private String id;
 	
     @Column(name = "ENGLISH_WORD")
@@ -30,14 +37,10 @@ public class CategoryWord {
 	
 	@Column(name = "OPT_DATE")
 	private String potDate;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+	
+	@Id
+	@SequenceGenerator(name="seq", sequenceName="CATE_SEQ")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator="seq")
 
 	public String getEnglishWord() {
 		return englishWord;
@@ -86,7 +89,13 @@ public class CategoryWord {
 	public void setPotDate(String potDate) {
 		this.potDate = potDate;
 	}
-	 
-	
-	
+
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }

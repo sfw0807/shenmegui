@@ -1,5 +1,8 @@
 package com.dc.esb.servicegov.service;
 
-public interface InterfaceHeadHISService {
+import com.dc.esb.servicegov.entity.InterfaceHeadHIS;
+import com.dc.esb.servicegov.service.support.BaseService;
+
+public interface InterfaceHeadHISService extends BaseService<InterfaceHeadHIS, String> {
 
 }

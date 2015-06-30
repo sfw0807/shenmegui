@@ -1,8 +1,9 @@
 package com.dc.esb.servicegov.service;
 
-import java.util.List;
+import com.dc.esb.servicegov.entity.System;
+import com.dc.esb.servicegov.service.support.BaseService;
 
 
-public interface SystemService {
+public interface SystemService extends BaseService<System, String> {
 
 }

@@ -1,15 +1,19 @@
 package com.dc.esb.servicegov.controller;
 
-import com.dc.esb.servicegov.entity.CategoryWord;
-import com.dc.esb.servicegov.service.impl.CategoryWordServiceImpl;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import com.dc.esb.servicegov.entity.CategoryWord;
+import com.dc.esb.servicegov.service.impl.CategoryWordServiceImpl;
 
 @Controller
 @RequestMapping("/categoryWord")
@@ -22,13 +26,13 @@ public class CategoryWordController {
     public
     @ResponseBody
     List<CategoryWord> getAll() {
-        return categoryWordService.getAllCategory();
+        return categoryWordService.getAll();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getById/{id}", headers = "Accept=application/json")
     public
     @ResponseBody
-    List<CategoryWord> getById(@PathVariable(value = "id") String id) {
+    CategoryWord getById(@PathVariable(value = "id") String id) {
         return categoryWordService.getById(id);
     }
 
@@ -77,16 +81,16 @@ public class CategoryWordController {
     @RequestMapping(method = RequestMethod.POST, value = "/add", headers = "Accept=application/json")
     public
     @ResponseBody
-    boolean add(CategoryWord categoryWord) {
-        categoryWordService.addCategoryWord(categoryWord);
+    boolean add(@RequestBody CategoryWord categoryWord) {
+        categoryWordService.save(categoryWord);
         return true;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/modify", headers = "Accept=application/json")
     public
     @ResponseBody
-    boolean modify(CategoryWord categoryWord) {
-        categoryWordService.modifyCategoryWord(categoryWord);
+    boolean modify(@RequestBody CategoryWord categoryWord) {
+        categoryWordService.save(categoryWord);
         return true;
     }
 
@@ -94,7 +98,25 @@ public class CategoryWordController {
     public
     @ResponseBody
     boolean delete(@PathVariable String Id) {
-        categoryWordService.deleteCategoryWord(Id);
+        categoryWordService.deleteById(Id);
         return true;
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/get/EnglishWord/{englishWord}/ChineseWord/{chineseWord}/EsglisgAb/{esglisgAb}/Remark/{remark}", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    List<CategoryWord> getByParams(@PathVariable(value = "englishWord") String englishWord, @PathVariable(value = "chineseWord") String chineseWord, @PathVariable(value = "esglisgAb") String esglisgAb, @PathVariable(value = "remark") String remark) {
+        Map<String, String> params = new HashMap<String, String>();
+        if (!"isNull".equals(englishWord))
+            params.put("englishWord", englishWord);
+        if (!"isNull".equals(chineseWord))
+            params.put("chineseWord", chineseWord);
+        if (!"isNull".equals(esglisgAb))
+            params.put("esglisgAb", esglisgAb);
+        if (!"isNull".equals(remark))
+            params.put("remark", remark);
+        List<CategoryWord> words = categoryWordService.findBy(params);
+        return words;
+    }
+
 }
