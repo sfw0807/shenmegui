@@ -19,13 +19,18 @@ package com.dc.esb.servicegov.security.impl;
  * under the License.
  */
 
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
+import com.dc.esb.servicegov.entity.Role;
+import com.dc.esb.servicegov.entity.User;
+import com.dc.esb.servicegov.service.impl.UserServiceImpl;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.Sha256CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,52 +47,47 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SampleRealm extends AuthorizingRealm {
 
+    private static final Log log = LogFactory.getLog(SampleRealm.class);
+
+    @Autowired
+    private UserServiceImpl userService;
+
 
     public SampleRealm() {
         setName("SampleRealm"); //This name must match the name in the User class's getPrincipals() method
-        setCredentialsMatcher(new Sha256CredentialsMatcher());
+//        setCredentialsMatcher(new Sha256CredentialsMatcher());
     }
 
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        return null;
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
+        log.info("user login");
+        UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
+        User user = userService.getById(token.getUsername());
+        if (user != null) {
+            return new SimpleAuthenticationInfo(token.getUsername(), user.getPassword(), getName());
+        } else {
+            return null;
+        }
     }
 
-    @Override
+
+    @Transactional
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        return null;
+        String userName = (String) principals.fromRealm(getName()).iterator().next();
+        User user = userService.getById(userName);
+        if (user != null) {
+            SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+
+//            Role role = user.getRoleId();
+//            info.addRole(role.getName());
+//            info.addStringPermissions(role.getPermissions());
+
+            return info;
+        } else {
+            return null;
+        }
     }
 
-/*
-@Transactional
-protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
-UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-User user = userManager.getUserByName(token.getUsername());
-if( user != null ) {
-return new SimpleAuthenticationInfo(token.getUsername(), user.getPassword(), getName());
-} else {
-return null;
-}
-}
-
-
-@Transactional
-protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-String userName = (String) principals.fromRealm(getName()).iterator().next();
-User user = userManager.getUserByName(userName);
-user.getEmail();
-if( user != null ) {
-SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-for( Role role : user.getRoles() ) {
-info.addRole(role.getName());
-info.addStringPermissions( role.getPermissions() );
-}
-return info;
-} else {
-return null;
-}
-}
-*/
 
 }
 

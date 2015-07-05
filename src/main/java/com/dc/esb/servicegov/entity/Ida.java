@@ -25,7 +25,7 @@ public class Ida {
     private String metadataId;
 
     @Column(name = "SEQ")
-    private String seq;
+    private int seq;
 
     @Column(name = "TYPE")
     private String type;
@@ -95,11 +95,11 @@ public class Ida {
         this.metadataId = metadataId;
     }
 
-    public String getSeq() {
+    public int getSeq() {
         return seq;
     }
 
-    public void setSeq(String seq) {
+    public void setSeq(int seq) {
         this.seq = seq;
     }
 

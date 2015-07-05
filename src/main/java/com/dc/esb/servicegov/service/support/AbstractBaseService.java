@@ -1,12 +1,18 @@
 package com.dc.esb.servicegov.service.support;
 
+import com.dc.esb.servicegov.dao.support.HibernateDAO;
+import com.dc.esb.servicegov.dao.support.Page;
+import com.dc.esb.servicegov.dao.support.SearchCondition;
+import com.dc.esb.servicegov.util.ReflectionUtils;
+import org.apache.commons.logging.Log;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import com.dc.esb.servicegov.dao.support.HibernateDAO;
-
+@Transactional
 public abstract class AbstractBaseService<T, PK extends Serializable>{
 
 	/**
@@ -85,6 +91,14 @@ public abstract class AbstractBaseService<T, PK extends Serializable>{
 		return getDAO().findBy(properties);
 	}
 
+	public List<T> findBy(SearchCondition searchCond, Page page){
+		return getDAO().findBy(searchCond,page);
+	}
+
+	public Page findBy(SearchCondition searchCond, int pageSize) {
+		return getDAO().findBy(searchCond, pageSize);
+	}
+
 	public T findUniqueBy(Map<String,String> params){
 		return getDAO().findUniqureBy(params);
 	}
@@ -93,5 +107,20 @@ public abstract class AbstractBaseService<T, PK extends Serializable>{
 		return getDAO().findUniqueBy(name, value);
 	}
 
+	public List<T> findLike(Map<String, String> params){
+		return getDAO().findLike(params);
+	}
+
+	public Page findPage(final String hql, int pageSize, List<SearchCondition> searchConds) {
+		return getDAO().findPage(hql, pageSize, searchConds);
+	}
+
+	public List<T> findBy(String hql, Page page,List<SearchCondition> searchConds){
+		return getDAO().findBy(hql, page, searchConds);
+	}
+
+	public List<T> findBy(final Map<String, String> properties, String orderByProperties){
+		return getDAO().findBy(properties, orderByProperties);
+	}
 
 }

@@ -9,7 +9,7 @@ import com.dc.esb.servicegov.dao.support.HibernateDAO;
 import com.dc.esb.servicegov.entity.SLA;
 
 @Repository
-public class SlaDAOImpl extends HibernateDAO<SLA, String> {
+public class SLADAOImpl extends HibernateDAO<SLA, String> {
 	
 	private final static String GET_ALL_HQL = "select s from SLA s where s.slaTemplateId = null"; 
 	private final static String GET_TEMPLATE_SLA_HQL = "select s from SLA s where s.slaTemplateId != null ";
@@ -25,7 +25,7 @@ public class SlaDAOImpl extends HibernateDAO<SLA, String> {
 			sb.append(" and ");
 			sb.append(entry.getKey());
 			sb.append("=");
-			sb.append(entry.getValue());
+			sb.append("'" +entry.getValue() + "'");
 		}
 		return find(sb.toString());
 	}

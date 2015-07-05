@@ -2,11 +2,7 @@ package com.dc.esb.servicegov.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -19,10 +15,8 @@ public class Service implements Serializable {
 	
 	@Id
 	@Column(name = "SERVICE_ID")
-	@GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid",strategy="uuid")
 	private String serviceId;
-	
+
 	@Column(name = "SERVICE_NAME")
 	private String serviceName;
 	

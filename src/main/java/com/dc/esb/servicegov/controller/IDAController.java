@@ -26,27 +26,63 @@ public class IDAController {
 	public @ResponseBody
 	Map<String,Object> getHeads(@PathVariable String headId) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("headId", headId);
-		List<Ida> idas = idaService.findBy(params);
+		Map<String,String> reqMap = new HashMap<String,String>();
+		reqMap.put("headId", headId);
+		List<Ida> idas = idaService.findBy(reqMap, "seq");
+		map.put("total", idas.size());
+		map.put("rows", idas);
+		return map;
+	}  
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/getInterfaces/{interfaceId}", headers = "Accept=application/json")
+	public @ResponseBody
+	Map<String,Object> getInterfaces(@PathVariable String interfaceId) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,String> reqMap = new HashMap<String,String>();
+		reqMap.put("interfaceId", interfaceId);
+		List<Ida> idas = idaService.findBy(reqMap,"seq");
 		map.put("total", idas.size());
 		map.put("rows", idas);
 		return map;
 	} 
 	
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/add", headers = "Accept=application/json")
 	public @ResponseBody
 	boolean save(@RequestBody
-	Ida ida) {
-		idaService.save(ida);
+	Ida [] idas) {
+		for(Ida ida :idas){
+			idaService.save(ida);
+		}
 		return true;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}", headers = "Accept=application/json")
 	public @ResponseBody
-	boolean delete(@PathVariable
-	String id) {
-		idaService.deleteById(id);
+	boolean delete(@RequestBody
+	String [] ids) {
+		for(String id:ids){
+			idaService.deleteById(id);
+		}
+		return true;
+	}
+
+	/**
+	 * TODO不满足需求，不要
+	 * @param id
+	 * @param seq
+	 * @param id2
+	 * @param seq2
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/modifySEQ/{id}/{seq}/{id2}/{seq2}", headers = "Accept=application/json")
+	public @ResponseBody
+	boolean modifySEQ(@PathVariable
+	String id,@PathVariable int seq,@PathVariable String id2,@PathVariable int seq2) {
+		
+		String hql = "update Ida set seq = ? where id=?";
+//		idaService.exeHql(hql, seq,id);
+//		idaService.exeHql(hql, seq2,id2);
 		return true;
 	}
 }

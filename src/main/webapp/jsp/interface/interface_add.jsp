@@ -9,18 +9,18 @@
 
 		<tr>
 			<th>
-				交易码
+				交易名称
 			</th>
 			<td>
-				<input class="easyui-textbox" type="text" id="ecode">
+				<input class="easyui-textbox" type="text" id="interfaceNameText">
 			</td>
 		</tr>
 		<tr>
 			<th>
-				交易名称
+				交易码
 			</th>
 			<td>
-				<input class="easyui-textbox" type="text" id="interfaceName">
+				<input class="easyui-textbox" type="text" id="ecodeText">
 			</td>
 		</tr>
 		<tr>
@@ -57,13 +57,23 @@
 <script type="text/javascript">
 
 	function save(){
-		var ecode = $("#ecode").val();
-		var interfaceName = $("#interfaceName").val();
+		var ecode = $("#ecodeText").val();
+		var interfaceName = $("#interfaceNameText").val();
 		var desc = $("#desc").val();
 		var remark = $("#remark").val();
-		var node = $('.msinterfacetree').tree("getSelected");
-		
-		var systemId = node.id;
+		var systemId ="";
+		var treeObj =$('.msinterfacetree') ;
+		try { 
+			var selectNode = $('.msinterfacetree').tree("getSelected");
+			systemId = selectNode.id;
+			var node = $('.msinterfacetree').tree("getParent",selectNode.target);
+			if(node){
+				 systemId = node.id;
+			}
+		} catch (e) { 
+			systemId = "${param.systemId}";
+			treeObj = parent.$('.msinterfacetree');
+		}
 		var data = {};
 		data.ecode = ecode;
 		data.interfaceName = interfaceName;
@@ -73,16 +83,20 @@
 		var serviceInvoke = {};
 		serviceInvoke.systemId = systemId;
 		data.serviceInvoke = serviceInvoke;
-		
 	
 		interfaceManager.add(data,function(result){
 			if(result){
 				$('#w').window('close');
-				$('.msinterfacetree').tree("reload");
+				
+				treeObj.tree("reload");
+				
+				$('#tg').datagrid("reload");
+				
 			}else{
 				alert("保存失败");
 			}
         });
+        
 	}
 
 </script>

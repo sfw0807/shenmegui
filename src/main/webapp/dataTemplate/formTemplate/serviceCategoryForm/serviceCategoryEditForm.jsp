@@ -9,10 +9,9 @@
 		serviceCategory.desc = $('#discription').val();
 		serviceCategory.parentId = $('#parentId').val();
 		serviceCategory.remark = $('#remark').val();
-		editServiceCategory(serviceCategory,function(result){
-			if(result){
-				alert("编辑成功");
-			}
+		serviceManager.editServiceCategory(serviceCategory,function(result){
+			$('#w').window('close');
+			$('.mxservicetree').tree('reload');
 		});
 	}
 	$(function(){

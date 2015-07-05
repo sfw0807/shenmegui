@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "OLA_TEMPLATE")
 public class OLATemplate implements Serializable {
@@ -19,6 +20,17 @@ public class OLATemplate implements Serializable {
 	
 	@Column(name = "DESCRIPTION")
 	private String desc;
+	
+	@Column(name="TEMPLATE_NAME")
+	private String templateName;
+
+	public String getTemplateName() {
+		return templateName;
+	}
+
+	public void setTemplateName(String templateName) {
+		this.templateName = templateName;
+	}
 
 	public String getOlaTemplateId() {
 		return olaTemplateId;

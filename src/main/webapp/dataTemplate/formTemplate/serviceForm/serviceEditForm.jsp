@@ -11,10 +11,10 @@
 		service.categoryId = $('#serviceCategory').val();
 		service.version = $('#version').val();
 		service.state = $('#state').val();
-		editService(service,function(result){
+		serviceManager.editService(service,function(result){
 			if(result){
-				alert("修改成功");
 				$('#w').window('close');
+				$('.mxservicetree').tree('reload');
 			}
 		});
 	};

@@ -37,6 +37,10 @@ public class HibernateDAO<T, PK extends Serializable> {
 
     protected Class<T> entityClass;
 
+    public Class<T> getEntityClass() {
+        return entityClass;
+    }
+
     /**
      * 用于Dao层子类使用的构造函数.
      * 通过子类的泛型定义取得对象类型Class.
@@ -166,6 +170,72 @@ public class HibernateDAO<T, PK extends Serializable> {
     }
 
     /**
+     * 获取全部对象，并根据page返回当前页的List。
+     *
+     * @param page 分页信息对象
+     * @return 符合条件的对象List，List的size可能为0。
+     */
+
+    public List<T> getAll(Page page) {
+        Criteria criteria = getEntityCriteria();
+
+        if (page.getOrderBy() != null) {
+            if (page.getOrder().equalsIgnoreCase("asc")) {
+                criteria.addOrder(Order.asc(page.getOrderBy()));
+            } else {
+                criteria.addOrder(Order.desc(page.getOrderBy()));
+            }
+        } else {
+            criteria.addOrder(Order.desc(this.getIdName()));
+        }
+
+        criteria.setFirstResult(page.getFirstItemPos());
+        criteria.setMaxResults(page.getPageSize());
+        return criteria.list();
+    }
+
+    /**
+     * 获取全部对象，并返回该对象的分页信息对象。
+     *
+     * @param pageSize 分页大小
+     * @return 分页信息对象
+     */
+    public Page getAll(int pageSize) {
+        String countQueryString = " select count(*) from "
+                + getEntityClass().getName();
+        // 创建查询
+        Query query = getSession().createQuery(countQueryString);
+
+        List countlist = query.list();
+        long totalCount = (Long) countlist.get(0);
+
+        // 返回分页对象
+        if (totalCount < 1) {
+            totalCount = 0;
+        }
+
+        return new Page(totalCount, pageSize);
+    }
+
+    /**
+     * 获取全部对象数量
+     *
+     * @return 全部对象数量
+     */
+    public Long getAllCount() {
+        String countQueryString = " select count(*) from "
+                + getEntityClass().getName();
+        // 创建查询
+        Query query = getSession().createQuery(countQueryString);
+
+        List<?> countlist = query.list();
+        Long totalCount = (Long) countlist.get(0);
+
+        return totalCount;
+    }
+
+
+    /**
      * 按属性查找对象列表, 匹配方式为相等.
      */
     public List<T> findBy(final String propertyName, final Object value) {
@@ -196,6 +266,64 @@ public class HibernateDAO<T, PK extends Serializable> {
     }
 
     /**
+     * 根据属性名和属性值查询对象，并根据page返回当前页的List。
+     *
+     * @param searchCond 查询条件
+     * @param page       分页信息对象
+     * @return 符合条件的对象List，List的size可能为0。
+     */
+    public List<T> findBy(SearchCondition searchCond, Page page) {
+        Criteria criteria = getEntityCriteria();
+        criteria.add(Restrictions.eq(searchCond.getField(),
+                searchCond.getFieldValue()));
+
+        if (page.getOrderBy() != null) {
+            if (page.getOrder().equalsIgnoreCase("asc")) {
+                criteria.addOrder(Order.asc(page.getOrderBy()));
+            } else {
+                criteria.addOrder(Order.desc(page.getOrderBy()));
+            }
+        } else {
+            criteria.addOrder(Order.desc(this.getIdName()));
+        }
+
+        criteria.setFirstResult(page.getFirstItemPos());
+        criteria.setMaxResults(page.getPageSize());
+        return criteria.list();
+    }
+
+    /**
+     * 根据属性名和属性值查询对象，并返回该对象的分页信息对象。
+     *
+     * @param searchCond 查询条件
+     * @param pageSize   分页大小
+     * @return 分页信息对象
+     */
+    public Page findBy(SearchCondition searchCond, int pageSize) {
+        StringBuffer hqlStr = new StringBuffer("select count(*) from ");
+        hqlStr.append(getEntityClass().getName());
+        hqlStr.append(" g where g.");
+        hqlStr.append(searchCond.getField());
+        hqlStr.append("=:fieldValue");
+        // 创建查询
+        Query query = getSession().createQuery(hqlStr.toString());
+        query.setParameter("fieldValue", searchCond.getFieldValue());
+
+        List countlist = query.list();
+        long totalCount = (Long) countlist.get(0);
+
+        hqlStr.delete(0, hqlStr.length());
+        hqlStr = null;
+
+        // 返回分页对象
+        if (totalCount < 1) {
+            totalCount = 0;
+        }
+
+        return new Page(totalCount, pageSize);
+    }
+
+    /**
      * 按属性查找唯一对象, 匹配方式为相等.
      */
     @Transactional
@@ -206,13 +334,23 @@ public class HibernateDAO<T, PK extends Serializable> {
     }
 
     @Transactional
-    public T findUniqureBy(final Map<String, String> params){
+    public T findUniqureBy(final Map<String, String> params) {
         Criteria criteria = getSession().createCriteria(entityClass);
         for (Map.Entry<String, String> entry : params.entrySet()) {
             Criterion criterion = Restrictions.eq(entry.getKey(), entry.getValue());
             criteria.add(criterion);
         }
-        return (T)criteria.uniqueResult();
+        return (T) criteria.uniqueResult();
+    }
+
+    @Transactional
+    public List<T> findLike(final Map<String, String> params) {
+        Criteria criteria = getSession().createCriteria(entityClass);
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            Criterion criterion = Restrictions.like(entry.getKey(), entry.getValue());
+            criteria.add(criterion);
+        }
+        return criteria.list();
     }
 
     /**
@@ -400,4 +538,84 @@ public class HibernateDAO<T, PK extends Serializable> {
         Object object = findUniqueBy(propertyName, newValue);
         return (object == null);
     }
+
+    /**
+     * 取得Entity的Criteria
+     *
+     * @return 取得的Entity的Criteria
+     */
+    protected Criteria getEntityCriteria() {
+        return getSession().createCriteria(entityClass);
+    }
+
+    /**
+     * 根据属性名和属性值查询对象，并根据page返回当前页的List。
+     *
+     * @param searchCond 查询条件
+     * @param page       分页信息对象
+     * @return 符合条件的对象List，List的size可能为0。
+     */
+    public List<T> findBy(List<SearchCondition> searchConds, Page page) {
+        Criteria criteria = getEntityCriteria();
+        for (SearchCondition searchCond : searchConds) {
+            criteria.add(Restrictions.eq(searchCond.getField(),
+                    searchCond.getFieldValue()));
+        }
+
+        if (page.getOrderBy() != null) {
+            if (page.getOrder().equalsIgnoreCase("asc")) {
+                criteria.addOrder(Order.asc(page.getOrderBy()));
+            } else {
+                criteria.addOrder(Order.desc(page.getOrderBy()));
+            }
+        } else {
+            criteria.addOrder(Order.desc(this.getIdName()));
+        }
+
+        criteria.setFirstResult(page.getFirstItemPos());
+        criteria.setMaxResults(page.getPageSize());
+        return criteria.list();
+    }
+
+    public List<T> findBy(String hql, Page page, List<SearchCondition> searchConds) {
+
+        // 创建查询
+        Query query = getSession().createQuery(hql);
+        for (int i = 0; i < searchConds.size(); i++) {
+            query.setParameter(i, searchConds.get(i).getFieldValue());
+        }
+        query.setFirstResult(page.getFirstItemPos());
+        query.setMaxResults(page.getPageSize());
+        List list = query.list();
+        return list;
+    }
+
+    public List<T> findBy(String hql, List<SearchCondition> searchConds) {
+
+        // 创建查询
+        Query query = getSession().createQuery(hql);
+        for (int i = 0; i < searchConds.size(); i++) {
+            query.setParameter(i, searchConds.get(i).getFieldValue());
+        }
+
+        List list = query.list();
+        return list;
+    }
+
+    public boolean exeHql(String hql, final Object... values) {
+        Query query = getSession().createQuery(hql);
+        if (values != null) {
+            for (int i = 0; i < values.length; i++) {
+                query.setParameter(i, values[i]);
+            }
+        }
+        return query.executeUpdate() > 0;
+    }
+
+    public Page findPage(final String hql, int pageSize, List<SearchCondition> searchConds) {
+        List<T> entitys = findBy(hql, searchConds);
+        Page page = new Page(entitys.size(),pageSize);
+        return page;
+    }
+
 }

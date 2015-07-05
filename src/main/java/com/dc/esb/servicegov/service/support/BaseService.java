@@ -1,5 +1,8 @@
 package com.dc.esb.servicegov.service.support;
 
+import com.dc.esb.servicegov.dao.support.Page;
+import com.dc.esb.servicegov.dao.support.SearchCondition;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -55,4 +58,22 @@ public interface BaseService<T, PK extends Serializable> {
 	public void deleteById(PK id);
 
 	public List<T> findBy(Map<String, String> properties);
+
+
+
+	public List<T> findBy(SearchCondition searchCond, Page page);
+
+	public Page findBy(SearchCondition searchCond, int pageSize);
+
+	public List<T> findBy(String hql, Page page,List<SearchCondition> searchConds);
+
+	public T findUniqueBy(Map<String,String> params);
+
+	public T findUniqueBy(String name, Object value);
+
+	public List<T> findLike(Map<String, String> params);
+
+	public Page findPage(final String hql, int pageSize, List<SearchCondition> searchConds);
+
+	public List<T> findBy(final Map<String, String> properties, String orderByProperties);
 }

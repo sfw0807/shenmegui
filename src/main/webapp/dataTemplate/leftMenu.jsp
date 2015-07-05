@@ -55,7 +55,7 @@
 	if(mid.equals("4")){
 %>
  <div class="tree-filter">
- 		<input class="easyui-searchbox" id="mxsysadmintreefilter" style="width:100%">
+ 		<input class="easyui-searchbox" id="servicetreefilter" style="width:100%">
 
  </div>
   <ul class="easyui-tree mxservicetree" data-options="url:'/service/getTree',method:'get',animate:true"></ul>

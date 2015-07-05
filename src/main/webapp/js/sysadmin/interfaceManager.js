@@ -36,7 +36,18 @@ var interfaceManager = {
             }
         });
     },
-    removeIDA : function(data, callBack){
+    modifySEQ : function(id,seq,id2,seq2){
+        $.ajax({
+            type: "get",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            url: "/ida/modifySEQ/"+id+"/"+seq+"/"+id2+"/"+seq2,
+            dataType: "json",
+            success: function(result) {
+            }
+        });
+    },
+     removeIDA : function(data, callBack){
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
@@ -47,41 +58,61 @@ var interfaceManager = {
             }
         });
     },
-    append:function(){
+    append:function(systemId){
     	uiinit.win({
 			w:500,
 			iconCls:'icon-add',
 			title:"新增接口",
-			url : "/jsp/interface/interface_add.jsp"
+			url : "/jsp/interface/interface_add.jsp?systemId="+systemId
 		});	
     },
     
-    edit:function(){
+    edit:function(interfaceId,systemId){
     	
-    	var node = $('.mxsysadmintree').tree("getSelected");
+    	var node = $('.msinterfacetree').tree("getSelected");
+    	
+    	var sId = interfaceId;
+    	try{
+    		sId=node.id
+    	}catch(e){
+    		sId = interfaceId;
+    	}
     	uiinit.win({
 			w:500,
 			iconCls:'icon-add',
 			title:"编辑报文",
-			url : "/interfaceHead/edit/"+node.id
+			url : "/interface/edit/"+sId+"?systemId="+systemId
 		});
     
     },
     
-    remove:function(){
+    remove:function(interfaceId,title){
     	
-    	var node = $('.mxsysadmintree').tree("getSelected");
+    	var node = $('.msinterfacetree').tree("getSelected");
+    	
+    	var sId = interfaceId;
+    	var tit = title;
+    	var treeObj = $('.msinterfacetree');
+    	var tabObj = $('#mainContentTabs');
+    	try{
+    		sId= node.id
+    		tit = node.text;
+    	}catch(e){
+    		sId = interfaceId;
+    		tit = title;
+    		treeObj = parent.$('.msinterfacetree');
+    		tabObj = parent.$('#mainContentTabs');
+    	}
+    	
     	$.ajax({
             type: "get",
             contentType: "application/json; charset=utf-8",
-            url: "/interfaceHead/delete/"+node.id,
+            url: "/interface/delete/"+sId,
             dataType: "json",
             success: function(result) {
                 if(result){
-                	$('.mxsysadmintree').tree("reload");
-                	var title = node.text;
-                	$('#mainContentTabs').tabs("close",title);
-                	
+                	treeObj.tree("reload");
+                	tabObj.tabs("close",tit);
                 }
             }
         });

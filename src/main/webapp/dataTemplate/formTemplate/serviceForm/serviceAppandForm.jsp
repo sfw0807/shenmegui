@@ -1,18 +1,26 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript">
+	var parentId;
+	$(function(){
+		var node = $('.mxservicetree').tree('getSelected');
+		if(node.serviceCategory !=null){
+			parentId = node.serviceCategory.categoryId;
+		}
+		if(node.service != null){
+			parentId = node.service.categoryId;
+		}
+	});
 	function toSave(){
 		var service = {};
 		service.serviceName = $('#serviceName').val();
 		service.desc = $('#discription').val();
-		var node = $('.mxservicetree').tree('getSelected');
-		service.categoryId = $('#serviceCategory').val();
+		service.categoryId = parentId;
 		service.version = $('#version').val();
 		service.state = $('#state').val();
-		addService(service,function(result){
-			if(result){
-				alert("新增成功");
-			}
+		serviceManager.addService(service,function(result){
+			$('#w').window('close');
+			$('.mxservicetree').tree('reload');
 		});
 	}
 </script>
@@ -27,7 +35,7 @@
     <th>描述</th>
     <td><input class="easyui-textbox" type="text" id="discription" ></td>
   </tr>
-  <tr>
+  <tr style="display:none">
     <th>服务分类</th>
     <td><input class="easyui-textbox" type="text" id="serviceCategory" ></td>
   </tr>

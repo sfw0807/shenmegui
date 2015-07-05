@@ -491,17 +491,17 @@
       <column name="OPT_DATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPT_USER" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="PROCESS_BYTE_ARRAY" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008671" columns="ID"/>
+      <primary-key name="SYS_C0011351" columns="ID"/>
     </table>
     <table name="CATEGORY_WORD" schema="ESBSG1" catalog="" type="TABLE">
-      <column name="ID" sqlType="NUMBER" precision="10" scale="0" nullable="false" jdbcType="3"/>
+      <column name="ENGLISHWORD" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="CHINESEWORD" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="ENGLISHWORD" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="ESGLISGAB" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="POTDATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="POTUSER" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008673" columns="ID"/>
+      <primary-key name="SYS_C0011353" columns="ENGLISHWORD"/>
     </table>
     <table name="CATE_SEQ" schema="ESBSG1" catalog="" type="SEQUENCE"/>
     <table name="CONTEXTMAPPINGINFO" schema="ESBSG1" catalog="" type="TABLE">
@@ -510,7 +510,7 @@
       <column name="KESSIONID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPTLOCK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OWERID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008675" columns="MAPPINGID"/>
+      <primary-key name="SYS_C0011355" columns="MAPPINGID"/>
     </table>
     <table name="CORRELATIONPROPERTYINFO" schema="ESBSG1" catalog="" type="TABLE">
       <column name="PROPERTYID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -518,14 +518,14 @@
       <column name="NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPTLOCK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008677" columns="PROPERTYID"/>
+      <primary-key name="SYS_C0011357" columns="PROPERTYID"/>
     </table>
     <table name="CORRLATIONKEYINFO" schema="ESBSG1" catalog="" type="TABLE">
       <column name="KEYID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPTLOCK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="PROCESSINSTANCEID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008679" columns="KEYID"/>
+      <primary-key name="SYS_C0011359" columns="KEYID"/>
     </table>
     <table name="ENGLISH_WORD" schema="ESBSG1" catalog="" type="TABLE">
       <column name="ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -535,7 +535,7 @@
       <column name="OPT_USER" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="WORD_AB" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008681" columns="ID"/>
+      <primary-key name="SYS_C0011361" columns="ID"/>
     </table>
     <table name="ENUM" schema="ESBSG1" catalog="" type="TABLE">
       <column name="ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -548,7 +548,7 @@
       <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STATUS" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008683" columns="ID"/>
+      <primary-key name="SYS_C0011363" columns="ID"/>
     </table>
     <table name="ENUM_ELEMENT" schema="ESBSG1" catalog="" type="TABLE">
       <column name="ELEMENT_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -557,26 +557,26 @@
       <column name="ELEMENT_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPT_DATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPT_USER" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008685" columns="ELEMENT_ID"/>
+      <primary-key name="SYS_C0011365" columns="ELEMENT_ID"/>
     </table>
     <table name="ERROR_CODE" schema="ESBSG1" catalog="" type="TABLE">
       <column name="CODE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="CODE_DESC" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="CODE_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008687" columns="CODE_ID"/>
+      <primary-key name="SYS_C0011367" columns="CODE_ID"/>
       <exported-key name="FK2C7C01F47B3CB090" table="SYSTEM_ERROR_CODE" schema="ESBSG1" catalog="" columns="CODE_ID"/>
     </table>
     <table name="EVENTTYPES" schema="ESBSG1" catalog="" type="TABLE">
       <column name="INSTANCEID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="ELEMENT" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008689" columns="INSTANCEID"/>
+      <primary-key name="SYS_C0011369" columns="INSTANCEID"/>
     </table>
     <table name="GENERATOR" schema="ESBSG1" catalog="" type="TABLE">
       <column name="ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="DESCRIPTION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="IMPLEMENTS" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008691" columns="ID"/>
+      <primary-key name="SYS_C0011371" columns="ID"/>
     </table>
     <table name="HDA" schema="ESBSG1" catalog="" type="TABLE">
       <column name="ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -606,12 +606,12 @@
       <column name="OPT_USER" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="REQUIRED" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SCALE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="SEQ" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SEQ" sqlType="NUMBER" precision="10" scale="0" nullable="true" jdbcType="3"/>
       <column name="STRUCTALIAS" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STRUCTNAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="TYPE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008693" columns="ID"/>
+      <primary-key name="SYS_C0011373" columns="ID"/>
     </table>
     <table name="IDA_HIS" schema="ESBSG1" catalog="" type="TABLE">
       <column name="ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -629,7 +629,7 @@
       <column name="STRUCTNAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="TYPE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008695" columns="ID"/>
+      <primary-key name="SYS_C0011375" columns="ID"/>
     </table>
     <table name="IDA_PROP" schema="ESBSG1" catalog="" type="TABLE">
       <column name="ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -639,7 +639,7 @@
       <column name="PROPERTY_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="PROPERTY_VALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008697" columns="ID"/>
+      <primary-key name="SYS_C0011377" columns="ID"/>
     </table>
     <table name="IDA_PROP_HIS" schema="ESBSG1" catalog="" type="TABLE">
       <column name="ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -650,7 +650,7 @@
       <column name="PROPERTY_VALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008699" columns="ID"/>
+      <primary-key name="SYS_C0011379" columns="ID"/>
     </table>
     <table name="INTERFACE" schema="ESBSG1" catalog="" type="TABLE">
       <column name="INTERFACE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -663,7 +663,7 @@
       <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STATUS" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008701" columns="INTERFACE_ID"/>
+      <primary-key name="SYS_C0011381" columns="INTERFACE_ID"/>
       <exported-key name="FK98F4C162A104DAE8" table="SERVICE_INVOKE" schema="ESBSG1" catalog="" columns="INTERFACE_ID"/>
     </table>
     <table name="INTERFACE_HEAD" schema="ESBSG1" catalog="" type="TABLE">
@@ -671,7 +671,7 @@
       <column name="HEAD_DESC" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="HEAD_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="HEAD_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008703" columns="HEAD_ID"/>
+      <primary-key name="SYS_C0011383" columns="HEAD_ID"/>
     </table>
     <table name="INTERFACE_HEAD_HIS" schema="ESBSG1" catalog="" type="TABLE">
       <column name="HEAD_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -679,7 +679,7 @@
       <column name="HEAD_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="HEAD_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008705" columns="HEAD_ID"/>
+      <primary-key name="SYS_C0011385" columns="HEAD_ID"/>
     </table>
     <table name="INTERFACE_HIS" schema="ESBSG1" catalog="" type="TABLE">
       <column name="INTERFACE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -692,12 +692,12 @@
       <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STATUS" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008707" columns="INTERFACE_ID"/>
+      <primary-key name="SYS_C0011387" columns="INTERFACE_ID"/>
     </table>
     <table name="INTERFACE_TAG" schema="ESBSG1" catalog="" type="TABLE">
       <column name="TAG_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="INTERFACE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
-      <primary-key name="SYS_C008710" columns="TAG_ID,INTERFACE_ID"/>
+      <primary-key name="SYS_C0011390" columns="TAG_ID,INTERFACE_ID"/>
     </table>
     <table name="METADATA" schema="ESBSG1" catalog="" type="TABLE">
       <column name="METADATA_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -720,20 +720,20 @@
       <column name="TEMPLATE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="TYPE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008712" columns="METADATA_ID"/>
+      <primary-key name="SYS_C0011392" columns="METADATA_ID"/>
     </table>
     <table name="METADATA_TEMPLATE" schema="ESBSG1" catalog="" type="TABLE">
       <column name="TEMPLATE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="LENGTH" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SCALE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="TYPE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008714" columns="TEMPLATE_ID"/>
+      <primary-key name="SYS_C0011394" columns="TEMPLATE_ID"/>
     </table>
     <table name="MSG_TEMPLATE" schema="ESBSG1" catalog="" type="TABLE">
       <column name="TEMPLATE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="TEMPLATE_CONTENT" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="TEMPLATE_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008716" columns="TEMPLATE_ID"/>
+      <primary-key name="SYS_C0011396" columns="TEMPLATE_ID"/>
     </table>
     <table name="OLA" schema="ESBSG1" catalog="" type="TABLE">
       <column name="OLA_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -744,26 +744,32 @@
       <column name="OLA_VALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008718" columns="OLA_ID"/>
+      <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="SYS_C0011398" columns="OLA_ID"/>
+      <foreign-key name="FK132041B72F70D" columns="SERVICE_ID,OPERATION_ID" ref-table="OPERATION" ref-schema="ESBSG1" ref-catalog="" ref-columns="SERVICE_ID,OPERATION_ID" update-rule="0" delete-rule="1" deferrability="2"/>
     </table>
     <table name="OLA_HIS" schema="ESBSG1" catalog="" type="TABLE">
-      <column name="OLA_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="AUTO_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="OLA_DESC" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OLA_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OLA_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OLA_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OLA_TEMPLATE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OLA_VALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPERATION_HIS_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008720" columns="OLA_ID"/>
+      <primary-key name="SYS_C0011400" columns="AUTO_ID"/>
     </table>
     <table name="OLA_TEMPLATE" schema="ESBSG1" catalog="" type="TABLE">
       <column name="OLA_TEMPLATE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="DESCRIPTION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008722" columns="OLA_TEMPLATE_ID"/>
+      <column name="TEMPLATE_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="SYS_C0011402" columns="OLA_TEMPLATE_ID"/>
     </table>
     <table name="OPERATION" schema="ESBSG1" catalog="" type="TABLE">
+      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="HEAD_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPERATION_DESC" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
@@ -771,15 +777,17 @@
       <column name="OPERATION_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPT_DATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPT_USER" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008724" columns="OPERATION_ID"/>
+      <primary-key name="SYS_C0011405" columns="SERVICE_ID,OPERATION_ID"/>
+      <foreign-key name="FK932E5474D9434E8" columns="SERVICE_ID" ref-table="SERVICE" ref-schema="ESBSG1" ref-catalog="" ref-columns="SERVICE_ID" update-rule="0" delete-rule="1" deferrability="2"/>
+      <exported-key name="FK132041B72F70D" table="OLA" schema="ESBSG1" catalog="" columns="SERVICE_ID,OPERATION_ID"/>
     </table>
     <table name="OPERATION_HIS" schema="ESBSG1" catalog="" type="TABLE">
-      <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="AUTO_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="HEAD_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPERATION_DESC" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPERATION_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPERATION_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPT_DATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
@@ -787,13 +795,13 @@
       <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008726" columns="OPERATION_ID"/>
+      <primary-key name="SYS_C0011407" columns="AUTO_ID"/>
     </table>
     <table name="OPERATION_TAG" schema="ESBSG1" catalog="" type="TABLE">
       <column name="TAG_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008728" columns="TAG_ID"/>
+      <primary-key name="SYS_C0011409" columns="TAG_ID"/>
     </table>
     <table name="PROCESSINSTANCEINFO" schema="ESBSG1" catalog="" type="TABLE">
       <column name="INSTANCEID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -803,7 +811,7 @@
       <column name="PROCESSID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="PROCESSINSTANCEBYTEARRAY" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STARTDATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008730" columns="INSTANCEID"/>
+      <primary-key name="SYS_C0011411" columns="INSTANCEID"/>
     </table>
     <table name="PROTOCOL" schema="ESBSG1" catalog="" type="TABLE">
       <column name="PROTOCOL_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -816,7 +824,7 @@
       <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SUCC_CODE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="TIMEOUT" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008732" columns="PROTOCOL_ID"/>
+      <primary-key name="SYS_C0011413" columns="PROTOCOL_ID"/>
     </table>
     <table name="SAL" schema="ESBSG1" catalog="" type="TABLE">
       <column name="SLA_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -830,16 +838,18 @@
       <primary-key name="SYS_C008734" columns="SLA_ID"/>
     </table>
     <table name="SAL_HIS" schema="ESBSG1" catalog="" type="TABLE">
-      <column name="SLA_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="AUTO_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OPERATION_HIS_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SLA_DESC" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SLA_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SLA_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SLA_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SLA_TEMPLATE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SLA_VALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008736" columns="SLA_ID"/>
+      <primary-key name="SYS_C0011415" columns="AUTO_ID"/>
     </table>
     <table name="SDA" schema="ESBSG1" catalog="" type="TABLE">
       <column name="SDA_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -850,25 +860,34 @@
       <column name="OPT_DATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPT_USER" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="PARENT_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SEQ" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STRUCTALIAS" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STRUCTNAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008738" columns="SDA_ID"/>
+      <column name="TYPE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="SYS_C0011417" columns="SDA_ID"/>
     </table>
     <table name="SDA_HIS" schema="ESBSG1" catalog="" type="TABLE">
-      <column name="SDA_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="AUTO_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="DESCRIPTION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="HEAD_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="METADATAID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="OPERATION_HIS_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPT_DATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="OPT_USER" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="PARENT_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SDA_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SEQ" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STRUCTALIAS" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STRUCTNAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TYPE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008740" columns="SDA_ID"/>
+      <primary-key name="SYS_C0011419" columns="AUTO_ID"/>
     </table>
     <table name="SDA_PROP" schema="ESBSG1" catalog="" type="TABLE">
       <column name="ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -878,7 +897,7 @@
       <column name="PROPERTY_VALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SDA_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008742" columns="ID"/>
+      <primary-key name="SYS_C0011421" columns="ID"/>
     </table>
     <table name="SDA_PROP_HIS" schema="ESBSG1" catalog="" type="TABLE">
       <column name="ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -889,7 +908,7 @@
       <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SDA_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008744" columns="ID"/>
+      <primary-key name="SYS_C0011423" columns="ID"/>
     </table>
     <table name="SERVICE" schema="ESBSG1" catalog="" type="TABLE">
       <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -901,7 +920,8 @@
       <column name="SERVICE_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008746" columns="SERVICE_ID"/>
+      <primary-key name="SYS_C0011425" columns="SERVICE_ID"/>
+      <exported-key name="FK932E5474D9434E8" table="OPERATION" schema="ESBSG1" catalog="" columns="SERVICE_ID"/>
     </table>
     <table name="SERVICE_CATEGORY" schema="ESBSG1" catalog="" type="TABLE">
       <column name="CATEGORY_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -909,7 +929,7 @@
       <column name="DESCRIPTION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="PARENT_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008748" columns="CATEGORY_ID"/>
+      <primary-key name="SYS_C0011427" columns="CATEGORY_ID"/>
     </table>
     <table name="SERVICE_CATEGORY_HIS" schema="ESBSG1" catalog="" type="TABLE">
       <column name="CATEGORY_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -918,14 +938,14 @@
       <column name="PARENT_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008750" columns="CATEGORY_ID"/>
+      <primary-key name="SYS_C0011429" columns="CATEGORY_ID"/>
     </table>
     <table name="SERVICE_HEAD" schema="ESBSG1" catalog="" type="TABLE">
       <column name="HEAD_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="HEAD_DESC" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="HEAD_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="HEAD_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008752" columns="HEAD_ID"/>
+      <primary-key name="SYS_C0011431" columns="HEAD_ID"/>
     </table>
     <table name="SERVICE_HEAD_HIS" schema="ESBSG1" catalog="" type="TABLE">
       <column name="HEAD_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -933,7 +953,7 @@
       <column name="HEAD_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="HEAD_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008754" columns="HEAD_ID"/>
+      <primary-key name="SYS_C0011433" columns="HEAD_ID"/>
     </table>
     <table name="SERVICE_HIS" schema="ESBSG1" catalog="" type="TABLE">
       <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -945,7 +965,7 @@
       <column name="SERVICE_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008756" columns="SERVICE_ID"/>
+      <primary-key name="SYS_C0011435" columns="SERVICE_ID"/>
     </table>
     <table name="SERVICE_INVOKE" schema="ESBSG1" catalog="" type="TABLE">
       <column name="INVOKE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -958,14 +978,14 @@
       <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SYSTEM_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="TYPE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008758" columns="INVOKE_ID"/>
+      <primary-key name="SYS_C0011437" columns="INVOKE_ID"/>
       <foreign-key name="FK98F4C162A104DAE8" columns="INTERFACE_ID" ref-table="INTERFACE" ref-schema="ESBSG1" ref-catalog="" ref-columns="INTERFACE_ID" update-rule="0" delete-rule="1" deferrability="2"/>
       <foreign-key name="FK98F4C162A50FB24C" columns="SYSTEM_ID" ref-table="SYSTEM" ref-schema="ESBSG1" ref-catalog="" ref-columns="SYSTEM_ID" update-rule="0" delete-rule="1" deferrability="2"/>
     </table>
     <table name="SERVICE_TAG" schema="ESBSG1" catalog="" type="TABLE">
       <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="TAG_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008760" columns="SERVICE_ID"/>
+      <primary-key name="SYS_C0011439" columns="SERVICE_ID"/>
     </table>
     <table name="SESSIONINFO" schema="ESBSG1" catalog="" type="TABLE">
       <column name="ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -973,12 +993,44 @@
       <column name="OPTLOCK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="RULESBYTEARRAY" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STARTDATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008762" columns="ID"/>
+      <primary-key name="SYS_C0011441" columns="ID"/>
+    </table>
+    <table name="SG_ROLE" schema="ESBSG1" catalog="" type="TABLE">
+      <column name="ROLE_ID" sqlType="NUMBER" precision="10" scale="0" nullable="false" jdbcType="3"/>
+      <column name="ROLE_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ROLE_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="SYS_C0011443" columns="ROLE_ID"/>
+    </table>
+    <table name="SG_USER" schema="ESBSG1" catalog="" type="TABLE">
+      <column name="USER_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="USER_LASTDATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_ORG_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_PASSWORD" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_ROLE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_STATUS" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_MOBILE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="USER_TEL" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="SYS_C0012189" columns="USER_ID"/>
+    </table>
+    <table name="SLA" schema="ESBSG1" catalog="" type="TABLE">
+      <column name="SLA_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="OPERATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SERVICE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SLA_DESC" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SLA_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SLA_REMARK" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SLA_TEMPLATE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="SLA_VALUE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="SYS_C0011447" columns="SLA_ID"/>
     </table>
     <table name="SLA_TEMPLATE" schema="ESBSG1" catalog="" type="TABLE">
       <column name="SLA_TEMPLATE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="DESCRIPTION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008764" columns="SLA_TEMPLATE_ID"/>
+      <column name="TEMPLATE_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="SYS_C0011449" columns="SLA_TEMPLATE_ID"/>
     </table>
     <table name="SYSTEM" schema="ESBSG1" catalog="" type="TABLE">
       <column name="SYSTEM_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -990,28 +1042,28 @@
       <column name="SYSTEM_AB" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="SYSTEM_CHINESE_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="WORK_RANGE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008766" columns="SYSTEM_ID"/>
+      <primary-key name="SYS_C0011451" columns="SYSTEM_ID"/>
       <exported-key name="FK98F4C162A50FB24C" table="SERVICE_INVOKE" schema="ESBSG1" catalog="" columns="SYSTEM_ID"/>
       <exported-key name="FK2C7C01F4A50FB24C" table="SYSTEM_ERROR_CODE" schema="ESBSG1" catalog="" columns="SYSTEM_ID"/>
     </table>
     <table name="SYSTEM_ERROR_CODE" schema="ESBSG1" catalog="" type="TABLE">
       <column name="SYSTEM_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="CODE_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008768" columns="SYSTEM_ID"/>
+      <primary-key name="SYS_C0011453" columns="SYSTEM_ID"/>
       <foreign-key name="FK2C7C01F47B3CB090" columns="CODE_ID" ref-table="ERROR_CODE" ref-schema="ESBSG1" ref-catalog="" ref-columns="CODE_ID" update-rule="0" delete-rule="1" deferrability="2"/>
       <foreign-key name="FK2C7C01F4A50FB24C" columns="SYSTEM_ID" ref-table="SYSTEM" ref-schema="ESBSG1" ref-catalog="" ref-columns="SYSTEM_ID" update-rule="0" delete-rule="1" deferrability="2"/>
     </table>
     <table name="SYSTEM_PROTOCOL" schema="ESBSG1" catalog="" type="TABLE">
       <column name="SYSTEM_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="CONNECT_MODE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008770" columns="SYSTEM_ID"/>
+      <primary-key name="SYS_C0011455" columns="SYSTEM_ID"/>
     </table>
     <table name="TAG" schema="ESBSG1" catalog="" type="TABLE">
       <column name="TAG_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="DESCRIPTION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="PARENT_TAG_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="TAG_NAME" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008772" columns="TAG_ID"/>
+      <primary-key name="SYS_C0011457" columns="TAG_ID"/>
     </table>
     <table name="WORKITEMINFO" schema="ESBSG1" catalog="" type="TABLE">
       <column name="WORKITEMID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -1022,7 +1074,7 @@
       <column name="PROCESSINSTANCEID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="STATE" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="WORKITEMBYTEARRAY" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008774" columns="WORKITEMID"/>
+      <primary-key name="SYS_C0011459" columns="WORKITEMID"/>
     </table>
     <table name="WORK_ITEM" schema="ESBSG1" catalog="" type="TABLE">
       <column name="WORK_ITEM_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
@@ -1031,25 +1083,25 @@
       <column name="OPERATION_VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="RELATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008776" columns="WORK_ITEM_ID"/>
+      <primary-key name="SYS_C0011461" columns="WORK_ITEM_ID"/>
     </table>
     <table name="WORK_ITEM_HANDLER" schema="ESBSG1" catalog="" type="TABLE">
       <column name="HANDLER_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="USER_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="WORK_ITEM__ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008778" columns="HANDLER_ID"/>
+      <primary-key name="SYS_C0011463" columns="HANDLER_ID"/>
     </table>
     <table name="WORK_ITEM_LIST" schema="ESBSG1" catalog="" type="TABLE">
       <column name="LIST_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="DESCRIPTION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="VERSION" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008780" columns="LIST_ID"/>
+      <primary-key name="SYS_C0011465" columns="LIST_ID"/>
     </table>
     <table name="WORK_ITEM_LIST_RELATION" schema="ESBSG1" catalog="" type="TABLE">
       <column name="RELATION_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="false" jdbcType="12"/>
       <column name="LIST_ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="WORK_ITEM__ID" sqlType="VARCHAR2" precision="255" scale="0" nullable="true" jdbcType="12"/>
-      <primary-key name="SYS_C008782" columns="RELATION_ID"/>
+      <primary-key name="SYS_C0011467" columns="RELATION_ID"/>
     </table>
   </data-source>
 </component>

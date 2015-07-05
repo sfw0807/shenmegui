@@ -1,11 +1,15 @@
 package com.dc.esb.servicegov.entity;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "OPERATION_HIS")
@@ -14,6 +18,9 @@ public class OperationHis implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "AUTO_ID")
+	private String autoId;
+	
 	@Column(name = "OPERATION_ID")
 	private String operationId;
 	
@@ -43,6 +50,34 @@ public class OperationHis implements Serializable{
 	
 	@Column(name = "HEAD_ID")
 	private String headId;
+	
+	public OperationHis(){
+		
+	}
+	
+	public OperationHis(Operation operation){
+		this.autoId = UUID.randomUUID().toString();
+		this.headId = operation.getHeadId();
+		this.operationDesc = operation.getOperationDesc();
+		this.operationId = operation.getOperationId();
+		this.operationName = operation.getOperationName();
+		this.operationRemark = operation.getOperationRemark();
+		this.optDate = operation.getOptDate();
+		this.optUser = operation.getOptUser();
+		this.serviceId = operation.getServiceId();
+		this.state = operation.getState();
+		this.version = operation.getVersion();
+	}
+	
+
+
+	public String getAutoId() {
+		return autoId;
+	}
+
+	public void setAutoId(String autoId) {
+		this.autoId = autoId;
+	}
 
 	public String getOperationId() {
 		return operationId;

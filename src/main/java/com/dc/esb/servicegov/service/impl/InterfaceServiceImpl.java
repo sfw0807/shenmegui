@@ -17,8 +17,10 @@ public class InterfaceServiceImpl extends AbstractBaseService<Interface, String>
 	@Autowired
 	private InterfaceDAOImpl interfaceDAOImpl;
 
+
 	@Override
 	public HibernateDAO<Interface, String> getDAO() {
 		return interfaceDAOImpl;
 	}
+
 }

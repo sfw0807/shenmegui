@@ -1,11 +1,15 @@
 package com.dc.esb.servicegov.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.dc.esb.servicegov.util.DateUtils;
+import com.dc.esb.servicegov.util.TreeNode;
 
 @Entity
 @Table(name = "SDA")
@@ -19,6 +23,9 @@ public class SDA implements Serializable {
 	
 	@Column(name = "STRUCTNAME")
 	private String structName;
+	
+	@Column(name = "STRUCTALIAS")
+	private String structAlias;
 	
 	@Column(name = "METADATAID")
 	private String metadataId;
@@ -44,9 +51,22 @@ public class SDA implements Serializable {
 	@Column(name = "DESCRIPTION")
 	private String desc;
 	
+	@Column(name = "REMARK")
+	private String remark;
+	
 	@Column(name = "HEAD_ID")
 	private String headId;
-
+	
+	@Column(name = "version")
+	private String version;
+	
+	@Column(name = "type")
+	private String type;
+	
+	public SDA(){
+		
+	}
+	
 	public String getSdaId() {
 		return sdaId;
 	}
@@ -133,6 +153,38 @@ public class SDA implements Serializable {
 
 	public void setHeadId(String headId) {
 		this.headId = headId;
+	}
+
+	public String getStructAlias() {
+		return structAlias;
+	}
+
+	public void setStructAlias(String structAlias) {
+		this.structAlias = structAlias;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 }

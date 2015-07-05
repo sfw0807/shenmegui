@@ -1,11 +1,15 @@
 package com.dc.esb.servicegov.entity;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "SDA_HIS")
@@ -14,11 +18,20 @@ public class SDAHis implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name = "AUTO_ID")
+	private String autoId;
+	
+	@Column(name = "OPERATION_HIS_ID")
+	private String operationHisId;
+	
 	@Column(name = "SDA_ID")
 	private String sdaId;
 	
 	@Column(name = "STRUCTNAME")
 	private String structName;
+	
+	@Column(name = "STRUCTALIAS")
+	private String structAlias;
 	
 	@Column(name = "METADATAID")
 	private String metadataId;
@@ -44,12 +57,60 @@ public class SDAHis implements Serializable {
 	@Column(name = "DESCRIPTION")
 	private String desc;
 	
+	@Column(name = "REMARK")
+	private String remark;
+	
 	@Column(name = "HEAD_ID")
 	private String headId;
 
 	@Column(name = "VERSION")
 	private String version;
 	
+	@Column(name = "type")
+	private String type;
+	
+	public SDAHis(){
+		
+	}
+	
+	public SDAHis(SDA sda, String operationHisId) {
+		this.autoId = UUID.randomUUID().toString();
+		this.operationHisId = operationHisId;
+		this.sdaId = sda.getSdaId();
+		this.structName = sda.getStructName();
+		this.structAlias = sda.getStructAlias();
+		this.metadataId = sda.getMetadataId();
+		this.seq = sda.getSeq();
+		this.parentId = sda.getParentId();
+		this.serviceId = sda.getServiceId();
+		this.optUser = sda.getOptUser();
+		this.optDate = sda.getOptDate();
+		this.operationId = sda.getOperationId();
+		this.desc = sda.getDesc();
+		this.remark = sda.getRemark();
+		this.headId = sda.getHeadId();
+		this.version = sda.getVersion();
+		this.type = sda.getType();
+	}
+
+
+
+	public String getAutoId() {
+		return autoId;
+	}
+
+	public void setAutoId(String autoId) {
+		this.autoId = autoId;
+	}
+
+	public String getOperationHisId() {
+		return operationHisId;
+	}
+
+	public void setOperationHisId(String operationHisId) {
+		this.operationHisId = operationHisId;
+	}
+
 	public String getSdaId() {
 		return sdaId;
 	}
@@ -144,6 +205,30 @@ public class SDAHis implements Serializable {
 
 	public void setVersion(String version) {
 		this.version = version;
+	}
+
+	public String getStructAlias() {
+		return structAlias;
+	}
+
+	public void setStructAlias(String structAlias) {
+		this.structAlias = structAlias;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 }

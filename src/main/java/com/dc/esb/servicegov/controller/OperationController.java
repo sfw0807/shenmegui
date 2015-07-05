@@ -26,11 +26,19 @@ public class OperationController {
     @Autowired
     private OperationServiceImpl operationServiceImpl;
 
+    @Autowired
+    private ServiceServiceImpl serviceService;
+
     @RequestMapping(method = RequestMethod.GET, value = "/getAll", headers = "Accept=application/json")
     public
     @ResponseBody
-    List<Operation> getAll() {
-        return operationServiceImpl.getAll();
+    Map<String, Object> getAll() {
+
+        Map<String, Object> result = new HashMap<String, Object>();
+        List<Operation> rows = operationServiceImpl.getAll();
+        result.put("total", rows.size());
+        result.put("rows", rows);
+        return result;
     }
 
     @RequestMapping("/getOperationByServiceId/{serviceId}")
@@ -47,10 +55,7 @@ public class OperationController {
     @RequestMapping("/addPage/{serviceId}")
     public ModelAndView addPage(HttpServletRequest req, @PathVariable(value = "serviceId") String serviceId) {
         ModelAndView mv = new ModelAndView("service/operation/add");
-        //根据serviceId查询service信息注入operation
-        ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(req.getSession().getServletContext());
-        ServiceServiceImpl ss = context.getBean(ServiceServiceImpl.class);
-        Service service = ss.getUniqueByServiceId(serviceId);
+        Service service = serviceService.getUniqueByServiceId(serviceId);
         if (service != null) {
             mv.addObject("service", service);
         }
@@ -58,24 +63,31 @@ public class OperationController {
     }
 
     //场景号唯一性验证
-    @RequestMapping(method = RequestMethod.GET, value = "/uniqueValid/{serviceId}/{operationId}", headers = "Accept=application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/uniqueValid", headers = "Accept=application/json")
     public
     @ResponseBody
-    boolean uniqueValid(@PathVariable(value="serviceId")String serviceId, @PathVariable(value="operationId") String operationId) {
-        return operationServiceImpl.uniqueValid(serviceId,operationId);
+    boolean uniqueValid(String operationId, String serviceId) {
+        return operationServiceImpl.uniqueValid(operationId, serviceId);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/add", headers = "Accept=application/json")
     public
     @ResponseBody
     boolean add(Operation Operation) {
-         operationServiceImpl.save(Operation);
+        operationServiceImpl.save(Operation);
         return true;
     }
 
-    //根据服务id跳转到场景添加页面
-    @RequestMapping("/editPage/{serviceId}/{operationId}")
-    public ModelAndView editPage(HttpServletRequest req,@PathVariable(value="serviceId") String serviceId, @PathVariable(value = "operationId") String operationId) {
+    @RequestMapping(method = RequestMethod.POST, value = "/edit", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    boolean edit(HttpServletRequest req, Operation Operation) {
+        return operationServiceImpl.editOperation(req, Operation);
+    }
+
+    //根据服务id跳转到场景修改页面
+    @RequestMapping("/editPage")
+    public ModelAndView editPage(HttpServletRequest req, String operationId, String serviceId) {
         ModelAndView mv = new ModelAndView("service/operation/edit");
         //根据operationId查询operation
         Map<String, String> params = new HashMap<String, String>();
@@ -85,15 +97,20 @@ public class OperationController {
         if (operation != null) {
             mv.addObject("operation", operation);
             //根据operation查询service信息
-            ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(req.getSession().getServletContext());
-            ServiceServiceImpl ss = context.getBean(ServiceServiceImpl.class);
-            Service service = ss.getUniqueByServiceId(operation.getServiceId());
+            Service service = serviceService.getUniqueByServiceId(operation.getServiceId());
             if (service != null) {
                 mv.addObject("service", service);
             }
         }
 
         return mv;
+    }
+
+    @RequestMapping("/deletes")
+    @ResponseBody
+    public boolean deletes(String operationIds) {
+        operationServiceImpl.deleteOperations(operationIds);
+        return true;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getServiseById/{value}", headers = "Accept=application/json")
@@ -105,4 +122,16 @@ public class OperationController {
         List<Operation> info = operationServiceImpl.findBy(params);
         return info;
     }
+
+    @RequestMapping("/detailPage")
+    public ModelAndView detailPage(HttpServletRequest req, String operationId, String serviceId) {
+        return operationServiceImpl.detailPage(req, operationId, serviceId);
+    }
+
+    @RequestMapping("/release")
+    public ModelAndView release(HttpServletRequest req, String operationId, String serviceId) {
+        return operationServiceImpl.release(req, operationId, serviceId);
+    }
+
+
 }

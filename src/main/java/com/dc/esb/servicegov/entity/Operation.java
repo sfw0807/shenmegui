@@ -2,10 +2,7 @@ package com.dc.esb.servicegov.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "OPERATION")
@@ -16,7 +13,7 @@ public class Operation implements Serializable{
 	@Id
 	@Column(name = "OPERATION_ID")
 	private String operationId;
-	
+	@Id
 	@Column(name = "SERVICE_ID")
 	private String serviceId;
 	
@@ -43,6 +40,12 @@ public class Operation implements Serializable{
 	
 	@Column(name = "HEAD_ID")
 	private String headId;
+
+	@ManyToOne(targetEntity = Service.class)
+	@JoinColumns({
+			@JoinColumn(name = "SERVICE_ID", referencedColumnName = "SERVICE_ID", insertable = false, updatable = false)
+	})
+	private Service service;
 
 	public String getOperationId() {
 		return operationId;
@@ -123,6 +126,13 @@ public class Operation implements Serializable{
 	public void setHeadId(String headId) {
 		this.headId = headId;
 	}
-	
-	
+
+
+	public Service getService() {
+		return service;
+	}
+
+	public void setService(Service service) {
+		this.service = service;
+	}
 }

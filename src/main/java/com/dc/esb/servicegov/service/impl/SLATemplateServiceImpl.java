@@ -8,6 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dc.esb.servicegov.dao.impl.SLATemplateDAOImpl;
+import com.dc.esb.servicegov.dao.support.HibernateDAO;
+import com.dc.esb.servicegov.entity.SLATemplate;
+import com.dc.esb.servicegov.service.support.BaseService;
+
 @Service
 @Transactional
 public class SLATemplateServiceImpl extends AbstractBaseService<SLATemplate, String> {

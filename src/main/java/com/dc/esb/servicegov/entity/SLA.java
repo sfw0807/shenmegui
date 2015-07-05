@@ -2,11 +2,7 @@ package com.dc.esb.servicegov.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -42,7 +38,22 @@ public class SLA implements Serializable {
 	
 	@Column(name = "SLA_TEMPLATE_ID")
 	private String slaTemplateId;
+	
+	@Column(name = "VERSION")
+	private String version;
 
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof SLA)) {
+			return false;
+		}
+		SLA another = (SLA) obj;
+		return ((null == this.serviceId) ? (null == another.getServiceId()) : (this.serviceId.equals(another.getServiceId()))) &&
+				((null == this.operationId) ? (null == another.getOperationId()) : (this.operationId.equals(another.getOperationId()))) &&
+				((null == this.slaName) ? (null == another.getSlaName()) : (this.slaName.equals(another.getSlaName())));
+	}
+	
+	
 	public String getSlaId() {
 		return slaId;
 	}
@@ -106,6 +117,12 @@ public class SLA implements Serializable {
 	public void setSlaTemplateId(String slaTemplateId) {
 		this.slaTemplateId = slaTemplateId;
 	}
-	
-	
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
 }

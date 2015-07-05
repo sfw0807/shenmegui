@@ -40,7 +40,8 @@ var sysManager = {
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: "/ida/delete/"+data,
+            url: "/ida/delete",
+            data: JSON.stringify(data),
             dataType: "json",
             success: function(result) {
                 callBack(result);
