@@ -9,7 +9,8 @@ var LOAD_URL = {
     INTERFACEDEFINE: '/jsp/interface/interface_define.jsp',
     SERVICEUI: '/dataTemplate/serviceadmin/index.html',
     SERVICEUI2: '/dataTemplate/serviceadmin/fwcjmx.html',
-    SERVICEUI_LW: '/jsp/service/servicePage.jsp'
+    SERVICEUI_LW: '/jsp/service/servicePage.jsp',
+    USERADD:'/jsp/user/useradd.jsp'
 
 };
 var SYSMENU = {

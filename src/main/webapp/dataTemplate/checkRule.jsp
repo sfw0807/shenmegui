@@ -72,5 +72,14 @@
 {"success":true,"url":"/dataTemplate/words/gonggong.html","title":"公共代码管理"}
 <%
 	}
+
+%>
+
+<%
+	if(mid.equals("4.2")){
+%>
+{"success":true,"url":"/jsp/user/userMaintain.jsp","title":"用户维护"}
+<%
+	}
 	
 %>

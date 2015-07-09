@@ -63,7 +63,7 @@ public class LoginController {
 //        user.setName("2");
 //        userService.save(user);
 
-        SGUser SGUser1 = userService.getById("1");
+        SGUser SGSGUser1 = userService.getById("1");
 
         EnglishWord englishWord = new EnglishWord();
         englishWord.setId("hehehe");

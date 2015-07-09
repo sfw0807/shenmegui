@@ -20,6 +20,11 @@
       <li><a href="javascript:;" class="openable"  mid="2.4">我的任务</a></li>
     </ul>
   </li>
+  <li><a href="javascript:;" class="openable"  mid="4.1">用户管理</a>
+    <ul>
+      <li><a href="javascript:;" class="openable"  mid="4.2">用户维护</a></li>
+</ul>
+  </li>
 </ul>
 <%
 	}

@@ -1,12 +1,23 @@
 package com.dc.esb.servicegov.entity;
 
-import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "SG_USER")
-public class SGUser {
-    @Id
+public class SGUser implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 22222222222L;
+	@Id
     @Column(name = "USER_ID")
     private String id;
     @Column(name = "USER_NAME")
@@ -17,31 +28,67 @@ public class SGUser {
     private String userTel;
     @Column(name = "USER_PASSWORD")
     private String password;
-    @Column(name = "USER_ROLE_ID")
-    private String roleId;
     @Column(name = "USER_ORG_ID")
     private String orgId;
     @Column(name = "USER_LASTDATE")
-    private String lastDate;
+    private String lastdate;
     @Column(name = "USER_REMARK")
     private String remark;
-    @Column(name = "USER_STATUS")
-    private String status;
+    @Column(name = "USER_STARTDATE")
+    private String startdate;
 
-    public String getId() {
-        return id;
-    }
+    @OneToMany(mappedBy="user",cascade=CascadeType.ALL)
+    private List<UserRoleRelation> userRoleRelations;
+    
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public String getStartdate() {
+		return startdate;
+	}
 
-    public String getName() {
+	public void setStartdate(String startdate) {
+		this.startdate = startdate;
+	}
+
+	public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+
+    public String getLastdate() {
+        return lastdate;
+    }
+
+    public void setLastdate(String lastdate) {
+        this.lastdate = lastdate;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
     }
 
     public String getUserMobile() {
@@ -60,51 +107,23 @@ public class SGUser {
         this.userTel = userTel;
     }
 
-    public String getPassword() {
-        return password;
+    public String getId() {
+        return id;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getRoleId() {
-        return roleId;
-    }
+	public List<UserRoleRelation> getUserRoleRelations() {
+		return userRoleRelations;
+	}
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
+	public void setUserRoleRelations(List<UserRoleRelation> userRoleRelations) {
+		this.userRoleRelations = userRoleRelations;
+	}
 
-    public String getOrgId() {
-        return orgId;
-    }
-
-    public void setOrgId(String orgId) {
-        this.orgId = orgId;
-    }
-
-    public String getLastDate() {
-        return lastDate;
-    }
-
-    public void setLastDate(String lastDate) {
-        this.lastDate = lastDate;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	
+    
+    
 }

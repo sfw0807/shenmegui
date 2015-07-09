@@ -49,7 +49,6 @@ public class ServiceController {
         serviceServiceImpl.save(service);
         return true;
     }
-
     @RequestMapping(method = RequestMethod.POST, value = "/editService", headers = "Accept=application/json")
     public
     @ResponseBody

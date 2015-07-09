@@ -59,6 +59,10 @@ public abstract class AbstractBaseService<T, PK extends Serializable>{
 	public void save(T entity) {
 		getDAO().save(entity);
 	}
+	public void insert(T entity) {
+		getDAO().insert(entity);
+	}
+
 
 	/**
 	 * 修改对象

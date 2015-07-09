@@ -72,8 +72,8 @@ public class SampleRealm extends AuthorizingRealm {
     @Transactional
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String userName = (String) principals.fromRealm(getName()).iterator().next();
-        SGUser SGUser = userService.getById(userName);
-        if (SGUser != null) {
+        SGUser SGSGUser = userService.getById(userName);
+        if (SGSGUser != null) {
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 
 //            Role role = user.getRoleId();
