@@ -27,7 +27,7 @@
                         async: false,
                         url: "/operation/uniqueValid",
                         dataType: "json",
-                        data: {"operationId": value, "serviceId": ${service.serviceId }},
+                        data: {"operationId": value, "serviceId": "${service.serviceId }"},
                         success: function (data) {
                             result = data;
                         }

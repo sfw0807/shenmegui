@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "SG_USER")
-public class User {
+public class SGUser {
     @Id
     @Column(name = "USER_ID")
     private String id;

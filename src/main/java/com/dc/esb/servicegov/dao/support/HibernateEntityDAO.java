@@ -1,16 +1,11 @@
 package com.dc.esb.servicegov.dao.support;
 
-import com.dc.esb.servicegov.dao.support.Page;
-import com.dc.esb.servicegov.dao.support.SearchCondition;
-import com.dc.esb.servicegov.util.ReflectionUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.criterion.*;
-import org.hibernate.impl.CriteriaImpl;
-import org.hibernate.transform.ResultTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -19,7 +14,6 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -740,44 +734,44 @@ public abstract class HibernateEntityDAO<T> extends HibernateDaoSupport {
     /**
      * 执行count查询获得本次Criteria查询所能获得的对象总数.
      */
-    protected int countCriteriaResult(final Criteria c) {
-        CriteriaImpl impl = (CriteriaImpl) c;
-
-        // 先把Projection、ResultTransformer、OrderBy取出来,清空三者后再执行Count操作
-        Projection projection = impl.getProjection();
-        ResultTransformer transformer = impl.getResultTransformer();
-
-        List<CriteriaImpl.OrderEntry> orderEntries = null;
-        try {
-            orderEntries = (List) ReflectionUtils.getFieldValue(impl,
-                    "orderEntries");
-            ReflectionUtils
-                    .setFieldValue(impl, "orderEntries", new ArrayList());
-        } catch (Exception e) {
-            logger.error("不可能抛出的异常:{}", e.getMessage());
-        }
-
-        // 执行Count查询
-        int totalCount = (Integer) c.setProjection(Projections.rowCount())
-                .uniqueResult();
-
-        // 将之前的Projection,ResultTransformer和OrderBy条件重新设回去
-        c.setProjection(projection);
-
-        if (projection == null) {
-            c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
-        }
-        if (transformer != null) {
-            c.setResultTransformer(transformer);
-        }
-        try {
-            ReflectionUtils.setFieldValue(impl, "orderEntries", orderEntries);
-        } catch (Exception e) {
-            logger.error("不可能抛出的异常:{}", e.getMessage());
-        }
-
-        return totalCount;
-    }
+//    protected int countCriteriaResult(final Criteria c) {
+//        CriteriaImpl impl = (CriteriaImpl) c;
+//
+//        // 先把Projection、ResultTransformer、OrderBy取出来,清空三者后再执行Count操作
+//        Projection projection = impl.getProjection();
+//        ResultTransformer transformer = impl.getResultTransformer();
+//
+//        List<CriteriaImpl.OrderEntry> orderEntries = null;
+//        try {
+//            orderEntries = (List) ReflectionUtils.getFieldValue(impl,
+//                    "orderEntries");
+//            ReflectionUtils
+//                    .setFieldValue(impl, "orderEntries", new ArrayList());
+//        } catch (Exception e) {
+//            logger.error("不可能抛出的异常:{}", e.getMessage());
+//        }
+//
+//        // 执行Count查询
+//        int totalCount = (Integer) c.setProjection(Projections.rowCount())
+//                .uniqueResult();
+//
+//        // 将之前的Projection,ResultTransformer和OrderBy条件重新设回去
+//        c.setProjection(projection);
+//
+//        if (projection == null) {
+//            c.setResultTransformer(CriteriaSpecification.ROOT_ENTITY);
+//        }
+//        if (transformer != null) {
+//            c.setResultTransformer(transformer);
+//        }
+//        try {
+//            ReflectionUtils.setFieldValue(impl, "orderEntries", orderEntries);
+//        } catch (Exception e) {
+//            logger.error("不可能抛出的异常:{}", e.getMessage());
+//        }
+//
+//        return totalCount;
+//    }
 
     /**
      * 按HQL查询唯一对象.

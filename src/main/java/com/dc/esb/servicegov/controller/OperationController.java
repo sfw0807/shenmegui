@@ -53,7 +53,7 @@ public class OperationController {
 
     //根据服务id跳转到场景添加页面
     @RequestMapping("/addPage/{serviceId}")
-    public ModelAndView addPage(HttpServletRequest req, @PathVariable(value = "serviceId") String serviceId) {
+    public ModelAndView 阿杜dPageaddPage(HttpServletRequest req, @PathVariable(value = "serviceId") String serviceId) {
         ModelAndView mv = new ModelAndView("service/operation/add");
         Service service = serviceService.getUniqueByServiceId(serviceId);
         if (service != null) {

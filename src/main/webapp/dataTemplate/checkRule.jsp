@@ -37,7 +37,7 @@
 <%
 	if(mid.equals("2.4")){
 %>
-{"success":true,"url":"/dataTemplate/task/mytask.html","title":"我的任务"}
+{"success":true,"url":"/jsp/task/mytask.jsp","title":"我的任务"}
 <%
 	}
 	

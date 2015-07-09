@@ -2,7 +2,7 @@ package com.dc.esb.servicegov.service.impl;
 
 import com.dc.esb.servicegov.dao.impl.UserDAOImpl;
 import com.dc.esb.servicegov.dao.support.HibernateDAO;
-import com.dc.esb.servicegov.entity.User;
+import com.dc.esb.servicegov.entity.SGUser;
 import com.dc.esb.servicegov.service.UserService;
 import com.dc.esb.servicegov.service.support.AbstractBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class UserServiceImpl extends AbstractBaseService<User, String> implements UserService{
+public class UserServiceImpl extends AbstractBaseService<SGUser, String> implements UserService{
     @Autowired
     private UserDAOImpl userDAO;
 
     @Override
-    public HibernateDAO<User, String> getDAO() {
+    public HibernateDAO<SGUser, String> getDAO() {
         return userDAO;
     }
 }

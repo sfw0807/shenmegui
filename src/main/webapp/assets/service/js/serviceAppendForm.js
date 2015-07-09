@@ -30,6 +30,9 @@ $(function(){
         service.categoryId = parentId;
         service.version = $('#version').val();
         service.state = $('#state').val();
+        if(PROCESS_INFO && PROCESS_INFO.processId){
+            service.processId = PROCESS_INFO.processId;
+        }
         serviceManager.add(service,function(result){
             $('#w').window('close');
             $('.mxservicetree').tree('reload');

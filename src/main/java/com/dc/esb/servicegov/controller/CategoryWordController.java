@@ -1,5 +1,6 @@
 package com.dc.esb.servicegov.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dc.esb.servicegov.entity.CategoryWord;
 import com.dc.esb.servicegov.service.impl.CategoryWordServiceImpl;
+import com.dc.esb.servicegov.util.DateUtils;
 
 @Controller
 @RequestMapping("/categoryWord")
@@ -82,6 +84,7 @@ public class CategoryWordController {
     public
     @ResponseBody
     boolean add(@RequestBody CategoryWord categoryWord) {
+    	categoryWord.setPotDate(DateUtils.format(new Date()));
         categoryWordService.save(categoryWord);
         return true;
     }

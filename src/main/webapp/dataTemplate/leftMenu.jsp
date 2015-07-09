@@ -70,7 +70,7 @@
 
  </div>
 
- <ul class="easyui-tree mslinktree" data-options="url:'/dataTemplate/tree3.json',method:'get',animate:true"></ul>
+ <ul class="easyui-tree mslinktree" data-options="url:'/system/getTree',method:'get',animate:true"></ul>
 <%
 	}
 	if(mid.equals("6")){

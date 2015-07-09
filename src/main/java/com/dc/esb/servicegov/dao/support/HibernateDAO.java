@@ -4,6 +4,7 @@ import com.dc.esb.servicegov.util.ReflectionUtils;
 import org.hibernate.*;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.metadata.ClassMetadata;
@@ -353,13 +354,23 @@ public class HibernateDAO<T, PK extends Serializable> {
         return criteria.list();
     }
 
+    @Transactional
+    public List<T> findLike(final Map<String, String> params,MatchMode matchMode){
+        Criteria criteria = getSession().createCriteria(entityClass);
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            Criterion criterion = Restrictions.like(entry.getKey(), entry.getValue(),matchMode);
+            criteria.add(criterion);
+        }
+        return criteria.list();
+    }
+
     /**
      * 按HQL查询对象列表.
      *
      * @param values 数量可变的参数,按顺序绑定.
      */
     @Transactional
-    public <X> List<X> find(final String hql, final Object... values) {
+    public List<T> find(final String hql, final Object... values) {
         return createQuery(hql, values).list();
     }
 
@@ -369,7 +380,7 @@ public class HibernateDAO<T, PK extends Serializable> {
      * @param values 命名参数,按名称绑定.
      */
     @Transactional
-    public <X> List<X> find(final String hql, final Map<String, ?> values) {
+    public <T> List<T> find(final String hql, final Map<String, ?> values) {
         return createQuery(hql, values).list();
     }
 

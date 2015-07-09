@@ -1,5 +1,6 @@
 package com.dc.esb.servicegov.service.impl;
 
+import com.dc.esb.servicegov.dao.impl.OperationDAOImpl;
 import com.dc.esb.servicegov.dao.impl.ServiceDAOImpl;
 import com.dc.esb.servicegov.dao.support.HibernateDAO;
 import com.dc.esb.servicegov.entity.Operation;
@@ -21,6 +22,9 @@ public class ServiceServiceImpl extends AbstractBaseService<com.dc.esb.servicego
     @Autowired
     private ServiceDAOImpl serviceDAOImpl;
 
+    @Autowired
+    private OperationDAOImpl operationDAOImpl;
+
     @Override
     public HibernateDAO<com.dc.esb.servicegov.entity.Service, String> getDAO() {
         return serviceDAOImpl;
@@ -32,7 +36,7 @@ public class ServiceServiceImpl extends AbstractBaseService<com.dc.esb.servicego
 
     public List<Operation> getOperationByServiceId(String serviceId) {
         String hql = " from Operation a where a.serviceId = ?";
-        return serviceDAOImpl.find(hql, serviceId);
+        return operationDAOImpl.find(hql, serviceId);
     }
 
     public List<TreeNode> genderServiceTree() {

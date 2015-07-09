@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+贸易task<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -13,23 +13,18 @@
 <div class="easyui-tabs"  style="width:100%;height:auto">
 <div title="未完成任务" style="padding:0px">
 <table class="easyui-datagrid" title="" 
-			data-options="rownumbers:true,border:false,toolbar:toolbar,singleSelect:false,url:'../datagrid_data1.json',method:'get',pagination:true,
+			data-options="rownumbers:true,border:false,toolbar:toolbar,singleSelect:false,url:'/process/admin/list',method:'get',pagination:true,
 				pageSize:10" style="height:370px; width:auto;">
   <thead>
     <tr>
           <th data-options="field:'productid',checkbox:true"> </th>
-
-    
-      <th data-options="field:'itemid'">字段1 </th>
-      <th data-options="field:'status'">字段2 </th>
-      <th data-options="field:'listprice',align:'right'">字段3 </th>
-      <th data-options="field:'unitcost',width:80,align:'right'">字段4 </th>
-      <th data-options="field:'attr1'">消费方 </th>
-      <th data-options="field:'status',width:60,align:'center'">字段5 </th>
-      <th data-options="field:'attr1'"> 字段6 </th>
-      <th data-options="field:'attr1'"> 字段7 </th>
-      <th data-options="field:'attr1'">字段8 </th>
-      <th data-options="field:'attr1'">字段9 </th>
+      <th data-options="field:'id'">任务ID</th>
+      <th data-options="field:'name'">任务名称 </th>
+      <th data-options="field:'subject'">主题</th>
+      <th data-options="field:'description'">描述</th>
+      <th data-options="field:'status'">状态</th>
+      <th data-options="field:'priority'">优先级</th>
+      <th data-options="field:'createBy.id'">创建人</th>
     </tr>
   </thead>
 </table>

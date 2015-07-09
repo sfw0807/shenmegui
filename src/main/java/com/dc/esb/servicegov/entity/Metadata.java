@@ -6,231 +6,239 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="METADATA")
+@Table(name = "METADATA")
 public class Metadata {
-	@Id
+    @Id
     @Column(name = "METADATA_ID")
-	private String metadataId;
-	
-	 @Column(name = "METADATA_NAME")
-	 private String metadataName;
-	 
-	 @Column(name = "CHINESE_NAME")
-	 private String chineseName;
-	 
-	 @Column(name = "CATEGORY_WORD_ID")
-	 private String categoryWordId;
-	 
-	 @Column(name = "REMARK")
-	 private String remark;
-	 
-	 @Column(name = "TYPE")
-	 private String type;
-	 
-	 @Column(name = "LENGTH")
-	 private String length;
-	 
-	 @Column(name = "SCALE")
-	 private String scale;
-	 
-	 @Column(name = "ENUM_ID")
-	 private String enumId;
+    private String metadataId;
 
-	 @Column(name = "METADATA_ALIAS")
-	 private String metadataAlias;
-	 
-	 @Column(name = "BUSS_DEFINE")
-	 private String bussDefine;
-	 
-	 @Column(name = "BUSS_RULE")
-	 private String bussRule;
-	 
-	 @Column(name = "DATA_SOURCE")
-	 private String dataSource;
-	 
-	 @Column(name = "TEMPLATE_ID")
-	 private String templateId;
-	 
-	 @Column(name = "STATUS")
-	 private String status;
-	 
-	 @Column(name = "VERSION")
-	 private String version;
-	 
-	 @Column(name = "OPT_USER")
-	 private String optUser;
-	
-	 @Column(name = "OPT_DATE")
-	 private String optDate;
-	 
-	 @Column(name = "AUDIT_USER")
-	 private String auditUser;
-	
-	 @Column(name = "AUDIT_DATE")
-	 private String auditDate;
+    @Column(name = "METADATA_NAME")
+    private String metadataName;
 
-	public String getMetadataId() {
-		return metadataId;
-	}
+    @Column(name = "CHINESE_NAME")
+    private String chineseName;
 
-	public void setMetadataId(String metadataId) {
-		this.metadataId = metadataId;
-	}
+    @Column(name = "CATEGORY_WORD_ID")
+    private String categoryWordId;
 
-	public String getMetadataName() {
-		return metadataName;
-	}
+    @Column(name = "REMARK")
+    private String remark;
 
-	public void setMetadataName(String metadataName) {
-		this.metadataName = metadataName;
-	}
+    @Column(name = "TYPE")
+    private String type;
 
-	public String getChineseName() {
-		return chineseName;
-	}
+    @Column(name = "LENGTH")
+    private String length;
 
-	public void setChineseName(String chineseName) {
-		this.chineseName = chineseName;
-	}
+    @Column(name = "SCALE")
+    private String scale;
 
-	public String getCategoryWordId() {
-		return categoryWordId;
-	}
+    @Column(name = "ENUM_ID")
+    private String enumId;
 
-	public void setCategoryWordId(String categoryWordId) {
-		this.categoryWordId = categoryWordId;
-	}
+    @Column(name = "METADATA_ALIAS")
+    private String metadataAlias;
 
-	public String getRemark() {
-		return remark;
-	}
+    @Column(name = "BUSS_DEFINE")
+    private String bussDefine;
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    @Column(name = "BUSS_RULE")
+    private String bussRule;
 
-	public String getType() {
-		return type;
-	}
+    @Column(name = "DATA_SOURCE")
+    private String dataSource;
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    @Column(name = "TEMPLATE_ID")
+    private String templateId;
 
-	public String getLength() {
-		return length;
-	}
+    @Column(name = "STATUS")
+    private String status;
 
-	public void setLength(String length) {
-		this.length = length;
-	}
+    @Column(name = "VERSION")
+    private String version;
 
-	public String getScale() {
-		return scale;
-	}
+    @Column(name = "OPT_USER")
+    private String optUser;
 
-	public void setScale(String scale) {
-		this.scale = scale;
-	}
+    @Column(name = "OPT_DATE")
+    private String optDate;
 
-	public String getEnumId() {
-		return enumId;
-	}
+    @Column(name = "AUDIT_USER")
+    private String auditUser;
 
-	public void setEnumId(String enumId) {
-		this.enumId = enumId;
-	}
+    @Column(name = "AUDIT_DATE")
+    private String auditDate;
 
-	public String getMetadataAlias() {
-		return metadataAlias;
-	}
+    @Column(name = "PROCESS_ID")
+    private String processId;
 
-	public void setMetadataAlias(String metadataAlias) {
-		this.metadataAlias = metadataAlias;
-	}
+    public String getMetadataId() {
+        return metadataId;
+    }
 
-	public String getBussDefine() {
-		return bussDefine;
-	}
+    public void setMetadataId(String metadataId) {
+        this.metadataId = metadataId;
+    }
 
-	public void setBussDefine(String bussDefine) {
-		this.bussDefine = bussDefine;
-	}
+    public String getMetadataName() {
+        return metadataName;
+    }
 
-	public String getBussRule() {
-		return bussRule;
-	}
+    public void setMetadataName(String metadataName) {
+        this.metadataName = metadataName;
+    }
 
-	public void setBussRule(String bussRule) {
-		this.bussRule = bussRule;
-	}
+    public String getChineseName() {
+        return chineseName;
+    }
 
-	public String getDataSource() {
-		return dataSource;
-	}
+    public void setChineseName(String chineseName) {
+        this.chineseName = chineseName;
+    }
 
-	public void setDataSource(String dataSource) {
-		this.dataSource = dataSource;
-	}
+    public String getCategoryWordId() {
+        return categoryWordId;
+    }
 
-	public String getTemplateId() {
-		return templateId;
-	}
+    public void setCategoryWordId(String categoryWordId) {
+        this.categoryWordId = categoryWordId;
+    }
 
-	public void setTemplateId(String templateId) {
-		this.templateId = templateId;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getVersion() {
-		return version;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setVersion(String version) {
-		this.version = version;
-	}
+    public String getLength() {
+        return length;
+    }
 
-	
+    public void setLength(String length) {
+        this.length = length;
+    }
 
-	public String getOptUser() {
-		return optUser;
-	}
+    public String getScale() {
+        return scale;
+    }
 
-	public void setOptUser(String optUser) {
-		this.optUser = optUser;
-	}
+    public void setScale(String scale) {
+        this.scale = scale;
+    }
 
-	public String getOptDate() {
-		return optDate;
-	}
+    public String getEnumId() {
+        return enumId;
+    }
 
-	public void setOptDate(String optDate) {
-		this.optDate = optDate;
-	}
+    public void setEnumId(String enumId) {
+        this.enumId = enumId;
+    }
 
-	public String getAuditUser() {
-		return auditUser;
-	}
+    public String getMetadataAlias() {
+        return metadataAlias;
+    }
 
-	public void setAuditUser(String auditUser) {
-		this.auditUser = auditUser;
-	}
+    public void setMetadataAlias(String metadataAlias) {
+        this.metadataAlias = metadataAlias;
+    }
 
-	public String getAuditDate() {
-		return auditDate;
-	}
+    public String getBussDefine() {
+        return bussDefine;
+    }
 
-	public void setAuditDate(String auditDate) {
-		this.auditDate = auditDate;
-	}
+    public void setBussDefine(String bussDefine) {
+        this.bussDefine = bussDefine;
+    }
 
-	
-	 
+    public String getBussRule() {
+        return bussRule;
+    }
+
+    public void setBussRule(String bussRule) {
+        this.bussRule = bussRule;
+    }
+
+    public String getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(String dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+
+    public String getOptUser() {
+        return optUser;
+    }
+
+    public void setOptUser(String optUser) {
+        this.optUser = optUser;
+    }
+
+    public String getOptDate() {
+        return optDate;
+    }
+
+    public void setOptDate(String optDate) {
+        this.optDate = optDate;
+    }
+
+    public String getAuditUser() {
+        return auditUser;
+    }
+
+    public void setAuditUser(String auditUser) {
+        this.auditUser = auditUser;
+    }
+
+    public String getAuditDate() {
+        return auditDate;
+    }
+
+    public void setAuditDate(String auditDate) {
+        this.auditDate = auditDate;
+    }
+
+
+    public String getProcessId() {
+        return processId;
+    }
+
+    public void setProcessId(String processId) {
+        this.processId = processId;
+    }
 }

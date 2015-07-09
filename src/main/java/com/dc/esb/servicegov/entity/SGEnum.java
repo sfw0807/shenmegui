@@ -1,115 +1,135 @@
 package com.dc.esb.servicegov.entity;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-/**
- * Created by vincentfxz on 15/6/24.
- */
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "ENUM")
-public class SGEnum {
-    @Id
-    @Column(name = "ID")
-    private String id;
-    @Column(name = "NAME")
-    private String name;
-    @Column(name = "STATUS")
-    private String status;
-    @Column(name = "IS_MASTER")
-    private String isMaster;
-    @Column(name = "IS_STANDARD")
-    private String isStandard;
-    @Column(name = "DATA_SOURCE")
-    private String dataSource;
-    @Column(name = "REMARK")
-    private String remark;
-    @Column(name = "VERSION")
-    private String version;
-    @Column(name = "OPT_USER")
-    private String optUser;
-    @Column(name = "OPT_DATE")
-    private String optDate;
+public class SGEnum implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@Column(name = "ID",length=50)
+	@GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid",strategy="uuid")
+	private String id;
+	
+	@Column(name = "NAME")
+	private String name; 
+	
+	@Column(name = "IS_STANDARD",length=10)
+	private String isStandard;
+	
+	@Column(name = "IS_MASTER",length=10)
+	private String isMaster; 
+	
+	@Column(name = "DATA_SOURCE")
+	private String dataSource; 
+	
+	@Column(name = "STATUS",length=10)
+	private String status; 
+	
+//	@Column(name = "VERSION",length=10,columnDefinition="default 1.0.0")
+	@Column(name = "VERSION",length=10)
+	private String version; 
+	
+	@Column(name = "REMARK",length=1023)
+	private String remark; 
+	
+	@Column(name = "OPT_USER",length=50)
+	private String optUser; 
+	
+	@Column(name = "OPT_DATE")
+	private String optDate;
+	
+	public String getId() {
+		return id;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getIsStandard() {
+		return isStandard;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setIsStandard(String isStandard) {
+		this.isStandard = isStandard;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+	public String getIsMaster() {
+		return isMaster;
+	}
 
-    public String getIsMaster() {
-        return isMaster;
-    }
+	public void setIsMaster(String isMaster) {
+		this.isMaster = isMaster;
+	}
 
-    public void setIsMaster(String isMaster) {
-        this.isMaster = isMaster;
-    }
+	public String getDataSource() {
+		return dataSource;
+	}
 
-    public String getIsStandard() {
-        return isStandard;
-    }
+	public void setDataSource(String dataSource) {
+		this.dataSource = dataSource;
+	}
 
-    public void setIsStandard(String isStandard) {
-        this.isStandard = isStandard;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public String getDataSource() {
-        return dataSource;
-    }
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-    public void setDataSource(String dataSource) {
-        this.dataSource = dataSource;
-    }
+	public String getVersion() {
+		return version;
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
+	public String getRemark() {
+		return remark;
+	}
 
-    public String getOptUser() {
-        return optUser;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
-    public void setOptUser(String optUser) {
-        this.optUser = optUser;
-    }
+	public String getOptUser() {
+		return optUser;
+	}
 
-    public String getOptDate() {
-        return optDate;
-    }
+	public void setOptUser(String optUser) {
+		this.optUser = optUser;
+	}
 
-    public void setOptDate(String optDate) {
-        this.optDate = optDate;
-    }
+	public String getOptDate() {
+		return optDate;
+	}
 
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
+	public void setOptDate(String optDate) {
+		this.optDate = optDate;
+	}
 }

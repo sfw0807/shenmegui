@@ -41,6 +41,9 @@ public class Service implements Serializable {
 	@Column(name = "OPT_DATE")
 	private String optDate;
 
+	@Column(name = "PROCESS_ID")
+	private String processId;
+
 	public String getServiceId() {
 		return serviceId;
 	}
@@ -111,5 +114,13 @@ public class Service implements Serializable {
 
 	public void setOptDate(String optDate) {
 		this.optDate = optDate;
+	}
+
+	public String getProcessId() {
+		return processId;
+	}
+
+	public void setProcessId(String processId) {
+		this.processId = processId;
 	}
 }

@@ -80,7 +80,6 @@
 #phone1 {
     left: 35em;
     top: 12em;
-    width: 7em;
 }
 
 #inperson {
@@ -103,3 +102,10 @@
 }
 
 path, ._jsPlumb_endpoint { cursor:pointer; }
+
+#statemachine-demo {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}

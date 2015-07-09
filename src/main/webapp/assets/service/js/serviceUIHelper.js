@@ -67,6 +67,11 @@ var serviceUIHelper = {
                 url:"/service/searchService/"+serviceName
             });
         }
+    },
+    "refreshTree" : function refreshTree(){
+        $('.mxservicetree').tree({
+            url:"/service/searchService/processId"+ PROCESS_INFO.processId
+        });
     }
 
 };

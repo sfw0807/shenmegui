@@ -1,7 +1,7 @@
 package com.dc.esb.servicegov.controller;
 
 import com.dc.esb.servicegov.entity.EnglishWord;
-import com.dc.esb.servicegov.entity.User;
+import com.dc.esb.servicegov.entity.SGUser;
 import com.dc.esb.servicegov.service.impl.EnglishWordServiceImpl;
 import com.dc.esb.servicegov.service.impl.UserServiceImpl;
 import org.apache.commons.logging.Log;
@@ -63,7 +63,7 @@ public class LoginController {
 //        user.setName("2");
 //        userService.save(user);
 
-        User user1 = userService.getById("1");
+        SGUser SGUser1 = userService.getById("1");
 
         EnglishWord englishWord = new EnglishWord();
         englishWord.setId("hehehe");

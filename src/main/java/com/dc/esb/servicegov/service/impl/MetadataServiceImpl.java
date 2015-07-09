@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dc.esb.servicegov.dao.impl.CategoryWordDAOImpl;
+import com.dc.esb.servicegov.dao.support.HibernateDAO;
+import com.dc.esb.servicegov.service.support.AbstractBaseService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +20,11 @@ import com.dc.esb.servicegov.util.DateUtils;
 
 @Service
 @Transactional
-public class MetadataServiceImpl {
+public class MetadataServiceImpl extends AbstractBaseService<Metadata,String>{
     @Autowired
     private MetadataDAOImpl metadataDAOImpl;
+    @Autowired
+    private CategoryWordDAOImpl categoryWordDAO;
 
     public List<Metadata> getAllMetadata() {
     	List<Metadata> list = metadataDAOImpl.getAll();
@@ -235,7 +240,11 @@ public class MetadataServiceImpl {
     }
     
     public List<CategoryWord> categoryWord(){
-    	String hql = "from CategoryWord";
-    	return metadataDAOImpl.find(hql);
+    	return categoryWordDAO.getAll();
+    }
+
+    @Override
+    public HibernateDAO<Metadata, String> getDAO() {
+        return metadataDAOImpl;
     }
 }

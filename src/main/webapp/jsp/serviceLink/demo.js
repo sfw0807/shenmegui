@@ -1,5 +1,4 @@
 jsPlumb.ready(function () {
-
     // setup some defaults for jsPlumb.
     var instance = jsPlumb.getInstance({
         Endpoint: ["Dot", {radius: 2}],
@@ -31,7 +30,7 @@ jsPlumb.ready(function () {
     });
 
     // bind a connection listener. note that the parameter passed to this function contains more than
-    // just the new connection - see the documentation for a full list of what is included in 'info'.
+    // just the new connection - see the documentation or a full list of what is included in 'info'.
     // this listener sets the connection's internal
     // id as the label overlay's text.
     instance.bind("connection", function (info) {

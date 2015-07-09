@@ -19,13 +19,11 @@ package com.dc.esb.servicegov.security.impl;
  * under the License.
  */
 
-import com.dc.esb.servicegov.entity.Role;
-import com.dc.esb.servicegov.entity.User;
+import com.dc.esb.servicegov.entity.SGUser;
 import com.dc.esb.servicegov.service.impl.UserServiceImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.authc.credential.Sha256CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -62,9 +60,9 @@ public class SampleRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
         log.info("user login");
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-        User user = userService.getById(token.getUsername());
-        if (user != null) {
-            return new SimpleAuthenticationInfo(token.getUsername(), user.getPassword(), getName());
+        SGUser SGUser = userService.getById(token.getUsername());
+        if (SGUser != null) {
+            return new SimpleAuthenticationInfo(token.getUsername(), SGUser.getPassword(), getName());
         } else {
             return null;
         }
@@ -74,8 +72,8 @@ public class SampleRealm extends AuthorizingRealm {
     @Transactional
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String userName = (String) principals.fromRealm(getName()).iterator().next();
-        User user = userService.getById(userName);
-        if (user != null) {
+        SGUser SGUser = userService.getById(userName);
+        if (SGUser != null) {
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 
 //            Role role = user.getRoleId();

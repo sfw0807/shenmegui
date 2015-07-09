@@ -33,10 +33,10 @@ public class CategoryWord {
 	private String remark;
 	 
 	@Column(name = "OPT_USER")
-	private String potUser;
+	private String optUser;
 	
 	@Column(name = "OPT_DATE")
-	private String potDate;
+	private String optDate;
 	
 	@Id
 	@SequenceGenerator(name="seq", sequenceName="CATE_SEQ")
@@ -75,19 +75,19 @@ public class CategoryWord {
 	}
 
 	public String getPotUser() {
-		return potUser;
+		return optUser;
 	}
 
 	public void setPotUser(String potUser) {
-		this.potUser = potUser;
+		this.optUser = potUser;
 	}
 
 	public String getPotDate() {
-		return potDate;
+		return optDate;
 	}
 
 	public void setPotDate(String potDate) {
-		this.potDate = potDate;
+		this.optDate = potDate;
 	}
 
 

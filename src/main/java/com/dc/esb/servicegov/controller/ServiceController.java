@@ -110,6 +110,26 @@ public class ServiceController {
 
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/searchService/processId/{processId}", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    List<ServiceTreeViewBean> searchServiceByProcessId(@PathVariable("processId") String processId) {
+        List<ServiceTreeViewBean> TreeViewBeans = new ArrayList<ServiceTreeViewBean>();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("processId", processId);
+        List<Service> serviceList = serviceServiceImpl.findLike(params);
+        List<String> categoryIdList = new ArrayList<String>();
+        for (Service service : serviceList) {
+            categoryIdList.add(service.getCategoryId());
+        }
+        if (categoryIdList.size() != 0) {
+            List<ServiceCategory> serviceCategoryList = serviceCategoryServiceImpl.getCategoryHierarchyByLeafIds(categoryIdList);
+            TreeViewBeans = getTreeJson(serviceCategoryList, serviceList);
+        }
+        return TreeViewBeans;
+
+    }
+
     private List<ServiceTreeViewBean> getTreeJson(List<ServiceCategory> serviceCategoryList, List<com.dc.esb.servicegov.entity.Service> serviceList) {
         List<ServiceTreeViewBean> treeBeans = new ArrayList<ServiceTreeViewBean>();
         //服务类
@@ -181,6 +201,13 @@ public class ServiceController {
         if (entity != null) {
             mv.addObject("entity", entity);
         }
+        return mv;
+    }
+
+    @RequestMapping("/serviceAppandForm/process/{processId}")
+    public ModelAndView serviceAppandForm(@PathVariable("processId")String processId) {
+        ModelAndView mv = new ModelAndView("service/serviceGrid");
+        mv.addObject(processId);
         return mv;
     }
 

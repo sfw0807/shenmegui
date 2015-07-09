@@ -213,6 +213,20 @@ public class MetadataController {
         return result;
     }
 
+    @RequestMapping("/query/processId/{processId}")
+    @ResponseBody
+    public Map<String, Object> query(HttpServletRequest request, @PathVariable("processId") String processId) {
+
+        Map<String, Object> result = new HashMap<String, Object>();
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("processId", processId);
+        List<Metadata> rows = metadataService.findBy(params);
+
+        result.put("total", rows.size());
+        result.put("rows", rows);
+        return result;
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/editPage", headers = "Accept=application/json")
     public ModelAndView editPage(String metadataId) {
         ModelAndView mv = new ModelAndView("../assets/metadata/edit");
@@ -246,5 +260,17 @@ public class MetadataController {
     public ModelAndView servicePage(String serviceId) {
         ModelAndView mv = new ModelAndView("service/serviceIndex");
         return mv;
+    }
+
+    @RequestMapping("/audit/process/{processId}")
+    public @ResponseBody boolean auditMetadata(@PathVariable("processId") String processId){
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("processId", processId);
+        List<Metadata> metadatas = metadataService.findBy(params);
+        for(Metadata metadata : metadatas){
+            metadata.setStatus("正式");
+            metadataService.save(metadata);
+        }
+        return true;
     }
 }
