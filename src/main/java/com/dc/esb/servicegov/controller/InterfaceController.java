@@ -1,16 +1,14 @@
 package com.dc.esb.servicegov.controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.dc.esb.servicegov.entity.*;
+import com.dc.esb.servicegov.service.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,13 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dc.esb.servicegov.dao.support.Page;
 import com.dc.esb.servicegov.dao.support.SearchCondition;
-import com.dc.esb.servicegov.entity.Ida;
-import com.dc.esb.servicegov.entity.Interface;
-import com.dc.esb.servicegov.entity.ServiceInvoke;
-import com.dc.esb.servicegov.service.IdaService;
-import com.dc.esb.servicegov.service.InterfaceService;
-import com.dc.esb.servicegov.service.ServiceInvokeService;
-import com.dc.esb.servicegov.service.SystemService;
 import com.dc.esb.servicegov.util.TreeNode;
 
 @Controller
@@ -48,57 +39,75 @@ public class InterfaceController {
 	
 	@Autowired
 	private IdaService idaService;
-	
+
+	@Autowired
+	private InterfaceHeadService interfaceHeadService;
+
+	@Autowired
+	private InterfaceHeadRelateService interfaceHeadRelateService;
+
 	@RequestMapping(method = RequestMethod.GET, value = "/getLeftTree", headers = "Accept=application/json")
 	public @ResponseBody
 	List<TreeNode> getLeftTree() {
+
+		List<TreeNode> resList = new ArrayList<TreeNode>();
+		TreeNode root = new TreeNode();
+		root.setId("root");
+		root.setText("系统");
+		root.setClick("system");
+
 		List<TreeNode> rootList = new ArrayList<TreeNode>();
-		List<com.dc.esb.servicegov.entity.System> systems = systemService.getAll();
-		for(com.dc.esb.servicegov.entity.System s:systems){
-			TreeNode root = new TreeNode();
-			root.setId(s.getSystemId());
-			root.setText(s.getSystemChineseName());
-			root.setClick("disable");
+		List<com.dc.esb.servicegov.entity.System> systems = systemService
+				.getAll();
+
+		for (com.dc.esb.servicegov.entity.System s : systems) {
+			TreeNode rootinterface = new TreeNode();
+			rootinterface.setId(s.getSystemId());
+			rootinterface.setText(s.getSystemChineseName());
+			rootinterface.setClick("disable");
 			try {
 				List<ServiceInvoke> serviceIns = s.getServiceInvokes();
 				List<TreeNode> childList = new ArrayList<TreeNode>();
-				for(ServiceInvoke si : serviceIns){
+				for (ServiceInvoke si : serviceIns) {
+
 					TreeNode child = new TreeNode();
+
 					child.setId(si.getInter().getInterfaceId());
 					child.setText(si.getInter().getInterfaceName());
 					childList.add(child);
 				}
-				Collections.sort(childList,new Comparator<TreeNode>(){
+				Collections.sort(childList, new Comparator<TreeNode>() {
+
 					@Override
 					public int compare(TreeNode o1, TreeNode o2) {
 						return o1.getText().compareToIgnoreCase(o2.getText());
 					}
+
 				});
-				root.setChildren(childList);
+				rootinterface.setChildren(childList);
 			} catch (Exception e) {
-				String errorMsg = "构建树失败!";
-				log.error(errorMsg, e);
 			}
-			rootList.add(root);
+
+			rootList.add(rootinterface);
 		}
-		return rootList;
+
+		root.setChildren(rootList);
+		resList.add(root);
+		return resList;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/add", headers = "Accept=application/json")
 	public @ResponseBody
 	boolean save(@RequestBody
-	Interface inter) {
+	Interface inter,HttpServletRequest request) {
 		
 		//新增操作
-		boolean add = false;
-		if(inter.getInterfaceId()==null || "".equals(inter.getInterfaceId())){
-			add = true;
-		}
+		boolean add = "add".equals(request.getParameter("type"));
 		interfaceService.save(inter);
 		if(add){
-			ServiceInvoke si = inter.getServiceInvoke();
-			si.setInterfaceId(inter.getInterfaceId());
-			serviceInvokeService.save(si);
+			//ServiceInvoke si = inter.getServiceInvoke();
+			//si.setInterfaceId(inter.getInterfaceId());
+			//serviceInvokeService.save(si);
 			
 			//添加报文，自动生成固定报文头<root><request><response>
 			//root
@@ -134,21 +143,6 @@ public class InterfaceController {
 	public @ResponseBody
 	boolean delete(@PathVariable
 			String interfaceId) {
-		//删除IDA
-		Map<String, String> interfaceParams = new HashMap<String, String>();
-		interfaceParams.put("interfaceId", interfaceId);
-		List<Ida> idas = idaService.findBy(interfaceParams);
-		for(Ida ida :idas){
-			idaService.deleteById(ida.getId());
-		}
-		//删除InvokeRelation
-		Map<String, String> invokeParams = new HashMap<String, String>();
-		interfaceParams.put("interfaceId", interfaceId);
-		List<ServiceInvoke> sis = serviceInvokeService.findBy(invokeParams);
-		for(ServiceInvoke s :sis){
-			serviceInvokeService.deleteById(s.getInvokeId());
-		}
-		//删除Interface
 		interfaceService.deleteById(interfaceId);
 		return true;
 	}
@@ -158,10 +152,44 @@ public class InterfaceController {
 	String interfaceId) {
 
 		Interface inter = interfaceService.getById(interfaceId);
-		ModelAndView modelAndView = new ModelAndView();  
+		String in = inter.getServiceInvoke().getInvokeId();
+			ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("inter", inter);  
         modelAndView.setViewName("interface/interface_edit");  
 		return modelAndView;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/getInterById/{interfaceId}", headers = "Accept=application/json")
+	public @ResponseBody Map<String,Object>  getInterById(@PathVariable
+									 String interfaceId) {
+		//String hql = "SELECT u.interfaceId,u.interfaceName,u.ecode,u.remark,u.status,u.version,u.optUser,u.optDate FROM Interface u WHERE interfaceId = ?";
+		Interface inter =interfaceService.getById(interfaceId	);
+
+		Interface resInter = new Interface();
+		resInter.setInterfaceId(inter.getInterfaceId());
+		resInter.setInterfaceName(inter.getInterfaceName());
+		resInter.setEcode(inter.getEcode());
+		resInter.setDesc(inter.getDesc());
+		resInter.setRemark(inter.getRemark());
+		resInter.setVersion(inter.getVersion());
+		resInter.setOptDate(inter.getOptDate());
+		resInter.setOptUser(inter.getOptUser());
+		List<InterfaceHeadRelate> heads = inter.getHeadRelates();
+		String headName = "";
+		for(InterfaceHeadRelate head:heads){
+			if(!"".equals(headName)){
+				headName += ",";
+			}
+			headName += head.getInterfaceHead().getHeadName();
+		}
+		resInter.setHeadName(headName);
+		Map<String,Object> map = new HashMap<String,Object>();
+
+		List<Interface> inters = new ArrayList<Interface>();
+		inters.add(resInter);
+		map.put("total", 1);
+		map.put("rows", inters);
+		return map;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/getInterface/{systemId}", headers = "Accept=application/json")
@@ -173,11 +201,15 @@ public class InterfaceController {
 		
 		String ecode = req.getParameter("ecode");
 		String interfaceName = req.getParameter("interfaceName");
-		
+		String remark = req.getParameter("remark");
+		String status = req.getParameter("status");
+		String protocolId = req.getParameter("protocolId");
+		String headId = req.getParameter("headId");
+
 		List<SearchCondition> searchConds = new ArrayList<SearchCondition> ();
 		
-		String hql = "SELECT t1 FROM Interface t1,ServiceInvoke t2 where t1.interfaceId=t2.interfaceId " +
-		"and t2.systemId=? ";
+		StringBuffer hql = new StringBuffer("SELECT t1 FROM Interface t1,ServiceInvoke t2 where t1.interfaceId=t2.interfaceId ");
+		hql.append("and t2.systemId=? " );
 		
 		SearchCondition searchCond = new SearchCondition();
 		
@@ -185,33 +217,120 @@ public class InterfaceController {
 		searchCond.setFieldValue(systemId);
 		searchConds.add(searchCond);
 		if(ecode!=null && !"".equals(ecode)){
-			hql +=" and t1.ecode=?";
+			searchCond = new SearchCondition();
+			hql.append(" and t1.ecode=?");
 			searchCond.setField("ecode");
 			searchCond.setFieldValue(ecode);
 			searchConds.add(searchCond);
 		}
 		if(interfaceName!=null && !"".equals(interfaceName)){
-			hql += " and t1.interfaceName=?";
+			searchCond = new SearchCondition();
+			hql.append( " and t1.interfaceName=?");
 			searchCond = new SearchCondition();
 			searchCond.setField("interfaceName");
 			searchCond.setFieldValue(interfaceName);
 			searchConds.add(searchCond);
 		}
-		Page page = interfaceService.findPage(hql, Integer.parseInt(rows), searchConds);
+		if(remark!=null && !"".equals(remark)){
+			searchCond = new SearchCondition();
+			hql.append( " and t1.remark like ?");
+			searchCond = new SearchCondition();
+			searchCond.setField("remark");
+			searchCond.setFieldValue("%" + remark +"%");
+			searchConds.add(searchCond);
+		}
+		if(status!=null && !"".equals(status)){
+			searchCond = new SearchCondition();
+			hql.append( " and t1.status=?");
+			searchCond = new SearchCondition();
+			searchCond.setField("status");
+			searchCond.setFieldValue(status);
+			searchConds.add(searchCond);
+		}
+		if(protocolId!=null && !"".equals(protocolId)){
+			searchCond = new SearchCondition();
+			hql.append( " and t2.protocolId=?");
+			searchCond = new SearchCondition();
+			searchCond.setField("protocolId");
+			searchCond.setFieldValue(protocolId);
+			searchConds.add(searchCond);
+		}
+		if(headId!=null && !"".equals(headId)){
+			searchCond = new SearchCondition();
+			hql.append( " and exists (select 1 from InterfaceHeadRelate t3 WHERE t3.interfaceId = t1.interfaceId and t3.headId = ?)");
+			searchCond = new SearchCondition();
+			searchCond.setField("headId");
+			searchCond.setFieldValue(headId);
+			searchConds.add(searchCond);
+		}
+
+
+		Page page = interfaceService.findPage(hql.toString(), Integer.parseInt(rows), searchConds);
 		page.setPage(Integer.parseInt(starpage));
 		
-		hql += " order by t1.interfaceName ";
+		hql.append(" order by t1.interfaceName ");
 		
-		List<Interface> inters = interfaceService.findBy(hql,page,searchConds);
+		List<Interface> inters = interfaceService.findBy(hql.toString(),page,searchConds);
 		for(Interface i :inters){
+
+			List<InterfaceHeadRelate> heads = i.getHeadRelates();
+			String headName = "";
+			for(InterfaceHeadRelate head:heads){
+				if(!"".equals(headName)){
+					headName += ",";
+				}
+				headName += head.getInterfaceHead().getHeadName();
+			}
+			i.setHeadName(headName);
 			//避免转化json错误，设置ServiceInvoke=null;
 			i.setServiceInvoke(null);
+			i.setHeadRelates(null);
 		}
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("total", page.getResultCount());
 		map.put("rows", inters);
 		return map;
-		
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/getHeadAll", headers = "Accept=application/json")
+	public @ResponseBody List<Map<String,Object>> getHeadAll(HttpServletRequest request) {
+		List<Map<String,Object>> resList = new ArrayList<Map<String, Object>>();
+		List<InterfaceHead> heads =  interfaceHeadService.getAll();
+		Map<String,Object> map = new HashMap<String, Object>();
+		if(request.getParameter("query")!=null && !"".equals(request.getParameter("query"))) {
+			map.put("id", "");
+			map.put("text", "全部");
+			resList.add(map);
+		}
+
+		for (InterfaceHead head :heads){
+			map = new HashMap<String, Object>();
+			map.put("id",head.getHeadId());
+			map.put("text",head.getHeadName());
+			resList.add(map);
+		}
+		return resList;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/getChecked/{interfaceId}", headers = "Accept=application/json")
+	public @ResponseBody List<String> getChecked(@PathVariable String interfaceId) {
+		List<String> resList = new ArrayList<String>();
+//		Interface head =  interfaceService.getById(interfaceId);
+		Map<String,String> paramMap = new HashMap<String, String>();
+		paramMap.put("interfaceId",interfaceId);
+		List<InterfaceHeadRelate> heads = interfaceHeadRelateService.findBy(paramMap);
+		for(InterfaceHeadRelate h:heads){
+			resList.add(h.getHeadId());
+		}
+		return resList;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/headRelate/{interfaceId}/{headIds}", headers = "Accept=application/json")
+	public @ResponseBody boolean headRelate(@PathVariable String interfaceId,@PathVariable String headIds) {
+		if(interfaceId!=null && headIds!=null){
+			interfaceHeadRelateService.relateSave(interfaceId,headIds);
+		}
+		return true;
 	}
 }

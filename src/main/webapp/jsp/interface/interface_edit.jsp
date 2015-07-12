@@ -9,6 +9,14 @@
 
 		<tr>
 			<th>
+				接口ID
+			</th>
+			<td>
+				<input class="easyui-textbox" type="text" id="interfaceIdText" value="${inter.interfaceId }" readOnly>
+			</td>
+		</tr>
+		<tr>
+			<th>
 				交易名称
 			</th>
 			<td>
@@ -21,6 +29,24 @@
 			</th>
 			<td>
 				<input class="easyui-textbox" type="text" id="ecodeText" value="${inter.ecode }">
+			</td>
+		</tr>
+		<tr>
+			<th>
+				状态
+			</th>
+			<td>
+				<select id="status" class="easyui-combobox"  panelHeight="auto"  style="width: 155px"  data-options="editable:false">
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				接口协议
+			</th>
+			<td>
+				<select class="easyui-combobox" id="protocolId" style="width:155px" panelHeight="auto" data-options="editable:false">
+				</select>
 			</td>
 		</tr>
 		<tr>
@@ -53,17 +79,62 @@
 		</tr>
 	</table>
 	<input type="hidden" id="interfaceId" value="${inter.interfaceId}">
+	<input type="hidden" id="invokeId" value="${inter.serviceInvoke.invokeId}">
+
 </form>
 
 <script type="text/javascript">
+	$(document).ready(function (){
+
+		$('#status').combobox({
+						valueField: 'value',
+        				textField: 'label',
+        				data: [{
+        					label: '全部',
+        					value: ''
+        				},{
+        					label: '投产',
+        					value: '0'
+        				},{
+        					label: '废弃',
+        					value: '1'
+        				}],
+        			onLoadSuccess:function(){
+        				 $('#status').combobox("select","${inter.status}");
+        			}
+        		});
+		var systemId ="";
+		try {
+			var selectNode = $('.msinterfacetree').tree("getSelected");
+			systemId = selectNode.id;
+
+			var node = $('.msinterfacetree').tree("getParent",selectNode.target);
+			if(node && node.id!='root'){
+				 systemId = node.id;
+			}
+
+		} catch (e) {
+			systemId = "${param.systemId}";
+		}
+        $('#protocolId').combobox({
+        			url:'/system/getProtocolAll?systemId='+systemId,
+        			method:'get',
+        			mode:'remote',
+        			valueField:'id',
+        			textField:'text',
+        			onLoadSuccess:function(){
+        				 $('#protocolId').combobox("select","${inter.serviceInvoke.protocolId}");
+        			}
+        		});
+	});
 
 	function save(){
 		var ecode = $("#ecodeText").val();
 		var interfaceName = $("#interfaceNameText").val();
 		var desc = $("#desc").val();
 		var remark = $("#remark").val();
-		var interfaceId = $("#interfaceId").val();
-		
+		var interfaceId = $("#interfaceIdText").val();
+		var status = $("#status").combobox('getValue');
 		var systemId ="";
 		var treeObj =$('.msinterfacetree') ;
 		try { 
@@ -84,13 +155,20 @@
 		data.desc = desc;
 		data.remark = remark;
 		data.interfaceId = interfaceId;
-		
+		var protocolId = $("#protocolId").combobox('getValue');
+
+
+		data.status = status;
+
 		var serviceInvoke = {};
+		serviceInvoke.protocolId = protocolId;
 		serviceInvoke.systemId = systemId;
+		serviceInvoke.interfaceId = interfaceId;
+		var invokeId = $("#invokeId").val();
+		serviceInvoke.invokeId = invokeId;
 		data.serviceInvoke = serviceInvoke;
-		
 	
-		interfaceManager.add(data,function(result){
+		interfaceManager.add(data,'update',function(result){
 			if(result){
 				$('#w').window('close');
 				treeObj.tree("reload");

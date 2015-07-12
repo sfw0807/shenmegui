@@ -4,16 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dc.esb.servicegov.entity.Service;
+import com.dc.esb.servicegov.entity.*;
+import com.dc.esb.servicegov.service.impl.ServiceInvokeServiceImpl;
 import com.dc.esb.servicegov.service.impl.ServiceServiceImpl;
+import com.dc.esb.servicegov.service.impl.SystemServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.dc.esb.servicegov.entity.Operation;
+import org.springframework.web.bind.annotation.*;
 import com.dc.esb.servicegov.service.impl.OperationServiceImpl;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,7 +26,16 @@ public class OperationController {
 
     @Autowired
     private ServiceServiceImpl serviceService;
+    @Autowired
+    private ServiceInvokeServiceImpl serviceInvokeService;
+    @Autowired
+    private SystemServiceImpl systemService;
 
+    /**
+     * 获取所有的服务场景
+     *
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/getAll", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -41,19 +48,48 @@ public class OperationController {
         return result;
     }
 
+    /**
+     * 根据服务获取场景列表
+     *
+     * @param serviceId
+     * @return
+     */
     @RequestMapping("/getOperationByServiceId/{serviceId}")
     @ResponseBody
     public Map<String, Object> getOperationByServiceId(@PathVariable(value = "serviceId") String serviceId) {
         Map<String, Object> result = new HashMap<String, Object>();
-        List<?> rows = operationServiceImpl.getOperationByServiceId(serviceId);
+        List<Operation> rows = operationServiceImpl.findBy("serviceId", serviceId);
         result.put("total", rows.size());
         result.put("rows", rows);
         return result;
     }
 
-    //根据服务id跳转到场景添加页面
+    /**
+     * 获取服务{serviceId}的待审核场景列表
+     *
+     * @param serviceId
+     * @return
+     */
+    @RequestMapping("/getAudits/{serviceId}")
+    @ResponseBody
+    public Map<String, Object> getAudits(
+            @PathVariable(value = "serviceId") String serviceId) {
+        List<Operation> rows = operationServiceImpl.getUnAuditOperationByServiceId(serviceId);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("total", rows.size());
+        result.put("rows", rows);
+        return result;
+    }
+
+    /**
+     * 这是一个页面跳转控制,根据服务id跳转到场景添加页面
+     *
+     * @param req
+     * @param serviceId
+     * @return TODO 建议不要通过Controller控制页面跳转
+     */
     @RequestMapping("/addPage/{serviceId}")
-    public ModelAndView 阿杜dPageaddPage(HttpServletRequest req, @PathVariable(value = "serviceId") String serviceId) {
+    public ModelAndView addPage(HttpServletRequest req, @PathVariable(value = "serviceId") String serviceId) {
         ModelAndView mv = new ModelAndView("service/operation/add");
         Service service = serviceService.getUniqueByServiceId(serviceId);
         if (service != null) {
@@ -63,6 +99,14 @@ public class OperationController {
     }
 
     //场景号唯一性验证
+
+    /**
+     * 场景号唯一性验证
+     *
+     * @param operationId
+     * @param serviceId
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/uniqueValid", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -78,6 +122,30 @@ public class OperationController {
         return true;
     }
 
+    /**
+     * TODO 这是什么鬼
+     *
+     * @param req
+     * @param serviceId
+     * @param operationId
+     * @param consumerStr
+     * @param providerStr
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/afterAdd", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    boolean afterAdd(HttpServletRequest req, String serviceId, String operationId, String consumerStr, String providerStr) {
+        return operationServiceImpl.addInvoke(req, serviceId, operationId, consumerStr, providerStr);
+    }
+
+    /**
+     * 修改场景
+     *
+     * @param req
+     * @param Operation
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/edit", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -85,24 +153,41 @@ public class OperationController {
         return operationServiceImpl.editOperation(req, Operation);
     }
 
-    //根据服务id跳转到场景修改页面
+    /**
+     * 根据服务id，场景id跳转到场景编辑页面
+     *
+     * @param req
+     * @param operationId
+     * @param serviceId
+     * @return
+     */
     @RequestMapping("/editPage")
     public ModelAndView editPage(HttpServletRequest req, String operationId, String serviceId) {
         ModelAndView mv = new ModelAndView("service/operation/edit");
         //根据operationId查询operation
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("serviceId", serviceId);
-        params.put("operationId", operationId);
-        Operation operation = operationServiceImpl.findUniqueBy(params);
+        Operation operation = operationServiceImpl.getOperation(serviceId, operationId);
         if (operation != null) {
             mv.addObject("operation", operation);
             //根据operation查询service信息
-            Service service = serviceService.getUniqueByServiceId(operation.getServiceId());
+            Service service = serviceService.getById(operation.getServiceId());
             if (service != null) {
                 mv.addObject("service", service);
             }
+            List<com.dc.esb.servicegov.entity.System> systems = systemService.getAll();
+            mv.addObject("systemList", systems);
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("serviceId", serviceId);
+            params.put("operationId", operationId);
+            /**
+             * TODO use Constants
+             */
+            params.put("type", "0");
+            List<ServiceInvoke> consumerInvokes = serviceInvokeService.findBy(params);
+            mv.addObject("consumerList", consumerInvokes);
+            params.put("type", "1");
+            List<ServiceInvoke> providerInvokes = serviceInvokeService.findBy(params);
+            mv.addObject("providerList", providerInvokes);
         }
-
         return mv;
     }
 
@@ -133,5 +218,59 @@ public class OperationController {
         return operationServiceImpl.release(req, operationId, serviceId);
     }
 
+    @RequestMapping("/releaseBatch")
+    @ResponseBody
+    public boolean releaseBatch(HttpServletRequest req, @RequestBody Operation[] operations) {
+        return operationServiceImpl.releaseBatch(req, operations);
+    }
 
+	@RequestMapping("/auditPage")
+	public ModelAndView auditPage(HttpServletRequest req, String serviceId) {
+		return operationServiceImpl.auditPage(req, serviceId);
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/auditPass", headers = "Accept=application/json")
+	@ResponseBody
+	public boolean auditPass(@RequestBody String[] operationIds) {
+		return operationServiceImpl.auditOperation("1", operationIds);
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/auditUnPass", headers = "Accept=application/json")
+	@ResponseBody
+	public boolean auditUnPass(@RequestBody String[] operationIds) {
+		return operationServiceImpl.auditOperation("2", operationIds);
+	}
+
+	// 根据系统id查询该系统过是有接口
+	@RequestMapping("/judgeInterface")
+	@ResponseBody
+	public boolean judgeInterface(String systemId) {
+		return operationServiceImpl.judgeInterface(systemId);
+	}
+
+	@RequestMapping("/interfacePage")
+	public ModelAndView interfacePage(String operationId, String serviceId, HttpServletRequest req) {
+		return operationServiceImpl.interfacePage(operationId, serviceId, req);
+	}
+	//根据系统id查询接口列表
+	@RequestMapping("/getInterface")
+	@ResponseBody
+	public Map<String, Object> getInterface(String systemId) {
+		List<?> rows = operationServiceImpl.getInterface(systemId);
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("total", rows.size());
+		result.put("rows", rows);
+		return result;
+	}
+	@RequestMapping("/getInterfaceByOSS")
+	@ResponseBody
+	public Map<String, Object> getInterfaceByOSS(String serviceId, String operationId, String systemId) {
+		List<?> rows = operationServiceImpl.getInterfaceByOSS(serviceId, operationId, systemId);
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("total", rows.size());
+		result.put("rows", rows);
+		return result;
+	}
 }

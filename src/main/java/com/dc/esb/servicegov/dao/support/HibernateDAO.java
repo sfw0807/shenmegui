@@ -144,6 +144,13 @@ public class HibernateDAO<T, PK extends Serializable> {
     }
 
     /**
+     * 按id获取对象. 查不多不会抛出异常 返回null
+     */
+    public T getEntity(final PK id) {
+        Assert.notNull(id, "id不能为空");
+        return (T) getSession().get(entityClass, id);
+    }
+    /**
      * 按id列表获取对象列表.
      */
     public List<T> get(final Collection<PK> ids) {

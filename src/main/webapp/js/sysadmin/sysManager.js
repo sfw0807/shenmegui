@@ -58,7 +58,6 @@ var sysManager = {
     },
     
     edit:function(){
-    	
     	var node = $('.mxsysadmintree').tree("getSelected");
     	uiinit.win({
 			w:500,
@@ -87,6 +86,80 @@ var sysManager = {
             }
         });
     
-    }
- 
+    },
+    addSystemPage:function(){
+        	uiinit.win({
+    			w:500,
+    			iconCls:'icon-add',
+    			title:"新增系统",
+    			url : "/jsp/sysadmin/system_add.jsp"
+    		});
+    },
+    querySystemPage:function(){
+        if ($('#mainContentTabs').tabs('exists', "系统")){
+            $('#mainContentTabs').tabs('select', "系统");
+        } else {
+            var content = '<iframe scrolling="auto" frameborder="0"  src="/jsp/sysadmin/system_manager.jsp" style="width:100%;height:100%;"></iframe>';
+            $('#mainContentTabs').tabs('add',{
+                title:"系统",
+                content:content,
+                closable:true
+            });
+         }
+    },
+    editSystemPage:function(){
+        var node = $('.msinterfacetree').tree("getSelected");
+        uiinit.win({
+            w:500,
+            iconCls:'icon-add',
+            title:"编辑系统",
+            url : "/system/edit/"+node.id
+        });
+    },
+    addSystem : function(data, callBack){
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/system/add",
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function(result) {
+                callBack(result);
+            }
+        });
+     },
+
+    deleteSystem:function(){
+         var node = $('.msinterfacetree').tree("getSelected");
+         $.ajax({
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                url: "/system/delete/"+node.id,
+                dataType: "json",
+                success: function(result) {
+                    //$('#w').window('close');
+                    $('.msinterfacetree').tree("reload");
+                }
+            });
+     },
+     addProtocolPage:function(){
+         uiinit.win({
+            w:500,
+            iconCls:'icon-add',
+            title:"新增协议",
+            url : "/jsp/sysadmin/protocol_add.jsp"
+         });
+     },
+    addProtocol : function(data, callBack){
+         $.ajax({
+             type: "POST",
+             contentType: "application/json; charset=utf-8",
+             url: "/protocol/add",
+             data: JSON.stringify(data),
+             dataType: "json",
+             success: function(result) {
+                 callBack(result);
+             }
+         });
+      }
 }

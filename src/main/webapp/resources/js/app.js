@@ -7,6 +7,8 @@ var LOAD_URL = {
     PUBLICHEADER: '/jsp/sysadmin/interface_header.jsp',
     INTERFACELIST: '/jsp/interface/interface_list.jsp',
     INTERFACEDEFINE: '/jsp/interface/interface_define.jsp',
+    SYSTEMMANGER :  '/jsp/sysadmin/system_manager.jsp',
+    SYSTEMINDEX :  '/jsp/sysadmin/system_index.jsp',
     SERVICEUI: '/dataTemplate/serviceadmin/index.html',
     SERVICEUI2: '/dataTemplate/serviceadmin/fwcjmx.html',
     SERVICEUI_LW: '/jsp/service/servicePage.jsp',
@@ -47,6 +49,9 @@ var SYSMENU = {
                     },
                     prompt: '请输入关键词'
                 });
+
+
+
 
                 //报文管理
                 $('.mxsysadmintree').tree({
@@ -112,37 +117,58 @@ var SYSMENU = {
                         e.preventDefault();
                         $(this).tree('select', node.target);
                         if (typeof(node.children) != 'undefined') {//编辑接口
-
-                            if (node.click == 'disable') {
-                                $('#mm-mxinterfacetree').menu('show', {
+                            console.log(node);
+                            if(node.click == 'system') {
+                                console.log($('#mm-mxsystemtree'));
+                                $('#mm-mxsystemtree').menu('show', {
                                     left: e.pageX,
                                     top: e.pageY
                                 });
-                            } else {
-                                $('#mm-mxinterfacedefinetree').menu('show', {
+                            }else if(node.click == 'disable'){
+
+                                $('#mm-mxsystemtree1').menu('show', {
+                                    left: e.pageX,
+                                    top: e.pageY
+                                });
+
+                            }else{
+                                $('#mm-mxinterfacetree1').menu('show', {
                                     left: e.pageX,
                                     top: e.pageY
                                 });
                             }
-
                         }
 
                     },
                     onClick: function (node) {
-                        if (node.click == 'disable') {
+                        if (node.click == 'system') {
                             var mid = node.id;
                             var title = node.text;
-                            if ($('#mainContentTabs').tabs('exists', title)) {
+                            if ($('#mainContentTabs').tabs('exists', title)){
                                 $('#mainContentTabs').tabs('select', title);
-                            } else {//SYSADMINUIEDIT
-                                var content = '<iframe scrolling="auto" frameborder="0"  src="' + LOAD_URL.INTERFACELIST + '?systemId=' + mid + '" style="width:100%;height:100%;"></iframe>';
-                                $('#mainContentTabs').tabs('add', {
-                                    title: title,
-                                    content: content,
-                                    closable: true
+                            } else {
+                                var content = '<iframe scrolling="auto" frameborder="0"  src="'+LOAD_URL.SYSTEMINDEX+'" style="width:100%;height:100%;"></iframe>';
+                                $('#mainContentTabs').tabs('add',{
+                                    title:title,
+                                    content:content,
+                                    closable:true
                                 });
                             }
-                        } else {
+                        }else if(node.click == 'disable'){
+                            var mid = node.id;
+                            var title = node.text;
+                            if ($('#mainContentTabs').tabs('exists', title)){
+                                $('#mainContentTabs').tabs('select', title);
+                            } else {//SYSADMINUIEDIT
+                                var content = '<iframe scrolling="auto" frameborder="0"  src="'+LOAD_URL.INTERFACELIST+'?systemId='+mid+'" style="width:100%;height:100%;"></iframe>';
+                                $('#mainContentTabs').tabs('add',{
+                                    title:title,
+                                    content:content,
+                                    closable:true
+                                });
+                            }
+
+                        }else{
 
                             //alert(typeof(node.children));
                             //if(typeof(node.children)=='undefined'){//编辑接口
@@ -152,7 +178,7 @@ var SYSMENU = {
                             if ($('#mainContentTabs').tabs('exists', title)) {
                                 $('#mainContentTabs').tabs('select', title);
                             } else {//SYSADMINUIEDIT
-                                var content = '<iframe scrolling="auto" frameborder="0"  src="' + LOAD_URL.INTERFACEDEFINE + '?interfaceId=' + mid + '" style="width:100%;height:100%;"></iframe>';
+                                var content = '<iframe scrolling="auto" frameborder="0"  src="'+LOAD_URL.INTERFACEDEFINE+'?interfaceId='+mid+'" style="width:100%;height:100%;"></iframe>';
                                 $('#mainContentTabs').tabs('add', {
                                     title: title,
                                     content: content,
@@ -160,6 +186,20 @@ var SYSMENU = {
                                 });
                             }
                         }
+                        /*}else{//基本信息
+                         var mid = node.id;
+                         var title = node.text;
+                         if ($('#mainContentTabs').tabs('exists', title)){
+                         $('#mainContentTabs').tabs('select', title);
+                         } else {
+                         var content = '<iframe scrolling="auto" frameborder="0"  src="'+LOAD_URL.SYSADMINUI+'" style="width:100%;height:100%;"></iframe>';
+                         $('#mainContentTabs').tabs('add',{
+                         title:title,
+                         content:content,
+                         closable:true
+                         });
+                         }
+                         }  */
                     }
                 });
 

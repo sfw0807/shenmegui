@@ -16,28 +16,28 @@ public class Operation implements Serializable{
 	@Id
 	@Column(name = "SERVICE_ID")
 	private String serviceId;
-	
+
 	@Column(name = "OPERATION_NAME")
 	private String operationName;
-	
+
 	@Column(name = "OPERATION_DESC")
 	private String operationDesc;
-	
+
 	@Column(name = "OPERATION_REMARK")
 	private String operationRemark;
-	
+
 	@Column(name = "VERSION")
 	private String version;
-	
+
 	@Column(name = "STATE")
 	private String state;
-	
+
 	@Column(name = "OPT_USER")
 	private String optUser;
-	
+
 	@Column(name = "OPT_DATE")
 	private String optDate;
-	
+
 	@Column(name = "HEAD_ID")
 	private String headId;
 

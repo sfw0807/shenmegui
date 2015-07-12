@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dc.esb.servicegov.entity.OperationHis;
 import com.dc.esb.servicegov.service.impl.OperationHisServiceImpl;
 
 @Controller
@@ -36,6 +37,12 @@ public class OperationHisController {
 		result.put("total", rows.size());
 		result.put("rows", rows);
 		return result;
+	}
+
+	@RequestMapping("/getByAutoId")
+	@ResponseBody
+	public OperationHis getByAutoId(String autoId){
+		return operationHisServiceImpl.getByAutoId(autoId);
 	}
 	
 }

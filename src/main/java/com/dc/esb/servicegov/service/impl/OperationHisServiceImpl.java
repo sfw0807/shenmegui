@@ -61,7 +61,11 @@ public class OperationHisServiceImpl extends AbstractBaseService<OperationHis,St
         }
         return null;
     }
+    public OperationHis getByAutoId(String autoId){
+        OperationHis entity = operationHisDAOImpl.findUnique(" from OperationHis where autoId=?", autoId);
+        return entity;
 
+    }
     //根据operationId获取operation
     public List<OperationHis> getByOS(String operationId, String serviceId){
         return operationHisDAOImpl.find(" from OperationHis where operationId = ? and serviceId = ?", operationId, serviceId);

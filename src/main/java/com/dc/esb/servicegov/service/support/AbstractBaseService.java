@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -93,6 +94,11 @@ public abstract class AbstractBaseService<T, PK extends Serializable>{
 
 	public List<T> findBy(Map<String, String> properties){
 		return getDAO().findBy(properties);
+	}
+	public List<T> findBy(String key, String value){
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(key,value);
+		return this.findBy(params);
 	}
 
 	public List<T> findBy(SearchCondition searchCond, Page page){

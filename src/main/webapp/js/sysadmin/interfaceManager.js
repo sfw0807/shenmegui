@@ -3,11 +3,11 @@
 接口管理
 **/
 var interfaceManager = {
-    add : function(data, callBack){
+    add : function(data,type, callBack){
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: "/interface/add",
+            url: "/interface/add?type="+type,
             data: JSON.stringify(data),
             dataType: "json",
             success: function(result) {
@@ -59,6 +59,7 @@ var interfaceManager = {
         });
     },
     append:function(systemId){
+
     	uiinit.win({
 			w:500,
 			iconCls:'icon-add',

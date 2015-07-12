@@ -19,7 +19,12 @@
       <li><a href="javascript:;" class="openable"  mid="2.3">任务管理</a></li>
       <li><a href="javascript:;" class="openable"  mid="2.4">我的任务</a></li>
     </ul>
-  </li>
+  </li><li><a href="javascript:;" class="openable"  mid="9.1">字段映射</a>
+    <ul>
+        <li><a href="javascript:;" class="openable"  mid="9.2">导入</a></li>
+        <li><a href="javascript:;" class="openable"  mid="9.3">导出</a></li>
+    </ul>
+</li>
   <li><a href="javascript:;" class="openable"  mid="4.1">用户管理</a>
     <ul>
       <li><a href="javascript:;" class="openable"  mid="4.2">用户维护</a></li>
@@ -81,7 +86,7 @@
 	if(mid.equals("6")){
 %>
 <div class="tree-filter">
- 		<input class="easyui-searchbox" id="mxsysadmintreefilter" style="width:100%">
+ 		<input class="easyui-searchbox" id="mxinterfacetreefilter" style="width:100%">
 
  </div>
 

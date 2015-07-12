@@ -3,6 +3,7 @@ package com.dc.esb.servicegov.service.impl;
 import com.dc.esb.servicegov.dao.impl.OLADAOImpl;
 import com.dc.esb.servicegov.dao.support.HibernateDAO;
 import com.dc.esb.servicegov.entity.OLA;
+import com.dc.esb.servicegov.entity.OLAHis;
 import com.dc.esb.servicegov.entity.Operation;
 import com.dc.esb.servicegov.service.OLAService;
 import com.dc.esb.servicegov.service.support.AbstractBaseService;
@@ -24,6 +25,8 @@ public class OLAServiceImpl extends AbstractBaseService<OLA, String> implements 
 
     @Autowired
     private OLADAOImpl olaDAO;
+    @Autowired
+    private OLAHisServiceImpl olaHisService;
 
     @Override
     public HibernateDAO<OLA, String> getDAO() {
@@ -60,6 +63,19 @@ public class OLAServiceImpl extends AbstractBaseService<OLA, String> implements 
         }
 
         return mv;
+	}
+	public List<OLA> findByOS(String serviceId, String operationId){
+		return olaDAO.find(" from OLA where serviceId=? and operationId=?", serviceId, operationId);
+    }
+
+    public void backUpByCondition(Map<String, String> params, String autoId){
+        List<OLA> olaList = findBy(params);
+        if (olaList != null && olaList.size() > 0) {
+            for (OLA ola : olaList) {
+                OLAHis olaHis = new OLAHis(ola, autoId);
+                olaHisService.save(olaHis);
+            }
+        }
     }
 }
 

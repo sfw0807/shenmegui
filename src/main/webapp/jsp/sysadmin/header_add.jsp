@@ -53,7 +53,7 @@
 		var headName = $("#headName").val();
 		var headRemark = $("#headRemark").val();
 		var headDesc = $("#headDesc").val();
-		
+
 		var data = {};
 		//data.headId = headId;
 		data.headName = headName;
@@ -62,7 +62,7 @@
 		sysManager.add(data,function(result){
 			//alert("${headId}");
 			if(result){
-				
+
 				$('#w').window('close');
 				$('.mxsysadmintree').tree("reload");
 				var content = '<iframe scrolling="auto" frameborder="0"  src="'+LOAD_URL.PUBLICHEADER+'?headId='+result+'" style="width:100%;height:100%;"></iframe>';
@@ -71,7 +71,7 @@
 												content:content,
 												closable:true
 				});	*/
-				
+
 			}else{
 				alert("保存失败");
 			}

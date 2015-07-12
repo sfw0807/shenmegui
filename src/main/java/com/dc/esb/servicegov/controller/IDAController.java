@@ -51,19 +51,16 @@ public class IDAController {
 	public @ResponseBody
 	boolean save(@RequestBody
 	Ida [] idas) {
-		for(Ida ida :idas){
-			idaService.save(ida);
-		}
+		idaService.saveOrUpdate(idas);
 		return true;
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}", headers = "Accept=application/json")
+	@RequestMapping(method = RequestMethod.POST, value = "/delete", headers = "Accept=application/json")
 	public @ResponseBody
 	boolean delete(@RequestBody
 	String [] ids) {
-		for(String id:ids){
-			idaService.deleteById(id);
-		}
+		idaService.deletes(ids);
+
 		return true;
 	}
 

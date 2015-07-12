@@ -1,16 +1,17 @@
 package com.dc.esb.servicegov.entity;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
+import java.util.List;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="INTERFACE")
 public class Interface {
 	@Id
 	@Column(name = "INTERFACE_ID")
-	@GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid",strategy="uuid")
+//	@GeneratedValue(generator="system-uuid")
+//    @GenericGenerator(name="system-uuid",strategy="uuid")
 	private String interfaceId;
 	
 	@Column(name = "INTERFACE_NAME")
@@ -25,9 +26,6 @@ public class Interface {
 	@Column(name = "REMARK")
 	private String remark;
 	
-	@Column(name = "INTERFACE_HEAD_ID")
-	private String interfaceHeadId;
-	
 	@Column(name = "STATUS")
 	private String status;
 	
@@ -40,10 +38,26 @@ public class Interface {
 	@Column(name = "OPT_DATE")
 	private String optDate;
 
-	
-	@OneToOne(mappedBy="inter")
+	private String headName;
+
+	@OneToMany(mappedBy = "relateInters",cascade = CascadeType.ALL)
+	private List<InterfaceHeadRelate> headRelates ;
+
+	@OneToOne(mappedBy="inter",cascade = CascadeType.ALL)
 	private ServiceInvoke serviceInvoke;
-	
+
+	@OneToMany(targetEntity = Ida.class,cascade = CascadeType.ALL)
+	@JoinColumn(name = "INTERFACE_ID",referencedColumnName = "INTERFACE_ID",insertable = false,updatable = false)
+	private List<Ida> idas;
+
+	public List<Ida> getIdas() {
+		return idas;
+	}
+
+	public void setIdas(List<Ida> idas) {
+		this.idas = idas;
+	}
+
 	public String getInterfaceId() {
 		return interfaceId;
 	}
@@ -82,14 +96,6 @@ public class Interface {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	public String getInterfaceHeadId() {
-		return interfaceHeadId;
-	}
-
-	public void setInterfaceHeadId(String interfaceHeadId) {
-		this.interfaceHeadId = interfaceHeadId;
 	}
 
 	public String getStatus() {
@@ -131,5 +137,20 @@ public class Interface {
 	public void setServiceInvoke(ServiceInvoke serviceInvoke) {
 		this.serviceInvoke = serviceInvoke;
 	}
-	
+
+	public List<InterfaceHeadRelate> getHeadRelates() {
+		return headRelates;
+	}
+
+	public void setHeadRelates(List<InterfaceHeadRelate> headRelates) {
+		this.headRelates = headRelates;
+	}
+
+	public String getHeadName() {
+		return headName;
+	}
+
+	public void setHeadName(String headName) {
+		this.headName = headName;
+	}
 }

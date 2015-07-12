@@ -1,15 +1,13 @@
 package com.dc.esb.servicegov.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "IDA")
+@JsonIgnoreProperties("interObj")
 public class Ida {
     @Id
     @Column(name = "ID")
@@ -57,6 +55,9 @@ public class Ida {
     @Column(name = "VERSION")
     private String version;
 
+    @ManyToOne
+    @JoinColumn(name="INTERFACE_ID",referencedColumnName = "INTERFACE_ID",insertable = false,updatable = false)
+    private Interface interObj;
 //    @ManyToOne(targetEntity = InterfaceHead.class)
 //    @JoinColumns({
 //            @JoinColumn(name = "HEAD_ID", referencedColumnName = "HEAD_ID", insertable = false, updatable = false)
@@ -192,4 +193,11 @@ public class Ida {
 //	}
 
 
+    public Interface getInterObj() {
+        return interObj;
+    }
+
+    public void setInterObj(Interface interObj) {
+        this.interObj = interObj;
+    }
 }

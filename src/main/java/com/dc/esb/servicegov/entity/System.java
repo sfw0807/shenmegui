@@ -3,14 +3,7 @@ package com.dc.esb.servicegov.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "SYSTEM")
@@ -18,7 +11,7 @@ public class System implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	@Id  
+	@Id
 	@Column(name = "SYSTEM_ID")
 	private String systemId;
 	
@@ -46,12 +39,13 @@ public class System implements Serializable{
 	@Column(name = "OPT_DATE")
 	private String optDate;
 
+	private String protocolName;
+
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE,mappedBy = "system")
+	//@JoinColumn(name = "SYSTEM_ID",referencedColumnName = "SYSTEM_ID",insertable=true,updatable = true)
+	private List<SystemProtocol> systemProtocols;
 	
-	@OneToMany(mappedBy="system",fetch=FetchType.LAZY)
-//	@JoinColumns({
-//			
-//			@JoinColumn(columnDefinition="SYSTEM_ID",referencedColumnName="SYSTEM_ID")
-//	})
+	@OneToMany(mappedBy="system",cascade = CascadeType.ALL)
 	private List<ServiceInvoke> serviceInvokes;
 	
 	
@@ -136,4 +130,19 @@ public class System implements Serializable{
 		this.serviceInvokes = serviceInvoke;
 	}
 
+	public List<SystemProtocol> getSystemProtocols() {
+		return systemProtocols;
+	}
+
+	public void setSystemProtocols(List<SystemProtocol> systemProtocols) {
+		this.systemProtocols = systemProtocols;
+	}
+
+	public String getProtocolName() {
+		return protocolName;
+	}
+
+	public void setProtocolName(String protocolName) {
+		this.protocolName = protocolName;
+	}
 }

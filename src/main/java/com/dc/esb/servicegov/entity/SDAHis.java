@@ -37,7 +37,7 @@ public class SDAHis implements Serializable {
 	private String metadataId;
 	
 	@Column(name = "SEQ")
-	private String seq;
+	private int seq;
 	
 	@Column(name = "PARENT_ID")
 	private String parentId;
@@ -135,14 +135,6 @@ public class SDAHis implements Serializable {
 		this.metadataId = metadataId;
 	}
 
-	public String getSeq() {
-		return seq;
-	}
-
-	public void setSeq(String seq) {
-		this.seq = seq;
-	}
-
 	public String getParentId() {
 		return parentId;
 	}
@@ -230,5 +222,12 @@ public class SDAHis implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
+	public int getSeq() {
+		return seq;
+	}
+
+	public void setSeq(int seq) {
+		this.seq = seq;
+	}
 }

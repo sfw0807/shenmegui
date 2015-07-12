@@ -15,7 +15,7 @@ import com.dc.esb.servicegov.service.SystemService;
 
 @Service
 @Transactional
-public class SystemServiceImpl extends AbstractBaseService<com.dc.esb.servicegov.entity.System, String> implements SystemService{
+public class SystemServiceImpl extends AbstractBaseService<System, String> implements SystemService{
 
 	@Autowired
 	private SystemDAOImpl systemDAOImpl;
@@ -24,5 +24,14 @@ public class SystemServiceImpl extends AbstractBaseService<com.dc.esb.servicegov
 	@Override
 	public HibernateDAO<System, String> getDAO() {
 		return systemDAOImpl;
+	}
+
+	@Override
+	public void insertProtocol(SystemProtocol systemProtocol) {
+		systemDAOImpl.exeHql("insert into SystemProtocol(systemId,protocolId) values(?,?)",systemProtocol.getSystemId(),systemProtocol.getProtocolId());
+	}
+
+	public void deleteProtocol(SystemProtocol systemProtocol){
+		systemDAOImpl.exeHql("delete from SystemProtocol where systemId = ?",systemProtocol.getSystemId());
 	}
 }

@@ -76,10 +76,18 @@
 %>
 
 <%
+	if(mid.equals("9.2")){
+%>
+{"success":true,"url":"/jsp/sysadmin/fieldmapping_import.jsp","title":"字段映射导入"}
+<%
+	}
+	
+%>
+<%
 	if(mid.equals("4.2")){
 %>
 {"success":true,"url":"/jsp/user/userMaintain.jsp","title":"用户维护"}
 <%
 	}
-	
+
 %>

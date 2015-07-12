@@ -19,4 +19,17 @@ public class IdaServiceImpl extends AbstractBaseService<Ida, String> implements 
 	public HibernateDAO<Ida, String> getDAO() {
 		return idaDAOImpl;
 	}
+
+	public void deletes(String [] ids){
+		for(String id:ids){
+			idaDAOImpl.delete(id);
+		}
+	}
+
+	@Override
+	public void saveOrUpdate(Ida[] idas) {
+		for(Ida ida:idas){
+			idaDAOImpl.save(ida);
+		}
+	}
 }

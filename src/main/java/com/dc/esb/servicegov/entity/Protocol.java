@@ -1,15 +1,17 @@
 package com.dc.esb.servicegov.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name="PROTOCOL")
 public class Protocol {
+
 	@Id
 	@Column(name = "PROTOCOL_ID")
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name="system-uuid",strategy="uuid")
 	private String protocolId;
 	
 	@Column(name = "PROTOCOL_NAME")
@@ -38,6 +40,14 @@ public class Protocol {
 	
 	@Column(name = "GENERATOR_ID")
 	private String generatorId;
+
+//	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//	@JoinColumn(name="PROTOCOL_ID",referencedColumnName = "PROTOCOL_ID")
+//	private SystemProtocol systemProtocol;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "MSG_TEMPLATE_ID",referencedColumnName = "TEMPLATE_ID",insertable = false,updatable = false)
+	private MsgTemplate msgTemplate;
 
 	public String getProtocolId() {
 		return protocolId;
@@ -118,6 +128,12 @@ public class Protocol {
 	public void setGeneratorId(String generatorId) {
 		this.generatorId = generatorId;
 	}
-	
-	
+
+	public MsgTemplate getMsgTemplate() {
+		return msgTemplate;
+	}
+
+	public void setMsgTemplate(MsgTemplate msgTemplate) {
+		this.msgTemplate = msgTemplate;
+	}
 }

@@ -4,6 +4,7 @@ import com.dc.esb.servicegov.dao.impl.SDADAOImpl;
 import com.dc.esb.servicegov.dao.support.HibernateDAO;
 import com.dc.esb.servicegov.entity.Operation;
 import com.dc.esb.servicegov.entity.SDA;
+import com.dc.esb.servicegov.entity.SDAHis;
 import com.dc.esb.servicegov.service.SDAService;
 import com.dc.esb.servicegov.service.support.AbstractBaseService;
 import com.dc.esb.servicegov.util.DateUtils;
@@ -30,11 +31,13 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
     private OperationServiceImpl operationService;
     @Autowired
     private ServiceServiceImpl serviceService;
+    @Autowired
+    private SDAHisServiceImpl sdaHisService;
     public boolean genderSDAAuto(Operation operation){
         SDA sdaRoot = new SDA();
         sdaRoot.setSdaId(UUID.randomUUID().toString());
         sdaRoot.setStructName("root");
-        sdaRoot.setSeq("0");
+        sdaRoot.setSeq(0);
         sdaRoot.setServiceId(operation.getServiceId());
         sdaRoot.setOperationId(operation.getOperationId());
         sdaDAO.save(sdaRoot);
@@ -42,7 +45,7 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
         SDA sdaReq = new SDA();
         sdaReq.setSdaId(UUID.randomUUID().toString());
         sdaReq.setStructName("request");
-        sdaReq.setSeq("0");
+        sdaReq.setSeq(0);
         sdaReq.setServiceId(operation.getServiceId());
         sdaReq.setOperationId(operation.getOperationId());
         sdaReq.setParentId(sdaRoot.getSdaId());
@@ -51,7 +54,7 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
         SDA sdaRes = new SDA();
         sdaRes.setSdaId(UUID.randomUUID().toString());
         sdaRes.setStructName("response");
-        sdaRes.setSeq("0");
+        sdaRes.setSeq(0);
         sdaRes.setServiceId(operation.getServiceId());
         sdaRes.setOperationId(operation.getOperationId());
         sdaRes.setParentId(sdaRoot.getSdaId());
@@ -106,9 +109,6 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
         if (sdas != null && sdas.length > 0) {
             for (SDA sda : sdas) {
                 sda.setOptDate(DateUtils.format(new Date()));
-                if (sda.getSeq() == null) {
-                    sda.setSeq("0");
-                }
                 sdaDAO.save(sda);
             }
             return true;
@@ -145,9 +145,9 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
                         return false;
                     } else {
                         SDA beforeSDA = list.get(i - 1);
-                        String seq = beforeSDA.getSeq();
-                        Integer newSeq = Integer.parseInt(seq) + 1;
-                        sda.setSeq(String.valueOf(newSeq));
+                        int seq = beforeSDA.getSeq();
+                        seq ++;
+                        sda.setSeq(seq ++);
                         sdaDAO.save(sda);
                         return true;
                     }
@@ -176,9 +176,9 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
                         return false;
                     } else {
                         SDA nextSda = list.get(i + 1);
-                        String seq = nextSda.getSeq();
-                        Integer newSeq = Integer.parseInt(seq) - 1;
-                        sda.setSeq(String.valueOf(newSeq));
+                        int seq = nextSda.getSeq();
+                        seq --;
+                        sda.setSeq(seq);
                         sdaDAO.save(sda);
                         return true;
                     }
@@ -186,6 +186,20 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
             }
         }
         return false;
+    }
+
+    /**
+     * 备份sda
+     * @return
+     */
+    public void backUpSdaByCondition(Map<String, String> params, String autoId){
+        List<SDA> sdaList = findBy(params);
+        if(sdaList != null && sdaList.size() > 0){
+            for(SDA sda : sdaList){
+                SDAHis sdaHis = new SDAHis(sda, autoId);
+                sdaHisService.save(sdaHis);
+            }
+        }
     }
 
     @Override

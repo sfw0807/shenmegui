@@ -1,72 +1,74 @@
 package com.dc.esb.servicegov.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.dc.esb.servicegov.util.DateUtils;
-import com.dc.esb.servicegov.util.TreeNode;
 
 @Entity
 @Table(name = "SDA")
 public class SDA implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "SDA_ID")
 	private String sdaId;
-	
+
 	@Column(name = "STRUCTNAME")
 	private String structName;
-	
+
 	@Column(name = "STRUCTALIAS")
 	private String structAlias;
-	
+
 	@Column(name = "METADATAID")
 	private String metadataId;
-	
+
 	@Column(name = "SEQ")
-	private String seq;
-	
+	private int seq = 0;
+
 	@Column(name = "PARENT_ID")
 	private String parentId;
-	
+
 	@Column(name = "SERVICE_ID")
 	private String serviceId;
-	
+
 	@Column(name = "OPT_USER")
 	private String optUser;
-	
+
 	@Column(name = "OPT_DATE")
 	private String optDate;
-	
+
 	@Column(name = "OPERATION_ID")
 	private String operationId;
-	
+
 	@Column(name = "DESCRIPTION")
 	private String desc;
-	
+
 	@Column(name = "REMARK")
 	private String remark;
-	
+
 	@Column(name = "HEAD_ID")
 	private String headId;
-	
-	@Column(name = "version")
+
+	@Column(name = "VERSION")
 	private String version;
-	
-	@Column(name = "type")
+
+	@Column(name = "TYPE")
 	private String type;
-	
+
+	@Column(name = "LENGTH")
+	private String length;
+
+	@Column(name = "REQUIRED")
+	private String required;
 	public SDA(){
-		
+
 	}
-	
+
 	public String getSdaId() {
 		return sdaId;
 	}
@@ -91,11 +93,11 @@ public class SDA implements Serializable {
 		this.metadataId = metadataId;
 	}
 
-	public String getSeq() {
+	public int getSeq() {
 		return seq;
 	}
 
-	public void setSeq(String seq) {
+	public void setSeq(int seq) {
 		this.seq = seq;
 	}
 
@@ -186,5 +188,21 @@ public class SDA implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
+	public String getLength() {
+		return length;
+	}
+
+	public void setLength(String length) {
+		this.length = length;
+	}
+
+	public String getRequired() {
+		return required;
+	}
+
+	public void setRequired(String required) {
+		this.required = required;
+	}
+
 }

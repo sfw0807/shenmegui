@@ -10,10 +10,10 @@
     <meta charset="UTF-8">
     <title>服务治理平台 beta1.0</title>
     <link rel="stylesheet" type="text/css"
-          href="../resources/themes/default/easyui.css">
+          href="<%=basePath%>/resources/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css"
-          href="../resources/themes/icon.css">
-    <link href="../resources/css/css.css" rel="stylesheet" type="text/css">
+          href="<%=basePath%>/resources/themes/icon.css">
+    <link href="<%=basePath%>/resources/css/css.css" rel="stylesheet" type="text/css">
 
 </head>
 <body class="easyui-layout">
@@ -52,15 +52,16 @@
      class="easyui-tabs " id="mainContentTabs">
     <div title="首页"></div>
 </div>
-<script type="text/javascript" src="../resources/js/jquery.min.js"></script>
-<script type="text/javascript" src="../resources/js/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="../resources/js/app.js"></script>
-<script type="text/javascript" src="../resources/js/ui.js"></script>
-<script type="text/javascript" src="../js/sysadmin/sysManager.js"></script>
-<script type="text/javascript" src="../js/sysadmin/interfaceManager.js"></script>
+<script type="text/javascript" src="<%=basePath%>/resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="<%=basePath%>/resources/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="<%=basePath%>/resources/js/app.js"></script>
+<script type="text/javascript" src="<%=basePath%>/resources/js/ui.js"></script>
+<script type="text/javascript" src="<%=basePath%>/js/sysadmin/sysManager.js"></script>
+<script type="text/javascript" src="<%=basePath%>/js/sysadmin/interfaceManager.js"></script>
 <script type="text/javascript" src="<%=basePath%>/assets/service/js/serviceManager.js"></script>
 <script type="text/javascript" src="<%=basePath%>/assets/service/js/serviceUIHelper.js"></script>
 <script type="text/javascript" src="<%=basePath%>/assets/service/js/serviceTree.js"></script>
+
 <div id="mm-mxsysadmintree" class="easyui-menu" style="width: 120px;">
     <div onclick="sysManager.append()" data-options="iconCls:'icon-add'">
         新增
@@ -93,27 +94,36 @@
 
 </div>
 
-<div id="mm-mxinterfacetree" class="easyui-menu" style="width: 120px;">
+<div id="mm-mxsystemtree1" class="easyui-menu" style="width: 120px;">
     <div onclick="interfaceManager.append()" data-options="iconCls:'icon-add'">
         新增接口
     </div>
-    <div onclick="sysManager.edit()" data-options="iconCls:'icon-edit'">
+    <div onclick="sysManager.editSystemPage()" data-options="iconCls:'icon-edit'">
+        编辑系統
+    </div>
+    <div onclick="sysManager.deleteSystem()" data-options="iconCls:'icon-remove'">
+        删除系統
+    </div>
+</div>
+
+<div id="mm-mxsystemtree" class="easyui-menu" style="width: 120px;">
+    <div onclick="sysManager.addSystemPage()" data-options="iconCls:'icon-add'">
+        新增系統
+    </div>
+  <div onclick="sysManager.querySystemPage()" data-options="iconCls:'icon-add'">
+        查看系統
+    </div>
+</div>
+
+<div id="mm-mxinterfacetree1" class="easyui-menu" style="width: 120px;">
+    <div onclick="interfaceManager.append()" data-options="iconCls:'icon-add'">
+        新增接口
+    </div>
+    <div onclick="interfaceManager.edit()" data-options="iconCls:'icon-edit'">
         编辑接口
     </div>
-    <div onclick="sysManager.remove()" data-options="iconCls:'icon-remove'">
+    <div onclick="interfaceManager.remove()" data-options="iconCls:'icon-remove'">
         删除接口
-    </div>
-
-</div>
-<div id="mm-mxinterfacedefinetree" class="easyui-menu" style="width: 120px;">
-    <div onclick="interfaceManager.append()" data-options="iconCls:'icon-add'">
-        新增接口定义
-    </div>
-    <div onclick="sysManager.edit()" data-options="iconCls:'icon-edit'">
-        编辑接口定义
-    </div>
-    <div onclick="sysManager.remove()" data-options="iconCls:'icon-remove'">
-        删除接口定义
     </div>
 </div>
 </body>

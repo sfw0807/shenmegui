@@ -39,77 +39,34 @@
 						接口功能描述
 					</th>
 					<td>
-						<input class="easyui-textbox" type="text" name="name">
+						<input class="easyui-textbox" type="text" id="remarkSearch">
 					</td>
-				</tr>
-				<tr>
 					<th>
 						交易状态
 					</th>
 					<td>
-						<select class="easyui-combobox" panelHeight="auto"
-							style="width: 155px">
-							<option value="java">
-								节点1
-							</option>
-							<option value="c">
-								节点2
-							</option>
-							<option value="basic">
-								节点3
-							</option>
-							<option value="perl">
-								节点4
-							</option>
+
+						<select id="statusSearch" class="easyui-combobox"  panelHeight="auto" style="width: 170px"  data-options="editable:false">
+							<option value="">全部</option>
+							<option value="0">投产</option>
+							<option value="1">废弃</option>
 						</select>
 					</td>
+				</tr>
+				<tr>
 					<th>
 						报文头
 					</th>
 					<td>
-						<select class="easyui-combobox" panelHeight="auto"
-							style="width: 155px">
-							<option value="java">
-								节点1
-							</option>
-							<option value="c">
-								节点2
-							</option>
-							<option value="basic">
-								节点3
-							</option>
-							<option value="perl">
-								节点4
-							</option>
-						</select>
+						<select class="easyui-combobox" id="headIdSearch" style="width: 170px" panelHeight="auto" data-options="editable:false">
+                         </select>
 					</td>
 					<th>
 						通讯协议
 					</th>
 					<td>
-						<select class="easyui-combobox" panelHeight="auto"
-							style="width: 155px">
-							<option value="java">
-								节点1
-							</option>
-							<option value="c">
-								节点2
-							</option>
-							<option value="basic">
-								节点3
-							</option>
-							<option value="perl">
-								节点4
-							</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						&nbsp;
-					</td>
-					<td>
-						&nbsp;
+						<select class="easyui-combobox" id="protocolIdSearch" style="width: 165px" panelHeight="auto" data-options="editable:false">
+                        </select>
 					</td>
 					<td>
 						&nbsp;
@@ -128,32 +85,32 @@
 
 
 		</fieldset>
-		<table class="easyui-datagrid" id="tg" style="height: 370px; width: auto;" data-options="pageSize:2">
+		<table id="tg" style="height: 370px; width: auto;">
 			<thead>
 				<tr>
-					<th data-options="field:'ecode',width:'15%'">
+					<th data-options="field:'interfaceId',width:'10%'">
+						接口ID
+                    </th>
+					<th data-options="field:'ecode',width:'10%'">
 						交易码
 					</th>
 					<th data-options="field:'interfaceName',width:'15%'">
 						交易名称
 					</th>
-					<th data-options="field:'desc',align:'right',width:'20%'">
-						功能描述
+					<th data-options="field:'headName',width:'15%'">
+						报文头
 					</th>
-					<th data-options="field:'status',width:'12%',align:'right'">
+					<th data-options="field:'status',width:'9%',align:'right'">
 						交易状态
 					</th>
-					<th data-options="field:'version',width:'12%'">
+					<th data-options="field:'version',width:'10%'">
 						版本号
 					</th>
 					<th data-options="field:'optDate',width:'15%',align:'center'">
-						更新时间
+						修订时间
 					</th>
 					<th data-options="field:'optUser'">
 						更新用户
-					</th>
-					<th data-options="field:'interfaceId',hidden:true">
-						
 					</th>
 				</tr>
 			</thead>
@@ -174,8 +131,8 @@
 	        url:'/interface/getInterface/${param.systemId }',
 	        singleSelect:true,//是否单选 
 	        pagination:true,//分页控件 
-	        pageSize: 2,//每页显示的记录条数，默认为10 
-		    pageList: [2,5,10,15,20],//可以设置每页记录条数的列表 
+	        pageSize: 5,//每页显示的记录条数，默认为10
+		    pageList: [5,10,15,20],//可以设置每页记录条数的列表
 	        rownumbers:false,//行号 
 	        toolbar: [{
 					text:'新增',
@@ -205,32 +162,27 @@
 							}else{
 								alert("请选择要删除的行");
 							}
-						}
-					},'-',
-					{
-						text:'导入',
-						iconCls:'icon-cfp',
-						handler:function(){alert('导入')}
-					},
-					{
-						text:'导出',
+						 }
+					},{
+						text:'关联报文头',
 						iconCls:'icon-save',
-						handler:function(){alert('导出')}
-					},
-					{
-						text:'检出',
-						iconCls:'icon-qxfp',
 						handler:function(){
-							
-						}
-					},
-					{
-						text:'提交任务',
-						iconCls:'icon-qxfp',
-						handler:function(){
-							
-					}
-				}]
+							var row = $("#tg").treegrid("getSelected");
+							if(row){
+								var interfaceId = row.interfaceId;
+								uiinit.win({
+										w:500,
+										iconCls:'icon-add',
+										title:"关联报文头",
+										url : "/jsp/interface/header_relate.jsp?interfaceId="+interfaceId
+									});
+							}else{
+								alert("请选择要关联的行");
+							}
+
+					 	}
+					 }
+				]
 	   		});  
 			
 			var p = $('#tg').treegrid('getPager');  
@@ -240,18 +192,39 @@
 		        beforePageText: '第',//页数文本框前显示的汉字 
 		        afterPageText: '页    共 {pages} 页', 
 		        displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'
-	    	});  
-		 }) 
+	    	});
+
+	      $('#protocolIdSearch').combobox({
+				url:'/system/getProtocolAll?query=y',
+				method:'get',
+				mode:'remote',
+				valueField:'id',
+				textField:'text'
+			});
+
+		 $('#headIdSearch').combobox({
+				url:'/interface/getHeadAll?query=y',
+				method:'get',
+				mode:'remote',
+				valueField:'id',
+				textField:'text'
+			});
+		 })
 		 
 		 function searchData(){
 		 
-		 	var ecode = $("#ecode").val();
-		 	var interfaceName = $("#interfaceName").val();
-		 	
-		 	 var queryParams = $('#tg').datagrid('options').queryParams;  
+		  	 var ecode = $("#ecode").val();
+		 	 var interfaceName = $("#interfaceName").val();
+		 	 var remark = $("#remarkSearch").val();
+		 	 var status = $("#statusSearch").combobox('getValue');
+		 	 var queryParams = $('#tg').datagrid('options').queryParams;
              queryParams.ecode = ecode;
-             queryParams.interfaceName = interfaceName; 
-             $('#tg').datagrid('options').queryParams = queryParams;//传递值  
+             queryParams.interfaceName = interfaceName;
+             queryParams.remark = remark;
+             queryParams.status = status;
+             queryParams.protocolId = $("#protocolIdSearch").combobox('getValue');
+             queryParams.headId = $("#headIdSearch").combobox('getValue');
+             $('#tg').datagrid('options').queryParams = queryParams;//传递值
              $("#tg").datagrid('reload');//重新加载table  
 		 }
 		</script>
