@@ -26,8 +26,8 @@ public class Operation implements Serializable{
 	@Column(name = "OPERATION_REMARK")
 	private String operationRemark;
 
-	@Column(name = "VERSION")
-	private String version;
+	@Column(name = "VERSION_ID")
+	private String versionId;
 
 	@Column(name = "STATE")
 	private String state;
@@ -40,12 +40,17 @@ public class Operation implements Serializable{
 
 	@Column(name = "HEAD_ID")
 	private String headId;
-
+	@Column(name = "DELETED")
+	private String deleted;
 	@ManyToOne(targetEntity = Service.class)
 	@JoinColumns({
 			@JoinColumn(name = "SERVICE_ID", referencedColumnName = "SERVICE_ID", insertable = false, updatable = false)
 	})
 	private Service service;
+
+	@ManyToOne()
+    @JoinColumn(name="VERSION_ID", insertable = false, updatable = false)
+	private Version version;
 
 	public String getOperationId() {
 		return operationId;
@@ -87,11 +92,19 @@ public class Operation implements Serializable{
 		this.operationRemark = operationRemark;
 	}
 
-	public String getVersion() {
+	public String getVersionId() {
+		return versionId;
+	}
+
+	public void setVersionId(String versionId) {
+		this.versionId = versionId;
+	}
+
+	public Version getVersion() {
 		return version;
 	}
 
-	public void setVersion(String version) {
+	public void setVersion(Version version) {
 		this.version = version;
 	}
 
@@ -135,4 +148,14 @@ public class Operation implements Serializable{
 	public void setService(Service service) {
 		this.service = service;
 	}
+
+	public String getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(String deleted) {
+		this.deleted = deleted;
+	}
+
+
 }

@@ -5,7 +5,7 @@
 <%
 	if(mid.equals("1.2")){
 %>
-{"success":true,"url":"/dataTemplate/grid.jsp","title":"版本制作"}
+{"success":true,"url":"/jsp/version/versionRelease.jsp","title":"版本发布"}
 <%
 	}
 	
@@ -13,7 +13,7 @@
 <%
 	if(mid.equals("1.3")){
 %>
-{"success":true,"url":"/dataTemplate/grid3.jsp","title":"版本历史"}
+{"success":true,"url":"/jsp/version/versionHis.jsp","title":"版本历史"}
 <%
 	}
 	
@@ -21,10 +21,27 @@
 <%
 	if(mid.equals("1.4")){
 %>
-{"success":true,"url":"/dataTemplate/grid2.jsp","title":"版本公告"}
+{"success":true,"url":"/jsp/version/releaseHis.jsp","title":"版本公告"}
 <%
 	}
 	
+%>
+<%
+	if(mid.equals("1.5")){
+%>
+
+{"success":true,"url":"/jsp/version/baseLineMake.jsp","title":"基线制作"}
+<%
+	}
+
+%>
+<%
+	if(mid.equals("1.6")){
+%>
+{"success":true,"url":"/jsp/version/baseLineHis.jsp","title":"基线历史"}
+<%
+	}
+
 %>
 <%
 	if(mid.equals("2.3")){

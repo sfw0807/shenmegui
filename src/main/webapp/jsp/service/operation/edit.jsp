@@ -15,17 +15,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="/resources/js/jquery.min.js"></script> 
 <script type="text/javascript" src="/resources/js/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/resources/js/ui.js"></script>
+<script type="text/javascript" src="/resources/js/easyui-lang-zh_CN.js"></script>
 
 <script type="text/javascript" src="/jsp/service/operation/operation.js"></script>
-
+<script type="text/javascript">
+	 $(document).ready(function(){
+    	loadSystem("systemList1", ${systemList}, "systemId", "systemChineseName");
+    	loadSystem("systemList2", ${systemList}, "systemId", "systemChineseName");
+    	loadSelect("consumer", ${consumerList});
+    	loadSelect("provider", ${providerList});
+	});
+</script>
 
 </head>
 
 <body >
 <form class="formui" id="operationEdit">
  <div  class="easyui-panel" title="基本信息" style="width:100%;height:auto;padding:10px;">
- <input type="hidden" name="serviceId" value="${service.serviceId }" />
- <input type="hidden" name=version value="${operation.version }" />
+ <input type="hidden" id="serviceId" name="serviceId" value="${service.serviceId }" />
+ <input type="hidden" name="versionId" value="${operation.versionId }" />
+ <input type="hidden" name="deleted" value="${operation.deleted }" />
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
       <th>服务代码</th>
@@ -50,12 +59,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <td> <input class="easyui-textbox" disabled="disabled"  type="text" name=""></td>
    
   <th>状态</th>
-    <td> <select id="state"  name="state" value="${operation.state }" class="easyui-combobox"  panelHeight="auto" style="width:155px">
-      <option value="java">节点1</option>
-      <option value="c">节点2</option>
-      <option value="basic">节点3</option>
-      <option value="perl">节点4</option>
-    </select>
+    <td>
+    	<input type="hidden" name="state" value="0" />
+    	<input	name=""
+				class="easyui-combobox"
+				value="${operation.state }"
+				data-options="readonly:true, valueField: 'value',textField: 'label',
+						data: [{label: '待审核',value: '0'},
+						{label: '审核通过',value: '1'},
+						{label: '审核未通过',value: '2'}
+							]"
+					 />
     </td>
   </tr>
    <tr>
@@ -70,7 +84,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 
 </div>
-  <div style="margin-top:10px;"></div>
+    <div style="margin-top:10px;"></div>
 
 <div id="p" class="easyui-panel" title="服务消费方应用管理" style="width:100%;height:auto;padding:10px;">
 <table border="0" cellspacing="0" cellpadding="0" style="width:auto;">
@@ -81,19 +95,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </tr>
   
   <tr>
-    <th align="center"><select name="select2" id="olddataui" size="10" multiple  style="width:155px;height:160px" panelHeight="auto">
-      <option value="java">节点1</option>
-      <option value="c">节点2</option>
-      <option value="basic">节点3</option>
-      <option value="perl">节点4</option>
+    <th align="center"><select name="select2" id="consumer" size="10" multiple  style="width:155px;height:160px" panelHeight="auto">
     </select></th>
-    <td align="center" valign="middle"><a href="#" class="easyui-linkbutton"  iconCls="icon-select-add" onClick="uiinit.selectex('olddataui','newdataui')"></a><br>
+    <td align="center" valign="middle"><a href="#" class="easyui-linkbutton"  iconCls="icon-select-add" onClick="selectex('consumer','systemList1')"></a><br>
 <br>
 <br>
-<a href="#" class="easyui-linkbutton"  iconCls="icon-select-remove" onClick="uiinit.selectex('newdataui','olddataui')"></a></td>
-    <td align="center"><select name="select" id="newdataui" size="10" multiple  style="width:155px;height:160px" panelHeight="auto">
-     
-    </select></td>
+<a href="#" class="easyui-linkbutton"  iconCls="icon-select-remove" onClick="chooseInterface('systemList1','consumer')"></a></td>
+   <td align="center">
+    <select name="select" id="systemList1" size="10" multiple  style="width:155px;height:160px" panelHeight="auto"/>
+    </select>
+    </td>
   </tr>
   </table>
   </div>
@@ -107,17 +118,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </tr>
   
   <tr>
-    <th align="center"><select name="select2" id="olddataui" size="10" multiple  style="width:155px;height:160px" panelHeight="auto">
-      <option value="java">节点1</option>
-      <option value="c">节点2</option>
-      <option value="basic">节点3</option>
-      <option value="perl">节点4</option>
+    <th align="center"><select name="select2" id="provider" size="10" multiple  style="width:155px;height:160px" panelHeight="auto">
     </select></th>
-    <td align="center" valign="middle"><a href="#" class="easyui-linkbutton"  iconCls="icon-select-add" onClick="uiinit.selectex('olddataui','newdataui')"></a><br>
+    <td align="center" valign="middle"><a href="#" class="easyui-linkbutton"  iconCls="icon-select-add" onClick="selectex('provider','systemList2')"></a><br>
 <br>
 <br>
-<a href="#" class="easyui-linkbutton"  iconCls="icon-select-remove" onClick="uiinit.selectex('newdataui','olddataui')"></a></td>
-    <td align="center"><select name="select" id="newdataui" size="10" multiple  style="width:155px;height:160px" panelHeight="auto">
+<a href="#" class="easyui-linkbutton"  iconCls="icon-select-remove" onClick="chooseInterface('systemList2','provider')"></a></td>
+    <td align="center"><select name="select" id="systemList2" size="10" multiple  style="width:155px;height:160px" panelHeight="auto">
      
     </select></td>
   </tr>
@@ -126,6 +133,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div style="margin-top:10px;"></div>
 
   <div class="win-bbar" style="text-align:center"><a href="#" class="easyui-linkbutton"  iconCls="icon-cancel" onClick="clean()">取消</a><a href="#" onclick="save('operationEdit',1)" class="easyui-linkbutton"  iconCls="icon-save">保存</a></div>
+  <div id="opDlg" class="easyui-dialog"
+		style="width:400px;height:280px;padding:10px 20px" closed="true"
+		resizable="true"></div>
   </form>
 </body>
 </html>

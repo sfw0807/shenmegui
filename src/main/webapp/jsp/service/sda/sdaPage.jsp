@@ -23,7 +23,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 var editingId;
 var newIds = [];
 var delIds = [];
-	
 		function onContextMenu(e,row){
 			e.preventDefault();
 			$(this).treegrid('select', row.id);
@@ -257,14 +256,14 @@ var delIds = [];
 
 
 </fieldset>
-	<table title="定义接口" class="easyui-treegrid" id="tg" style=" width:auto;"
+	<table title="sda" class="easyui-treegrid" id="tg" style=" width:auto;"
 			data-options="
 				iconCls: 'icon-ok',
 				rownumbers: true,
 				animate: true,
 				collapsible: true,
 				fitColumns: true,
-				url: '/sda/sdaTree?serviceId=${service.serviceId }&operationId=${operation.operationId }',
+				url: '/sda/sdaTree?serviceId=${service.serviceId }&operationId='+encodeURI(encodeURI('${operation.operationId }')),
 				method: 'get',
 				idField: 'id',
 				treeField: 'text',
@@ -290,11 +289,6 @@ var delIds = [];
 	    <a href="javascript:void(0)" onclick="saveSDA()" class="easyui-linkbutton" iconCls="icon-save" plain="true">保存</a>
     </td>
     <td align="right"><select class="easyui-combobox" panelHeight="auto" style="width:200px">
-				<option value="java">Java</option>
-				<option value="c">C</option>
-				<option value="basic">Basic</option>
-				<option value="perl">Perl</option>
-				<option value="python">Python</option>
 			</select></td>
   </tr>
 </table>

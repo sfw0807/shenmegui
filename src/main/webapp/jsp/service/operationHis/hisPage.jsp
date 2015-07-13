@@ -35,8 +35,8 @@ function choseService(){
 	});
 }
 
-function choseService(){
-	$('#dlg').dialog({
+function choseService(id){
+	$('#'+id).dialog({
 		title : '场景',
 		width : 500,
 		closed : false,

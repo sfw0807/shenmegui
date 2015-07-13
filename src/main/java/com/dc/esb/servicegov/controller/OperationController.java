@@ -1,22 +1,25 @@
 package com.dc.esb.servicegov.controller;
 
+import com.dc.esb.servicegov.entity.Operation;
+import com.dc.esb.servicegov.entity.Service;
+import com.dc.esb.servicegov.entity.ServiceInvoke;
+import com.dc.esb.servicegov.service.impl.OperationServiceImpl;
+import com.dc.esb.servicegov.service.impl.ServiceInvokeServiceImpl;
+import com.dc.esb.servicegov.service.impl.ServiceServiceImpl;
+import com.dc.esb.servicegov.service.impl.SystemServiceImpl;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dc.esb.servicegov.entity.*;
-import com.dc.esb.servicegov.service.impl.ServiceInvokeServiceImpl;
-import com.dc.esb.servicegov.service.impl.ServiceServiceImpl;
-import com.dc.esb.servicegov.service.impl.SystemServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import com.dc.esb.servicegov.service.impl.OperationServiceImpl;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
+import static com.dc.esb.servicegov.service.support.Constants.STATE_PASS;
+import static com.dc.esb.servicegov.service.support.Constants.STATE_UNPASS;
 
 @Controller
 @RequestMapping("/operation")
@@ -214,60 +217,100 @@ public class OperationController {
     }
 
     @RequestMapping("/release")
-    public ModelAndView release(HttpServletRequest req, String operationId, String serviceId) {
-        return operationServiceImpl.release(req, operationId, serviceId);
+    public ModelAndView release(HttpServletRequest req, String operationId, String serviceId,String versionDesc) {
+        operationServiceImpl.release(operationId, serviceId, versionDesc);
+        return detailPage(req, operationId, serviceId);
     }
 
     @RequestMapping("/releaseBatch")
     @ResponseBody
-    public boolean releaseBatch(HttpServletRequest req, @RequestBody Operation[] operations) {
-        return operationServiceImpl.releaseBatch(req, operations);
+    public boolean releaseBatch(@RequestBody Operation[] operations) {
+        return operationServiceImpl.releaseBatch(operations);
     }
 
 	@RequestMapping("/auditPage")
 	public ModelAndView auditPage(HttpServletRequest req, String serviceId) {
-		return operationServiceImpl.auditPage(req, serviceId);
+        ModelAndView mv = new ModelAndView("service/operation/audit");
+        //根据serviceId查询service信息
+        com.dc.esb.servicegov.entity.Service service = serviceService.getUniqueByServiceId(serviceId);
+        if(service != null){
+            mv.addObject("service", service);
+        }
+        return mv;
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/auditPass", headers = "Accept=application/json")
 	@ResponseBody
 	public boolean auditPass(@RequestBody String[] operationIds) {
-		return operationServiceImpl.auditOperation("1", operationIds);
+		return operationServiceImpl.auditOperation(STATE_PASS, operationIds);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/auditUnPass", headers = "Accept=application/json")
 	@ResponseBody
 	public boolean auditUnPass(@RequestBody String[] operationIds) {
-		return operationServiceImpl.auditOperation("2", operationIds);
+		return operationServiceImpl.auditOperation(STATE_UNPASS, operationIds);
 	}
 
 	// 根据系统id查询该系统过是有接口
 	@RequestMapping("/judgeInterface")
 	@ResponseBody
 	public boolean judgeInterface(String systemId) {
-		return operationServiceImpl.judgeInterface(systemId);
+		return systemService.containsInterface(systemId);
 	}
 
 	@RequestMapping("/interfacePage")
 	public ModelAndView interfacePage(String operationId, String serviceId, HttpServletRequest req) {
-		return operationServiceImpl.interfacePage(operationId, serviceId, req);
+        ModelAndView mv = new ModelAndView("service/operation/interfacePage");
+        // 根据serviceId获取service信息
+        if (StringUtils.isNotEmpty(serviceId)) {
+            com.dc.esb.servicegov.entity.Service service = serviceService.getById(serviceId);
+            if (service != null) {
+                mv.addObject("service", service);
+            }
+            if (StringUtils.isNotEmpty(operationId)) {
+                // 根据serviceId,operationId获取operation信息
+                Operation operation = operationServiceImpl.getOperation(serviceId,operationId);
+                if (operation != null) {
+                    mv.addObject("operation", operation);
+                    List<?> systemList = systemService.getAll();
+                    mv.addObject("systemList", systemList);
+                }
+            }
+        }
+        return mv;
 	}
+
 	//根据系统id查询接口列表
+
+    /**
+     * TODO 这个方法放在这个Controller是什么道理
+     * @param systemId
+     * @return
+     */
 	@RequestMapping("/getInterface")
 	@ResponseBody
 	public Map<String, Object> getInterface(String systemId) {
-		List<?> rows = operationServiceImpl.getInterface(systemId);
-
+		List<ServiceInvoke> rows = serviceInvokeService.findBy("systemId", systemId);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", rows.size());
 		result.put("rows", rows);
 		return result;
 	}
+
+    /**
+     * TODO 这个方法放在这个Controller是什么道理
+     * @param serviceId
+     * @param operationId
+     * @param systemId
+     * @return
+     */
 	@RequestMapping("/getInterfaceByOSS")
 	@ResponseBody
 	public Map<String, Object> getInterfaceByOSS(String serviceId, String operationId, String systemId) {
-		List<?> rows = operationServiceImpl.getInterfaceByOSS(serviceId, operationId, systemId);
-
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("serviceId", serviceId);
+        params.put("operationId", operationId);
+		List<?> rows = serviceInvokeService.findBy(params);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", rows.size());
 		result.put("rows", rows);

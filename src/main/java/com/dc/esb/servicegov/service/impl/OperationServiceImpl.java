@@ -2,17 +2,17 @@ package com.dc.esb.servicegov.service.impl;
 
 import com.dc.esb.servicegov.dao.impl.OperationDAOImpl;
 import com.dc.esb.servicegov.dao.support.HibernateDAO;
-import com.dc.esb.servicegov.entity.*;
+import com.dc.esb.servicegov.entity.Operation;
+import com.dc.esb.servicegov.entity.OperationHis;
+import com.dc.esb.servicegov.entity.ServiceHead;
+import com.dc.esb.servicegov.entity.ServiceInvoke;
 import com.dc.esb.servicegov.service.OperationService;
 import com.dc.esb.servicegov.service.support.AbstractBaseService;
 import com.dc.esb.servicegov.util.DateUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +44,8 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, String>
     private ServiceServiceImpl serviceService;
     @Autowired
     private ServiceInvokeServiceImpl serviceInvokeService;
+    @Autowired
+    private VersionServiceImpl versionServiceImpl;
 
     public List<Operation> getOperationByServiceId(String serviceId) {
         String hql = " from Operation a where a.serviceId = ?";
@@ -101,14 +103,12 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, String>
 
     public boolean addOperation(HttpServletRequest req, Operation entity) {
         try {
+            String versionId = versionServiceImpl.addVersion("1", entity.getOperationId());
+            entity.setVersionId(versionId);
+            entity.setDeleted("0");
             entity.setOptDate(DateUtils.format(new Date()));
-            entity.setVersion(saveVersion(entity.getVersion()));
             operationDAOImpl.save(entity);
-
-            ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(req.getSession().getServletContext());
-            SDAServiceImpl sdaServiceImpl = context.getBean(SDAServiceImpl.class);
-            sdaServiceImpl.genderSDAAuto(entity);
-
+            sdaService.genderSDAAuto(entity);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -118,8 +118,8 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, String>
 
     public boolean editOperation(HttpServletRequest req, Operation entity) {
         try {
+            versionServiceImpl.editVersion(entity.getVersionId());
             entity.setOptDate(DateUtils.format(new Date()));
-            entity.setVersion(saveVersion(entity.getVersion()));
             operationDAOImpl.save(entity);
         } catch (Exception e) {
             e.printStackTrace();
@@ -159,48 +159,6 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, String>
         return mv;
     }
 
-    public ModelAndView release(HttpServletRequest req, String operationId, String serviceId) {
-
-        Operation operation = getOperation(operationId, serviceId);
-
-        if (operation != null) {
-            OperationHis operationHis = new OperationHis(operation);
-            operationHisService.save(operationHis);
-
-            List<SDA> sdaList = sdaService.getSDAListBySO(serviceId, operationId);
-            if (sdaList != null && sdaList.size() > 0) {
-                for (SDA sda : sdaList) {
-                    SDAHis sdaHis = new SDAHis(sda, operationHis.getAutoId());
-                    sdaHisService.save(sdaHis);
-                }
-            }
-            Map<String, String> params = new HashMap<String, String>();
-            params.put("operationId", operationId);
-            params.put("serviceId", serviceId);
-            List<SLA> slaList = slaService.findBy(params);
-            if (slaList != null && slaList.size() > 0) {
-                for (SLA sla : slaList) {
-                    SLAHis slaHis = new SLAHis(sla, operationHis.getAutoId());
-                    slaHisService.save(slaHis);
-                }
-            }
-
-            List<OLA> olaList = olaService.findBy(params);
-            if (olaList != null && olaList.size() > 0) {
-                for (OLA ola : olaList) {
-                    OLAHis olaHis = new OLAHis(ola, operationHis.getAutoId());
-                    olaHisService.save(olaHis);
-                }
-            }
-
-        }
-        //修改operation 版本
-        operation.setVersion(releaseVersion(operation.getVersion()));
-        operationDAOImpl.save(operation);
-
-        return detailPage(req, operationId, serviceId);
-    }
-
     public String saveVersion(String version) {
         if (StringUtils.isNotEmpty(version)) {
             String[] s = version.split("\\.");
@@ -221,6 +179,15 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, String>
         return initalVersion;
     }
 
+    /**
+     * 这个方法也极其混乱，注意一个方法做好一件事情
+     * @param req
+     * @param serviceId
+     * @param operationId
+     * @param consumerStr
+     * @param providerStr
+     * @return
+     */
     public boolean addInvoke(HttpServletRequest req, String serviceId, String operationId, String consumerStr, String providerStr) {
         if (StringUtils.isNotEmpty(consumerStr)) {
             String[] constrs = consumerStr.split("\\,");
@@ -298,58 +265,76 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, String>
     }
 
     /**
-     * add by liwang
-     */
-    public boolean releaseBatch(HttpServletRequest req, @RequestBody Operation[] operations) {
-        if (operations != null && operations.length > 0) {
-            for (Operation operation : operations) {
-                release(req, operation.getOperationId(), operation.getServiceId(), operation.getOperationDesc());
-            }
-        }
-        return false;
-    }
-
-    /**
      * 备份operation返回autoId
      *
      * @param serviceId
      * @param operationId
      */
-    public String backUpOperation(String serviceId, String operationId) {
+    public OperationHis backUpOperation(String serviceId, String operationId, String versionDesc) {
         Operation operation = getOperation(serviceId, operationId);
         OperationHis operationHis = new OperationHis(operation);
+        //修改operationHis 版本
+        String versionHisId = versionServiceImpl.releaseVersion(operation.getVersionId(), operationHis.getAutoId(), versionDesc);
+        operationHis.setVersionHisId(versionHisId);
         operationHisService.save(operationHis);
-        return operationHis.getAutoId();
+        return operationHis;
     }
 
     /**
-     * add by liwang modify by vincent Fan
+     * add by liwang
+     * review and modify by Vincent Fan
      */
-    public ModelAndView release(HttpServletRequest req, String operationId, String serviceId, String versionDesc) {
+    public boolean releaseBatch(Operation[] operations) {
+        if (operations != null && operations.length > 0) {
+            for (Operation operation : operations) {
+                release(operation.getOperationId(), operation.getServiceId(), operation.getOperationDesc());
+            }
+        }
+        return false;
+    }
+
+
+
+    /**
+     * add by liwang
+     * review and modify by Vincent Fan
+     * 这个方法极其混乱。。。
+     */
+    public void release(String operationId, String serviceId, String versionDesc) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("serviceId", serviceId);
         params.put("operationId", operationId);
         Operation operation = getOperation(operationId, serviceId);
         if (operation != null) {
             //备份操作基本信息
-            String autoId = backUpOperation(serviceId, operationId);
-            //备份SDA
-            sdaService.backUpSdaByCondition(params, autoId);
-            //备份SLA
-            slaService.backUpSLAByCondition(params, autoId);
-            //备份OLA
-            olaService.backUpByCondition(params, autoId);
-            /**
-             * 这段代码到底是在做什么
-             */
-            //修改operationHis 版本
-            String versionHisId = versionServiceImpl.releaseVersion(operation.getVersionId(), operationHis.getAutoId(), versionDesc);
+            OperationHis operationHis = backUpOperation(serviceId, operationId, versionDesc);
+            String operationHisAutoId = operationHis.getAutoId();
+            //更新版本信息
+            String versionHisId = versionServiceImpl.releaseVersion(operation.getVersionId(), operationHisAutoId, versionDesc);
+            //更新 operationHis 中的versionId
             operationHis.setVersionHisId(versionHisId);
-            ohs.editEntity(operationHis);
-
+            operationHisService.save(operationHis);
+            //备份SDA
+            sdaService.backUpSdaByCondition(params, operationHisAutoId);
+            //备份SLA
+            slaService.backUpSLAByCondition(params, operationHisAutoId);
+            //备份OLA
+            olaService.backUpByCondition(params, operationHisAutoId);
+            /**
+             * 这段代码有什么用
+             */
             operationDAOImpl.save(operation);
         }
-        return detailPage(req, operationId, serviceId);
     }
 
+    public boolean auditOperation(String state, String[] operationIds){
+        if(operationIds != null && operationIds.length > 0){
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("state", state);
+            params.put("operationIds", operationIds);
+            operationDAOImpl.batchExecute(" update Operation set state =(:state) where operationId in (:operationIds)", params);
+            return true;
+        }
+        return false;
+    }
 }

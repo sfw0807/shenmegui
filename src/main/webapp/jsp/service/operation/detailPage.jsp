@@ -19,6 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="/resources/js/treegrid-dnd.js"></script>
 
 <script type="text/javascript" src="/resources/js/ui.js"></script>
+<script type="text/javascript" src="/jsp/service/operation/operation.js"></script>
 
 </head>
 <body >
@@ -49,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <th>场景名称</th>
    		 <td>${operation.operationName }</td>
    	 <th>版本号</th>
-    <td>${operation.version }</td>
+    <td>${operation.version.code }</td>
      </tr>
   <tr>
      <th>功能描述</th>
@@ -146,6 +147,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					述</th>
 				<th field="olaRemark" width="150" align="center" editor="text">备
 					注</th>
+			</tr>
+		</thead>
+	</table>
+</fieldset>
+<fieldset>
+ <legend>接口列表</legend>
+ <table style="width:auto" title="接口" class="easyui-datagrid"
+		data-options="
+				iconCls: 'icon-ok',
+				rownumbers:true,
+				collapsible: true,
+				collapsed:true,
+				singleSelect:true,
+				url:'/operation/getInterfaceByOSS?operationId=${operation.operationId }&serviceId=${service.serviceId }',
+				method:'get',
+				pagination:true">
+		<thead>
+			<tr>
+				<th data-options="field:'systemId', width:50">系统id</th>
+						<th data-options="field:'systeChineseName', width:150"
+							formatter='ff.systemChineseName'>系统名称</th>
+						<th data-options="field:'isStandard', width:50"
+							formatter='ff.isStandardText'>标准</th>
+						<th data-options="field:'interfaceId', width:50">接口id</th>
+						<th data-options="field:'interfaceObj.interfaceName', width:150"
+							formatter='ff.interfaceName'>接口名称</th>
+						<th data-options="field:'type', width:50"
+							formatter='ff.typeText'>类型</th>
+						<th data-options="field:'desc', width:100">描述</th>
+						<th data-options="field:'remark', width:100">备注</th>
 			</tr>
 		</thead>
 	</table>

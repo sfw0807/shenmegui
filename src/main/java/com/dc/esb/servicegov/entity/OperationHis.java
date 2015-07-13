@@ -3,10 +3,13 @@ package com.dc.esb.servicegov.entity;
 import java.io.Serializable;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -36,8 +39,8 @@ public class OperationHis implements Serializable{
 	@Column(name = "OPERATION_REMARK")
 	private String operationRemark;
 	
-	@Column(name = "VERSION")
-	private String version;
+	@Column(name = "VERSION_HIS_ID")
+	private String versionHisId;
 	
 	@Column(name = "STATE")
 	private String state;
@@ -51,6 +54,15 @@ public class OperationHis implements Serializable{
 	@Column(name = "HEAD_ID")
 	private String headId;
 	
+	@ManyToOne()
+    @JoinColumn(name="SERVICE_ID", insertable = false, updatable = false)
+	private Service service;
+
+	@ManyToOne(cascade={CascadeType.REFRESH}, optional=true)
+    @JoinColumn(name="VERSION_HIS_ID", insertable = false, updatable = false)
+	private VersionHis versionHis;
+
+
 	public OperationHis(){
 		
 	}
@@ -66,7 +78,6 @@ public class OperationHis implements Serializable{
 		this.optUser = operation.getOptUser();
 		this.serviceId = operation.getServiceId();
 		this.state = operation.getState();
-		this.version = operation.getVersion();
 	}
 	
 
@@ -119,12 +130,13 @@ public class OperationHis implements Serializable{
 		this.operationRemark = operationRemark;
 	}
 
-	public String getVersion() {
-		return version;
+
+	public String getVersionHisId() {
+		return versionHisId;
 	}
 
-	public void setVersion(String version) {
-		this.version = version;
+	public void setVersionHisId(String versionHisId) {
+		this.versionHisId = versionHisId;
 	}
 
 	public String getState() {
@@ -158,6 +170,23 @@ public class OperationHis implements Serializable{
 	public void setHeadId(String headId) {
 		this.headId = headId;
 	}
-	
+
+	public Service getService() {
+		return service;
+	}
+
+	public void setService(Service service) {
+		this.service = service;
+	}
+
+	public VersionHis getVersionHis() {
+		return versionHis;
+	}
+
+	public void setVersionHis(VersionHis versionHis) {
+		this.versionHis = versionHis;
+	}
+
+
 	
 }

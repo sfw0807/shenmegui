@@ -1,6 +1,8 @@
 package com.dc.esb.servicegov.controller;
 
+import com.dc.esb.servicegov.entity.InvokeConnection;
 import com.dc.esb.servicegov.entity.ServiceInvoke;
+import com.dc.esb.servicegov.service.impl.InvokeConnectionServiceImpl;
 import com.dc.esb.servicegov.service.impl.ServiceInvokeServiceImpl;
 import com.dc.esb.servicegov.vo.ServiceInvokeInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,8 @@ import java.util.Map;
 public class ServiceLinkController {
     @Autowired
     private ServiceInvokeServiceImpl serviceInvokeService;
+    @Autowired
+    private InvokeConnectionServiceImpl invokeConnectionService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/getServiceLink/system/{systemId}", headers = "Accept=application/json")
     public
@@ -51,6 +55,12 @@ public class ServiceLinkController {
             serviceInvokeInfoVOs.add(serviceInvokeInfoVO);
         }
         return serviceInvokeInfoVOs;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/invokeConnections/sourceId/{sourceId}", headers = "Accept=application/json")
+    public @ResponseBody List<InvokeConnection> getInvokeConnetcion(@PathVariable("sourceId") String sourceId){
+        invokeConnectionService.getConnectionsStartWith(sourceId);
+
     }
 
 

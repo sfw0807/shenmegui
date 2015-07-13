@@ -8,9 +8,13 @@
 <ul id="menu-tree">
   <li><a href="javascript:;" mid="1.1">版本管理</a>
     <ul>
-      <li><a href="javascript:;" class="openable" mid="1.2">版本制作</a></li>
+      <li><a href="javascript:;" class="openable" mid="1.2">版本发布</a></li>
       <li><a href="javascript:;" class="openable" mid="1.3">版本历史</a></li>
+      <!--
       <li><a href="javascript:;" class="openable" mid="1.4">版本公告</a></li>
+       -->
+      <li><a href="javascript:;" class="openable" mid="1.5">基线制作</a></li>
+      <li><a href="javascript:;" class="openable" mid="1.6">基线历史</a></li>
     </ul>
   </li>
   <li><a href="javascript:;" class="openable"  mid="2.1">流程管理</a>

@@ -392,6 +392,12 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 		return provider_invoke;
 	}
 
+	/**
+	 * TODO 修改版本
+	 * @param service
+	 * @param operation
+	 * @return
+	 */
 	private boolean insertOperation(com.dc.esb.servicegov.entity.Service service, Operation operation) {
 
 		boolean exists = false;
@@ -404,22 +410,22 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 			if(GlobalImport.operateFlag){
 				operationDB.setOperationName(operation.getOperationName());
 				operationDB.setOperationDesc(operation.getOperationDesc());
-				String version = operationDB.getVersion();
-				if(version==null ||"".equals(version)){
-					version = initVersion;
-				}
-				if (AuditUtil.passed.equals(operationDB.getState())) {
-					//operationDB.setVersion(Utils.modifyversionno(version));
-				} else {
-					operationDB.setVersion(version);
-				}
+//				String version = operationDB.getVersion();
+//				if(version==null ||"".equals(version)){
+//					version = initVersion;
+//				}
+//				if (AuditUtil.passed.equals(operationDB.getState())) {
+//					//operationDB.setVersion(Utils.modifyversionno(version));
+//				} else {
+//					operationDB.setVersion(version);
+//				}
 				operationDAO.save(operationDB);
 			}
 			exists = true;
 		}else{
 
 			operation.setServiceId(service.getServiceId());
-			operation.setVersion(initVersion);
+//			operation.setVersion(initVersion);
 			operation.setState(AuditUtil.submit);
 			operationDAO.save(operation);
 		}

@@ -113,16 +113,21 @@ function closeTab(title){
 				 		$('#subtab').tabs('select','服务基本信息');
 				 	}		
 		}
-		 if(index==5&&q==0){
-			q++;
-			var currTab =	$('#subtab').tabs('getSelected');
-			$('#subtab').tabs('update', {
-			  tab : currTab,
-			  
-			  options : {
-			   content : ' <iframe scrolling="auto" frameborder="0"  src="/dataTemplate/serviceadmin/grid5.html"  style="width:100%;height:100%;"></iframe>'
-			  }
-			 });	
+		 if(index==5){
+			var opId = serviceInfo.getSelected();
+			if(opId != null){
+				 		var urlPath = "/operation/interfacePage?serviceId=${param.serviceId}&operationId="+opId;
+				 		var currTab =	$('#subtab').tabs('getSelected');
+						$('#subtab').tabs('update', {
+						  tab : currTab,
+						  options : {
+						   content : ' <iframe scrolling="auto" frameborder="0"  src="' + encodeURI(encodeURI(urlPath)) +'"  style="width:100%;height:100%;"></iframe>'
+						  }
+						 });	
+				 	}else{
+				 		alert("请选则一个场景！");
+				 		$('#subtab').tabs('select','服务基本信息');
+				 	}	
 		}
 		//if(title+' is selected');
     

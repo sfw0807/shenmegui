@@ -81,10 +81,9 @@
 <script type="text/javascript">
     var data = {};
     var initComboBox = function (result) {
-        console.log(result);
         for (var i = 0; i < result.length; i++) {
             data[result[i].interfaceName] = result[i];
-            $(".select2").append("<option>接口:" + result[i].interfaceName + "服务:"+result[i].serviceId+"</option>");
+            $(".select2").append('<option value="'+result[i].interfaceName+'" >接口:' + result[i].interfaceName + '服务:'+result[i].serviceId+'</option>');
         }
         $(".select2").select2();
     };
