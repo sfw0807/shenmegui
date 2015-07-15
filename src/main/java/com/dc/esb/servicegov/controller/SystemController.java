@@ -7,6 +7,7 @@ import com.dc.esb.servicegov.entity.System;
 import com.dc.esb.servicegov.service.ProtocolService;
 import com.dc.esb.servicegov.service.SystemProtocolService;
 import com.dc.esb.servicegov.service.SystemService;
+import com.dc.esb.servicegov.util.TreeNode;
 import org.hibernate.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -313,5 +314,20 @@ public class SystemController {
             return true;
         }
         return  false;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getTree", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    List<TreeNode> getAllTreeBean() {
+        List<TreeNode> systemTree = new ArrayList<TreeNode>();
+        List<com.dc.esb.servicegov.entity.System> systems = systemService.getAll();
+        for(com.dc.esb.servicegov.entity.System system : systems){
+            TreeNode systemTreeNode = new TreeNode();
+            systemTreeNode.setId(system.getSystemId());
+            systemTreeNode.setText(system.getSystemChineseName());
+            systemTree.add(systemTreeNode);
+        }
+        return systemTree;
     }
 }
