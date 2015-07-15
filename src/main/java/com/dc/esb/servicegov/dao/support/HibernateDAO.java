@@ -362,7 +362,7 @@ public class HibernateDAO<T, PK extends Serializable> {
     }
 
     @Transactional
-    public List<T> findLike(final Map<String, String> params,MatchMode matchMode){
+    public List<T> findLike(final Map<String, String> params, MatchMode matchMode){
         Criteria criteria = getSession().createCriteria(entityClass);
         for (Map.Entry<String, String> entry : params.entrySet()) {
             Criterion criterion = Restrictions.like(entry.getKey(), entry.getValue(),matchMode);

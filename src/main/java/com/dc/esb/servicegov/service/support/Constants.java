@@ -36,4 +36,10 @@ public class Constants {
     	public static final String OPT_TYPE_DELETE = "2"; 
     	public static final String OPT_TYPE_RELEASE = "3"; 
     }
+
+	public static class Metadata{
+		public static final String STATUS_UNAUDIT = "未审核";
+		public static final String STATUS_FORMAL =  "正式";
+	}
+
 }

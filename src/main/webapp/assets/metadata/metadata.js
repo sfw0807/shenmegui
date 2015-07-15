@@ -1,25 +1,27 @@
-function query() {
-		$.ajax({
-			type : "post",
-			url : "/metadata/query",
-			dataType : "json",
-			data: {
-				"metadataId" : $("#metadataId").textbox("getValue"), 
-	        	"metadataName" : $("#metadataName").textbox("getValue"), 
-	        	"chineseName" : $("#chineseName").textbox("getValue"),
-	        	"metadataAlias" : $("#metadataAlias").textbox("getValue"),
-	        	"status" : $("#status").combobox("getValue"),
-	        	"categoryWordId" : $("#categoryWordId").combobox("getValue"),
-	        	"version" : $("#version").textbox("getValue"),
-	        	"startDate" : $("#startDate").datebox("getValue"),
-				"endDate" : $("#endDate").datebox("getValue")
-	        	},
-			success : function(data) {
-				$('#metadataList').datagrid('loadData', data);
-			}
-		});
-	}
+$(function(){
+	var queryMetadata = function queryMetadata() {
+		var queryMetadataCallBack = function queryMetadataCallBack(data){
+			$('#metadataList').datagrid('loadData', data);
+		};
+		var params = {
+			"metadataId" : $("#metadataId").textbox("getValue"),
+			"metadataName" : $("#metadataName").textbox("getValue"),
+			"chineseName" : $("#chineseName").textbox("getValue"),
+			"metadataAlias" : $("#metadataAlias").textbox("getValue"),
+			"status" : $("#status").combobox("getValue"),
+			"categoryWordId" : $("#categoryWordId").combobox("getValue"),
+			"version" : $("#version").textbox("getValue"),
+			"startDate" : $("#startDate").datebox("getValue"),
+			"endDate" : $("#endDate").datebox("getValue")
+		};
+		metadataManager.query(params,queryMetadataCallBack);
+	};
+	$("#queryMetadataBtn").click(function(){
+		console.log("hehehe");
+		queryMetadata();
+	});
 
+});
 
 function save(formId){
 	if(!$("#"+formId).form('validate')){

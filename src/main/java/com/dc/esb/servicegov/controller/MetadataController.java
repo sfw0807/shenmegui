@@ -198,14 +198,24 @@ public class MetadataController {
         return true;
     }
 
-    @RequestMapping("/query")
+    @RequestMapping("/list")
     @ResponseBody
-    public Map<String, Object> query(@RequestParam("page") int pageNo, @RequestParam("rows") int rowCount) {
+    public Map<String, Object> list(@RequestParam("page") int pageNo, @RequestParam("rows") int rowCount) {
         Page page = metadataService.getAll(rowCount);
         page.setPage(pageNo);
         List<Metadata> rows = metadataService.getAll(page);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("total", page.getResultCount());
+        result.put("rows", rows);
+        return result;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/query", headers = "Accept=application/json" )
+    @ResponseBody
+    public Map<String, Object> query(@RequestBody Map<String, String> params) {
+        List<Metadata> rows = metadataService.findLikeAnyWhere(params);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("total", rows.size());
         result.put("rows", rows);
         return result;
     }
