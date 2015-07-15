@@ -28,10 +28,10 @@ public class OLADAOImpl extends HibernateDAO<OLA, String> {
         return find(sb.toString());
     }
 
-    @Override
-    public List<OLA> findBy(Map<String, String> params) {
-        return findBy(GET_ALL_HQL, params);
-    }
+//    @Override
+//    public List<OLA> findBy(Map<String, String> params) {
+//        return findBy(GET_ALL_HQL, params);
+//    }
 
     public List<OLA> findTemplateBy(Map<String, String> params) {
         return findBy(GET_TEMPLATE_OLA_HQL, params);

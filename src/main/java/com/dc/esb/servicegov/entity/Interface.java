@@ -40,11 +40,14 @@ public class Interface {
 
 	private String headName;
 
+	private String protocolName;
+
 	@OneToMany(mappedBy = "relateInters",cascade = CascadeType.ALL)
 	private List<InterfaceHeadRelate> headRelates ;
 
-	@OneToOne(mappedBy="inter",cascade = CascadeType.ALL)
-	private ServiceInvoke serviceInvoke;
+	@OneToMany(targetEntity = ServiceInvoke.class,cascade = CascadeType.ALL)
+	@JoinColumn(name = "INTERFACE_ID",referencedColumnName = "INTERFACE_ID",updatable = false)
+	private List<ServiceInvoke> serviceInvoke;
 
 	@OneToMany(targetEntity = Ida.class,cascade = CascadeType.ALL)
 	@JoinColumn(name = "INTERFACE_ID",referencedColumnName = "INTERFACE_ID",insertable = false,updatable = false)
@@ -130,11 +133,11 @@ public class Interface {
 		this.optDate = optDate;
 	}
 
-	public ServiceInvoke getServiceInvoke() {
+	public List<ServiceInvoke> getServiceInvoke() {
 		return serviceInvoke;
 	}
 
-	public void setServiceInvoke(ServiceInvoke serviceInvoke) {
+	public void setServiceInvoke(List<ServiceInvoke> serviceInvoke) {
 		this.serviceInvoke = serviceInvoke;
 	}
 
@@ -152,5 +155,13 @@ public class Interface {
 
 	public void setHeadName(String headName) {
 		this.headName = headName;
+	}
+
+	public String getProtocolName() {
+		return protocolName;
+	}
+
+	public void setProtocolName(String protocolName) {
+		this.protocolName = protocolName;
 	}
 }

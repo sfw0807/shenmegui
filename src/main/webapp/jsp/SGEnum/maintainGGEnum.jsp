@@ -69,6 +69,8 @@
 	<script type="text/javascript"
 		src="/assets/enumManager/js/enumManager.js"></script>
 	<script type="text/javascript">
+		var processId = parent.processId;
+		var taskId = parent.taskId;
 		$(document).ready(function() {
 			$('#slavedatagrid').datagrid({
 				rownumbers : true,

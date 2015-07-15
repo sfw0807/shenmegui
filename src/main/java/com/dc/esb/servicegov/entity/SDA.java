@@ -65,6 +65,10 @@ public class SDA implements Serializable {
 
 	@Column(name = "REQUIRED")
 	private String required;
+
+	@Column(name = "ARG_TYPE")
+	//参数类型 输出还是输入参数，导入时判断，有可能输入和输出参数名相同
+	private String argType;
 	public SDA(){
 
 	}
@@ -205,4 +209,11 @@ public class SDA implements Serializable {
 		this.required = required;
 	}
 
+	public String getArgType() {
+		return argType;
+	}
+
+	public void setArgType(String argType) {
+		this.argType = argType;
+	}
 }

@@ -29,6 +29,9 @@ public class IDAController {
 		Map<String,String> reqMap = new HashMap<String,String>();
 		reqMap.put("headId", headId);
 		List<Ida> idas = idaService.findBy(reqMap, "seq");
+		for(Ida ida:idas){
+			ida.setHeads(null);
+		}
 		map.put("total", idas.size());
 		map.put("rows", idas);
 		return map;
@@ -41,6 +44,9 @@ public class IDAController {
 		Map<String,String> reqMap = new HashMap<String,String>();
 		reqMap.put("interfaceId", interfaceId);
 		List<Ida> idas = idaService.findBy(reqMap,"seq");
+		for(Ida ida:idas){
+			ida.setHeads(null);
+		}
 		map.put("total", idas.size());
 		map.put("rows", idas);
 		return map;

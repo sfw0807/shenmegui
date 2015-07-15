@@ -204,6 +204,22 @@
 								alert("请选择要关联的系统");
 							}
 						}
+					},{
+						text:'文件管理',
+						iconCls:'icon-save',
+						handler:function(){
+							if (parent.$('#sysContentTabs').tabs('exists', "文件管理")){
+								parent.$('#sysContentTabs').tabs('select', "文件管理");
+							 } else {
+								var content = '<iframe scrolling="auto" frameborder="0"  src="file_list.jsp" style="width:100%;height:100%;"></iframe>';
+								parent.$('#sysContentTabs').tabs('add',{
+									title:"文件管理",
+									content:content,
+									closable:true
+								});
+							 }
+						}
+
 					}
 				]
 	   		});

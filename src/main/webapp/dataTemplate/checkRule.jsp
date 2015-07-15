@@ -107,4 +107,18 @@
 <%
 	}
 
+%><%
+	if(mid.equals("9.4")){
+%>
+{"success":true,"url":"/jsp/sysadmin/file_list.jsp","title":"文件管理"}
+<%
+	}
+
+%><%
+	if(mid.equals("3.7")){
+%>
+{"success":true,"url":"/dataTemplate/fieldmapping_import.jsp","title":"元数据导入"}
+<%
+	}
+
 %>

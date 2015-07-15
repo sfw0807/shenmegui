@@ -71,6 +71,7 @@ public class InterfaceHeadController {
 			ida.set_parentId(null);
 			ida.setStructName("root");
 			ida.setStructAlias("根节点");
+
 			idaService.save(ida);
 			String parentId = ida.getId();
 			
@@ -79,6 +80,7 @@ public class InterfaceHeadController {
 			ida.set_parentId(parentId);
 			ida.setStructName("request");
 			ida.setStructAlias("请求头");
+			ida.setSeq(0);
 			idaService.save(ida);
 			
 			ida = new Ida();
@@ -86,6 +88,7 @@ public class InterfaceHeadController {
 			ida.set_parentId(parentId);
 			ida.setStructName("response");
 			ida.setStructAlias("响应头");
+			ida.setSeq(1);
 			idaService.save(ida);
 		}
 		return true;
@@ -107,12 +110,12 @@ public class InterfaceHeadController {
 	boolean delete(@PathVariable
 			String headId) {
 		interfaceHeadService.deleteById(headId);
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("headId", headId);
-		List<Ida> idas = idaService.findBy(params);
-		for(Ida ida :idas){
-			idaService.deleteById(ida.getId());
-		}
+//		Map<String, String> params = new HashMap<String, String>();
+//		params.put("headId", headId);
+//		List<Ida> idas = idaService.findBy(params);
+//		for(Ida ida :idas){
+//			idaService.deleteById(ida.getId());
+//		}
 		return true;
 	}
 }

@@ -100,6 +100,9 @@
 					<th data-options="field:'headName',width:'15%'">
 						报文头
 					</th>
+					<th data-options="field:'protocolName',width:'10%'">
+						接口协议
+					</th>
 					<th data-options="field:'status',width:'9%',align:'right'">
 						交易状态
 					</th>
@@ -128,6 +131,7 @@
 	        width: 'auto', 
 	        height: '380px', 
 	        method:'post',
+	        collapsible: true,
 	        url:'/interface/getInterface/${param.systemId }',
 	        singleSelect:true,//是否单选 
 	        pagination:true,//分页控件 
@@ -181,6 +185,24 @@
 							}
 
 					 	}
+					 },{
+						text:'关联报文头',
+						iconCls:'icon-save',
+						handler:function(){
+							var row = $("#tg").treegrid("getSelected");
+							if(row){
+								var interfaceId = row.interfaceId;
+								uiinit.win({
+										w:500,
+										iconCls:'icon-add',
+										title:"关联报文头",
+										url : "/jsp/interface/header_relate.jsp?interfaceId="+interfaceId
+									});
+							}else{
+								alert("请选择要关联的行");
+							}
+
+						}
 					 }
 				]
 	   		});  

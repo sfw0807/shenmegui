@@ -7,7 +7,6 @@ import com.dc.esb.servicegov.entity.System;
 import com.dc.esb.servicegov.service.ProtocolService;
 import com.dc.esb.servicegov.service.SystemProtocolService;
 import com.dc.esb.servicegov.service.SystemService;
-import com.dc.esb.servicegov.util.TreeNode;
 import org.hibernate.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -180,6 +179,10 @@ public class SystemController {
             map.put("id", "");
             map.put("text", "全部");
             resList.add(map);
+        }else{
+            map.put("id", "");
+            map.put("text", "不关联");
+            resList.add(map);
         }
         String systemId = request.getParameter("systemId");
         if(systemId!=null&&!"".equals(systemId)){
@@ -248,20 +251,67 @@ public class SystemController {
         return true;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getTree", headers = "Accept=application/json")
-    public
-    @ResponseBody
-    List<TreeNode> getAllTreeBean() {
-        List<TreeNode> systemTree = new ArrayList<TreeNode>();
-        List<com.dc.esb.servicegov.entity.System> systems = systemService.getAll();
-        for(com.dc.esb.servicegov.entity.System system : systems){
-            TreeNode systemTreeNode = new TreeNode();
-            systemTreeNode.setId(system.getSystemId());
-            systemTreeNode.setText(system.getSystemChineseName());
-            systemTree.add(systemTreeNode);
+    @RequestMapping(method = RequestMethod.GET, value = "/getProtocol/{systemId}", headers = "Accept=application/json")
+    public @ResponseBody List<Protocol> getChecked(@PathVariable String systemId) {
+        List<String> resList = new ArrayList<String>();
+        Map<String,String> paramMap = new HashMap<String, String>();
+        paramMap.put("systemId",systemId);
+        List<SystemProtocol> ps =   systemProtocolService.findBy(paramMap);
+        List<Protocol> protocols = new ArrayList<Protocol>();
+        for(SystemProtocol s:ps){
+            protocols.add(protocolService.getById(s.getProtocolId()));
         }
-        return systemTree;
+        return protocols;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/check/{interfaceId}", headers = "Accept=application/json")
+    public @ResponseBody
+    boolean check(@PathVariable String interfaceId) {
+        System system =  systemService.findUniqueBy("systemId",interfaceId);
+        if(system!=null) {
+            return true;
+        }
+        return  false;
+    }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/getSystemAll", headers = "Accept=application/json")
+    public @ResponseBody List<Map<String,Object>> getSystemAll(HttpServletRequest request) {
+        List<Map<String,Object>> resList = new ArrayList<Map<String, Object>>();
+        List<System> systems =  systemService.getAll();
+        Map<String,Object> map = new HashMap<String, Object>();
+        if(request.getParameter("query")!=null && !"".equals(request.getParameter("query"))) {
+            map.put("id", "");
+            map.put("text", "全部");
+            resList.add(map);
+        }
+
+        for (System system :systems){
+            map = new HashMap<String, Object>();
+            map.put("id",system.getSystemId());
+            map.put("text",system.getSystemAb());
+            resList.add(map);
+        }
+        return resList;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/systemIdCheck/{systemId}", headers = "Accept=application/json")
+    public @ResponseBody
+    boolean systemId(@PathVariable String systemId) {
+        System system =  systemService.findUniqueBy("systemId",systemId);
+        if(system!=null) {
+            return true;
+        }
+        return  false;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/systemAbcheck/{systemAb}/{systemId}", headers = "Accept=application/json")
+    public @ResponseBody
+    boolean systemAb(@PathVariable String systemAb,@PathVariable String systemId) {
+        System system =  systemService.findUniqueBy("systemAb",systemAb);
+
+        if(system!=null && !system.getSystemId().equals(systemId)) {
+            return true;
+        }
+        return  false;
+    }
 }

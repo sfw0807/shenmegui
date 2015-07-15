@@ -116,6 +116,8 @@
           <element id="library" level="project" name="Maven: xpp3:xpp3_min:1.1.3.4.O" />
           <element id="library" level="project" name="Maven: org.jboss.el:jboss-el:1.0_02.CR5" />
           <element id="library" level="project" name="Maven: org.jbpm:jbpm-bam:5.2.0.Final" />
+          <element id="library" level="project" name="Maven: net.sf.json-lib:json-lib:jdk15:2.2.3" />
+          <element id="library" level="project" name="Maven: net.sf.ezmorph:ezmorph:1.0.6" />
         </element>
       </element>
       <element id="directory" name="META-INF">

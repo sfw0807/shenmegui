@@ -8,7 +8,6 @@ $(function () {
         task.processInstanceId = Global.processInstanceId;
         task.taskId = Global.taskId;
         task.userId = "admin";
-        console.log(Global);
         task.name = Global.taskName;
         taskManager.processTask(task,function(){
             console.log(task.name);
@@ -28,6 +27,17 @@ $(function () {
                 $("#w").window("close");
                 $('#taskTable').datagrid('reload');
                 parent.SYSMENU.changeLeftMenu(4);
+            }
+            if(task.name=="创建公共代码"){
+                var content = '<iframe scrolling="auto" frameborder="0"  src="/jsp/SGEnum/commonEnum.jsp?processId='+task.processInstanceId+'&taskId='+task.taskId+'" id="gonggongdaima" style="width:100%;height:100%;"></iframe>';
+                parent.addTab("创建公共代码", content);
+            }
+            if(task.name=="公共代码审核"){
+                alert("aaa");
+                $("#w").window("close");
+                $('#taskTable').datagrid('reload');
+                var content = '<iframe scrolling="auto" frameborder="0"  src="/process/sgenum/sgenumAuditByTask/process/'+task.processInstanceId+'/task/'+task.taskId+'" style="width:100%;height:100%;"></iframe>';
+                parent.addTab("创建公共代码", content);
             }
 
         });

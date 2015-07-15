@@ -73,5 +73,9 @@ var taskManager = {
                 callBack(result);
             }
         });
+    },
+    "check" : function(task,callBack){
+        var content = '<iframe scrolling="auto" frameborder="0"  src="/jsp/SGEnum/taskCheck/common.jsp?processId='+task.processId+'&taskId='+task.taskId+'" style="width:100%;height:100%;"></iframe>';
+        parent.addTab("验收公共代码", content);
     }
 };

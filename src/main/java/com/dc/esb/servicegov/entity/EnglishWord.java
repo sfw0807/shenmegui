@@ -2,14 +2,19 @@ package com.dc.esb.servicegov.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "ENGLISH_WORD")
 public class EnglishWord {
     @Id
     @Column(name = "ID")
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid",strategy="uuid")
     private String id;
 
     @Column(name = "ENGLISH_WORD")

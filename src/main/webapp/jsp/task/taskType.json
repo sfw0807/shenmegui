@@ -5,5 +5,8 @@
   },{
     "id":"service",
     "name":"服务"
+  },{
+  "id":"sgenum",
+  "name":"公共代码"
   }
 ]

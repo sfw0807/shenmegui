@@ -40,7 +40,7 @@ public class ServiceInvoke {
 	@Column(name = "PROTOCOL_ID")
 	private String protocolId;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "INTERFACE_ID", insertable = false, updatable = false)
 	private Interface inter;
 
@@ -143,5 +143,23 @@ public class ServiceInvoke {
 
 	public void setSystem(System system) {
 		this.system = system;
+	}
+	public static  String[] simpleFields(){
+		String[] names = {"invokeId",
+				"systemId",
+				"isStandard",
+				"system",
+				"inter",
+				"serviceId",
+				"operationId",
+				"interfaceId",
+				"type",
+				"desc" ,
+				"remark" ,
+				"protocolId",
+				"systemChineseName",
+				"interfaceName"
+		};
+		return names;
 	}
 }

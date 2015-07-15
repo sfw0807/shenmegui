@@ -1,14 +1,12 @@
 package com.dc.esb.servicegov.controller;
 
+import com.dc.esb.servicegov.dao.support.Page;
 import com.dc.esb.servicegov.entity.CategoryWord;
 import com.dc.esb.servicegov.entity.Metadata;
 import com.dc.esb.servicegov.service.impl.MetadataServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -202,13 +200,12 @@ public class MetadataController {
 
     @RequestMapping("/query")
     @ResponseBody
-    public Map<String, Object> query(HttpServletRequest request) {
-
+    public Map<String, Object> query(@RequestParam("page") int pageNo, @RequestParam("rows") int rowCount) {
+        Page page = metadataService.getAll(rowCount);
+        page.setPage(pageNo);
+        List<Metadata> rows = metadataService.getAll(page);
         Map<String, Object> result = new HashMap<String, Object>();
-        @SuppressWarnings("unchecked")
-        List<?> rows = metadataService.queryByCondition(request.getParameterMap());
-
-        result.put("total", rows.size());
+        result.put("total", page.getResultCount());
         result.put("rows", rows);
         return result;
     }

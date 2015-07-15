@@ -1,28 +1,33 @@
 package com.dc.esb.servicegov.service.impl;
 
-import com.dc.esb.servicegov.dao.impl.OperationDAOImpl;
-import com.dc.esb.servicegov.dao.support.HibernateDAO;
-import com.dc.esb.servicegov.entity.Operation;
-import com.dc.esb.servicegov.entity.OperationHis;
-import com.dc.esb.servicegov.entity.ServiceHead;
-import com.dc.esb.servicegov.entity.ServiceInvoke;
-import com.dc.esb.servicegov.service.OperationService;
-import com.dc.esb.servicegov.service.support.AbstractBaseService;
-import com.dc.esb.servicegov.util.DateUtils;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import com.dc.esb.servicegov.dao.impl.OperationDAOImpl;
+import com.dc.esb.servicegov.dao.support.HibernateDAO;
+import com.dc.esb.servicegov.entity.Operation;
+import com.dc.esb.servicegov.entity.OperationHis;
+import com.dc.esb.servicegov.entity.OperationPK;
+import com.dc.esb.servicegov.entity.ServiceHead;
+import com.dc.esb.servicegov.entity.ServiceInvoke;
+import com.dc.esb.servicegov.service.support.AbstractBaseService;
+import com.dc.esb.servicegov.service.support.Constants;
+import com.dc.esb.servicegov.util.DateUtils;
 
 @Service
 @Transactional
-public class OperationServiceImpl extends AbstractBaseService<Operation, String> implements OperationService {
-
-    private static final String initalVersion = "1.0.0";
+public class OperationServiceImpl extends AbstractBaseService<Operation, OperationPK>{
 
     @Autowired
     private OperationDAOImpl operationDAOImpl;
@@ -48,8 +53,7 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, String>
     private VersionServiceImpl versionServiceImpl;
 
     public List<Operation> getOperationByServiceId(String serviceId) {
-        String hql = " from Operation a where a.serviceId = ?";
-        return operationDAOImpl.find(hql, serviceId);
+        return operationDAOImpl.findBy("serviceId", serviceId);
     }
 
     /**
@@ -77,7 +81,11 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, String>
         Map<String, String> params = new HashMap<String, String>();
         params.put("serviceId", serviceId);
         params.put("operationId", operationId);
-        return findUniqueBy(params);
+        List<Operation> list = findBy(params);
+        if(list != null && list.size() > 0){
+        	return list.get(0);
+        }
+        return null;
 
     }
 
@@ -101,11 +109,11 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, String>
         return operationDAOImpl;
     }
 
-    public boolean addOperation(HttpServletRequest req, Operation entity) {
+    public boolean addOperation(Operation entity) {
         try {
-            String versionId = versionServiceImpl.addVersion("1", entity.getOperationId());
+            String versionId = versionServiceImpl.addVersion(Constants.Version.TARGET_TYPE_OPERATION, entity.getOperationId(),Constants.Version.TYPE_ELSE);
             entity.setVersionId(versionId);
-            entity.setDeleted("0");
+            entity.setDeleted(Constants.DELTED_FALSE);
             entity.setOptDate(DateUtils.format(new Date()));
             operationDAOImpl.save(entity);
             sdaService.genderSDAAuto(entity);
@@ -141,42 +149,16 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, String>
 
         ModelAndView mv = new ModelAndView("service/operation/detailPage");
         //根据serviceId查询service信息
-        com.dc.esb.servicegov.entity.Service service = serviceService.getById(serviceId);
+        com.dc.esb.servicegov.entity.Service service = serviceService.findUniqueBy("serviceId", serviceId);
         if (service != null) {
             mv.addObject("service", service);
         }
         //根据operationId查询operation
-        Operation operation = getOperation(operationId, serviceId);
+        Operation operation = getOperation(serviceId, operationId);
         if (operation != null) {
             mv.addObject("operation", operation);
-            //查询serviceHead
-            String serviceHeadHql = " from ServiceHead where headId = ?	";
-            ServiceHead serviceHead = operationDAOImpl.findUnique(serviceHeadHql, operation.getHeadId());
-            if (serviceHead != null) {
-                mv.addObject("serviceHead", serviceHead);
-            }
         }
         return mv;
-    }
-
-    public String saveVersion(String version) {
-        if (StringUtils.isNotEmpty(version)) {
-            String[] s = version.split("\\.");
-            int s2 = Integer.parseInt(s[2]);
-            s[2] = String.valueOf(s2 + 1);
-            return s[0] + "." + s[1] + "." + s[2];
-        }
-        return initalVersion;
-    }
-
-    public String releaseVersion(String version) {
-        if (StringUtils.isNotEmpty(version)) {
-            String[] s = version.split("\\.");
-            int s1 = Integer.parseInt(s[1]);
-            s[1] = String.valueOf(s1 + 1);
-            return s[0] + "." + s[1] + "." + s[2];
-        }
-        return initalVersion;
     }
 
     /**
@@ -189,74 +171,35 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, String>
      * @return
      */
     public boolean addInvoke(HttpServletRequest req, String serviceId, String operationId, String consumerStr, String providerStr) {
-        if (StringUtils.isNotEmpty(consumerStr)) {
+        if (!StringUtils.isEmpty(consumerStr)) {
             String[] constrs = consumerStr.split("\\,");
             for (String constr : constrs) {
                 if (constr.contains("__invoke__")) { //判断是否是serviceInvokeID
-                    constr = constr.replace("__invoke__", "");
-                    ServiceInvoke si = operationDAOImpl.findUnique(" from ServiceInvoke where invokeId = ?", constr);
-                    if (si != null) {
-                        if (StringUtils.isEmpty(si.getServiceId()) && StringUtils.isEmpty(si.getOperationId())) {
-                            si.setServiceId(serviceId);
-                            si.setOperationId(operationId);
-                            si.setType("1"); //1代表消费方
-                            serviceInvokeService.save(si);
-                        } else {
-                            if (!serviceId.equals(si.getServiceId()) || !operationId.equals(si.getOperationId())) {
-                                ServiceInvoke newsi = new ServiceInvoke();
-                                newsi.setInvokeId(UUID.randomUUID().toString());
-                                newsi.setSystemId(si.getSystemId());
-                                newsi.setServiceId(serviceId);
-                                newsi.setOperationId(operationId);
-                                newsi.setType("1");
-                                newsi.setInterfaceId(si.getInterfaceId());
-                                serviceInvokeService.save(newsi);
-                            }
-                        }
-                    }
+                	constr = constr.replace("__invoke__", "");
+                	serviceInvokeService.updateAfterOPAdd(constr,serviceId,operationId,Constants.INVOKE_TYPE_CONSUMER);
                 } else {//传入参数为systemId
                     ServiceInvoke si = new ServiceInvoke();
-                    si.setInvokeId(UUID.randomUUID().toString());
                     si.setSystemId(constr);
                     si.setServiceId(serviceId);
                     si.setOperationId(operationId);
-                    si.setType("1");
+                    si.setType(Constants.INVOKE_TYPE_CONSUMER);
                     serviceInvokeService.save(si);
                 }
             }
         }
-        if (StringUtils.isNotEmpty(providerStr)) {
+        if (!StringUtils.isEmpty(providerStr)) {
             String[] prostrs = providerStr.split("\\,");
             for (String prostr : prostrs) {
-                if (prostr.contains("__invoke__")) { //判断是否是serviceInvokeID
-                    prostr = prostr.replace("__invoke__", "");
-                    ServiceInvoke si = operationDAOImpl.findUnique(" from ServiceInvoke where invokeId = ?", prostr);
-                    if (si != null) {
-                        if (StringUtils.isEmpty(si.getServiceId()) && StringUtils.isEmpty(si.getOperationId())) {
-                            si.setServiceId(serviceId);
-                            si.setOperationId(operationId);
-                            si.setType("0"); //1代表消费方
-                            serviceInvokeService.save(si);
-                        } else {
-                            if (!serviceId.equals(si.getServiceId()) || !operationId.equals(si.getOperationId())) {
-                                ServiceInvoke newsi = new ServiceInvoke();
-                                newsi.setInvokeId(UUID.randomUUID().toString());
-                                newsi.setSystemId(si.getSystemId());
-                                newsi.setServiceId(serviceId);
-                                newsi.setOperationId(operationId);
-                                newsi.setType("0");
-                                newsi.setInterfaceId(si.getInterfaceId());
-                                serviceInvokeService.save(newsi);
-                            }
-                        }
-                    }
-                } else {//传入参数为systemId
+            	if (prostr.contains("__invoke__")) { //判断是否是serviceInvokeID
+            		prostr = prostr.replace("__invoke__", "");
+                	serviceInvokeService.updateAfterOPAdd(prostr,serviceId,operationId,Constants.INVOKE_TYPE_PROVIDER);
+                }  else {//传入参数为systemId
                     ServiceInvoke si = new ServiceInvoke();
                     si.setInvokeId(UUID.randomUUID().toString());
                     si.setSystemId(prostr);
                     si.setServiceId(serviceId);
                     si.setOperationId(operationId);
-                    si.setType("0");
+                    si.setType(Constants.INVOKE_TYPE_PROVIDER);
                     serviceInvokeService.save(si);
                 }
             }
@@ -298,22 +241,21 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, String>
     /**
      * add by liwang
      * review and modify by Vincent Fan
-     * 这个方法极其混乱。。。
      */
     public void release(String operationId, String serviceId, String versionDesc) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("serviceId", serviceId);
         params.put("operationId", operationId);
-        Operation operation = getOperation(operationId, serviceId);
+        Operation operation = getOperation(serviceId, operationId);
         if (operation != null) {
             //备份操作基本信息
             OperationHis operationHis = backUpOperation(serviceId, operationId, versionDesc);
             String operationHisAutoId = operationHis.getAutoId();
-            //更新版本信息
-            String versionHisId = versionServiceImpl.releaseVersion(operation.getVersionId(), operationHisAutoId, versionDesc);
-            //更新 operationHis 中的versionId
-            operationHis.setVersionHisId(versionHisId);
-            operationHisService.save(operationHis);
+//            //更新版本信息
+//            String versionHisId = versionServiceImpl.releaseVersion(operation.getVersionId(), operationHisAutoId, versionDesc);
+//            //更新 operationHis 中的versionId
+//            operationHis.setVersionHisId(versionHisId);
+//            operationHisService.save(operationHis);
             //备份SDA
             sdaService.backUpSdaByCondition(params, operationHisAutoId);
             //备份SLA
@@ -328,13 +270,10 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, String>
     }
 
     public boolean auditOperation(String state, String[] operationIds){
-        if(operationIds != null && operationIds.length > 0){
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("state", state);
-            params.put("operationIds", operationIds);
-            operationDAOImpl.batchExecute(" update Operation set state =(:state) where operationId in (:operationIds)", params);
-            return true;
-        }
-        return false;
+        return operationDAOImpl.auditOperation(state, operationIds);
+    }
+    
+    public List<Operation> getReleased(){
+    	return operationDAOImpl.getReleased();
     }
 }

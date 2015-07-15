@@ -125,6 +125,10 @@ public abstract class AbstractBaseService<T, PK extends Serializable>{
 		return getDAO().findPage(hql, pageSize, searchConds);
 	}
 
+	public Page getAll(int pageSize){
+		return getDAO().getAll(pageSize);
+	}
+
 	public List<T> findBy(String hql, Page page,List<SearchCondition> searchConds){
 		return getDAO().findBy(hql, page, searchConds);
 	}
@@ -133,4 +137,7 @@ public abstract class AbstractBaseService<T, PK extends Serializable>{
 		return getDAO().findBy(properties, orderByProperties);
 	}
 
+	public List<T> getAll(Page page){
+		return getDAO().getAll(page);
+	}
 }

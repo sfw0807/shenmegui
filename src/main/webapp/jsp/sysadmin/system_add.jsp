@@ -113,7 +113,47 @@
 			return;
 		}
 		var systemAb = $("#systemAbText").val();
-		var systemChineseName = $("#systemChineseNameText").val();
+		if(systemAb==null || systemAb == ''){
+			alert("请填写系统简称");
+			return;
+		}
+    	var systemChineseName = $("#systemChineseNameText").val();
+    	var flag = true;
+		 $.ajax({
+			 type: "GET",
+			 async:false,
+			 url: "/system/systemIdCheck/"+systemId,
+			 dataType: "json",
+			 success: function(data){
+				if(data){
+					alert("系统ID已存在");
+					flag = false;;
+				}
+			 }
+		});
+
+		if(!flag){
+			return;
+		}
+
+
+		 $.ajax({
+			 type: "GET",
+			 async:false,
+			 url: "/system/systemAbcheck/"+systemAb+"/"+systemId,
+			 dataType: "json",
+			 success: function(data){
+				if(data){
+					alert("系统简称已存在");
+					flag = false;;
+				}
+			 }
+		});
+
+		if(!flag){
+			return;
+		}
+
 		/*var protocolId = $("#protocolIdText").combobox('getValue');
 		if(protocolId==null || protocolId == ''){
 			alert("请选择协议类型");

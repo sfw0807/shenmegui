@@ -111,8 +111,40 @@
 
 	function save(){
 		var interfaceId = $("#interfaceIdText").val();
-		var ecode = $("#ecodeText").val();
-		var interfaceName = $("#interfaceNameText").val();
+		 if(interfaceId==null || interfaceId == ''){
+			alert("接口ID不能为空");
+			return;
+		 }
+		 var ecode = $("#ecodeText").val();
+		 var interfaceName = $("#interfaceNameText").val();
+		 if(ecode==null || ecode == ''){
+			alert("交易码不能为空");
+			return;
+		 }
+		 if(interfaceName==null || interfaceName == ''){
+			alert("交易名称不能为空");
+			return;
+		 }
+
+
+		var flag = true;
+		 $.ajax({
+			 type: "GET",
+			 url: "/interface/check/"+interfaceId,
+			 async:false,
+			 dataType: "json",
+			 success: function(data){
+			 	if(data){
+			 		alert("接口ID已存在");
+			 		flag = false;
+			 		return;
+			 	}
+			 }
+
+		});
+		if(!flag){
+			return;
+		}
 		var desc = $("#desc").val();
 		var remark = $("#remark").val();
 		var status = $("#status").combobox('getValue');
@@ -138,13 +170,17 @@
 		data.remark = remark;
 		data.status = status;
 		data.interfaceId = interfaceId;
+
+		var invokes = [];
 		var serviceInvoke = {};
 		serviceInvoke.systemId = systemId;
 		var protocolId = $("#protocolId").combobox('getValue');
 
 		serviceInvoke.protocolId = protocolId;
-		data.serviceInvoke = serviceInvoke;
-		data.serviceInvoke.interfaceId = interfaceId;
+		serviceInvoke.interfaceId = interfaceId;
+		invokes.push(serviceInvoke);
+		data.serviceInvoke = invokes;
+		//data.serviceInvoke.interfaceId = interfaceId;
 		interfaceManager.add(data,"add",function(result){
 			if(result){
 				$('#w').window('close');

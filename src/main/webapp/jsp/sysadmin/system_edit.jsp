@@ -107,6 +107,27 @@
 
             var systemId = $("#systemIdText").val();
     		var systemAb = $("#systemAbText").val();
+    		if(systemAb==null || systemAb == ''){
+				alert("请填写系统简称");
+				return;
+			}
+			var flag = true;
+			$.ajax({
+				 type: "GET",
+				 async:false,
+				 url: "/system/systemAbcheck/"+systemAb+"/"+systemId,
+				 dataType: "json",
+				 success: function(data){
+					if(data){
+						alert("系统简称已存在");
+						flag = false;;
+					}
+				 }
+			});
+
+			if(!flag){
+				return;
+			}
     		var systemChineseName = $("#systemChineseNameText").val();
     		//var protocolId = $("#protocolIdText").combobox('getValue');
     		var principal1 = $("#principal1Text").val();

@@ -30,6 +30,10 @@
 			<td><input class="easyui-textbox" type="text" id="_optUser">
 			</td>
 		</tr>
+		<tr>
+			<th>任务id</th>
+			<td><input class="easyui-textbox" type="text" readonly="true" name="processId" id="taskIdInput"></td>
+		</tr>
 		<!-- <tr>
 			<th>操作时间</th>
 			<td><input class="easyui-textbox" type="text" id="_optDate">
@@ -56,6 +60,10 @@
 		element.optUser = $('#_optUser').val();
 		//element.optDate = $('#_optDate').val();
 		element.enumId = $('#id').val();
+		element.processId = $('#taskIdInput').textbox('getValue');
 		enumManager.addElement(element);
 	});
+	if(processId){
+		$('#taskIdInput').textbox('setValue',processId);
+	}
 </script>

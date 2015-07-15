@@ -1,5 +1,7 @@
 package com.dc.esb.servicegov.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import java.io.Serializable;
 
 import javax.persistence.*;
@@ -19,11 +21,11 @@ public class SystemProtocol implements Serializable{
 	@Column(name = "PROTOCOL_ID")
 	private String protocolId;
 
-	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
+	@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name="SYSTEM_ID",referencedColumnName = "SYSTEM_ID",insertable = false,updatable = false)
 	private System system;
 
-	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
+	@OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
 	@JoinColumn(name = "PROTOCOL_ID",referencedColumnName = "PROTOCOL_ID",insertable = false,updatable = false)
 	private Protocol protocol;
 

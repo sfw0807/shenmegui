@@ -4,23 +4,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.dc.esb.servicegov.entity.*;
+import com.dc.esb.servicegov.service.MetadataService;
+import com.dc.esb.servicegov.service.impl.LogInfoServiceImpl;
+import com.dc.esb.servicegov.service.impl.MetadataServiceImpl;
 import com.dc.esb.servicegov.util.GlobalImport;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,11 +33,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.dc.esb.servicegov.entity.Ida;
-import com.dc.esb.servicegov.entity.Interface;
-import com.dc.esb.servicegov.entity.Operation;
-import com.dc.esb.servicegov.entity.SDA;
-import com.dc.esb.servicegov.entity.Service;
 import com.dc.esb.servicegov.service.ExcelImportService;
 import com.dc.esb.servicegov.util.ExcelTool;
 
@@ -41,10 +40,16 @@ import com.dc.esb.servicegov.util.ExcelTool;
 @RequestMapping("/excelHelper")
 public class ExcelImportController {
 
-	protected Logger logger = LoggerFactory.getLogger(getClass());
+	protected Log logger = LogFactory.getLog(getClass());
 
 	@Autowired
-	ExcelImportService excelImportService ;
+	ExcelImportService excelImportService;
+
+	@Autowired
+	MetadataServiceImpl metadataService;
+
+	@Autowired
+	LogInfoServiceImpl logInfoService;
 	/**
 	 * Excel 2003
 	 */
@@ -57,32 +62,42 @@ public class ExcelImportController {
 	private static int readline = 0;
 
 	@RequestMapping(method = RequestMethod.POST, value = "/fieldimport")
-	public void importFieldMapping(@RequestParam("file")
-	MultipartFile file, Model model, HttpServletResponse response, @RequestParam("select")
-	String operateFlag) {
+	public String importFieldMapping(@RequestParam("file")
+									   MultipartFile file, Model model, HttpServletResponse response, @RequestParam("select")
+									   String operateFlag) {
 
 		response.setContentType("text/html");
 		response.setCharacterEncoding("GB2312");
+
 		logger.info("覆盖标识: " + operateFlag);
 		if ("Y".equals(operateFlag)) {
 			GlobalImport.operateFlag = true;
 		} else {
 			GlobalImport.operateFlag = false;
 		}
-		List<Object> list = new LinkedList<Object>();
+		//List<Object> list = new LinkedList<Object>();
 
 		Workbook workbook = null;
 		String extensionName = FilenameUtils.getExtension(file
 				.getOriginalFilename());
 
 		InputStream is;
+		java.io.PrintWriter writer = null;
+		StringBuffer msg = new StringBuffer();
 		try {
-			java.io.PrintWriter writer = response.getWriter();
+			writer = response.getWriter();
 			is = file.getInputStream();
 			if (extensionName.toLowerCase().equals(XLS)) {
 				workbook = new HSSFWorkbook(is);
 			} else if (extensionName.toLowerCase().equals(XLSX)) {
 				workbook = new XSSFWorkbook(is);
+			}else{
+				writer.println("<script language=\"javascript\">");
+				writer.println("alert('导入失败,文件类型不支持!');");
+				writer.println("</script>");
+				writer.flush();
+				writer.close();
+				return "sysadmin/fieldmapping_import";
 			}
 
 			// 读取交易索引Sheet页
@@ -90,7 +105,8 @@ public class ExcelImportController {
 			if (indexSheet == null) {
 
 				logger.error("缺少INDEX sheet页");
-				return;
+				logInfoService.saveLog("缺少INDEX sheet页","导入");
+				return "sysadmin/fieldmapping_import";
 			}
 
 			int endRow = indexSheet.getLastRowNum();
@@ -101,16 +117,31 @@ public class ExcelImportController {
 				String sheetName = ExcelTool.getInstance().getCellContent(
 						row.getCell(0));
 
-				//接口提供方
-				String providerSystem = ExcelTool.getInstance().getCellContent(
-						row.getCell(5));
 				//接口消费方
 				String cusumerSystem = ExcelTool.getInstance().getCellContent(
+						row.getCell(5));
+
+				//接口提供方
+				String providerSystem = ExcelTool.getInstance().getCellContent(
 						row.getCell(6));
+
+				//接口方向
+				String interfacepoint = ExcelTool.getInstance().getCellContent(
+						row.getCell(7));
+
+				String interfaceHead = ExcelTool.getInstance().getCellContent(
+						row.getCell(18));
+				String systemId = cusumerSystem;
+				if ("Provider".equalsIgnoreCase(interfacepoint)) {
+					systemId = providerSystem;
+				}
+
 				//判断系统是否存在
-				boolean exists = excelImportService.existSystem(providerSystem,cusumerSystem);
-				if(!exists){
-					logger.error("交易["+sheetName+"],接口提供方或消费方系统不存在");
+				boolean exists = excelImportService.existSystem(systemId);
+				if (!exists) {
+					logger.error("交易[" + sheetName + "]," + systemId + "系统不存在");
+					logInfoService.saveLog("交易[" + sheetName + "]," + systemId + "系统不存在","导入");
+					msg.append("交易[" + sheetName + "]," + systemId + "系统不存在，");
 					continue;
 				}
 				if (sheetName != null && !"".equals(sheetName)) {
@@ -122,7 +153,7 @@ public class ExcelImportController {
 
 					//获取交易、服务、场景信息
 					Map<String, Object> infoMap = getInterfaceAndServiceInfo(sheet);
-					list.add(infoMap);
+					//list.add(infoMap);
 
 					//获取接口、服务 输入 参数
 					Map<String, Object> inputMap = getInputArg(sheet);
@@ -130,38 +161,230 @@ public class ExcelImportController {
 					//获取接口、服务 输出 参数
 					Map<String, Object> outMap = getOutputArg(sheet);
 
-					Map<String,String> publicMap = new HashMap<String, String>();
-					publicMap.put("providerSystem",providerSystem);
-					publicMap.put("cusumerSystem",cusumerSystem);
 
-					logger.info("===========交易[" + sheetName+"],开始导入字段映射信息=============");
-					long time = System.currentTimeMillis();
-					boolean result = excelImportService.executeImport(infoMap, inputMap, outMap,publicMap);
-					if(!result){
-						logger.info("===========交易[" + sheetName+"],导入失败=============");
+
+					Map<String,Object> headMap = null;
+					if (interfaceHead != null && !"".equals(interfaceHead)) {
+						if(GlobalImport.headMap.get(interfaceHead)==null){
+
+							Sheet headSheet = workbook.getSheet(interfaceHead);
+							if (headSheet == null) {
+								logger.info("交易[" + sheetName + "]，没找到业务报文头[" + interfaceHead + "]");
+							} else {
+								headMap = getInterfaceHead(headSheet);
+								if(headMap!=null){
+									headMap.put("headName", interfaceHead);
+								}
+
+							}
+						}else{
+							headMap = new HashMap<String, Object>();
+							headMap.put("headName", interfaceHead);
+						}
+					}
+
+					if(infoMap==null || inputMap == null || outMap == null || (headMap == null && (interfaceHead != null && !"".equals(interfaceHead)))){
+						msg.append(sheetName+"导入失败，");
 						continue;
 					}
-					long useTime = System.currentTimeMillis() - time;
-					logger.info("===========交易[" + sheetName+"],导入完成，耗时"+useTime+"ms=============");
-					writer.println("<script language=\"javascript\">");
-					if (true) {
-						writer.println("alert('导入成功!');");
-					} else {
-						writer.println("alert('导入失败，请查看日志!');");
+
+					Map<String, String> publicMap = new HashMap<String, String>();
+					publicMap.put("providerSystem", providerSystem);
+					publicMap.put("cusumerSystem", cusumerSystem);
+					publicMap.put("interfacepoint", interfacepoint);
+
+					logger.info("===========交易[" + sheetName + "],开始导入字段映射信息=============");
+					long time = java.lang.System.currentTimeMillis();
+					boolean result = excelImportService.executeImport(infoMap, inputMap, outMap, publicMap,headMap);
+					if (!result) {
+						logger.info("===========交易[" + sheetName + "],导入失败=============");
+						continue;
 					}
+					long useTime = java.lang.System.currentTimeMillis() - time;
+					logger.info("===========交易[" + sheetName + "],导入完成，耗时" + useTime + "ms=============");
+
 
 				} else {
 					logger.error("第" + i + "行，交易代码为空。");
+					logInfoService.saveLog("第" + i + "行，交易代码为空。","导入");
 				}
 
 			}
+			writer.println("<script language=\"javascript\">");
 
+			if(msg.length()==0){
+				writer.println("alert('导入成功!');");
+			}else {
+				writer.println("alert('"+msg.toString()+",请查看日志！');");
+			}
 		} catch (IOException e) {
-			logger.error("导入出现异常:异常信息："+e.getMessage());
+			logger.error("导入出现异常:异常信息：" + e.getMessage());
+			logInfoService.saveLog("导入出现异常:异常信息：" + e.getMessage(),"导入");
+			writer.println("alert('导入失败，请查看日志!');");
 		}
+
+		GlobalImport.headMap.clear();//清空本次导入的业务报文头
+		writer.println("</script>");
+		writer.flush();
+		writer.close();
+		return "sysadmin/fieldmapping_import";
 	}
 
+	private Map<String,Object> getInterfaceHead(Sheet sheet) {
+		boolean flag = true;
+		StringBuffer msg = new StringBuffer();
+		Map<String,Object> resMap = new HashMap<String, Object>();
+
+		ExcelTool tools = ExcelTool.getInstance();
+		int start = sheet.getFirstRowNum();
+		int end = sheet.getLastRowNum();
+		int inputIndex = 0;
+		int outIndex = 0;
+		for (int i = 0; i <= end; i++) {
+			Row sheetRow = sheet.getRow(i);
+			Cell cellObj = sheetRow.getCell(0);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				if ("输入".equals(cell)) {
+					inputIndex = i + 1;
+				} else if ("输出".equals(cell)) {
+					outIndex = i + 1;
+					break;
+				}
+			}
+		}
+
+		int order = 0;
+		List<Ida> input = new ArrayList<Ida>();
+		for (int i = inputIndex; i < outIndex-1; i++) {
+			Ida ida = new Ida();
+			Row sheetRow = sheet.getRow(i);
+			Cell cellObj = sheetRow.getCell(0);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setStructName(isNull(cell));
+				if("".equals(isNull(cell))){
+					continue;
+				}
+			}
+
+			cellObj = sheetRow.getCell(1);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setStructAlias(isNull(cell));
+			}
+
+			cellObj = sheetRow.getCell(2);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setType(isNull(cell));
+			}
+
+			cellObj = sheetRow.getCell(3);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setLength(isNull(cell));
+			}
+			cellObj = sheetRow.getCell(4);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setRequired(isNull(cell));
+			}
+
+			cellObj = sheetRow.getCell(5);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setRemark(isNull(cell));
+			}
+
+			cellObj = sheetRow.getCell(6);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setMetadataId(isNull(cell));
+			}
+			input.add(ida);
+			ida.setSeq(order);
+			order++;
+		}
+
+		order = 0;
+		List<Ida> output = new ArrayList<Ida>();
+		for (int j = outIndex; j < end; j++) {
+			Ida ida = new Ida();
+			Row sheetRow = sheet.getRow(j);
+			Cell cellObj = sheetRow.getCell(0);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setStructName(isNull(cell));
+				if("".equals(isNull(cell))){
+					continue;
+				}
+			}
+
+			cellObj = sheetRow.getCell(1);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setStructAlias(isNull(cell));
+			}
+
+			cellObj = sheetRow.getCell(2);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setType(isNull(cell));
+			}
+
+			cellObj = sheetRow.getCell(3);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setLength(isNull(cell));
+			}
+			cellObj = sheetRow.getCell(4);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setRequired(isNull(cell));
+			}
+
+			cellObj = sheetRow.getCell(5);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setRemark(isNull(cell));
+			}
+
+			cellObj = sheetRow.getCell(6);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				ida.setMetadataId(isNull(cell));
+				if(cell!=null&&!"".equals(cell)){
+					Metadata metadata = metadataService.findUniqueBy("metadataId",cell);
+					if(metadata==null){
+
+						logger.error(sheet.getSheetName()+"页,元数据["+cell+"]未配置，导入失败...");
+						//logInfoService.saveLog(sheet.getSheetName()+"页,元数据["+cell+"]未配置，导入失败...","导入");
+						msg.append(cell).append(",");
+						flag = false;
+						//return null;
+					}
+				}
+			}
+			output.add(ida);
+			ida.setSeq(order);
+			order++;
+		}
+
+		if(!flag){
+			logInfoService.saveLog(sheet.getSheetName()+"页,元数据["+msg.toString()+"]未配置，导入失败...","导入报文头");
+			return null;
+		}
+		resMap.put("input",input);
+		resMap.put("output",output);
+
+		return resMap;
+	}
+
+
 	private Map<String, Object> getInputArg(Sheet sheet) {
+		boolean flag = true;
+		StringBuffer msg = new StringBuffer();
 		List<Ida> idas = new ArrayList<Ida>();
 		List<SDA> sdas = new ArrayList<SDA>();
 		ExcelTool tools = ExcelTool.getInstance();
@@ -208,13 +431,24 @@ public class ExcelImportController {
 				ida.setRequired(isNull(cell));
 			}
 
+			cellObj = sheetRow.getCell(5);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				String remark = isNull(cell);
+				ida.setRemark(remark);
+			}
+
 			cellObj = sheetRow.getCell(7);
 			if (cellObj != null) {
 				String cell = tools.getCellContent(cellObj);
-				ida.setMetadataId(isNull(cell));
 
-				sda.setStructName(isNull(cell));
+				if(!"start".equalsIgnoreCase(ida.getRemark())) {
+					ida.setMetadataId(isNull(cell));
+
+				}
 				sda.setMetadataId(isNull(cell));
+				sda.setStructName(isNull(cell));
+
 			}
 			ida.setSeq(order);
 
@@ -244,11 +478,19 @@ public class ExcelImportController {
 			if (cellObj != null) {
 				String cell = tools.getCellContent(cellObj);
 				String remark = isNull(cell);
-				if("".equalsIgnoreCase("start")){
-
+				if("start".equalsIgnoreCase(remark)) {
+					sda.setMetadataId("");
 				}
-
 				sda.setRemark(remark);
+			}
+
+			if(ida.getMetadataId()!=null&&!"".equals(ida.getMetadataId()) && !"start".equalsIgnoreCase(sda.getRemark()) && !"end".equalsIgnoreCase(sda.getRemark())){
+				Metadata metadata = metadataService.findUniqueBy("metadataId", sda.getMetadataId());
+				if(metadata==null){
+					logger.error(sheet.getSheetName()+"页,元数据["+ida.getMetadataId()+"]未配置，导入失败...");
+					msg.append(ida.getMetadataId()).append(",");
+					flag = false;
+				}
 			}
 			sda.setSeq(order);
 
@@ -258,6 +500,10 @@ public class ExcelImportController {
 
 		}
 
+		if(!flag){
+			logInfoService.saveLog(sheet.getSheetName()+"页,元数据["+msg.toString()+"]未配置，导入失败...","导入(输入)");
+			return null;
+		}
 		Map<String, Object> resMap = new HashMap<String, Object>();
 
 		resMap.put("idas", idas);
@@ -267,6 +513,8 @@ public class ExcelImportController {
 	}
 
 	private Map<String, Object> getOutputArg(Sheet sheet) {
+		boolean flag = true;
+		StringBuffer msg = new StringBuffer();
 		List<Ida> idas = new ArrayList<Ida>();
 		List<SDA> sdas = new ArrayList<SDA>();
 		ExcelTool tools = ExcelTool.getInstance();
@@ -309,11 +557,20 @@ public class ExcelImportController {
 				String cell = tools.getCellContent(cellObj);
 				ida.setRequired(isNull(cell));
 			}
+			cellObj = sheetRow.getCell(5);
+			if (cellObj != null) {
+				String cell = tools.getCellContent(cellObj);
+				String remark = isNull(cell);
+				ida.setRemark(remark);
+			}
 
 			cellObj = sheetRow.getCell(7);
 			if (cellObj != null) {
 				String cell = tools.getCellContent(cellObj);
-				ida.setMetadataId(isNull(cell));
+				if(!"start".equalsIgnoreCase(ida.getRemark())) {
+					ida.setMetadataId(isNull(cell));
+
+				}
 				sda.setStructName(isNull(cell));
 				sda.setMetadataId(isNull(cell));
 			}
@@ -344,14 +601,34 @@ public class ExcelImportController {
 			cellObj = sheetRow.getCell(13);
 			if (cellObj != null) {
 				String cell = tools.getCellContent(cellObj);
-				sda.setRemark(isNull(cell));
+				String remark = isNull(cell);
+				if("start".equalsIgnoreCase(cell)) {
+					sda.setMetadataId("");
+				}
+				sda.setRemark(remark);
 			}
+
+			if(ida.getMetadataId()!=null&&!"".equals(ida.getMetadataId()) && !"start".equalsIgnoreCase(sda.getRemark()) && !"end".equalsIgnoreCase(sda.getRemark())){
+				Metadata metadata = metadataService.findUniqueBy("metadataId", sda.getMetadataId());
+				if(metadata==null){
+					logger.error(sheet.getSheetName()+"页,元数据["+ida.getMetadataId()+"]未配置，导入失败...");
+					msg.append(ida.getMetadataId()).append(",");
+					flag = false;
+				}
+			}
+//e
+
 			sda.setSeq(order);
 
 			idas.add(ida);
 			sdas.add(sda);
 			order++;
 
+		}
+
+		if(!flag){
+			logInfoService.saveLog(sheet.getSheetName()+"页,元数据["+msg.toString()+"]未配置，导入失败...","导入(输出)");
+			return null;
 		}
 
 		Map<String, Object> resMap = new HashMap<String, Object>();
@@ -367,6 +644,7 @@ public class ExcelImportController {
 	 * @return
 	 */
 	private Map<String, Object> getInterfaceAndServiceInfo(Sheet tranSheet) {
+		boolean flag = true;
 		// 读取每个sheet页交易信息与服务信息
 		int start = tranSheet.getFirstRowNum();
 		int end = tranSheet.getLastRowNum();
@@ -398,6 +676,9 @@ public class ExcelImportController {
 						if (tranCode == null || "".equals(tranCode)) {
 							logger.error(tranSheet.getSheetName()
 									+ "sheet页，交易码为空");
+							logInfoService.saveLog(tranSheet.getSheetName()
+									+ "sheet页，交易码为空","导入");
+							flag = false;
 						}
 						inter.setEcode(tranCode);
 					} else if ("服务名称".equals(cell)) {
@@ -406,19 +687,33 @@ public class ExcelImportController {
 						if (serviceName == null || "".equals(serviceName)) {
 							logger.error(tranSheet.getSheetName()
 									+ "sheet页，服务名称为空");
+							logInfoService.saveLog(tranSheet.getSheetName()
+									+ "sheet页，服务名称为空","导入");
+							flag = false;
 						}
 
-						String[] req = getContext(serviceName);
-						serviceName = req[0];
-						serviceId = req[1];
-						service.setServiceName(serviceName);
-						service.setServiceId(serviceId);
+						try{
+							String[] req = getContext(serviceName);
+							serviceName = req[0];
+							serviceId = req[1];
+							service.setServiceName(serviceName);
+							service.setServiceId(serviceId);
+						}catch (Exception e){
+							logger.error("服务名称格式不正确，格式应为为：服务名称(服务ID)");
+							logInfoService.saveLog(tranSheet.getSheetName()
+									+ "sheet页，服务名称格式不正确，格式应为为：服务名称(服务ID)","导入");
+							flag = false;
+						}
+
 						break;
 					} else if ("交易名称".equals(cell)) {
 						tranName = sheetRow.getCell(k + 1).getStringCellValue();
 						if (tranName == null || "".equals(tranName)) {
 							logger.error(tranSheet.getSheetName()
 									+ "sheet页，交易名称为空");
+							logInfoService.saveLog(tranSheet.getSheetName()
+									+ "sheet页，交易名称为空","导入");
+							flag = false;
 						}
 						inter.setInterfaceName(tranName);
 					} else if ("服务操作名称".equals(cell)) {
@@ -426,12 +721,23 @@ public class ExcelImportController {
 						if (operName == null || "".equals(operName)) {
 							logger.error(tranSheet.getSheetName()
 									+ "sheet页，服务操作名称为空");
+							logInfoService.saveLog(tranSheet.getSheetName()
+									+ "sheet页，服务操作名称为空","导入");
+							flag = false;
 						}
-						String[] req = getContext(operName);
-						operId = req[0];
-						operName = req[1];
-						oper.setOperationId(operId);
-						oper.setOperationName(operName);
+
+						try{
+							String[] req = getContext(operName);
+							operName = req[0];
+							operId = req[1];
+							oper.setOperationId(operId);
+							oper.setOperationName(operName);
+						}catch (Exception e){
+							logger.error("服务操作名称格式不正确，格式应为为：服务操作名称(操作ID)");
+							logInfoService.saveLog(tranSheet.getSheetName()
+									+ "sheet页，服务操作名称格式不正确，格式应为为：服务操作名称(操作ID)","导入");
+							flag = false;
+						}
 						break;
 					} else if ("服务描述".equals(cell)) {
 						serviceDesc = sheetRow.getCell(k + 1)
@@ -439,6 +745,9 @@ public class ExcelImportController {
 						if (serviceDesc == null || "".equals(serviceDesc)) {
 							logger.error(tranSheet.getSheetName()
 									+ "sheet页，服务描述为空");
+							logInfoService.saveLog(tranSheet.getSheetName()
+									+ "sheet页，服务描述为空","导入");
+							flag = false;
 						}
 						service.setDesc(serviceDesc);
 						break;
@@ -447,6 +756,9 @@ public class ExcelImportController {
 						if (operDesc == null || "".equals(operDesc)) {
 							logger.error(tranSheet.getSheetName()
 									+ "sheet页，服务操作描述为空");
+							logInfoService.saveLog(tranSheet.getSheetName()
+									+ "sheet页，服务操作描述为空","导入");
+							flag = false;
 						}
 						oper.setOperationDesc(operDesc);
 						break;
@@ -461,6 +773,10 @@ public class ExcelImportController {
 			}
 		}
 
+		//信息不正确返回空
+		if(!flag){
+			return null;
+		}
 		Map<String, Object> resMap = new HashMap<String, Object>();
 
 		resMap.put("interface", inter);

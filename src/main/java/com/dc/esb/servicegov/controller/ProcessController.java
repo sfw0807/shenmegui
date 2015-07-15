@@ -4,10 +4,7 @@ import com.dc.esb.servicegov.process.impl.JbpmSupport;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.drools.runtime.StatefulKnowledgeSession;
-import org.jbpm.task.AccessType;
-import org.jbpm.task.I18NText;
-import org.jbpm.task.Task;
-import org.jbpm.task.TaskService;
+import org.jbpm.task.*;
 import org.jbpm.task.query.TaskSummary;
 import org.jbpm.task.service.ContentData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,6 +104,9 @@ public class ProcessController {
         log.info(user + " complete work on task " + taskId);
         TaskService taskService = jbpmSupport.getTaskService();
         Task task = taskService.getTask(taskId);
+        if(task.getTaskData().getStatus().name().equals("InProgress")){
+            return true;
+        }
         taskService.start(taskId, user);
         return true;
     }
@@ -122,6 +122,14 @@ public class ProcessController {
     @RequestMapping(value = "/metadataAuditByTask/process/{processId}/task/{taskId}", method = RequestMethod.GET)
     public ModelAndView auditMetadataTask(@PathVariable("processId") Long processId, @PathVariable("taskId") String taskId) {
         ModelAndView modelAndView = new ModelAndView("metadata/task/metadataAuditByTask");
+        modelAndView.addObject(processId);
+        modelAndView.addObject(taskId);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/{jspPath}/{auditTask}/process/{processId}/task/{taskId}", method = RequestMethod.GET)
+    public ModelAndView auditTask(@PathVariable("jspPath") String jspPath,@PathVariable("auditTask") String auditTaskName,@PathVariable("processId") Long processId, @PathVariable("taskId") String taskId) {
+        ModelAndView modelAndView = new ModelAndView("taskAudit/"+jspPath+"/"+auditTaskName);
         modelAndView.addObject(processId);
         modelAndView.addObject(taskId);
         return modelAndView;

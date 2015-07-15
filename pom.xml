@@ -373,15 +373,10 @@
 			<artifactId>jbpm-human-task</artifactId>
 			<version>${jbpm.stable.version}</version>
 			<exclusions>
-
 				<exclusion>
-
 					<artifactId>el-api</artifactId>
-
 					<groupId>javax.el</groupId>
-
 				</exclusion>
-
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -389,27 +384,12 @@
 			<artifactId>jbpm-bam</artifactId>
 			<version>${jbpm.stable.version}</version>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>org.jbpm</groupId>-->
-			<!--<artifactId>jbpm-test</artifactId>-->
-			<!--<version>6.0.0.Final</version>-->
-		<!--</dependency>-->
-       <!-- <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http</artifactId>
-            <version>${cxf.version}</version>
-        </dependency>
-        Jetty is needed if you're are not using the CXFServlet
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http-jetty</artifactId>
-            <version>${cxf.version}</version>
-        </dependency> -->
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.2.3</version>
+			<classifier>jdk15</classifier>
+		</dependency>
 
     </dependencies>
 

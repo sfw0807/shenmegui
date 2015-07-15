@@ -46,4 +46,8 @@ public class SDAHisServiceImpl extends AbstractBaseService<SDAHis, String> imple
 	public HibernateDAO<SDAHis, String> getDAO() {
 		return null;
 	}
+	@Override
+	public void save(SDAHis entity){
+		daoImpl.save(entity);
+	}
 }

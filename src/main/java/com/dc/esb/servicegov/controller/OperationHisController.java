@@ -45,4 +45,15 @@ public class OperationHisController {
 		return operationHisServiceImpl.getByAutoId(autoId);
 	}
 	
+	@RequestMapping("/operationHisList")
+	@ResponseBody
+	public Map<String, Object> operationHisList() {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<?> rows = operationHisServiceImpl.operationHisList();
+
+		result.put("total", rows.size());
+		result.put("rows", rows);
+		return result;
+	}
 }

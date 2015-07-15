@@ -28,4 +28,8 @@ public class OLAHisServiceImpl extends AbstractBaseService<OLAHis,String> implem
     public HibernateDAO<OLAHis, String> getDAO() {
         return daoImpl;
     }
+    @Override
+    public void save(OLAHis entity){
+    	daoImpl.save(entity);
+    }
 }

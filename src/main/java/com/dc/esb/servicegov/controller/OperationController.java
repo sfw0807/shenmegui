@@ -1,5 +1,27 @@
 package com.dc.esb.servicegov.controller;
 
+import static com.dc.esb.servicegov.service.support.Constants.STATE_PASS;
+import static com.dc.esb.servicegov.service.support.Constants.STATE_UNPASS;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.dc.esb.servicegov.entity.Operation;
 import com.dc.esb.servicegov.entity.Service;
 import com.dc.esb.servicegov.entity.ServiceInvoke;
@@ -7,19 +29,8 @@ import com.dc.esb.servicegov.service.impl.OperationServiceImpl;
 import com.dc.esb.servicegov.service.impl.ServiceInvokeServiceImpl;
 import com.dc.esb.servicegov.service.impl.ServiceServiceImpl;
 import com.dc.esb.servicegov.service.impl.SystemServiceImpl;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.dc.esb.servicegov.service.support.Constants.STATE_PASS;
-import static com.dc.esb.servicegov.service.support.Constants.STATE_UNPASS;
+import com.dc.esb.servicegov.service.support.Constants;
+import com.dc.esb.servicegov.util.JSONUtil;
 
 @Controller
 @RequestMapping("/operation")
@@ -97,6 +108,10 @@ public class OperationController {
         Service service = serviceService.getUniqueByServiceId(serviceId);
         if (service != null) {
             mv.addObject("service", service);
+            List<com.dc.esb.servicegov.entity.System> systemList =  systemService.getAll();
+            JsonConfig jc = JSONUtil.genderJsonConfig(com.dc.esb.servicegov.entity.System.simpleFields());
+            JSONArray ja = JSONArray.fromObject(systemList, jc);
+			mv.addObject("systemList", ja);
         }
         return mv;
     }
@@ -121,12 +136,12 @@ public class OperationController {
     public
     @ResponseBody
     boolean add(Operation Operation) {
-        operationServiceImpl.save(Operation);
+        operationServiceImpl.addOperation(Operation);
         return true;
     }
 
     /**
-     * TODO 这是什么鬼
+     * TODO 场景基本信息保存后，保存相关的接口映射关系。
      *
      * @param req
      * @param serviceId
@@ -177,19 +192,30 @@ public class OperationController {
                 mv.addObject("service", service);
             }
             List<com.dc.esb.servicegov.entity.System> systems = systemService.getAll();
-            mv.addObject("systemList", systems);
+            JsonConfig jc = JSONUtil.genderJsonConfig(com.dc.esb.servicegov.entity.System.simpleFields());
+            JSONArray ja = JSONArray.fromObject(systems, jc);
+            
+            mv.addObject("systemList", ja);
+            
             Map<String, String> params = new HashMap<String, String>();
             params.put("serviceId", serviceId);
             params.put("operationId", operationId);
             /**
              * TODO use Constants
              */
-            params.put("type", "0");
+            params.put("type", Constants.INVOKE_TYPE_CONSUMER);
             List<ServiceInvoke> consumerInvokes = serviceInvokeService.findBy(params);
-            mv.addObject("consumerList", consumerInvokes);
-            params.put("type", "1");
+            
+            JsonConfig serviceInvokeJC = JSONUtil.genderJsonConfig(ServiceInvoke.simpleFields());
+            
+            JSONArray ja1 = JSONArray.fromObject(consumerInvokes, serviceInvokeJC);
+            mv.addObject("consumerList", ja1);
+            
+            params.put("type", Constants.INVOKE_TYPE_PROVIDER);
             List<ServiceInvoke> providerInvokes = serviceInvokeService.findBy(params);
-            mv.addObject("providerList", providerInvokes);
+
+            JSONArray ja2 = JSONArray.fromObject(providerInvokes, serviceInvokeJC);
+            mv.addObject("providerList", ja2);
         }
         return mv;
     }
@@ -232,7 +258,7 @@ public class OperationController {
 	public ModelAndView auditPage(HttpServletRequest req, String serviceId) {
         ModelAndView mv = new ModelAndView("service/operation/audit");
         //根据serviceId查询service信息
-        com.dc.esb.servicegov.entity.Service service = serviceService.getUniqueByServiceId(serviceId);
+        Service service = serviceService.getUniqueByServiceId(serviceId);
         if(service != null){
             mv.addObject("service", service);
         }
@@ -252,10 +278,11 @@ public class OperationController {
 	}
 
 	// 根据系统id查询该系统过是有接口
-	@RequestMapping("/judgeInterface")
+	@RequestMapping(method = RequestMethod.GET, value = "/judgeInterface", headers = "Accept=application/json")
 	@ResponseBody
 	public boolean judgeInterface(String systemId) {
-		return systemService.containsInterface(systemId);
+		boolean result = systemService.containsInterface(systemId);
+		return result;
 	}
 
 	@RequestMapping("/interfacePage")
@@ -263,7 +290,7 @@ public class OperationController {
         ModelAndView mv = new ModelAndView("service/operation/interfacePage");
         // 根据serviceId获取service信息
         if (StringUtils.isNotEmpty(serviceId)) {
-            com.dc.esb.servicegov.entity.Service service = serviceService.getById(serviceId);
+            Service service = serviceService.getById(serviceId);
             if (service != null) {
                 mv.addObject("service", service);
             }
@@ -291,9 +318,12 @@ public class OperationController {
 	@ResponseBody
 	public Map<String, Object> getInterface(String systemId) {
 		List<ServiceInvoke> rows = serviceInvokeService.findBy("systemId", systemId);
+        JsonConfig jc = JSONUtil.genderJsonConfig(ServiceInvoke.simpleFields());
+        JSONArray ja = JSONArray.fromObject(rows, jc);
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", rows.size());
-		result.put("rows", rows);
+		result.put("rows", ja);
 		return result;
 	}
 
@@ -311,9 +341,13 @@ public class OperationController {
         params.put("serviceId", serviceId);
         params.put("operationId", operationId);
 		List<?> rows = serviceInvokeService.findBy(params);
+		JsonConfig serviceInvokeJC = JSONUtil.genderJsonConfig(ServiceInvoke.simpleFields());
+        JSONArray ja = JSONArray.fromObject(rows, serviceInvokeJC);
+        
+		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", rows.size());
-		result.put("rows", rows);
+		result.put("rows", ja);
 		return result;
 	}
 }

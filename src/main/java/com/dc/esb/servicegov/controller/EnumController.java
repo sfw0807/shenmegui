@@ -11,6 +11,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.dc.esb.servicegov.service.impl.EnumServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +35,7 @@ import com.dc.esb.servicegov.util.DateUtils;
 public class EnumController {
 	
 	@Autowired
-	private EnumService enumService;
+	private EnumServiceImpl enumService;
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/addEnum", headers = "Accept=application/json")
     public
@@ -145,7 +146,31 @@ public class EnumController {
 		}
 		return modelAndView;
 	}
-	
+
+	@RequestMapping(method = RequestMethod.GET, value = "/checkByEnumId/{id}/{isMaster}/{aSwitch}/{processId}", headers = "Accept=application/json")
+	public
+	@ResponseBody
+	ModelAndView checkByEnumId(@PathVariable(value = "id") String id,@PathVariable(value = "isMaster") String isMaster
+			,@PathVariable(value = "aSwitch") String aSwitch,@PathVariable(value = "processId") String processId){
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("processId", processId);
+		params.put("id", id);
+		SGEnum master = enumService.findBy(params).get(0);
+		List<SGEnum> slave = enumService.checkSlaveByEnumId(id, processId);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("master", master);
+		modelAndView.addObject("slave", slave);
+		//公共代码
+		if(aSwitch.equals("1")){
+			modelAndView.setViewName("SGEnum/taskCheck/maintainGGEnum");
+		}else if(isMaster.equals("1")){
+			modelAndView.setViewName("SGEnum/taskCheck/maintainEnum");
+		}else if(isMaster.equals("0")){
+			modelAndView.setViewName("SGEnum/taskCheck/maintainSlaveEnum");
+		}
+		return modelAndView;
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/getElementMapping/{masterId}/{slaveId}", headers = "Accept=application/json")
 	public
 	@ResponseBody
@@ -198,6 +223,14 @@ public class EnumController {
 	@ResponseBody
 	List<SGEnum> getSlaveByMasterId(@PathVariable(value = "id") String id){
 		List<SGEnum> slave = enumService.getSlaveByEnumId(id);
+		return slave;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/checkSlaveByMasterId/{id}/{processId}", headers = "Accept=application/json")
+	public
+	@ResponseBody
+	List<SGEnum> checkSlaveByMasterId(@PathVariable(value = "id") String id,@PathVariable(value = "processId") String processId){
+		List<SGEnum> slave = enumService.checkSlaveByEnumId(id,processId);
 		return slave;
 	}
 	
@@ -291,5 +324,19 @@ public class EnumController {
 		enumService.deleteElementsMapping(mappingList);
 		return true;
 	}
-	
+//	url:"/enum/query/processId/${processId}",
+	@RequestMapping(method = RequestMethod.POST,value = "/query/processId/{processId}")
+	public
+	@ResponseBody
+	Map<String, Object> query(HttpServletRequest request, @PathVariable("processId") String processId) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("processId", processId);
+		params.put("isMaster", "1");
+		List<SGEnum> rows = enumService.findBy(params);
+
+		result.put("total", rows.size());
+		result.put("rows", rows);
+		return result;
+	}
 }

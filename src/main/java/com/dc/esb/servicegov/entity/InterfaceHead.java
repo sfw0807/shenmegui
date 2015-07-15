@@ -46,6 +46,9 @@ public class InterfaceHead {
 	@OneToMany(mappedBy = "interfaceHead",cascade = CascadeType.ALL)
 	private List<InterfaceHeadRelate> headRelates ;
 
+	@OneToMany(mappedBy = "heads",cascade = CascadeType.ALL)
+	private List<Ida> idas;
+
 
 	public String getHeadId() {
 		return headId;
@@ -94,5 +97,13 @@ public class InterfaceHead {
 
 	public void setHeadRelates(List<InterfaceHeadRelate> headRelates) {
 		this.headRelates = headRelates;
+	}
+
+	public List<Ida> getIdas() {
+		return idas;
+	}
+
+	public void setIdas(List<Ida> idas) {
+		this.idas = idas;
 	}
 }

@@ -9,6 +9,7 @@ import com.dc.esb.servicegov.service.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.mvel2.ast.Proto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,6 +47,9 @@ public class InterfaceController {
 	@Autowired
 	private InterfaceHeadRelateService interfaceHeadRelateService;
 
+	@Autowired
+	ProtocolService protocolService;
+
 	@RequestMapping(method = RequestMethod.GET, value = "/getLeftTree", headers = "Accept=application/json")
 	public @ResponseBody
 	List<TreeNode> getLeftTree() {
@@ -71,10 +75,12 @@ public class InterfaceController {
 				for (ServiceInvoke si : serviceIns) {
 
 					TreeNode child = new TreeNode();
-
 					child.setId(si.getInter().getInterfaceId());
-					child.setText(si.getInter().getInterfaceName());
-					childList.add(child);
+					child.setText(si.getInter().getInterfaceName() + "(" + si.getInter().getInterfaceId() + ")");
+					if(!contains(childList,child)){
+						childList.add(child);
+					}
+
 				}
 				Collections.sort(childList, new Comparator<TreeNode>() {
 
@@ -95,6 +101,15 @@ public class InterfaceController {
 		resList.add(root);
 		return resList;
 	}
+
+	private boolean contains(List<TreeNode> childList,TreeNode treeNode){
+		for(TreeNode node:childList){
+			if(node.getId().equals(treeNode.getId())){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/add", headers = "Accept=application/json")
 	public @ResponseBody
@@ -103,6 +118,10 @@ public class InterfaceController {
 		
 		//新增操作
 		boolean add = "add".equals(request.getParameter("type"));
+		if(!add){
+			//修改接口关系表不更新
+			inter.setServiceInvoke(null);
+		}
 		interfaceService.save(inter);
 		if(add){
 			//ServiceInvoke si = inter.getServiceInvoke();
@@ -152,7 +171,6 @@ public class InterfaceController {
 	String interfaceId) {
 
 		Interface inter = interfaceService.getById(interfaceId);
-		String in = inter.getServiceInvoke().getInvokeId();
 			ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("inter", inter);  
         modelAndView.setViewName("interface/interface_edit");  
@@ -208,7 +226,7 @@ public class InterfaceController {
 
 		List<SearchCondition> searchConds = new ArrayList<SearchCondition> ();
 		
-		StringBuffer hql = new StringBuffer("SELECT t1 FROM Interface t1,ServiceInvoke t2 where t1.interfaceId=t2.interfaceId ");
+		StringBuffer hql = new StringBuffer("SELECT distinct t1 FROM Interface t1,ServiceInvoke t2 where t1.interfaceId=t2.interfaceId ");
 		hql.append("and t2.systemId=? " );
 		
 		SearchCondition searchCond = new SearchCondition();
@@ -275,11 +293,22 @@ public class InterfaceController {
 
 			List<InterfaceHeadRelate> heads = i.getHeadRelates();
 			String headName = "";
-			for(InterfaceHeadRelate head:heads){
-				if(!"".equals(headName)){
-					headName += ",";
+			if(heads!=null) {
+				for (InterfaceHeadRelate head : heads) {
+					if (!"".equals(headName)) {
+						headName += ",";
+					}
+					headName += head.getInterfaceHead().getHeadName();
 				}
-				headName += head.getInterfaceHead().getHeadName();
+			}
+			if(i.getServiceInvoke()!=null && i.getServiceInvoke().size()>0) {
+				ServiceInvoke invoke = i.getServiceInvoke().get(0);
+				if (invoke.getProtocolId() != null && !"".equals(invoke.getProtocolId())) {
+					Protocol p = protocolService.getById(invoke.getProtocolId());
+					if (p != null) {
+						i.setProtocolName(p.getProtocolName());
+					}
+				}
 			}
 			i.setHeadName(headName);
 			//避免转化json错误，设置ServiceInvoke=null;
@@ -332,5 +361,16 @@ public class InterfaceController {
 			interfaceHeadRelateService.relateSave(interfaceId,headIds);
 		}
 		return true;
+	}
+
+
+	@RequestMapping(method = RequestMethod.GET, value = "/check/{interfaceId}", headers = "Accept=application/json")
+	public @ResponseBody
+	boolean check(@PathVariable String interfaceId) {
+		Interface inter = interfaceService.findUniqueBy("interfaceId",interfaceId);
+		if(inter!=null) {
+			return true;
+		}
+		return  false;
 	}
 }

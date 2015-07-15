@@ -135,6 +135,14 @@
 					if(!row){
 						alert("请选择要移动的行");
 					}
+					if(row.structName == 'root' || row.structName == 'response' || row.structName == 'request'){
+						return;
+					}
+
+					var ischild = $('#tg').treegrid("getChildren",row.id).length>0;
+					if(ischild){
+						return;
+					}
 					//获取选中行的父节点
 					var parent = $('#tg').treegrid("getParent",row.id);
 					//再获取父节点下的子节点，然后循环，查找出选中行的上一行
@@ -208,6 +216,15 @@
 					if(!row){
 						alert("请选择要移动的行");
 					}
+					if(row.structName == 'root' || row.structName == 'response' || row.structName == 'request'){
+						return;
+					}
+
+					var ischild = $('#tg').treegrid("getChildren",row.id).length>0;
+					if(ischild){
+						return;
+					}
+
 					//获取选中行的父节点
 					var parent = $('#tg').treegrid("getParent",row.id);
 					//再获取父节点下的子节点，然后循环，查找出选中行的上一行
@@ -477,7 +494,7 @@
 					<th data-options="field:'required',width:50,editor:'text'">
 						是否必须
 					</th>
-					<th data-options="field:'seq',width:50">
+					<th data-options="field:'seq',width:50,hidden:true">
 						排序
 					</th>
 

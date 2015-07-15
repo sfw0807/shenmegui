@@ -50,6 +50,10 @@
 			<td><input class="easyui-textbox" type="text" id="_optUser">
 			</td>
 		</tr>
+		<tr>
+			<th>任务id</th>
+			<td><input class="easyui-textbox" type="text" readonly="true" name="processId" id="taskIdInput"></td>
+		</tr>
 		<!-- <tr>
 			<th>操作时间</th>
 			<td><input class="easyui-textbox" type="text" id="_optDate">
@@ -117,6 +121,7 @@
 		anEnum.remark = $('#_remark').val();
 		anEnum.status = $('#_status').combobox('getValue');
 		anEnum.optUser = $('#_optUser').val();
+		anEnum.processId = $('#taskIdInput').textbox('getValue');
 		//anEnum.optDate = $('#_optDate').val();
 		enumManager.addEnum(anEnum,function (result){
 			if(result){
@@ -125,5 +130,7 @@
 			}
 		});
 	});
-	
+	if(processId){
+		$('#taskIdInput').textbox('setValue',processId);
+	}
 </script>

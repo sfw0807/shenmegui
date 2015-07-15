@@ -2,16 +2,18 @@ package com.dc.esb.servicegov.service.impl;
 
 import java.util.*;
 
-import com.dc.esb.servicegov.dao.ServiceDAO;
 import com.dc.esb.servicegov.dao.impl.*;
 import com.dc.esb.servicegov.dao.support.HibernateDAO;
 import com.dc.esb.servicegov.dao.support.SearchCondition;
 import com.dc.esb.servicegov.entity.*;
 import com.dc.esb.servicegov.entity.System;
 import com.dc.esb.servicegov.service.support.AbstractBaseService;
+import com.dc.esb.servicegov.service.support.Constants;
 import com.dc.esb.servicegov.util.AuditUtil;
 import com.dc.esb.servicegov.util.GlobalImport;
 import com.dc.esb.servicegov.util.Utils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ import com.dc.esb.servicegov.service.ExcelImportService;
 @Service
 public class ExcelImportServiceImpl extends AbstractBaseService implements ExcelImportService {
 
-	protected Logger logger = LoggerFactory.getLogger(getClass());
+	protected Log logger = LogFactory.getLog(getClass());
 
 	@Autowired
 	InterfaceDAOImpl interfaceDao;
@@ -47,10 +49,22 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 	@Autowired
 	OperationDAOImpl operationDAO;
 
+	@Autowired
+	InterfaceHeadDAOImpl interfaceHeadDAO;
+
+	@Autowired
+	InterfaceHeadRelateDAOImpl interfaceHeadRelateDAO;
+
+	@Autowired
+	LogInfoDAOImpl logInfoDAO;
+
+	@Autowired
+	private VersionServiceImpl versionService;
+
 	private String initVersion = "1.0.0";
 
 	@Override
-	public boolean executeImport(Map<String, Object> infoMap, Map<String, Object> inputMap, Map<String, Object> outMap,Map<String,String> publicMap) {
+	public boolean executeImport(Map<String, Object> infoMap, Map<String, Object> inputMap, Map<String, Object> outMap,Map<String,String> publicMap,Map<String,Object> headMap) {
 		com.dc.esb.servicegov.entity.Service service = (com.dc.esb.servicegov.entity.Service) infoMap.get("service");
 		Operation operation = (Operation) infoMap.get("operation");
 		Interface inter = (Interface) infoMap.get("interface");
@@ -71,20 +85,32 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 			String providerSystem = publicMap.get("providerSystem");
 			//接口消费方 service_invoke 中 type=1
 			String cusumerSystem = publicMap.get("cusumerSystem");
-
+			//接口方向
+			String interfacepoint = publicMap.get("interfacepoint");
+			String systemId = cusumerSystem;
+			String type ="1";
+			if("Provider".equalsIgnoreCase(interfacepoint)){
+				systemId = providerSystem;
+				type = "0";
+			}
 			//获取调用关系
-			ServiceInvoke provider_invoke = serviceInvokeProviderQuery(service, operation, providerSystem);
+			ServiceInvoke provider_invoke = serviceInvokeProviderQuery(service, operation, systemId,interfacepoint);
 
 			//获取消费关系
 			//ServiceInvoke cusumer_invoke = serviceInvokeCusumerQuery(service, operation, cusumerSystem);
 
 			//导入接口相关信息
 			logger.info("导入接口定义信息...");
-			boolean exists = insertInterface(inter,service, operation,provider_invoke,providerSystem);
+			boolean exists = insertInterface(inter,service, operation,provider_invoke,systemId,type);
 
 			insertIDA(exists,inter,idainput,idaoutput);
 
 			insertSDA(existsOper,operation,service,sdainput,sdaoutput);
+
+			//处理业务报文头
+			if(headMap!=null){
+				insertInterfaceHead(exists,inter,headMap);
+			}
 
 
 		}else {
@@ -95,12 +121,122 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 		return true;
 	}
 
+	public void insertInterfaceHead(boolean exists,Interface inter,Map<String,Object> headMap){
+
+		//如果接口存在，且不覆盖 直接返回
+		if(exists && !GlobalImport.operateFlag){
+			return;
+		}
+
+		String headName = headMap.get("headName").toString();
+		//如果本次导入已导入该报文头，直接建立关系
+		InterfaceHead interfaceHead = GlobalImport.headMap.get(headName);
+		if(interfaceHead!=null){
+			InterfaceHeadRelate relate = new InterfaceHeadRelate();
+			relate.setHeadId(interfaceHead.getHeadId());
+			relate.setInterfaceId(inter.getInterfaceId());
+			interfaceHeadRelateDAO.save(relate);
+			return;
+		}
+
+		InterfaceHead headDB = interfaceHeadDAO.findUniqueBy("headName", headName);
+
+		if(headDB!=null){
+			if(GlobalImport.operateFlag) {
+				interfaceHeadDAO.delete(headDB.getHeadId());
+			}else {
+				if(exists) {
+					return;
+				}
+				//接口不存在，建立关系
+				InterfaceHeadRelate relate = new InterfaceHeadRelate();
+				relate.setHeadId(headDB.getHeadId());
+				relate.setInterfaceId(inter.getInterfaceId());
+				interfaceHeadRelateDAO.save(relate);
+				return;
+
+			}
+		}
+
+		InterfaceHead head = new InterfaceHead();
+		head.setHeadName(headName);
+		head.setHeadDesc(headName);
+		interfaceHeadDAO.save(head);
+
+		InterfaceHeadRelate relate = new InterfaceHeadRelate();
+		relate.setHeadId(head.getHeadId());
+		relate.setInterfaceId(inter.getInterfaceId());
+		interfaceHeadRelateDAO.save(relate);
+		String idaheadId = head.getHeadId();
+
+
+		//添加IDA
+		Ida ida = new Ida();
+		String rootId="",requestId = "",responseId="";
+		ida.setHeadId(idaheadId);
+		ida.set_parentId(null);
+		ida.setStructName("root");
+		ida.setStructAlias("根节点");
+		idaDao.save(ida);
+		rootId = ida.getId();
+
+		ida = new Ida();
+		ida.setHeadId(idaheadId);
+		ida.set_parentId(rootId);
+		ida.setStructName("request");
+		ida.setStructAlias("请求头");
+		ida.setSeq(0);
+		idaDao.save(ida);
+		requestId = ida.getId();
+
+		ida = new Ida();
+		ida.setHeadId(idaheadId);
+		ida.set_parentId(rootId);
+		ida.setSeq(1);
+		ida.setStructName("response");
+		ida.setStructAlias("响应头");
+		idaDao.save(ida);
+		responseId = ida.getId();
+
+		List<Ida> input = (List<Ida>)headMap.get("input");
+		List<Ida> output =(List<Ida>) headMap.get("output");
+		for(int i=0;i<input.size();i++) {
+			ida = input.get(i);
+			ida.set_parentId(requestId);
+			ida.setHeadId(idaheadId);
+			//ida.setArgType("headinput");
+			idaDao.save(ida);
+		}
+
+		for(int i=0;i<output.size();i++) {
+			ida = output.get(i);
+			ida.set_parentId(responseId);
+			ida.setHeadId(idaheadId);
+			//ida.setArgType("headoutput");
+			idaDao.save(ida);
+		}
+		//将本次导入的报文头缓存到map,导入有可能是同一个报文头
+		GlobalImport.headMap.put(headName,head);
+	}
+
 	private void insertIDA(boolean exists,Interface inter, List<Ida> idainput, List<Ida> idaoutput) {
 		//添加报文，自动生成固定报文头<root><request><response>
 		//root
 		Ida ida = new Ida();
 		String rootId="",requestId = "",responseId="";
-		if(!exists) {
+		//覆盖
+		if(GlobalImport.operateFlag){
+			//先删除
+			String hql = "delete from Ida where interfaceId=?";
+			sdaDAO.exeHql(hql,inter.getInterfaceId());
+		}else{
+			//不覆盖，直接return
+			if(exists){
+				return;
+			}
+		}
+
+		if(!exists || ( exists && GlobalImport.operateFlag)) {
 			ida.setInterfaceId(inter.getInterfaceId());
 			ida.set_parentId(null);
 			ida.setStructName("root");
@@ -127,47 +263,80 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 			responseId = ida.getId();
 		}
 
+		String parentId = null;
 		for(int i=0;i<idainput.size();i++){
 			ida = idainput.get(i);
+			//判断ida是否存在
+//			Map<String,String> paramMap = new HashMap<String, String>();
+//			paramMap.put("interfaceId",inter.getInterfaceId());
+//			paramMap.put("structName",ida.getStructName());
+//			if(ida.getMetadataId()!=null && !"".equals(ida.getMetadataId())) {
+//				paramMap.put("metadataId", ida.getMetadataId());
+//			}
+//			paramMap.put("argType","input");//输入参数
+//			Ida idadb = idaDao.findUniqureBy(paramMap);
+//			if(idadb!=null){
+//				ida.setId(idadb.getId());
+//				ida.set_parentId(idadb.get_parentId());
+//				continue;
+//			}
 			ida.setInterfaceId(inter.getInterfaceId());
 			ida.set_parentId(requestId);
-			//判断ida是否存在
-			Map<String,String> paramMap = new HashMap<String, String>();
-			paramMap.put("interfaceId",inter.getInterfaceId());
-			paramMap.put("structName",ida.getStructName());
-			paramMap.put("metadataId",ida.getMetadataId());
-			Ida idadb = idaDao.findUniqureBy(paramMap);
-			if(idadb!=null){
-				ida.setId(idadb.getId());
-				ida.set_parentId(idadb.get_parentId());
-//				idaDao.getSession().merge(ida);
-				continue;
+			if(parentId!=null){
+				ida.set_parentId(parentId);
 			}
 
+			//包含bug，当节点end后，下一节点 不在request 或 response下 就会出现问题，
+			if("end".equalsIgnoreCase(ida.getRemark()) || "不映射".equalsIgnoreCase(ida.getRemark()) || ida.getStructName() == null || "".equals(ida.getStructName())){
+				if("end".equalsIgnoreCase(ida.getRemark())){
+					parentId = null;
+				}
+				continue;
+			}
+			//ida.setArgType("input");
 			idaDao.save(ida);
+			//包含子节点
+			if("start".equalsIgnoreCase(ida.getRemark())){
+				parentId = ida.getId();
+			}
 		}
 
+		parentId = null;
 		for(int i=0;i<idaoutput.size();i++){
 			ida = idaoutput.get(i);
+			//判断ida是否存在
+//			Map<String,String> paramMap = new HashMap<String, String>();
+//			paramMap.put("interfaceId",inter.getInterfaceId());
+//			paramMap.put("structName",ida.getStructName());
+//			if(ida.getMetadataId()!=null && !"".equals(ida.getMetadataId())) {
+//				paramMap.put("metadataId", ida.getMetadataId());
+//			}
+//			paramMap.put("argType","output");
+//			Ida idadb = idaDao.findUniqureBy(paramMap);
+//			if(idadb!=null){
+//				ida.setId(idadb.getId());
+//				ida.set_parentId(idadb.get_parentId());
+//				continue;
+//
+//			}
 			ida.setInterfaceId(inter.getInterfaceId());
 			ida.set_parentId(responseId);
-
-			//判断ida是否存在
-			Map<String,String> paramMap = new HashMap<String, String>();
-			paramMap.put("interfaceId",inter.getInterfaceId());
-			paramMap.put("structName",ida.getStructName());
-			paramMap.put("metadataId",ida.getMetadataId());
-			Ida idadb = idaDao.findUniqureBy(paramMap);
-			if(idadb!=null){
-				ida.setId(idadb.getId());
-				ida.set_parentId(idadb.get_parentId());
-//				//将session中相同的Object合并一下
-				//idaDao.getSession().merge(ida);
-				continue;
-
+			if(parentId!=null){
+				ida.set_parentId(parentId);
 			}
 
+			if("end".equalsIgnoreCase(ida.getRemark())|| "不映射".equalsIgnoreCase(ida.getRemark()) || ida.getStructName() == null || "".equals(ida.getStructName())){
+				if("end".equalsIgnoreCase(ida.getRemark())){
+					parentId = null;
+				}
+				continue;
+			}
+			//ida.setArgType("output");
 			idaDao.save(ida);
+			//包含子节点
+			if("start".equalsIgnoreCase(ida.getRemark())){
+				parentId = ida.getId();
+			}
 		}
 
 	}
@@ -175,7 +344,18 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 	private void insertSDA(boolean existsOper,Operation operation,com.dc.esb.servicegov.entity.Service service, List<SDA> sdainput, List<SDA> sdaoutput) {
 		SDA sda = new SDA();
 		String rootId="",requestId = "",responseId="";
-		if(!existsOper){
+
+		//覆盖
+		if(GlobalImport.operateFlag){
+			//先删除
+			String hql = "delete from SDA where operationId=? and serviceId=?";
+			sdaDAO.exeHql(hql,operation.getOperationId(),service.getServiceId());
+		}else{
+			if(existsOper){
+				return;
+			}
+		}
+		if(!existsOper || ( existsOper && GlobalImport.operateFlag)){
 			sda.setSdaId(UUID.randomUUID().toString());
 			sda.setOperationId(operation.getOperationId());
 			sda.setParentId(null);
@@ -203,63 +383,97 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 			sda.setSeq(1);
 			sda.setStructName("response");
 			sda.setStructAlias("响应头");
+			sda.setServiceId(service.getServiceId());
 			sdaDAO.save(sda);
 			responseId = sda.getSdaId();
 		}
 
 
-
+		String parentId = null;
 		for(int i=0;i<sdainput.size();i++){
 			sda = sdainput.get(i);
+
+			//判断ida是否存在
+//			Map<String,String> paramMap = new HashMap<String, String>();
+//			paramMap.put("operationId",operation.getOperationId());
+//			paramMap.put("structName",sda.getStructName());
+//			if(sda.getMetadataId()!=null && !"".equals(sda.getMetadataId())) {
+//				paramMap.put("metadataId", sda.getMetadataId());
+//			}
+//			paramMap.put("serviceId",service.getServiceId());
+//			paramMap.put("argType","input");
+//			SDA sdadb = sdaDAO.findUniqureBy(paramMap);
+//			if(sdadb!=null){
+//				sda.setSdaId(sdadb.getSdaId());
+//				sda.setParentId(sdadb.getParentId());
+//				continue;
+//			}
 			sda.setSdaId(UUID.randomUUID().toString());
 			sda.setOperationId(operation.getOperationId());
 			sda.setParentId(requestId);
 			sda.setServiceId(service.getServiceId());
 
-			//判断ida是否存在
-			Map<String,String> paramMap = new HashMap<String, String>();
-			paramMap.put("operationId",sda.getOperationId());
-			paramMap.put("structName",sda.getStructName());
-			paramMap.put("metadataId",sda.getMetadataId());
-			paramMap.put("serviceId",sda.getServiceId());
-			SDA sdadb = sdaDAO.findUniqureBy(paramMap);
-			if(sdadb!=null){
-				sda.setSdaId(sdadb.getSdaId());
-				sda.setParentId(sdadb.getParentId());
-//				sdaDAO.getSession().merge(sda);
+
+			if(parentId!=null){
+				sda.setParentId(parentId);
+			}
+			if("end".equalsIgnoreCase(sda.getRemark())|| "不映射".equalsIgnoreCase(sda.getRemark())|| sda.getStructName()==null || "".equals(sda.getStructName())){
+				if("end".equalsIgnoreCase(sda.getRemark())){
+					parentId = null;
+				}
 				continue;
 			}
-
+			//sda.setArgType("input");
 			sdaDAO.save(sda);
+			//包含子节点
+			if("start".equalsIgnoreCase(sda.getRemark())){
+				parentId = sda.getSdaId();
+			}
 		}
 
+		parentId = null;
 		for(int i=0;i<sdaoutput.size();i++){
 			sda = sdaoutput.get(i);
+			//判断ida是否存在
+//			Map<String,String> paramMap = new HashMap<String, String>();
+//			paramMap.put("operationId",operation.getOperationId());
+//			paramMap.put("structName",sda.getStructName());
+//			if(sda.getMetadataId()!=null && !"".equals(sda.getMetadataId())) {
+//				paramMap.put("metadataId", sda.getMetadataId());
+//			}
+//			paramMap.put("serviceId",service.getServiceId());
+//			paramMap.put("argType","output");
+//			SDA sdadb = sdaDAO.findUniqureBy(paramMap);
+//			if(sdadb!=null){
+//				sda.setSdaId(sdadb.getSdaId());
+//				sda.setParentId(sdadb.getParentId());
+//				continue;
+//			}
 			sda.setSdaId(UUID.randomUUID().toString());
 			sda.setOperationId(operation.getOperationId());
 			sda.setParentId(responseId);
 			sda.setServiceId(service.getServiceId());
 
-			//判断ida是否存在
-			Map<String,String> paramMap = new HashMap<String, String>();
-			paramMap.put("operationId",sda.getOperationId());
-			paramMap.put("structName",sda.getStructName());
-			paramMap.put("metadataId",sda.getMetadataId());
-			paramMap.put("serviceId",sda.getServiceId());
-			SDA sdadb = sdaDAO.findUniqureBy(paramMap);
-			if(sdadb!=null){
-				sda.setSdaId(sdadb.getSdaId());
-				sda.setParentId(sdadb.getParentId());
-//				sdaDAO.getSession().merge(sda);
+			if(parentId!=null){
+				sda.setParentId(parentId);
+			}
+			if("end".equalsIgnoreCase(sda.getRemark()) || "不映射".equalsIgnoreCase(sda.getRemark()) || sda.getStructName()==null || "".equals(sda.getStructName())){
+				if("end".equalsIgnoreCase(sda.getRemark())){
+					parentId = null;
+				}
 				continue;
 			}
-
+			//sda.setArgType("output");
 			sdaDAO.save(sda);
+			//包含子节点
+			if("start".equalsIgnoreCase(sda.getRemark())){
+				parentId = sda.getSdaId();
+			}
 		}
 	}
 
 
-	private boolean insertInterface(Interface inter, com.dc.esb.servicegov.entity.Service service, Operation operation, ServiceInvoke provider_invoke,String providerSystem) {
+	private boolean insertInterface(Interface inter, com.dc.esb.servicegov.entity.Service service, Operation operation, ServiceInvoke provider_invoke,String providerSystem,String type) {
 		Map<String,String> paramMap = new HashMap<String, String>();
 		boolean exists = false;
 		//已存在提供系统关系
@@ -305,10 +519,12 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 			//建立调用关系
 			interfaceDao.save(inter);
 			provider_invoke = new ServiceInvoke();
-			provider_invoke.setSystemId(providerSystem);
+			paramMap.put("systemAb", providerSystem);
+			System system = systemDao.findUniqureBy(paramMap);
+			provider_invoke.setSystemId(system.getSystemId());
 			provider_invoke.setServiceId(service.getServiceId());
 			provider_invoke.setOperationId(operation.getOperationId());
-			provider_invoke.setType("0");
+			provider_invoke.setType(type);
 			//添加协议==================
 			// provider_invoke.setProtocolId("");
 			provider_invoke.setInterfaceId(inter.getInterfaceId());
@@ -316,64 +532,22 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 		}
 
 		return exists;
-		/*if(cusumer_invoke!=null){
-			String interfaceId = cusumer_invoke.getInterfaceId();
-			if(interfaceId!=null && !"".equals(interfaceId)) {
-				Interface interfaceDB = interfaceDao.getEntity(interfaceId);
-				//覆盖
-				if(GlobalImport.operateFlag){
-					interfaceDB.setInterfaceName(inter.getInterfaceName());
-					interfaceDB.setEcode(inter.getEcode());
-					String version = interfaceDB.getVersion();
-					if(version==null ||"".equals(version)){
-						version = initVersion;
-					}else {
-						//interfaceDB.setVersion(Utils.modifyversionno(version));
-					}
-					interfaceDB.setVersion(version);
-				}else {
-
-					String version = interfaceDB.getVersion();
-					if(version==null ||"".equals(version)){
-						version = initVersion;
-					}
-					interfaceDB.setVersion(version);
-
-				}
-				interfaceDao.save(interfaceDB);
-			}else{
-				inter.setVersion(initVersion);
-				interfaceDao.save(inter);
-				provider_invoke.setInterfaceId(inter.getInterfaceId());
-
-				serviceInvokeDAO.save(provider_invoke);
-			}
-		}else{
-			inter.setVersion(initVersion);
-			//建立消费关系
-			interfaceDao.save(inter);
-			cusumer_invoke = new ServiceInvoke();
-			cusumer_invoke.setSystemId(cusumerSystem);
-			cusumer_invoke.setServiceId(service.getServiceId());
-			cusumer_invoke.setType("1");
-			cusumer_invoke.setOperationId(operation.getOperationId());
-			//添加协议==================
-			// provider_invoke.setProtocolId("");
-			cusumer_invoke.setInterfaceId(inter.getInterfaceId());
-			serviceInvokeDAO.save(cusumer_invoke);
-		}*/
 	}
 
 
 
 	//提供系统调用关系
-	private ServiceInvoke serviceInvokeProviderQuery(com.dc.esb.servicegov.entity.Service service,Operation operation,String providerSystem){
+	private ServiceInvoke serviceInvokeProviderQuery(com.dc.esb.servicegov.entity.Service service,Operation operation,String systemId,String interfacepoint){
 		Map<String,String> paramMap = new HashMap<String, String>();
 		//查询提供系统 关系
 		paramMap.put("serviceId",service.getServiceId());
 		paramMap.put("operationId",operation.getOperationId());
-		paramMap.put("systemId",providerSystem);
-		paramMap.put("type","0");
+		paramMap.put("systemId",systemId);
+		String type = "1";
+		if("Provider".equalsIgnoreCase(interfacepoint)){
+			type = "0";
+		}
+		paramMap.put("type",type);
 
 		ServiceInvoke provider_invoke =  serviceInvokeDAO.findUniqureBy(paramMap);
 		return provider_invoke;
@@ -392,12 +566,6 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 		return provider_invoke;
 	}
 
-	/**
-	 * TODO 修改版本
-	 * @param service
-	 * @param operation
-	 * @return
-	 */
 	private boolean insertOperation(com.dc.esb.servicegov.entity.Service service, Operation operation) {
 
 		boolean exists = false;
@@ -410,6 +578,9 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 			if(GlobalImport.operateFlag){
 				operationDB.setOperationName(operation.getOperationName());
 				operationDB.setOperationDesc(operation.getOperationDesc());
+				/**
+				 * TODO 版本等李旺完成后进行
+				 */
 //				String version = operationDB.getVersion();
 //				if(version==null ||"".equals(version)){
 //					version = initVersion;
@@ -423,9 +594,9 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 			}
 			exists = true;
 		}else{
-
+			String versionId = versionService.addVersion(Constants.Version.TARGET_TYPE_OPERATION,operation.getOperationId(),Constants.Version.TYPE_ELSE);
 			operation.setServiceId(service.getServiceId());
-//			operation.setVersion(initVersion);
+			operation.setVersionId(versionId);
 			operation.setState(AuditUtil.submit);
 			operationDAO.save(operation);
 		}
@@ -442,10 +613,25 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 		if (serviceCategory != null) {
 			if (!parentId.equals(serviceCategory.getParentId())) {
 				logger.error("服务小类别不存在");
+				LogInfo logInfo = new LogInfo();
+				logInfo.setDetail("服务小类别不存在");
+				logInfo.setType("导入");
+
+				;
+				logInfo.setTime(Utils.getTime());
+				logInfoDAO.save(logInfo);
+
 				return false;
 			}
 		} else {
 			logger.error("服务类别不存在");
+			LogInfo logInfo = new LogInfo();
+			logInfo.setDetail("服务类别不存在");
+			logInfo.setType("导入");
+
+			;
+			logInfo.setTime(Utils.getTime());
+			logInfoDAO.save(logInfo);
 			return false;
 		}
 
@@ -480,23 +666,18 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
 	}
 
 	@Override
-	public boolean existSystem(String... systemIds) {
-	    if(systemIds.length == 0){
-			return  false;
+	public boolean existSystem(String  systemId) {
+		Map<String,String> paramMap = new HashMap<String, String>();
+		paramMap.put("systemAb", systemId);
+
+	    System system = systemDao.findUniqureBy(paramMap);//systemDao.getEntity(systemId);
+		if(system!=null){
+			return true;
 		}
-		String hql = "SELECT t1 from System t1 where ";
-		List<SearchCondition> searchs = new ArrayList<SearchCondition>();
-		for (String systemId : systemIds) {
-			hql += "t1.systemId = ? or ";
-			SearchCondition search = new SearchCondition();
-			search.setFieldValue(systemId);
-			searchs.add(search);
-		}
-		hql = hql.substring(0,hql.lastIndexOf("or"));
-		List<System> systems = systemDao.findBy(hql, searchs);
-		return systems.size() == systemIds.length;
+		return false;
 
 	}
+
 	@Override
 	public HibernateDAO getDAO() {
 		return null;

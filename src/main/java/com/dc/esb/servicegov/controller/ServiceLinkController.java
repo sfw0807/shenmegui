@@ -7,10 +7,7 @@ import com.dc.esb.servicegov.service.impl.ServiceInvokeServiceImpl;
 import com.dc.esb.servicegov.vo.ServiceInvokeInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.portlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -59,9 +56,24 @@ public class ServiceLinkController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/invokeConnections/sourceId/{sourceId}", headers = "Accept=application/json")
     public @ResponseBody List<InvokeConnection> getInvokeConnetcion(@PathVariable("sourceId") String sourceId){
-        invokeConnectionService.getConnectionsStartWith(sourceId);
-
+        return invokeConnectionService.getConnectionsStartWith(sourceId);
     }
 
-
+    @RequestMapping(method = RequestMethod.POST, value = "/save", headers = "Accept=application/json")
+    public @ResponseBody boolean save(@RequestBody InvokeConnection[] connections) {
+        for(InvokeConnection connection : connections){
+            String sourceId = connection.getSourceId();
+            String targetId = connection.getTargetId();
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("sourceId", sourceId);
+            params.put("targetId", targetId);
+            List<InvokeConnection> existedConnections = invokeConnectionService.findBy(params);
+            if(null == existedConnections){
+                invokeConnectionService.save(connection);
+            }else if(existedConnections.size() == 0){
+                invokeConnectionService.save(connection);
+            }
+        }
+        return true;
+    }
 }

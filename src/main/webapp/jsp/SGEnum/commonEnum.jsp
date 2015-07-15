@@ -86,6 +86,8 @@
 	<script type="text/javascript"
 		src="/assets/enumManager/js/enumManager.js"></script>
 	<script type="text/javascript">
+		var processId = parent.processId;
+		var taskId = parent.taskId;
 		$(document).ready(function(){
 			$('#dg').datagrid({
 				rownumbers:true,
@@ -189,6 +191,17 @@
 						if(confirm('确定删除吗 ？')){
 							enumManager.deleteEnum(selectData.id);
 						}
+					}
+				}, {
+					text: '提交任务',
+					iconCls: 'icon-qxfp',
+					handler: function () {
+						uiinit.win({
+							w: 500,
+							iconCls: 'icon-cfp',
+							title: "完成任务",
+							url: "/jsp/task/completeTask.jsp"
+						});
 					}
 				} ];
 	</script>

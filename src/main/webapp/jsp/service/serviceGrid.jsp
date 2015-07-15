@@ -24,6 +24,7 @@
 	<fieldset>
 		<legend>条件搜索</legend>
 		<table border="0" cellspacing="0" cellpadding="0">
+			<!-- 
 			<tr>
 				<th>服务一级目录</th>
 				<td><input class="easyui-textbox" disabled="disabled"
@@ -38,6 +39,7 @@
 					type="text" name="name">
 				</td>
 			</tr>
+			 -->
 			<tr>
 				<th>服务代码</th>
 				<td><input class="easyui-textbox" disabled="disabled"

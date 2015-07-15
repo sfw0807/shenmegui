@@ -40,6 +40,17 @@ public class EnumElements implements Serializable{
 	@Column(name = "OPT_DATE",length=50)
 	private String optDate;
 
+	@Column(name = "PROCESS_ID")
+	private String processId;
+
+	public String getProcessId() {
+		return processId;
+	}
+
+	public void setProcessId(String processId) {
+		this.processId = processId;
+	}
+
 	public String getElementId() {
 		return elementId;
 	}

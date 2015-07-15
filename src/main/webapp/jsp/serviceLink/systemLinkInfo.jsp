@@ -39,14 +39,12 @@
 
 
 </fieldset>
-<table class="easyui-datagrid" title="交易节点"
+<table class="easyui-datagrid" title="交易节点" id="invokeLinkeTable"
        data-options="rownumbers:true,singleSelect:false,url:'/serviceLink/getServiceLink/system/<%=request.getParameter("systemId") %>',method:'get',toolbar:toolbar,pagination:true,
 				pageSize:10" style="height:370px; width:auto;">
     <thead>
     <tr>
         <th data-options="field:'productid',checkbox:true"></th>
-
-
         <th data-options="field:'interfaceId'">交易码</th>
         <th data-options="field:'interfaceName'">交易名称</th>
         <th data-options="field:'serviceId'">服务码</th>
@@ -128,9 +126,25 @@
             text: '预览',
             iconCls: 'icon-qxfp',
             handler: function () {
-                var content = '<iframe scrolling="auto" frameborder="0"  src="/jsp/serviceLink/dom.html" style="width:100%;height:100%;"></iframe>';
-                selectTab('预览', content);
-                selectTab('预览', content);
+                var checkedItems = $('#invokeLinkeTable').datagrid('getChecked');
+                var checkedItem;
+                if (checkedItems != null && checkedItems.length > 0) {
+                    if (checkedItems.length > 1) {
+                        alert("请选择一个节点进行预览！");
+                        return false;
+                    }
+                    else {
+                        checkedItem = checkedItems[0];
+                        var content = '<iframe scrolling="auto" frameborder="0"  src="/jsp/serviceLink/previewLink.jsp?sourceId='+checkedItem.interfaceId+'" style="width:100%;height:100%;"></iframe>';
+                        selectTab('预览', content);
+                        selectTab('预览', content);
+                    }
+                }
+                else {
+                    alert("请选中要预览的节点！");
+                }
+
+
             }
         },
         {

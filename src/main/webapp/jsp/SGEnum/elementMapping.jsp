@@ -52,6 +52,8 @@
 		src="/assets/enumManager/js/enumManager.js"></script>
 	<script type="text/javascript">
 		var editedRows = [];
+		var processId = parent.processId;
+		var taskId = parent.taskId;
 		$(function(){
 			var url = "/enum/getElementMapping/"+"${master.id}"+"/"+"${slave.id}";
 			$('#mappingdatagrid').datagrid({

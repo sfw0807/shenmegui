@@ -55,15 +55,20 @@ public class Ida {
     @Column(name = "VERSION")
     private String version;
 
+    private String remark;
+
+//    @Column(name = "ARG_TYPE")
+    //参数类型 输出还是输入参数，导入时判断，有可能输入和输出参数名相同
+//    private String argType;
+
     @ManyToOne
     @JoinColumn(name="INTERFACE_ID",referencedColumnName = "INTERFACE_ID",insertable = false,updatable = false)
     private Interface interObj;
-//    @ManyToOne(targetEntity = InterfaceHead.class)
-//    @JoinColumns({
-//            @JoinColumn(name = "HEAD_ID", referencedColumnName = "HEAD_ID", insertable = false, updatable = false)
-//    })
-//    private InterfaceHead head;
-    
+
+    @ManyToOne
+    @JoinColumn(name = "HEAD_ID",referencedColumnName = "HEAD_ID",insertable = false,updatable = false)
+    private InterfaceHead heads;
+
     public String getId() {
         return id;
     }
@@ -199,5 +204,30 @@ public class Ida {
 
     public void setInterObj(Interface interObj) {
         this.interObj = interObj;
+    }
+
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+//    public String getArgType() {
+//        return argType;
+//    }
+//
+//    public void setArgType(String argType) {
+//        this.argType = argType;
+//    }
+
+    public InterfaceHead getHeads() {
+        return heads;
+    }
+
+    public void setHeads(InterfaceHead heads) {
+        this.heads = heads;
     }
 }

@@ -52,7 +52,18 @@ public class SGEnum implements Serializable{
 	
 	@Column(name = "OPT_DATE")
 	private String optDate;
-	
+
+	@Column(name = "PROCESS_ID")
+	private String processId;
+
+	public String getProcessId() {
+		return processId;
+	}
+
+	public void setProcessId(String processId) {
+		this.processId = processId;
+	}
+
 	public String getId() {
 		return id;
 	}

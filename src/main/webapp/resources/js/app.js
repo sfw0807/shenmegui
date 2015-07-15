@@ -117,9 +117,9 @@ var SYSMENU = {
                         e.preventDefault();
                         $(this).tree('select', node.target);
                         if (typeof(node.children) != 'undefined') {//编辑接口
-                            console.log(node);
+                           // console.log(node);
                             if(node.click == 'system') {
-                                console.log($('#mm-mxsystemtree'));
+                               // console.log($('#mm-mxsystemtree'));
                                 $('#mm-mxsystemtree').menu('show', {
                                     left: e.pageX,
                                     top: e.pageY

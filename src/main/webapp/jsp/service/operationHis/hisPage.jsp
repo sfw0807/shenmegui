@@ -22,7 +22,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript">
 var serviceId = "${service.serviceId}";
 var operationId = "${operation.operationId}";
-
+var formatter = {
+	version:function(value, row, index){
+ 		try {
+			return row.version.code
+		} catch (exception) {
+		}
+ 	}
+}
 function choseService(){
 	$('#dlg').dialog({
 		title : '场景',
@@ -155,7 +162,7 @@ function olaList(id){
 				<th data-options="field:'operationName'">场景名称</th>
 				<th data-options="field:'operationDesc'">功能描述</th>
 				<th data-options="field:'operationRemark'">备注</th>
-				<th data-options="field:'version'">版本号</th>
+				<th data-options="field:'version'" formatter="formatter.version">版本号</th>
 				<th data-options="field:'optDate'">更新时间</th>
 				<th data-options="field:'optUser'">更新用户</th>
 				<th data-options="field:' ',width:180,formatter:formatConsole">操作</th>

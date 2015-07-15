@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -40,7 +41,7 @@
         </li>
     </ul>
     <div id="header_toolsbar">
-        <a href="javascript:;" class="login_user">ever</a>
+        <a href="javascript:;" class="login_user"><shiro:principal /></a>
         <a href="javascript:;">帮助</a>
     </div>
 </div>

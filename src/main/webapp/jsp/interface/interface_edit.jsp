@@ -46,7 +46,16 @@
 			</th>
 			<td>
 				<select class="easyui-combobox" id="protocolId" style="width:155px" panelHeight="auto" data-options="editable:false">
+					<option value=""></option>
 				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				版本
+			</th>
+			<td>
+				<input class="easyui-textbox" type="text" id="versionText" value="${inter.version }" readOnly>
 			</td>
 		</tr>
 		<tr>
@@ -79,7 +88,7 @@
 		</tr>
 	</table>
 	<input type="hidden" id="interfaceId" value="${inter.interfaceId}">
-	<input type="hidden" id="invokeId" value="${inter.serviceInvoke.invokeId}">
+	<input type="hidden" id="invokeId" value="${inter.serviceInvoke[0].invokeId}">
 
 </form>
 
@@ -123,7 +132,7 @@
         			valueField:'id',
         			textField:'text',
         			onLoadSuccess:function(){
-        				 $('#protocolId').combobox("select","${inter.serviceInvoke.protocolId}");
+        				 $('#protocolId').combobox("select","${inter.serviceInvoke[0].protocolId}");
         			}
         		});
 	});
@@ -131,9 +140,18 @@
 	function save(){
 		var ecode = $("#ecodeText").val();
 		var interfaceName = $("#interfaceNameText").val();
+		if(ecode==null || ecode == ''){
+			alert("交易码不能为空");
+			return;
+		 }
+		 if(interfaceName==null || interfaceName == ''){
+			alert("交易名称不能为空");
+			return;
+		 }
 		var desc = $("#desc").val();
 		var remark = $("#remark").val();
 		var interfaceId = $("#interfaceIdText").val();
+		var version = $("#versionText").val();
 		var status = $("#status").combobox('getValue');
 		var systemId ="";
 		var treeObj =$('.msinterfacetree') ;
@@ -155,18 +173,26 @@
 		data.desc = desc;
 		data.remark = remark;
 		data.interfaceId = interfaceId;
+		data.version = version;
 		var protocolId = $("#protocolId").combobox('getValue');
 
 
 		data.status = status;
 
-		var serviceInvoke = {};
+		var invokes = [];
+        var serviceInvoke = {};
+
 		serviceInvoke.protocolId = protocolId;
 		serviceInvoke.systemId = systemId;
 		serviceInvoke.interfaceId = interfaceId;
 		var invokeId = $("#invokeId").val();
 		serviceInvoke.invokeId = invokeId;
-		data.serviceInvoke = serviceInvoke;
+		//data.serviceInvoke = serviceInvoke;
+
+		serviceInvoke.protocolId = protocolId;
+		serviceInvoke.interfaceId = interfaceId;
+		invokes.push(serviceInvoke);
+		data.serviceInvoke = invokes;
 	
 		interfaceManager.add(data,'update',function(result){
 			if(result){

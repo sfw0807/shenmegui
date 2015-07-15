@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "OPERATION")
+@IdClass(OperationPK.class)
 public class Operation implements Serializable{
 
 	private static final long serialVersionUID = 1L;

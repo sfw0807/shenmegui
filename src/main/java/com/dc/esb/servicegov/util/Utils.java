@@ -1,5 +1,10 @@
 package com.dc.esb.servicegov.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -94,6 +99,53 @@ public class Utils {
         String[] num = versionno.split("\\.");
         versionno = newOnlineVersion + "." + num[1] + "." + num[2];
         return versionno;
+    }
+
+    //将byte
+    public static String byte2MGT(String byteString) {
+        double temp;
+        double temp1;
+        double t2;
+        double t;
+        String tt;
+
+        BigInteger by = new BigInteger(byteString);
+        if (by.doubleValue() == new BigInteger("0").doubleValue()) {
+            tt = String.valueOf(0 + "B");
+        }
+        else if (by.doubleValue() < new BigInteger("1024").doubleValue()
+                && by.doubleValue() > new BigInteger("0").doubleValue()) {
+            int t3 = (int) Math.round(by.doubleValue());
+            tt = String.valueOf(t3 + "B");
+        }
+        else if (by.doubleValue() < new BigInteger("1048576").doubleValue()
+                && by.doubleValue() >= new BigInteger("1024").doubleValue()) {
+            temp = by.doubleValue() / 1024;
+            t = Math.round(temp * 10);
+            t2 = t / 10.0;
+            tt = String.valueOf(t2 + "KB");
+        }
+        else if (by.doubleValue() < new BigInteger("1073741824").doubleValue()
+                && by.doubleValue() >= new BigInteger("1048576").doubleValue()) {
+            temp1 = by.doubleValue() / 1024 / 1024;
+            t = Math.round(temp1 * 10);
+            t2 = t / 10.0;
+            tt = String.valueOf(t2 + "M");
+        }
+        else if (by.doubleValue() < new BigInteger("1099511627776").doubleValue()
+                && by.doubleValue() >= new BigInteger("1073741824").doubleValue()) {
+            temp1 = by.doubleValue() / 1024 / 1024 / 1024;
+            t = Math.round(temp1 * 10);
+            t2 = t / 10;
+            tt = String.valueOf(t2 + "G");
+        }
+        else {
+            temp1 = by.doubleValue() / 1024 / 1024 / 1024 / 1024;
+            t = Math.round(temp1 * 10);
+            t2 = t / 10;
+            tt = String.valueOf(t2 + "T");
+        }
+        return tt;
     }
 
     /**

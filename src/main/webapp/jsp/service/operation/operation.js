@@ -1,7 +1,7 @@
 var ff = {
     interfaceName: function (value, row, index) {
         try {
-            return row.interfaceObj.interfaceName;
+            return row.inter.interfaceName;
         } catch (exception) {
         }
     },
@@ -25,7 +25,13 @@ var ff = {
         if ("1" == value) {
             return "提供者";
         }
-    }
+    },
+    version:function(value, row, index){
+ 		try {
+			return row.version.code
+		} catch (exception) {
+		}
+ 	}
 }
 
 function save(formId, operation) {
@@ -195,8 +201,8 @@ function loadSelect(id, items) {
         $.each(items, function (index, item) {
             console.log(item);
             var text = item["system"]["systemChineseName"];
-            if (null != item["interfaceObj"]) {
-                text = text + "::" + item["interfaceObj"]["interfaceName"];
+            if (null != item["inter"]) {
+                text = text + "::" + item["inter"]["interfaceName"];
             }
             $("#" + id).append("<option value='__invoke__" + item["invokeId"] + "'>" + text + "</option>");
         });
@@ -259,11 +265,12 @@ function selectInterface(listId) {
     var checkedItems = $('#intefaceList').datagrid('getChecked');
     if (checkedItems != null && checkedItems.length > 0) {
         $.each(checkedItems, function (index, item) {
+        	console.log(item);
             var exsit = $("#" + listId + " option[value='__invoke__" + item.invokeId + "']");
             if (exsit.length > 0) {
                 alert("该接口已经被选中！");
             } else {
-                $("#" + listId).append("<option value='__invoke__" + item.invokeId + "'>" + item.system.systemChineseName + "::" + item.interfaceObj.interfaceName + "</option>");
+                $("#" + listId).append("<option value='__invoke__" + item.invokeId + "'>" + item.system.systemChineseName + "::" + item.inter.interfaceName + "</option>");
             }
 
         });

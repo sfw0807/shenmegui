@@ -5,7 +5,7 @@
 <%
 	if(mid.equals("1")){
 %>
-<ul id="menu-tree">
+<ul id="menu-tree" style="overflow:scroll;height:100%">
   <li><a href="javascript:;" mid="1.1">版本管理</a>
     <ul>
       <li><a href="javascript:;" class="openable" mid="1.2">版本发布</a></li>
@@ -27,6 +27,7 @@
     <ul>
         <li><a href="javascript:;" class="openable"  mid="9.2">导入</a></li>
         <li><a href="javascript:;" class="openable"  mid="9.3">导出</a></li>
+        <li><a href="javascript:;" class="openable"  mid="9.4">文件管理</a></li>
     </ul>
 </li>
   <li><a href="javascript:;" class="openable"  mid="4.1">用户管理</a>
@@ -47,6 +48,7 @@
       <li><a href="javascript:;" class="openable" mid="3.3">类别词管理</a></li>
       <li><a href="javascript:;" class="openable" mid="3.4">元数据管理</a></li>
       <li><a href="javascript:;" class="openable" mid="3.5">数据类型映射</a></li>
+      <li><a href="javascript:;" class="openable" mid="3.7">元素据导入、导出</a></li>
     </ul>
   </li>
   <li><a href="javascript:;" class="openable"  mid="3.6">公共代码管理</a></li>
@@ -94,5 +96,5 @@
 
  </div>
 
- <ul class="easyui-tree msinterfacetree" data-options="url:'/interface/getLeftTree',method:'get',animate:true"></ul>
+ <ul class="easyui-tree msinterfacetree" style="overflow:scroll;height:100%" data-options="url:'/interface/getLeftTree',method:'get',animate:true" style="overflow:auto;"></ul>
 <%}%>

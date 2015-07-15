@@ -41,6 +41,11 @@ public class System implements Serializable{
 
 	private String protocolName;
 
+	public static String[] simpleFields(){
+		String[] names = {"systemId", "systemChineseName"};
+		return names;
+	}
+
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE,mappedBy = "system")
 	//@JoinColumn(name = "SYSTEM_ID",referencedColumnName = "SYSTEM_ID",insertable=true,updatable = true)
 	private List<SystemProtocol> systemProtocols;

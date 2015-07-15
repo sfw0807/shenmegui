@@ -72,6 +72,11 @@ public class EnumServiceImpl extends AbstractBaseService<SGEnum, String> impleme
 		String hql = "select a from SGEnum a where a.id in(select m.slaveId from MasterSlaveEnumMap m where m.masterId = '"+id+"')";
 		return enumDAOImpl.find(hql);
 	}
+
+	public List<SGEnum> checkSlaveByEnumId(String id,String processId) {
+		String hql = "select a from SGEnum a where a.processId ='"+processId+"' and a.id in(select m.slaveId from MasterSlaveEnumMap m where m.masterId = '"+id+"')";
+		return enumDAOImpl.find(hql);
+	}
 	
 	@Override
 	public SGEnum getMasterBySlaveId(String id) {

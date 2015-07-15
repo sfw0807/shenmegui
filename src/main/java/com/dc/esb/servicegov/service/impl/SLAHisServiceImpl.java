@@ -21,4 +21,8 @@ public class SLAHisServiceImpl extends AbstractBaseService<SLAHis,String> implem
     public HibernateDAO<SLAHis, String> getDAO() {
         return slaHisDAO;
     }
+    @Override
+    public void save(SLAHis entity){
+    	slaHisDAO.save(entity);
+    }
 }
