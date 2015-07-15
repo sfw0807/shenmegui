@@ -53,17 +53,6 @@
             <td><input class="easyui-datebox" style="width:100px" type="text" name="startDate" id="startDate"></td>
             <th> 创建结束日期</th>
             <td><input class="easyui-datebox" style="width:100px" type="text" name="endDate" id="endDate"></td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
-            <td>&nbsp;</td>
             <td align="right"><a href="#" id="queryMetadataBtn" class="easyui-linkbutton" iconCls="icon-search">搜索</a></td>
         </tr>
     </table>
@@ -81,12 +70,14 @@
         <th data-options="field:'type'">类型</th>
         <th data-options="field:'length'">长度</th>
         <th data-options="field:'scale'">精度</th>
+        <td data-options="field:'dataCategory'">数据项分类</td>
+        <td data-options="field:'buzzCategory'">业务项分类</td>
         <th data-options="field:'bussDefine'">业务定义</th>
         <th data-options="field:'bussRule'">业务规则</th>
         <th data-options="field:'dataSource'">数据来源</th>
         <th data-options="field:'status'">状态</th>
         <th data-options="field:'version'">版本号</th>
-        <th data-options="field:'  '">创建人</th>
+        <th data-options="field:'optUser'">创建人</th>
         <th data-options="field:'optDate'">创建时间</th>
         <th data-options="field:'  '">审核人</th>
         <th data-options="field:'  '">审核时间</th>
@@ -164,14 +155,22 @@
             text: '导入',
             iconCls: 'icon-cfp',
             handler: function () {
-                alert('导入')
+                uiinit.win({
+                    w: 500,
+                    iconCls: 'icon-cfp',
+                    title: "关联服务场景",
+                    url: "/jsp/metadata/importMetadata.jsp"
+                });
             }
         },
         {
             text: '导出',
             iconCls: 'icon-save',
             handler: function () {
-                alert('导出')
+                $(function() {
+                    $.fileDownload("/metadata/export", {
+                    });
+                });
             }
         },
         {
@@ -194,6 +193,7 @@
 <script type="text/javascript" src="/resources/js/ui.js"></script>
 <script type="text/javascript" src="/assets/metadata/metadataManager.js"></script>
 <script type="text/javascript" src="/assets/metadata/metadata.js"></script>
+<script type="text/javascript" src="/resources/js/jquery.fileDownload.js"></script>
 
 <script type="text/javascript">
     $(function () {

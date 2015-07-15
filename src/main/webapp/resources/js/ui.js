@@ -13,7 +13,6 @@ var uiinit = {
 				modal:true
 			});
 			$('#w').window('refresh', arg.url);
-			$('#w').window('open'); 
 		},
 		selectex : function(oldDataUi,newDataUi){
 			var oldData = ""

@@ -9,72 +9,54 @@ import javax.persistence.Table;
 @Table(name = "METADATA")
 public class Metadata {
     @Id
-    @Column(name = "METADATA_ID", length=50)
+    @Column(name = "METADATA_ID", length = 50)
     private String metadataId;
-
-    @Column(name = "METADATA_NAME", length=255)
+    @Column(name = "METADATA_NAME", length = 255)
     private String metadataName;
-
-    @Column(name = "CHINESE_NAME", length=255)
+    @Column(name = "CHINESE_NAME", length = 255)
     private String chineseName;
-
-    @Column(name = "CATEGORY_WORD_ID", length=50)
+    @Column(name = "CATEGORY_WORD_ID", length = 50)
     private String categoryWordId;
-
-    @Column(name = "REMARK", length=1023)
+    @Column(name = "REMARK", length = 1023)
     private String remark;
-
-    @Column(name = "TYPE", length=30)
+    @Column(name = "TYPE", length = 30)
     private String type;
-
-    @Column(name = "LENGTH", length=15)
+    @Column(name = "LENGTH", length = 15)
     private String length;
-
-    @Column(name = "SCALE", length=10)
+    @Column(name = "SCALE", length = 10)
     private String scale;
-
-    @Column(name = "ENUM_ID", length=50)
+    @Column(name = "ENUM_ID", length = 50)
     private String enumId;
-
-    @Column(name = "METADATA_ALIAS", length=255)
+    @Column(name = "METADATA_ALIAS", length = 255)
     private String metadataAlias;
-
-    @Column(name = "BUSS_DEFINE", length=1023)
+    @Column(name = "BUSS_DEFINE", length = 1023)
     private String bussDefine;
-
-    @Column(name = "BUSS_RULE", length=1023)
+    @Column(name = "BUSS_RULE", length = 1023)
     private String bussRule;
-
-    @Column(name = "DATA_SOURCE", length=255)
+    @Column(name = "DATA_SOURCE", length = 255)
     private String dataSource;
-
     @Column(name = "TEMPLATE_ID", length = 50)
     private String templateId;
-
     @Column(name = "STATUS", length = 10)
     private String status;
-
-    @Column(name = "VERSION", length =50)
+    @Column(name = "VERSION", length = 50)
     private String version;
-
-    @Column(name = "OPT_USER", length=50)
+    @Column(name = "OPT_USER", length = 50)
     private String optUser;
-
-    @Column(name = "OPT_DATE", length=20)
+    @Column(name = "OPT_DATE", length = 20)
     private String optDate;
-
-    @Column(name = "AUDIT_USER",length=50)
+    @Column(name = "AUDIT_USER", length = 50)
     private String auditUser;
-
-    @Column(name = "AUDIT_DATE",length = 20)
+    @Column(name = "AUDIT_DATE", length = 20)
     private String auditDate;
-
-    @Column(name = "PROCESS_ID", length=50)
+    @Column(name = "PROCESS_ID", length = 50)
     private String processId;
-
-    @Column(name = "DATA_FORMULA", length=20)
+    @Column(name = "DATA_FORMULA", length = 20)
     private String dataFormula;
-
+    @Column(name = "BUZZ_CATEGORY", length = 255)
+    private String buzzCategory;
+    @Column(name = "DATA_CATEGORY", length = 255)
+    private String dataCategory;
     public String getMetadataId() {
         return metadataId;
     }
@@ -251,5 +233,22 @@ public class Metadata {
 
     public void setDataFormula(String dataFormula) {
         this.dataFormula = dataFormula;
+    }
+
+
+    public String getBuzzCategory() {
+        return buzzCategory;
+    }
+
+    public void setBuzzCategory(String buzzCategory) {
+        this.buzzCategory = buzzCategory;
+    }
+
+    public String getDataCategory() {
+        return dataCategory;
+    }
+
+    public void setDataCategory(String dataCategory) {
+        this.dataCategory = dataCategory;
     }
 }

@@ -3,8 +3,6 @@ package com.dc.esb.servicegov.service.support;
 import com.dc.esb.servicegov.dao.support.HibernateDAO;
 import com.dc.esb.servicegov.dao.support.Page;
 import com.dc.esb.servicegov.dao.support.SearchCondition;
-import com.dc.esb.servicegov.util.ReflectionUtils;
-import org.apache.commons.logging.Log;
 import org.hibernate.criterion.MatchMode;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -132,11 +130,11 @@ public abstract class AbstractBaseService<T, PK extends Serializable> {
         return getDAO().findLike(params);
     }
 
-    public List<T> findLikeAnyWhere(Map<String,String> params){
+    public List<T> findLikeAnyWhere(Map<String, String> params) {
         Map<String, String> notNullParams = new HashMap<String, String>();
-        for(Map.Entry<String, String> entry : params.entrySet()){
-            if(null != entry.getValue() && !"".equalsIgnoreCase(entry.getValue())){
-                notNullParams.put(entry.getKey(),entry.getValue());
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            if (null != entry.getValue() && !"".equalsIgnoreCase(entry.getValue())) {
+                notNullParams.put(entry.getKey(), entry.getValue());
             }
         }
         return getDAO().findLike(notNullParams, MatchMode.ANYWHERE);

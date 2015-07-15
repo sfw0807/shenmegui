@@ -152,7 +152,7 @@
             <value>
                 /login/** = anon
                 /newui/** = anon
-                /** = anon
+                /** = authc
             </value>
         </property>
     </bean>

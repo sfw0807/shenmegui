@@ -35,6 +35,11 @@
       <li><a href="javascript:;" class="openable"  mid="4.2">用户维护</a></li>
 </ul>
   </li>
+   <li><a href="javascript:;" class="openable"  mid="5.1">角色管理</a>
+    <ul>
+      <li><a href="javascript:;" class="openable"  mid="5.2">角色维护</a></li>
+</ul>
+  </li>
 </ul>
 <%
 	}
@@ -48,7 +53,6 @@
       <li><a href="javascript:;" class="openable" mid="3.3">类别词管理</a></li>
       <li><a href="javascript:;" class="openable" mid="3.4">元数据管理</a></li>
       <li><a href="javascript:;" class="openable" mid="3.5">数据类型映射</a></li>
-      <li><a href="javascript:;" class="openable" mid="3.7">元素据导入、导出</a></li>
     </ul>
   </li>
   <li><a href="javascript:;" class="openable"  mid="3.6">公共代码管理</a></li>

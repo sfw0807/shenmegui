@@ -115,9 +115,9 @@
 	}
 
 %><%
-	if(mid.equals("3.7")){
+	if(mid.equals("5.2")){
 %>
-{"success":true,"url":"/dataTemplate/fieldmapping_import.jsp","title":"元数据导入"}
+{"success":true,"url":"/jsp/role/roleMaintain.jsp","title":"角色维护"}
 <%
 	}
 
