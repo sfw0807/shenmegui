@@ -35,5 +35,17 @@ var serviceLinkManager = {
                 callBack(result);
             }
         });
+    },
+    "delConnections" : function delConnections (connections, callBack){
+        $.ajax({
+            "type": "POST",
+            "contentType": "application/json; charset=utf-8",
+            "url": "/serviceLink/delete",
+            "data": JSON.stringify(connections),
+            "dataType": "json",
+            "success": function (result) {
+                callBack(result);
+            }
+        });
     }
 };

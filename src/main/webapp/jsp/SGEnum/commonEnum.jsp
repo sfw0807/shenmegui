@@ -64,7 +64,7 @@
 		<thead>
 			<tr>
 				<th data-options="field:'productid',checkbox:true"></th>
-				<th data-options="field:'name'">代码名称</th>
+				<th data-options="field:'name',sortable:true">代码名称</th>
 				<th data-options="field:'isStandard'">是否标准代码</th>
 				<th data-options="field:'status'">代码状态</th>
 				<th data-options="field:'dataSource'">主代码数据来源</th>
@@ -132,7 +132,7 @@
 				queryParams.name = $('#name').val();
 				queryParams.isStandard = $('#isStandard').combobox('getValue');
 				queryParams.dataSource = $('#dataSource').val();
-				queryParams.status = $('#status').val();
+				queryParams.status = $('#status').combobox('getValue');
 				$("#dg").datagrid('options').queryParams = queryParams;//传递值  
 				$("#dg").datagrid('reload');//重新加载table  
 			});

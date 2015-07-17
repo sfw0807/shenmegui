@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import com.dc.esb.servicegov.service.impl.EnumServiceImpl;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +43,8 @@ public class EnumController {
     @ResponseBody
     boolean addEnum(@RequestBody SGEnum anEnum) {
 		anEnum.setOptDate(DateUtils.format(new Date()));
-		System.out.println(anEnum.getOptDate());
+		String userId = SecurityUtils.getSubject().getPrincipal().toString();
+		anEnum.setOptUser(userId);
 		enumService.insertEnum(anEnum);
 		return true;
 	}
@@ -52,6 +54,7 @@ public class EnumController {
     @ResponseBody
     boolean addSlaveEnum(@RequestBody SGEnum anEnum,@PathVariable(value = "masterId") String masterId) {
 		anEnum.setOptDate(DateUtils.format(new Date()));
+		anEnum.setOptUser(SecurityUtils.getSubject().getPrincipal().toString());
 		enumService.insertEnum(anEnum);
 		String slaveId = anEnum.getId();
 		MasterSlaveEnumMap mapping = new MasterSlaveEnumMap();
@@ -254,6 +257,9 @@ public class EnumController {
     public
     @ResponseBody
     boolean saveEnum(@RequestBody SGEnum anEnum) {
+		String userId = SecurityUtils.getSubject().getPrincipal().toString();
+		anEnum.setOptUser(userId);
+		anEnum.setOptDate(DateUtils.format(new Date()));
 		return enumService.updateEnum(anEnum);
 	}
 	
@@ -292,6 +298,7 @@ public class EnumController {
     @ResponseBody
     boolean addElement(@RequestBody EnumElements elements) {
 		elements.setOptDate(DateUtils.format(new Date()));
+		elements.setOptUser(SecurityUtils.getSubject().getPrincipal().toString());
 		return enumService.addElement(elements);
 	}
 	

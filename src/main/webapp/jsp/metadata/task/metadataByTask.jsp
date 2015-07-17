@@ -74,19 +74,6 @@
        data-options="rownumbers:true,singleSelect:false,url:'/metadata/query',method:'get',toolbar:toolbar,pagination:true,
 				pageSize:10" style="height:370px; width:auto;">
     <thead>
-    <!--
-       <tr>
-         <th > </th>
-
-
-        <th colspan="2">说明</th>
-        <th colspan="3"  >综合</th>
-        <th >字段5 </th>
-        <th colspan="2" > 示例</th>
-        <th >字段8 </th>
-        <th >字段9 </th>
-      </tr>
-     -->
     <tr>
         <th data-options="field:'',checkbox:true"></th>
         <th data-options="field:'metadataId'">元数据名称</th>
@@ -148,8 +135,6 @@
             else {
                 alert("请选中要修改的数据！");
             }
-
-
         }
     }, {
         text: '删除',
@@ -157,45 +142,17 @@
         handler: function () {
             deleteObj();
         }
-    }, '-',
+    },
         {
-            text: '关联服务场景',
+            text: '导入',
             iconCls: 'icon-cfp',
             handler: function () {
                 uiinit.win({
                     w: 500,
                     iconCls: 'icon-cfp',
                     title: "关联服务场景",
-                    url: "/dataTemplate/words/tree.html"
+                    url: "/jsp/metadata/task/importMetadataByTask.jsp"
                 });
-            }
-        },
-        {
-            text: '公共代码',
-            iconCls: 'icon-cfp',
-            handler: function () {
-                alert('移出')
-            }
-        }, '-',
-        {
-            text: '导入',
-            iconCls: 'icon-cfp',
-            handler: function () {
-                alert('导入')
-            }
-        },
-        {
-            text: '导出',
-            iconCls: 'icon-save',
-            handler: function () {
-                alert('导出')
-            }
-        },
-        {
-            text: '检出',
-            iconCls: 'icon-qxfp',
-            handler: function () {
-
             }
         },
         {

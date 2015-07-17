@@ -10,15 +10,22 @@ public class ServiceInvokeInfoVO {
     private String interfaceName;
     private String serviceId;
     private String serviceName;
+    private String operationId;
+    private String operationName;
+    private String invokeType;
     private String nodeType;
     private String bussCategory;
     private String status;
+    private String id;
 
     public ServiceInvokeInfoVO(ServiceInvoke serviceInvoke){
         this.interfaceId = serviceInvoke.getInterfaceId();
         this.serviceId = serviceInvoke.getServiceId();
         this.interfaceId = serviceInvoke.getInterfaceId();
         this.interfaceName = serviceInvoke.getInter().getInterfaceName();
+        this.operationId = serviceInvoke.getOperationId();
+        this.id = serviceInvoke.getInvokeId();
+        this.invokeType = serviceInvoke.getType();
     }
 
     public String getInterfaceId() {
@@ -75,5 +82,37 @@ public class ServiceInvokeInfoVO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getOperationId() {
+        return operationId;
+    }
+
+    public void setOperationId(String operationId) {
+        this.operationId = operationId;
+    }
+
+    public String getOperationName() {
+        return operationName;
+    }
+
+    public void setOperationName(String operationName) {
+        this.operationName = operationName;
+    }
+
+    public String getInvokeType() {
+        return invokeType;
+    }
+
+    public void setInvokeType(String invokeType) {
+        this.invokeType = invokeType;
     }
 }

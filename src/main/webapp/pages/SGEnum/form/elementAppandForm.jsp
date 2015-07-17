@@ -25,12 +25,12 @@
 			<td><input class="easyui-textbox" type="text" id="_remark">
 			</td>
 		</tr>
-		<tr>
+		<%--<tr>
 			<th>操作人</th>
 			<td><input class="easyui-textbox" type="text" id="_optUser">
 			</td>
-		</tr>
-		<tr>
+		</tr>--%>
+		<tr style="display: none">
 			<th>任务id</th>
 			<td><input class="easyui-textbox" type="text" readonly="true" name="processId" id="taskIdInput"></td>
 		</tr>
@@ -57,7 +57,7 @@
 		element.elementName = $('#_elementName').val();
 		element.remark = $('#_remark').val();
 		element.bussDefine = $('#_bussDefine').val();
-		element.optUser = $('#_optUser').val();
+//		element.optUser = $('#_optUser').val();
 		//element.optDate = $('#_optDate').val();
 		element.enumId = $('#id').val();
 		element.processId = $('#taskIdInput').textbox('getValue');

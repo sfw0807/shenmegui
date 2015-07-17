@@ -43,12 +43,12 @@
 				panelHeight="auto" style="width:172px">
 			</select></td>
 		</tr>
-		<tr>
+		<%--<tr>
 			<th>操作人</th>
 			<td><input class="easyui-textbox" type="text" id="_optUser">
 			</td>
-		</tr>
-		<tr>
+		</tr>--%>
+		<tr style="display: none">
 			<th>任务id</th>
 			<td><input class="easyui-textbox" type="text" readonly="true" name="processId" id="taskIdInput"></td>
 		</tr>
@@ -116,7 +116,7 @@
 		anEnum.version = $('#_version').val();
 		anEnum.remark = $('#_remark').val();
 		anEnum.status = $('#_status').combobox('getValue');
-		anEnum.optUser = $('#_optUser').val();
+//		anEnum.optUser = $('#_optUser').val();
 		anEnum.processId = $('#taskIdInput').textbox('getValue');
 		//anEnum.optDate = $('#_optDate').val();
 		enumManager.addSlaveEnum(anEnum,$('#id').val(),function(result){

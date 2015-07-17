@@ -51,15 +51,16 @@
 	background-position: center center;
 }
 #header{
-	height: 76px;
+	height: 56px;
 	background-color: #02449c;
 	position:relative;
+	overflow:visible;
 }
 .tree-filter{
 	padding:10px;
 }
 #logo{
-	height: 76px;
+	height: 56px;
 	background-image: url(../img/logo.png);
 	background-repeat: no-repeat;
 	background-position: left center;
@@ -97,9 +98,9 @@ color: #0e2d5f;
 	overflow-y:hidden;
 }
 #nav{
-	right: 300px;
+	right: 20em;
 	position: absolute;
-	height: 76px;
+	height: 56px;
 	top: 0px;
 	list-style-type: none;
 	margin: 0px;
@@ -110,12 +111,46 @@ color: #0e2d5f;
 	list-style-type: none;
 	margin: 0px;
 	padding: 0px;
-	margin-left:50px;
+	margin-left:30px;
+	position: relative;
+}
+#nav li ul{
+
+	position: absolute;
+    width: 100px;
+    z-index: 999;
+    display:none;
+    left:-15px;
+
+}
+#nav li:hover ul{
+	display:block;
+}
+#nav li ul li{
+	float:none;
+	margin-left:0px;
+	text-align:center;
+
+
+}
+#nav li ul li a{
+	color:#374d5d;
+	display: block;
+	background-color: #d8e7fb;
+	line-height: 32px;
+}
+
+#nav li ul li a:hover{
+	color:#374d5d;
+	background-color: #e6effa;
+}
+.layout-panel-north{
+	overflow:visible;
 }
 #nav li a{
 	font-size: 14px;
 	color: #83a9de;
-	line-height: 76px;
+	line-height: 56px;
 	text-decoration: none;
 } 
 #header a:hover{
@@ -132,7 +167,7 @@ color: #0e2d5f;
 }
 
 #header_toolsbar a{
-	line-height:76px;
+	line-height:56px;
 	color:#dee9f8;
 	text-decoration: none;
 	display:inline-block;
@@ -156,21 +191,21 @@ ul,li{
 	line-height:40px;
 }
 #menu-tree li ul a{
-	padding-left: 72px;
-	background-image: url(../themes/icons/menu-sub-ico.png);
-	background-position: 55px;
+	 background-image: url("../themes/icons/menu-sub-ico.png");
+    background-position: 35px center;
+    padding-left: 52px;
 }
 
 #menu-tree li a {
-	font-size: 14px;
+	 background-image: url("../themes/icons/gt-icon.png");
+    background-position: 18px center;
+    background-repeat: no-repeat;
 	color: #374d5d;
 	display: block;
-	text-decoration: none;
-	padding-left: 45px;
+    font-size: 12px;
+    padding-left: 35px;
 	padding-right: 28px;
-	background-image: url(../themes/icons/gt-icon.png);
-	background-repeat: no-repeat;
-	background-position: 28px center;
+    text-decoration: none;
 	
 }
 #menu-tree li a:hover {

@@ -2,13 +2,11 @@ package com.dc.esb.servicegov.controller;
 
 import java.util.*;
 
+import com.dc.esb.servicegov.dao.support.Page;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.dc.esb.servicegov.entity.CategoryWord;
 import com.dc.esb.servicegov.service.impl.CategoryWordServiceImpl;
@@ -24,8 +22,14 @@ public class CategoryWordController {
     @RequestMapping(method = RequestMethod.GET, value = "/getAll", headers = "Accept=application/json")
     public
     @ResponseBody
-    List<CategoryWord> getAll() {
-        return categoryWordService.getAll();
+    Map<String, Object> getAll(@RequestParam("page") int pageNo, @RequestParam("rows") int rowCount) {
+        Page page = categoryWordService.getAll(rowCount);
+        page.setPage(pageNo);
+        List<CategoryWord> list = categoryWordService.getAll(page);
+        HashMap<String,Object> map = new HashMap<String, Object>();
+        map.put("total", page.getResultCount());
+        map.put("rows", list);
+        return map;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getById/{id}", headers = "Accept=application/json")
@@ -132,8 +136,8 @@ public class CategoryWordController {
             categoryWord.setEnglishWord(map.get("englishWord"));
             categoryWord.setEsglisgAb(map.get("esglisgAb"));
             categoryWord.setRemark(map.get("remark"));
-            categoryWord.setOptDate(map.get("optDate"));
-            categoryWord.setOptUser(map.get("optUser"));
+            categoryWord.setOptDate(DateUtils.format(new Date()));
+            categoryWord.setOptUser(SecurityUtils.getSubject().getPrincipal().toString());
             categoryWordService.save(categoryWord);
         }
         return true;

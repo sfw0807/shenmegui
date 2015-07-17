@@ -17,7 +17,6 @@ $(function(){
 		metadataManager.query(params,queryMetadataCallBack);
 	};
 	$("#queryMetadataBtn").click(function(){
-		console.log("hehehe");
 		queryMetadata();
 	});
 

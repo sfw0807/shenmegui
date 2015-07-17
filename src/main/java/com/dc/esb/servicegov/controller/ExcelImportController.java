@@ -297,7 +297,7 @@ public class ExcelImportController {
 				ida.setRemark(isNull(cell));
 			}
 
-			cellObj = sheetRow.getCell(6);
+			cellObj = sheetRow.getCell(7);
 			if (cellObj != null) {
 				String cell = tools.getCellContent(cellObj);
 				ida.setMetadataId(isNull(cell));

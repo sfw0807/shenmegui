@@ -49,6 +49,9 @@
         <th data-options="field:'interfaceName'">交易名称</th>
         <th data-options="field:'serviceId'">服务码</th>
         <th data-options="field:'serviceName'">服务名称</th>
+        <th data-options="field:'operationId'">场景码</th>
+        <th data-options="field:'operationName'">场景名称</th>
+        <th data-options="field:'invokeType'">调用类型</th>
         <th data-options="field:'nodeType'">节点类型</th>
         <th data-options="field:'status'">状态</th>
     </tr>
@@ -75,52 +78,7 @@
             });
         }
     }
-    var toolbar = [{
-        text: '新增',
-        iconCls: 'icon-add',
-        handler: function () {
-            var content = '<iframe scrolling="auto" frameborder="0"  src="/dataTemplate/syslink/grid3.html" style="width:100%;height:100%;"></iframe>';
-
-            parent.uiinit.subtab.add({
-                title: '交易链路维护',
-                content: content
-            })
-
-
-            parent.k = 0;
-            parent.j = 0;
-            parent.m = 0;
-
-
-            parent.$('#subtab').tabs('select', '交易链路维护')
-
-        }
-    }, {
-        text: '修改',
-        iconCls: 'icon-edit',
-        handler: function () {
-            var content = '<iframe scrolling="auto" frameborder="0"  src="/dataTemplate/syslink/grid3.html" style="width:100%;height:100%;"></iframe>';
-
-            parent.uiinit.subtab.add({
-                title: '交易链路维护',
-                content: content
-            })
-
-
-            parent.k = 0;
-            parent.j = 0;
-            parent.m = 0;
-
-
-            parent.$('#subtab').tabs('select', '交易链路维护')
-
-        }
-    }, {
-        text: '删除',
-        iconCls: 'icon-remove',
-        handler: function () {
-        }
-    }, '-',
+    var toolbar = [
 
         {
             text: '预览',
@@ -135,7 +93,8 @@
                     }
                     else {
                         checkedItem = checkedItems[0];
-                        var content = '<iframe scrolling="auto" frameborder="0"  src="/jsp/serviceLink/previewLink.jsp?sourceId='+checkedItem.interfaceId+'" style="width:100%;height:100%;"></iframe>';
+                        console.log(checkedItem);
+                        var content = '<iframe scrolling="auto" frameborder="0"  src="/jsp/serviceLink/previewLink.jsp?sourceId='+checkedItem.id+'" style="width:100%;height:100%;"></iframe>';
                         selectTab('预览', content);
                         selectTab('预览', content);
                     }

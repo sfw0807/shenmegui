@@ -1,6 +1,9 @@
 package com.dc.esb.servicegov.rsimport.impl;
 
-import com.dc.esb.servicegov.entity.CategoryWord;
+import com.dc.esb.servicegov.entity.Metadata;
+import com.dc.esb.servicegov.rsimport.IResourceParser;
+import com.dc.esb.servicegov.rsimport.support.ExcelUtils;
+import com.dc.esb.servicegov.service.impl.MetadataServiceImpl;
 import com.dc.esb.servicegov.service.support.Constants;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -12,11 +15,6 @@ import org.apache.shiro.SecurityUtils;
 import org.hibernate.NonUniqueObjectException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.dc.esb.servicegov.entity.Metadata;
-import com.dc.esb.servicegov.rsimport.IResourceParser;
-import com.dc.esb.servicegov.rsimport.support.ExcelUtils;
-import com.dc.esb.servicegov.service.impl.MetadataServiceImpl;
 
 @Component
 public class MetadataXlsxParserImpl implements IResourceParser {

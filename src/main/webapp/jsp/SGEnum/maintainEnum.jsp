@@ -188,8 +188,8 @@
 			var anEnum = {};
 			anEnum.id = "${master.id}";
 			anEnum.isMaster = "${master.isMaster}";
-			anEnum.optDate = "${master.optDate}";
-			anEnum.optUser = "${master.optUser}";
+			/*anEnum.optDate = "${master.optDate}";
+			 anEnum.optUser = "${master.optUser}";*/
 			
 			anEnum.name = $('#name').val();
 			anEnum.dataSource = $('#dataSource').val();

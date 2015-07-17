@@ -15,7 +15,6 @@
     <link rel="stylesheet" type="text/css"
           href="<%=basePath%>/resources/themes/icon.css">
     <link href="<%=basePath%>/resources/css/css.css" rel="stylesheet" type="text/css">
-
 </head>
 <body class="easyui-layout">
 <div data-options="region:'north',border:false" id="header">
@@ -28,10 +27,11 @@
             <a href="javascript:;" mid="2">公共信息管理</a>
         </li>
         <li>
-            <a href="javascript:;" mid="3">系统管理</a>
-        </li>
-        <li>
-            <a href="javascript:;" mid="6">接口管理</a>
+            <a href="javascript:;">系统管理</a>
+            <ul>
+                <li><a href="javascript:;" mid="6">接口管理</a></li>
+                <li><a href="javascript:;" mid="3">报文头管理</a></li>
+            </ul>
         </li>
         <li>
             <a href="javascript:;" mid="4">服务管理</a>
@@ -41,7 +41,7 @@
         </li>
     </ul>
     <div id="header_toolsbar">
-        <a href="javascript:;" class="login_user"><shiro:principal /></a>
+        <a href="javascript:;" class="login_user"><shiro:principal/></a>
         <a href="javascript:;">帮助</a>
     </div>
 </div>
@@ -111,7 +111,7 @@
     <div onclick="sysManager.addSystemPage()" data-options="iconCls:'icon-add'">
         新增系統
     </div>
-  <div onclick="sysManager.querySystemPage()" data-options="iconCls:'icon-add'">
+    <div onclick="sysManager.querySystemPage()" data-options="iconCls:'icon-add'">
         查看系統
     </div>
 </div>

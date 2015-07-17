@@ -281,6 +281,12 @@ var SYSMENU = {
                                         closable: true
                                     });
                                 }
+                            } else {
+                                var mid = node.id;
+                                var title = node.text;
+                                if ($('#mainContentTabs').tabs('exists', title)) {
+                                    $('#mainContentTabs').tabs('select', title);
+                                }
                             }
 
                         }

@@ -96,17 +96,10 @@
     var containBlock = function containBlock(blocks, obj){
 
         var i = blocks.length;
-        console.log(i);
-        console.log("startCompare");
-        console.log(blocks);
         while (i--) {
-            console.log(blocks[i].blockId +":"+obj.blockId);
             if(blocks[i].blockId == obj.blockId){
-                console.log(true);
-                console.log("endCompare");
                return true;
             }
-            console.log("endCompare");
             return false;
         }
 
@@ -128,6 +121,7 @@
 
     var context = "";
     var connections = [];
+    var connectionsToDel = [];
     var blocks = [];
     var initPosX = 100;
     var initPosY = 100;
@@ -135,9 +129,6 @@
     $(function () {
         var instance;
 
-        var initDiagram = function initDiagram (){
-            serviceLinkManager.getConnectionsBySourceId(sourceId, initConnections);
-        };
 
         /**
          * 初始化接口下拉框的方法
@@ -145,24 +136,35 @@
          */
         var initComboBox = function (result) {
             for (var i = 0; i < result.length; i++) {
-                data[result[i].interfaceName] = result[i];
-                $(".select2").append('<option value="' + result[i].interfaceName + '" >接口:' + result[i].interfaceName + '服务:' + result[i].serviceId + '</option>');
+                data[result[i].invokeId] = result[i];
+                $(".select2").append('<option value="' + result[i].invokeId + '" >接口:' + result[i].interfaceId + '服务:' + result[i].serviceId + '</option>');
             }
             $(".select2").select2();
             //在初始化完成数据框之后初始化图标表
             initDiagram();
         };
         serviceLinkManager.getAll(initComboBox);
+
+        /**
+         * 初始化图表
+         * @param row
+         */
+        var initDiagram = function initDiagram (){
+            serviceLinkManager.getConnectionsBySourceId(sourceId, initConnections);
+        };
+
         /**
          * 添加块的方法
          * @param row
          */
         var constructBlock = function constructBlock(row) {
-            var interfaceId = row.interfaceName;
+            var interfaceId = row.interfaceId;
+            var interfaceName = row.interfaceName;
             var serviceId = row.serviceId;
             var systemId = row.systemName;
+            var invokeId = row.invokeId;
 
-            context += '<div class="w" id="' + interfaceId + '">' + interfaceId
+            context += '<div class="w" id="' + invokeId + '">' + interfaceId + interfaceName
             + '<div class="ep"></div>'
             + '<div>'
             + '<div class="btn-group">'
@@ -184,7 +186,6 @@
          * @param result
          */
         var initConnections = function initConnections(result) {
-            console.log(result);
             for (var i = 0; i < result.length; i++) {
                 connections.push({
                     connectionId: result[i].sourceId + "-" + result[i].targetId,
@@ -217,7 +218,6 @@
                     initPosY += 100;
                 }
             }
-            console.log(blocks);
             document.getElementById("statemachine-demo").innerHTML = context;
             for (var i = 0; i < blocks.length; i++) {
                 $("#" + blocks[i].blockId).css("left", blocks[i].positionX);
@@ -243,6 +243,12 @@
                 var windows = jsPlumb.getSelector(".statemachine-demo .w");
                 instance.draggable(windows);
                 instance.bind("click", function (c) {
+                    connectionsToDel.push({
+                        sourceId: c.sourceId,
+                        sourceType :"",
+                        targetId: c.targetId,
+                        targetType: ""
+                    });
                     instance.detach(c);
                 });
                 instance.bind("connection", function (info) {
@@ -272,6 +278,7 @@
                     for (var i = 0; i < connections.length; i++) {
                         instance.connect({source: connections[i].sourceId, target: connections[i].targetId});
                     }
+                    connections = [];
                 });
                 jsPlumb.fire("jsPlumbDemoLoaded", instance);
             });
@@ -332,6 +339,12 @@
                 // just do this: jsPlumb.bind("click", jsPlumb.detach), but I wanted to make it clear what was
                 // happening.
                 instance.bind("click", function (c) {
+                    connectionsToDel.push({
+                        sourceId: c.sourceId,
+                        sourceType :"",
+                        targetId: c.targetId,
+                        targetType: ""
+                    });
                     instance.detach(c);
                 });
                 // bind a connection listener. note that the parameter passed to this function contains more than
@@ -373,6 +386,7 @@
             });
         });
         $("#save").click(function(){
+            //先删除 需要删除的连接 然后再保存
             var connectionsToSave = [];
             $.each(instance.getConnections(), function (idx, connection) {
                 connectionsToSave.push({
@@ -385,7 +399,10 @@
             var saveConnectionCallBack = function saveConnectionCallBack(){
                 alert("保存成功");
             }
-            serviceLinkManager.saveConnections(connectionsToSave, saveConnectionCallBack);
+            var delConnectionCallBack = function delConnectionCallBack(){
+                serviceLinkManager.saveConnections(connectionsToSave, saveConnectionCallBack);
+            }
+            serviceLinkManager.delConnections(connectionsToDel, delConnectionCallBack);
         });
     });
 </script>
