@@ -76,6 +76,7 @@
                     content: content
                 }
             });
+            parent.$('#subtab').tabs('select',title);
         }
     }
     var toolbar = [
@@ -110,14 +111,24 @@
             text: '血缘分析',
             iconCls: 'icon-qxfp',
             handler: function () {
-                var content = '<iframe scrolling="auto" frameborder="0"  src="/dataTemplate/syslink/t5.html" style="width:100%;height:100%;"></iframe>';
-
-                parent.uiinit.subtab.add({
-                    title: '血缘分析',
-                    content: content
-                })
-
-
+                var checkedItems = $('#invokeLinkeTable').datagrid('getChecked');
+                var checkedItem;
+                if (checkedItems != null && checkedItems.length > 0) {
+                    if (checkedItems.length > 1) {
+                        alert("请选择一个节点进行预览！");
+                        return false;
+                    }
+                    else {
+                        checkedItem = checkedItems[0];
+                        console.log(checkedItem);
+                        var content = '<iframe scrolling="auto" frameborder="0"  src="/jsp/serviceLink/parentLink.jsp?sourceId='+checkedItem.id+'" style="width:100%;height:100%;"></iframe>';
+                        selectTab('血缘分析', content);
+                        selectTab('血缘分析', content);
+                    }
+                }
+                else {
+                    alert("请选中要预览的节点！");
+                }
             }
         }];
 </script>

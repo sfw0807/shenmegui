@@ -160,19 +160,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				collapsible: true,
 				collapsed:true,
 				singleSelect:true,
-				url:'/operation/getInterfaceByOSS?operationId=${operation.operationId }&serviceId=${service.serviceId }',
+				url:'/serviceLink/getInterfaceByOSS?operationId=${operation.operationId }&serviceId=${service.serviceId }',
 				method:'get',
 				pagination:true">
 		<thead>
 			<tr>
 				<th data-options="field:'systemId', width:50">系统id</th>
-						<th data-options="field:'systeChineseName', width:150"
-							formatter='ff.systemChineseName'>系统名称</th>
+						<th data-options="field:'systemChineseName', width:150">系统名称</th>
 						<th data-options="field:'isStandard', width:50"
 							formatter='ff.isStandardText'>标准</th>
 						<th data-options="field:'interfaceId', width:50">接口id</th>
-						<th data-options="field:'inter.interfaceName', width:150"
-							formatter='ff.interfaceName'>接口名称</th>
+						<th data-options="field:'interfaceName', width:150">接口名称</th>
 						<th data-options="field:'type', width:50"
 							formatter='ff.typeText'>类型</th>
 						<th data-options="field:'desc', width:100">描述</th>

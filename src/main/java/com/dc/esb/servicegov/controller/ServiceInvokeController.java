@@ -1,8 +1,11 @@
 package com.dc.esb.servicegov.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.dc.esb.servicegov.util.JSONUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,5 +37,38 @@ public class ServiceInvokeController {
             serviceInvokeViewBeans.add(serviceInvokeViewBean);
         }
         return serviceInvokeViewBeans;
+    }
+
+//根据系统id查询接口列表
+
+    /**
+     * @param systemId
+     * @return
+     */
+    @RequestMapping("/getInterface")
+    @ResponseBody
+    public Map<String, Object> getInterface(String systemId) {
+        List<ServiceInvoke> rows = serviceInvokeService.findBy("systemId", systemId);
+
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("total", rows.size());
+        result.put("rows", JSONUtil.getInterface().convert(rows, ServiceInvoke.simpleFields()));
+        return result;
+    }
+
+    /**
+     * @param serviceId
+     * @param operationId
+     * @param systemId
+     * @return
+     */
+    @RequestMapping("/getInterfaceByOSS")
+    @ResponseBody
+    public Map<String, Object> getInterfaceByOSS(String serviceId, String operationId, String systemId) {
+        List<?> rows = serviceInvokeService.findJsonBySO(serviceId, operationId);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("total", rows.size());
+        result.put("rows", rows);
+        return result;
     }
 }

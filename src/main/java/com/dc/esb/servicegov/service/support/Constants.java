@@ -14,9 +14,10 @@ public class Constants {
     public static final String INVOKE_TYPE_PROVIDER = "0";
     
     public static class Operation{
-    	public static final String OPT_STATE_UNPASS = "0";
+    	public static final String OPT_STATE_UNAUDIT = "0";  //0：未审核， 1：审核通过，2：审核不通过
     	public static final String OPT_STATE_PASS = "1";
-    	
+    	public static final String OPT_STATE_UNPASS = "2";
+
     	
     }
     

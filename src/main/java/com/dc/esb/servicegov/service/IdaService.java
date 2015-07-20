@@ -7,4 +7,6 @@ public interface IdaService  extends BaseService<Ida, String> {
     public void deletes(String [] ids);
 
     public void saveOrUpdate(Ida[] idas);
+
+    public boolean updateMetadataId(String metadataId, String id);
 }

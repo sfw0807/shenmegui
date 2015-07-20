@@ -18,6 +18,8 @@
 <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/resources/js/ui.js"></script>
+<script type="text/javascript" src="/js/service/export.js"></script>
+<script type="text/javascript" src="/resources/js/jquery.fileDownload.js"></script>
 </head>
 
 <body>
@@ -200,16 +202,18 @@
 					if(confirm("确定要删除已选中的"+checkedItems.length+"项吗？一旦删除无法恢复！")){
 						var ids = [];
 						$.each(checkedItems, function(index, item) {
-							ids.push(item.operationId);
+							var operationPK = {};
+							operationPK.serviceId = "${entity.serviceId }";
+							operationPK.operationId = item.operationId;
+							ids.push(operationPK);
 						});
 						 $.ajax({
 					         type: "post",
 					         async: false,
+					         contentType:"application/json; charset=utf-8",
 					         url: "/operation/deletes",
 					         dataType: "json",
-					         data: {"operationIds":ids.join(","),
-					         		"serviceId":"${entity.serviceId }"
-					         },
+					         data: JSON.stringify(ids),
 					         success: function(data){
 					        	 alert("操作成功");
 					        	 $('#operationList').datagrid('reload');
@@ -305,6 +309,32 @@
 			   	});
 			}
 		},
+		{
+        			text:'导出',
+        			iconCls:'icon-qxfp',
+        			handler:function(){
+
+        				var checkedItems = $('#operationList').datagrid('getChecked');
+        				if(checkedItems != null && checkedItems.length > 0){
+        					if(checkedItems.length > 1){
+        						alert("请只选中一个要导出的场景！");
+        						return false;
+        					}else{
+        						uiinit.win({
+        							w:500,
+        							iconCls:'icon-add',
+        							title:"配置导出",
+        							modal:true,
+        							url : "/jsp/service/export_config.jsp?serviceId=${entity.serviceId }&operationId="+checkedItems[0].operationId
+        						});
+
+        					}
+        				}else{
+        					alert("请选中要导出的场景！");
+        				}
+
+        			}
+        		}
 		];
 		
 		function releaseOp(desc, operationId){
@@ -317,7 +347,10 @@
 			parent.$('#subtab').tabs('select','服务场景');
 			
 		}
+
+
 	</script>
 
 </body>
 </html>
+

@@ -28,13 +28,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </div>
 <div title="服务场景" style="padding:0px;">
 </div>
-<div title="服务接口SDO" style="padding:0px;">
+<div title="服务SDA" style="padding:0px;">
 </div>
 <div title="服务SLA" style="padding:0px;">
 </div>
 <div title="服务OLA" style="padding:0px;">
 </div>
-<div title="服务接口隐射" style="padding:0px;">
+<div title="服务接口映射" style="padding:0px;">
 </div>
 </div>
 

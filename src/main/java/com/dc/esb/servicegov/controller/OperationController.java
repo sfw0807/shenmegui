@@ -9,7 +9,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.dc.esb.servicegov.entity.OperationPK;
+import net.sf.json.JSON;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.lang.StringUtils;
@@ -109,9 +112,7 @@ public class OperationController {
         if (service != null) {
             mv.addObject("service", service);
             List<com.dc.esb.servicegov.entity.System> systemList =  systemService.getAll();
-            JsonConfig jc = JSONUtil.genderJsonConfig(com.dc.esb.servicegov.entity.System.simpleFields());
-            JSONArray ja = JSONArray.fromObject(systemList, jc);
-			mv.addObject("systemList", ja);
+			mv.addObject("systemList", JSONUtil.getInterface().convert(systemList, com.dc.esb.servicegov.entity.System.simpleFields()));
         }
         return mv;
     }
@@ -129,7 +130,7 @@ public class OperationController {
     public
     @ResponseBody
     boolean uniqueValid(String operationId, String serviceId) {
-        return operationServiceImpl.uniqueValid(operationId, serviceId);
+        return operationServiceImpl.uniqueValid(serviceId, operationId);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/add", headers = "Accept=application/json")
@@ -192,10 +193,8 @@ public class OperationController {
                 mv.addObject("service", service);
             }
             List<com.dc.esb.servicegov.entity.System> systems = systemService.getAll();
-            JsonConfig jc = JSONUtil.genderJsonConfig(com.dc.esb.servicegov.entity.System.simpleFields());
-            JSONArray ja = JSONArray.fromObject(systems, jc);
-            
-            mv.addObject("systemList", ja);
+
+            mv.addObject("systemList", JSONUtil.getInterface().convert(systems, com.dc.esb.servicegov.entity.System.simpleFields()));
             
             Map<String, String> params = new HashMap<String, String>();
             params.put("serviceId", serviceId);
@@ -206,24 +205,20 @@ public class OperationController {
             params.put("type", Constants.INVOKE_TYPE_CONSUMER);
             List<ServiceInvoke> consumerInvokes = serviceInvokeService.findBy(params);
             
-            JsonConfig serviceInvokeJC = JSONUtil.genderJsonConfig(ServiceInvoke.simpleFields());
-            
-            JSONArray ja1 = JSONArray.fromObject(consumerInvokes, serviceInvokeJC);
-            mv.addObject("consumerList", ja1);
+            mv.addObject("consumerList", JSONUtil.getInterface().convert(consumerInvokes, ServiceInvoke.simpleFields()));
             
             params.put("type", Constants.INVOKE_TYPE_PROVIDER);
             List<ServiceInvoke> providerInvokes = serviceInvokeService.findBy(params);
 
-            JSONArray ja2 = JSONArray.fromObject(providerInvokes, serviceInvokeJC);
-            mv.addObject("providerList", ja2);
+            mv.addObject("providerList", JSONUtil.getInterface().convert(providerInvokes, ServiceInvoke.simpleFields()));
         }
         return mv;
     }
 
-    @RequestMapping("/deletes")
+    @RequestMapping(method = RequestMethod.POST, value = "/deletes", headers = "Accept=application/json")
     @ResponseBody
-    public boolean deletes(String operationIds) {
-        operationServiceImpl.deleteOperations(operationIds);
+    public boolean deletes(@RequestBody OperationPK[] operationPks) {
+        operationServiceImpl.deleteOperations(operationPks);
         return true;
     }
 

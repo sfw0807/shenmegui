@@ -114,6 +114,7 @@ var delIds = [];
 				for(var i=0; i<newIds.length; i++){
 					var editNode = t.treegrid('find', newIds[i]);
 					t.treegrid('endEdit', editNode.id);
+					console.log(editNode);
 					var node = {};
 					node.sdaId = editNode.id;
 					node.structName = editNode.text;
@@ -123,11 +124,12 @@ var delIds = [];
 					node.operationId = "${operation.operationId }";
 					
 					node.structAlias = editNode.append1;
-					node.desc = editNode.append2;
-					node.remark = editNode.append3;
-					
+					node.type = editNode.append2;
+					node.length = editNode.append3;
+					node.metadataId = editNode.append4;
+					node.required = editNode.append5;
+
 					editNodes.push(node);
-					console.log(node);
 				}
 				
 				editingId = undefined;
@@ -273,10 +275,12 @@ var delIds = [];
 		<thead>
 			<tr>
 				<th data-options="field:'text',width:180,editor:'text'">字段名</th>
-				<th data-options="field:'append1',width:60,align:'right',editor:'text'">中文名称</th>
-				<th data-options="field:'append2',width:80,editor:'text'">功能描述</th>
-				<th data-options="field:'append3',width:80,editor:'text'">备注</th>
-               	<th data-options="field:'id',width:120,formatter:formatConsole">操作</th>
+				<th data-options="field:'append1',width:60,align:'right',editor:'text'">字段别名</th>
+				<th data-options="field:'append2',width:60,editor:'text'">类型</th>
+				<th data-options="field:'append3',width:60,editor:'text'">长度</th>
+				<th field="append4" width="80" editor="{type:'combobox', options:{method:'get', url:'/metadata/getAll', valueField:'metadataId',textField:'metadataName'}}">元数据</th>
+                <th data-options="field:'append5',width:60,editor:'text'">是否必须</th>
+               	<th data-options="field:'id',width:80,formatter:formatConsole">操作</th>
 			</tr>
 		</thead>
 	</table>

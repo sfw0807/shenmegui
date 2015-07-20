@@ -45,4 +45,24 @@ public class InvokeConnectionServiceImpl extends AbstractBaseService<InvokeConne
         }
         return connections;
     }
+
+    /**
+     * TODO 注意环形递归
+     * 根据交易链路的某个子节点 查询交易链路血缘分析
+     *
+     * @param sourceId
+     * @return
+     */
+    public List<InvokeConnection> getConnectionsEndWith(String targetId) {
+        List<InvokeConnection> connections = new ArrayList<InvokeConnection>();
+        List<InvokeConnection> endConnections = getDAO().findBy("targetId", targetId);
+        connections.addAll(endConnections);
+        for (InvokeConnection invokeConnection : endConnections) {
+            String sourceId = invokeConnection.getSourceId();
+            if (null != sourceId) {
+                connections.addAll(getConnectionsEndWith(sourceId));
+            }
+        }
+        return connections;
+    }
 }

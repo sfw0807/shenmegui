@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 public class OperationPK  implements Serializable{
 
-	private static final long serialVersionUID = 7599992430051310574L;
-
 	private String serviceId;
 	private String operationId;
 	

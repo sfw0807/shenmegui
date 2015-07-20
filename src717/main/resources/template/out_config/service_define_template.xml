@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<esb_xml>
+  <request>
+    <sdoroot>
+      <SYS_HEAD>
+        <Mac metadataid="Mac"/>
+        <MacOrgId metadataid="MacOrgId"/>
+        <SrcSysId metadataid="SrcSysId"/>
+        <CnsmrId metadataid="CnsmrId"/>
+        <SvcAdr metadataid="SvcAdr"/>
+        <SvcOpr metadataid="SvcOpr"/>
+        <ReplyAdr metadataid="ReplyAdr"/>
+        <ExtdCntnt metadataid="ExtdCntnt"/>
+      </SYS_HEAD>
+      <APP_HEAD>
+        <TxnDt metadataid="TxnDt"/>
+        <TxnTm metadataid="TxnTm"/>
+        <TxnTrlNo metadataid="TxnTrlNo"/>
+        <TxnSeqNo metadataid="TxnSeqNo"/>
+        <CnsmrId metadataid="CnsmrId"/>
+        <GlblSeqNo metadataid="GlblSeqNo"/>
+        <SrcSysId metadataid="SrcSysId"/>
+        <BrId metadataid="BrId"/>
+        <ChnlTp metadataid="ChnlTp"/>
+        <TmlCd metadataid="TmlCd"/>
+        <CityCd metadataid="CityCd"/>
+        <PIN metadataid="PIN"/>
+        <KeyVsnNo metadataid="KeyVsnNo"/>
+        <SysOfst1 metadataid="SysOfst1"/>
+        <SysOfst2 metadataid="SysOfst2"/>
+        <AhrTrlNo metadataid="AhrTrlNo"/>
+        <AhrPswd metadataid="AhrPswd"/>
+        <AhrCardFlg metadataid="AhrCardFlg"/>
+        <AhrCardNo metadataid="AhrCardNo"/>
+        <LngCd metadataid="LngCd"/>
+      </APP_HEAD>
+       ${request}$
+    </sdoroot>
+  </request>
+  <response>
+    <sdoroot>
+      <SYS_HEAD>
+        <Mac metadataid="Mac"/>
+        <MacOrgId metadataid="MacOrgId"/>
+        <MsgId metadataid="MsgId"/>
+        <TrgtSysId metadataid="TrgtSysId"/>
+        <RelMsgId metadataid="RelMsgId"/>
+        <SvcAdr metadataid="SvcAdr"/>
+        <SvcOpr metadataid="SvcOpr"/>
+        <ExtdCntnt metadataid="ExtdCntnt"/>
+      </SYS_HEAD>
+      <APP_HEAD>
+        <TxnDt metadataid="TxnDt"/>
+        <TxnTm metadataid="TxnTm"/>
+        <BkndSeqNo metadataid="BkndSeqNo"/>
+        <BkndSysId metadataid="BkndSysId"/>
+        <GlblSeqNo metadataid="GlblSeqNo"/>
+        <RetCd metadataid="RetCd"/>
+        <RetMsg metadataid="RetMsg"/>
+        <LngCd metadataid="LngCd"/>
+        <FltMsg metadataid="FltMsg"/>
+        <FltCd metadataid="FltCd"/>
+      </APP_HEAD>
+      ${response}$
+    </sdoroot>
+  </response>
+</esb_xml>

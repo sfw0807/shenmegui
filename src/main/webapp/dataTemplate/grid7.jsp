@@ -188,12 +188,16 @@
             }
         }];
 </script>
+
 <script type="text/javascript" src="/resources/js/jquery.min.js"></script>
 <script type="text/javascript" src="/resources/js/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="/resources/js/ui.js"></script>
 <script type="text/javascript" src="/assets/metadata/metadataManager.js"></script>
 <script type="text/javascript" src="/assets/metadata/metadata.js"></script>
+<scirpt type="text/javascript" src="/resources/js/jquery.fileupload.js"></scirpt>
 <script type="text/javascript" src="/resources/js/jquery.fileDownload.js"></script>
+
+
 
 <script type="text/javascript">
     $(function () {

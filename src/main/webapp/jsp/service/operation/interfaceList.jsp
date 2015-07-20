@@ -15,7 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		data-options="
 				rownumbers:true,
 				singleSelect:true,
-				url:'/operation/getInterface?systemId=<%=request.getParameter("systemId") %>',
+				url:'/serviceLink/getInterface?systemId=${param.systemId}',
 				method:'get',
 				toolbar:'#tb',
 				pagination:true,
@@ -37,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td><a href="javascript:void(0)" onclick="$('#opDlg').dialog('close');" class="easyui-linkbutton" iconCls="icon-cancel" plain="true">取消</a>&nbsp;&nbsp;
-	    <a href="javascript:void(0)" onclick="selectInterface2('${param.newListId}', '${param.type }');" class="easyui-linkbutton" iconCls="icon-ok" plain="true">确定</a>
+	    <a href="javascript:void(0)" onclick="selectInterface('${param.newListId}', '${param.type }');" class="easyui-linkbutton" iconCls="icon-ok" plain="true">确定</a>
     </td>
     </tr>
     </table>

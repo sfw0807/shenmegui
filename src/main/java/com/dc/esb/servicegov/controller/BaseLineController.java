@@ -69,13 +69,10 @@ public class BaseLineController {
 	@ResponseBody
 	public Map<String, Object> getBLInvoke(String baseId) {
 		List<?> rows = serviceInvokeServiceImpl.getBLInvoke(baseId);
-		JsonConfig serviceInvokeJC = JSONUtil.genderJsonConfig(ServiceInvoke.simpleFields());
-        JSONArray ja = JSONArray.fromObject(rows, serviceInvokeJC);
-        
-		
+
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("total", rows.size());
-		result.put("rows", ja);
+		result.put("rows", rows);
 		return result;
 	}
 }

@@ -44,10 +44,12 @@ public class ServiceLinkController {
         List<ServiceInvoke> serviceInvokes = serviceInvokeService.findBy(params);
         for(ServiceInvoke serviceInvoke : serviceInvokes){
             ServiceInvokeInfoVO serviceInvokeInfoVO = new ServiceInvokeInfoVO(serviceInvoke);
-            Operation operation = operationService.getOperation(serviceInvoke.getServiceId(),serviceInvoke.getOperationId());
-            Service service = serviceService.getById(serviceInvoke.getServiceId());
-            serviceInvokeInfoVO.setServiceName(service.getServiceName());
-            serviceInvokeInfoVO.setOperationName(operation.getOperationName());
+            if(serviceInvoke.getOperationId()!=null && serviceInvoke.getServiceId()!=null){
+                Operation operation = operationService.getOperation(serviceInvoke.getServiceId(),serviceInvoke.getOperationId());
+                Service service = serviceService.getById(serviceInvoke.getServiceId());
+                serviceInvokeInfoVO.setServiceName(service.getServiceName());
+                serviceInvokeInfoVO.setOperationName(operation.getOperationName());
+            }
             serviceInvokeInfoVOs.add(serviceInvokeInfoVO);
         }
         return serviceInvokeInfoVOs;
@@ -61,10 +63,12 @@ public class ServiceLinkController {
         List<ServiceInvoke> serviceInvokes = serviceInvokeService.findBy(params);
         for(ServiceInvoke serviceInvoke : serviceInvokes){
             ServiceInvokeInfoVO serviceInvokeInfoVO = new ServiceInvokeInfoVO(serviceInvoke);
-            Operation operation = operationService.getOperation(serviceInvoke.getServiceId(),serviceInvoke.getOperationId());
-            Service service = serviceService.getById(serviceInvoke.getServiceId());
-            serviceInvokeInfoVO.setServiceName(service.getServiceName());
-            serviceInvokeInfoVO.setOperationName(operation.getOperationName());
+            if(serviceInvoke.getOperationId()!=null && serviceInvoke.getServiceId()!=null){
+                Operation operation = operationService.getOperation(serviceInvoke.getServiceId(),serviceInvoke.getOperationId());
+                Service service = serviceService.getById(serviceInvoke.getServiceId());
+                serviceInvokeInfoVO.setServiceName(service.getServiceName());
+                serviceInvokeInfoVO.setOperationName(operation.getOperationName());
+            }
             serviceInvokeInfoVOs.add(serviceInvokeInfoVO);
         }
         return serviceInvokeInfoVOs;
@@ -75,6 +79,10 @@ public class ServiceLinkController {
         return invokeConnectionService.getConnectionsStartWith(sourceId);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/parentInvokeConnections/sourceId/{sourceId}", headers = "Accept=application/json")
+    public @ResponseBody List<InvokeConnection> parentInvokeConnections(@PathVariable("sourceId") String sourceId){
+        return invokeConnectionService.getConnectionsEndWith(sourceId);
+    }
     @RequestMapping(method = RequestMethod.POST, value = "/save", headers = "Accept=application/json")
     public @ResponseBody boolean save(@RequestBody InvokeConnection[] connections) {
         for(InvokeConnection connection : connections){

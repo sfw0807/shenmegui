@@ -88,4 +88,14 @@ public class IDAController {
 //		idaService.exeHql(hql, seq2,id2);
 		return true;
 	}
+
+	/**
+	 * @param metadataId
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST, value = "/updateMetadataId", headers = "Accept=application/json")
+	public @ResponseBody boolean updateMetadataId( String metadataId, String id){
+		return idaService.updateMetadataId(metadataId, id);
+	}
 }

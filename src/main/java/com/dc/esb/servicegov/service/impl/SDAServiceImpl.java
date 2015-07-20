@@ -37,6 +37,7 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
         SDA sdaRoot = new SDA();
         sdaRoot.setSdaId(UUID.randomUUID().toString());
         sdaRoot.setStructName("root");
+        sdaRoot.setStructAlias("根元素");
         sdaRoot.setSeq(0);
         sdaRoot.setServiceId(operation.getServiceId());
         sdaRoot.setOperationId(operation.getOperationId());
@@ -45,6 +46,7 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
         SDA sdaReq = new SDA();
         sdaReq.setSdaId(UUID.randomUUID().toString());
         sdaReq.setStructName("request");
+        sdaReq.setStructAlias("请求头");
         sdaReq.setSeq(0);
         sdaReq.setServiceId(operation.getServiceId());
         sdaReq.setOperationId(operation.getOperationId());
@@ -54,6 +56,7 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
         SDA sdaRes = new SDA();
         sdaRes.setSdaId(UUID.randomUUID().toString());
         sdaRes.setStructName("response");
+        sdaRes.setStructAlias("响应头");
         sdaRes.setSeq(0);
         sdaRes.setServiceId(operation.getServiceId());
         sdaRes.setOperationId(operation.getOperationId());
@@ -96,8 +99,10 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
         fields.put("id", "sdaId");
         fields.put("text", "structName");
         fields.put("append1", "structAlias");
-        fields.put("append2", "desc");
-        fields.put("append3", "remark");
+        fields.put("append2", "type");
+        fields.put("append3", "length");
+        fields.put("append4", "metadataId");
+        fields.put("append5", "required");
 
         EasyUiTreeUtil eUtil = new EasyUiTreeUtil();
 

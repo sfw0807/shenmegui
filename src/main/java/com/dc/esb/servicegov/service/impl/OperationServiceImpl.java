@@ -114,7 +114,6 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, Operati
             String versionId = versionServiceImpl.addVersion(Constants.Version.TARGET_TYPE_OPERATION, entity.getOperationId(),Constants.Version.TYPE_ELSE);
             entity.setVersionId(versionId);
             entity.setDeleted(Constants.DELTED_FALSE);
-            entity.setOptDate(DateUtils.format(new Date()));
             operationDAOImpl.save(entity);
             sdaService.genderSDAAuto(entity);
         } catch (Exception e) {
@@ -127,8 +126,8 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, Operati
     public boolean editOperation(HttpServletRequest req, Operation entity) {
         try {
             versionServiceImpl.editVersion(entity.getVersionId());
-            entity.setOptDate(DateUtils.format(new Date()));
             operationDAOImpl.save(entity);
+            //清空
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -136,11 +135,10 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, Operati
         return true;
     }
 
-    public void deleteOperations(String operationIds) {
-        String[] ids = operationIds.split("\\,");
-        if (ids != null && ids.length > 0) {
-            for (String operationId : ids) {
-                operationDAOImpl.delete(operationId);
+    public void deleteOperations(OperationPK[] operationPks) {
+        if (operationPks != null && operationPks.length > 0) {
+            for (OperationPK operationPK : operationPks) {
+                operationDAOImpl.delete(operationPK);
             }
         }
     }
@@ -162,7 +160,6 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, Operati
     }
 
     /**
-     * 这个方法也极其混乱，注意一个方法做好一件事情
      * @param req
      * @param serviceId
      * @param operationId
@@ -171,6 +168,8 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, Operati
      * @return
      */
     public boolean addInvoke(HttpServletRequest req, String serviceId, String operationId, String consumerStr, String providerStr) {
+        //清空原有关系
+        serviceInvokeService.updateBySO(serviceId, operationId);
         if (!StringUtils.isEmpty(consumerStr)) {
             String[] constrs = consumerStr.split("\\,");
             for (String constr : constrs) {

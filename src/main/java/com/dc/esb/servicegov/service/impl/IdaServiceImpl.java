@@ -32,4 +32,11 @@ public class IdaServiceImpl extends AbstractBaseService<Ida, String> implements 
 			idaDAOImpl.save(ida);
 		}
 	}
+
+    @Override
+    public boolean updateMetadataId(String metadataId, String id) {
+        String hql = " update "+ Ida.class.getName() + " set metadataId = ? where id = ?";
+        idaDAOImpl.batchExecute(hql, metadataId, id);
+        return true;
+    }
 }

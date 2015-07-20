@@ -24,6 +24,17 @@ var serviceLinkManager = {
             }
         });
     },
+    "getParentConnectionsBySourceId" : function getParentConnectionsBySourceId(sourceId, callBack){
+        $.ajax({
+            "type": "GET",
+            "contentType": "application/json; charset=utf-8",
+            "url": "/serviceLink/parentInvokeConnections/sourceId/" + sourceId,
+            "dataType": "json",
+            "success": function (result) {
+                callBack(result);
+            }
+        });
+    },
     "saveConnections" : function saveConnections (connections, callBack){
         $.ajax({
             "type": "POST",

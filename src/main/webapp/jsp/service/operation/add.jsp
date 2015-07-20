@@ -19,10 +19,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <script type="text/javascript" src="/jsp/service/operation/operation.js"></script>
 <script type="text/javascript">
-	var invokes = new Array();
-    
-    $(document).ready(function(){
-    	$.extend($.fn.validatebox.defaults.rules,{  
+$(document).ready(function(){
+       $.extend($.fn.validatebox.defaults.rules,{
         unique: {  
             validator : function(value, param){ 
             var result;
@@ -39,180 +37,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			 return result;
             },  
             message: '已存在相同场景编号'  
-        }  
-    });
-    	loadSystem("systemList1", ${systemList}, "systemId", "systemChineseName");
-    	loadSystem("systemList2", ${systemList}, "systemId", "systemChineseName");
-	});
-   
-   function selectInterface2(listId, type){
-	var checkedItems = $('#intefaceList').datagrid('getChecked');
-    if (checkedItems != null && checkedItems.length > 0) {
-        $.each(checkedItems, function (index, item) {
-        	console.log(item);
-            var exsit = $("#" + listId + " option[value='__invoke__" + item.invokeId + "']");
-            if (exsit.length > 0) {
-                alert("接口已经被选中！");
-            } else {
-                $("#" + listId).append("<option value='__invoke__" + item.invokeId + "'>" + item.system.systemChineseName + "::" + item.inter.interfaceName + "</option>");
-            	addInvoke(item, type);
-            }
-
-        });
-    }
-    $('#opDlg').dialog('close');
-}
-
-function selectex2(oldDataUi, newDataUi, type) {
-    var oldData = ""
-
-    $('#' + oldDataUi + ' option:selected').each(function () {
-        var value = $(this).val();
-        $("#" + oldDataUi + " option[value=" + value + "]").remove();
-        
-        addSystem(value, type);
-//			$("#"+newDataUi).append("<option value='"+$(this).val()+"'>"+this.text+"</option>");
-    });
-}
-
-//从系统选择消费者接口
-function chooseInterface2(oldListId, newListId, type) {
-    $('#' + oldListId + ' option:selected').each(function () {
-        var value = $(this).val();
-        var text = this.text;
-        $.ajax({
-            type: "get",
-            async: false,
-            contentType: "application/json; charset=utf-8",
-            url: "/operation/judgeInterface",
-            dataType: "json",
-            data: {"systemId": value},
-            success: function (data) {
-                //如果系统没有接口，直接转移
-                if (!data) {
-                    var exsit = $("#" + newListId + " option[value='" + value + "']");
-                    console.log(length);
-                    if (exsit.length > 0) {
-                        alert("应经被选中！");
-                    } else {
-                        $("#" + newListId).append("<option value='" + value + "'>" + text + "</option>");
-                        addSystem(value, type)
-                    }
-
-                } else {
-                    //如果有接口弹出接口选择页面
-                    $('#opDlg').dialog({
-                        title: '接口选择',
-                        width: 700,
-                        closed: false,
-                        cache: false,
-                        href: '/jsp/service/operation/interfaceList.jsp?systemId=' + value + "&newListId=" + newListId+"&type=?"+type,
-                        modal: true
-                    });
-                }
-
-            }
-        });
-    });
-
-}
-
-function addInvoke(item, type){
-	var serviceId = $("#serviceId").attr("value");
-  	var operationId = $("#operationId").textbox("getValue");
-  	console.log(serviceId);
-	var serviceInvoke ={
-			"invokeId":item.invokeId,
-			"systemId":item.systemId,
-			"isStandard":item.isStandard, 
-			"serviceId":serviceId, 
-			"operationId":operationId,
-			"interfaceId":item.interfaceId, 
-			"type":type, 
-			"desc":item.desc ,
-			"remark":item.remark ,
-			"protocolId":item.protocolId,
-	}
-	invokes.push(serviceInvoke);
-}
-function addSystem(systemId, type){
-  	var serviceId = $("#serviceId").attr("value");
-  	var operationId = $("#operationId").textbox("getValue");
-	var serviceInvoke ={
-			"systemId":item.systemId,
-			"serviceId":serviceId, 
-			"operationId":operationId,
-			"type":type, 
-	}
-	invokes.push(serviceInvoke);
-}
-function selectInterface2(listId, type) {
-    var checkedItems = $('#intefaceList').datagrid('getChecked');
-    if (checkedItems != null && checkedItems.length > 0) {
-        $.each(checkedItems, function (index, item) {
-        	console.log(item);
-            var exsit = $("#" + listId + " option[value='__invoke__" + item.invokeId + "']");
-            if (exsit.length > 0) {
-                alert("该接口已经被选中！");
-            } else {
-                $("#" + listId).append("<option value='__invoke__" + item.invokeId + "'>" + item.system.systemChineseName + "::" + item.inter.interfaceName + "</option>");
-            	addInvoke(item, type)
-            }
-
-        });
-    }
-    $('#opDlg').dialog('close');
-}
-
-function save2(formId, operation) {
-    if (!$("#" + formId).form('validate')) {
-        return false;
-    }
-    var params = $("#" + formId).serialize();
-    params = decodeURIComponent(params, true);
-
-    var urlPath;
-    if (operation == 0) {
-        urlPath = "/operation/add";
-    }
-    if (operation == 1) {
-        urlPath = "/operation/edit";
-    }
-    $.ajax({
-        type: "post",
-        async: false,
-        url: urlPath,
-        dataType: "json",
-        data: params,
-        success: function (data) {
-            if (data == true) {
-				afterAdd();
-            } else {
-                alert("保存出现异常 ，操作失败！");
-            }
-
         }
     });
-}
-
-function afterAdd(){
-	console.log(invokes);
-	 		$.ajax({
-                    type: "post",
-                    async: false,
-                    contentType: "application/json; charset=utf-8",
-                    url: "/serviceLink/saveBatch",
-                    dataType: "json",
-                    data: JSON.stringify(invokes),
-                    success: function (data) {
-                        alert("操作成功 ！");
-                        //清空页面数据
-                        clean();
-                        //刷新查询列表
-                        parent.serviceInfo.reloadData();
-                    }
-                });
-}
+     loadSystem("systemList1", ${systemList}, "systemId", "systemChineseName");
+     loadSystem("systemList2", ${systemList}, "systemId", "systemChineseName");
+});
 </script>
 
 </head>
