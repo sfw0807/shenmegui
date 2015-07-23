@@ -19,8 +19,8 @@ package com.dc.esb.servicegov.security.impl;
  * under the License.
  */
 
-import com.dc.esb.servicegov.entity.SGUser;
-import com.dc.esb.servicegov.service.impl.UserServiceImpl;
+import com.dc.esb.servicegov.entity.*;
+import com.dc.esb.servicegov.service.impl.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.authc.*;
@@ -32,6 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * The Spring/Hibernate sample application's one and only configured Apache Shiro Realm.
  * <p/>
@@ -42,14 +44,12 @@ import org.springframework.transaction.annotation.Transactional;
  * of a 'real' application in addition to here. We felt it better to use that same DAO to show code re-use.</p>
  */
 @Component
-@Transactional
 public class SampleRealm extends AuthorizingRealm {
 
     private static final Log log = LogFactory.getLog(SampleRealm.class);
 
     @Autowired
-    private UserServiceImpl userService;
-
+    private SecurityServiceImpl securityService;
 
     public SampleRealm() {
         setName("SampleRealm"); //This name must match the name in the User class's getPrincipals() method
@@ -60,9 +60,9 @@ public class SampleRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
         log.info("user login");
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-        SGUser SGUser = userService.getById(token.getUsername());
-        if (SGUser != null) {
-            return new SimpleAuthenticationInfo(token.getUsername(), SGUser.getPassword(), getName());
+        SGUser user = securityService.getUserById(token.getUsername());
+        if (user != null) {
+            return new SimpleAuthenticationInfo(token.getUsername(), user.getPassword(), getName());
         } else {
             return null;
         }
@@ -72,13 +72,17 @@ public class SampleRealm extends AuthorizingRealm {
     @Transactional
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String userName = (String) principals.fromRealm(getName()).iterator().next();
-        SGUser SGSGUser = userService.getById(userName);
-        if (SGSGUser != null) {
+        SGUser user = securityService.getUserById(userName);
+        if (user != null) {
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-
-//            Role role = user.getRoleId();
-//            info.addRole(role.getName());
-//            info.addStringPermissions(role.getPermissions());
+            List<Role> roles = securityService.getRoleOfUser(userName);
+            for (Role role : roles) {
+                info.addRole(role.getName());
+                List<Permission> permissions = securityService.getPermissionOfRole(role.getId());
+                for (Permission permission : permissions) {
+                    info.addStringPermission(permission.getDescription()+ "-" +permission.getName());
+                }
+            }
 
             return info;
         } else {

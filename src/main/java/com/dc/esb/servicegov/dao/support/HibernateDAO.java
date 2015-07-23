@@ -2,11 +2,7 @@ package com.dc.esb.servicegov.dao.support;
 
 import com.dc.esb.servicegov.util.ReflectionUtils;
 import org.hibernate.*;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.hibernate.metadata.ClassMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

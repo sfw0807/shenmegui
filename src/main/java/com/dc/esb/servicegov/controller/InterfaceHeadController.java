@@ -5,14 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.dc.esb.servicegov.entity.Ida;
@@ -31,6 +30,7 @@ public class InterfaceHeadController {
 	@Autowired
 	private IdaService idaService;
 
+	@RequiresPermissions({"system-get"})
 	@RequestMapping(method = RequestMethod.GET, value = "/getAll", headers = "Accept=application/json")
 	public @ResponseBody
 	List<TreeNode> getAll() {
@@ -52,6 +52,7 @@ public class InterfaceHeadController {
 		return rootList;
 	}
 
+	@RequiresPermissions({"system-add"})
 	@RequestMapping(method = RequestMethod.POST, value = "/add", headers = "Accept=application/json")
 	public @ResponseBody
 	boolean save(@RequestBody
@@ -94,6 +95,7 @@ public class InterfaceHeadController {
 		return true;
 	}
 
+	@RequiresPermissions({"system-update"})
 	@RequestMapping(method = RequestMethod.GET, value = "/edit/{headId}", headers = "Accept=application/json")
 	public ModelAndView getInterfaceHead(@PathVariable
 	String headId) {
@@ -104,18 +106,18 @@ public class InterfaceHeadController {
         modelAndView.setViewName("sysadmin/header_edit");  
 		return modelAndView;
 	}
-	
+
+	@RequiresPermissions({"system-delete"})
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{headId}", headers = "Accept=application/json")
 	public @ResponseBody
 	boolean delete(@PathVariable
 			String headId) {
 		interfaceHeadService.deleteById(headId);
-//		Map<String, String> params = new HashMap<String, String>();
-//		params.put("headId", headId);
-//		List<Ida> idas = idaService.findBy(params);
-//		for(Ida ida :idas){
-//			idaService.deleteById(ida.getId());
-//		}
 		return true;
+	}
+
+	@ExceptionHandler({UnauthenticatedException.class, UnauthorizedException.class})
+	public String processUnauthorizedException() {
+		return "403";
 	}
 }

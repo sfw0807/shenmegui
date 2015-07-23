@@ -33,6 +33,7 @@ public class ServiceController {
     @Autowired
     private ServiceCategoryServiceImpl serviceCategoryServiceImpl;
 
+    @RequiresPermissions({"service-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getTree", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -42,6 +43,7 @@ public class ServiceController {
         return getTreeJson(serviceCategoryList, serviceList);
     }
 
+    @RequiresPermissions({"service-add"})
     @RequestMapping(method = RequestMethod.POST, value = "/addService", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -49,6 +51,8 @@ public class ServiceController {
         serviceServiceImpl.save(service);
         return true;
     }
+
+    @RequiresPermissions({"service-update"})
     @RequestMapping(method = RequestMethod.POST, value = "/editService", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -57,6 +61,7 @@ public class ServiceController {
         return true;
     }
 
+    @RequiresPermissions({"service-delete"})
     @RequestMapping(method = RequestMethod.DELETE, value = "/deleteService/{Id}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -65,6 +70,7 @@ public class ServiceController {
         return true;
     }
 
+    @RequiresPermissions({"service-add"})
     @RequestMapping(method = RequestMethod.POST, value = "/addServiceCategory", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -73,6 +79,7 @@ public class ServiceController {
         return true;
     }
 
+    @RequiresPermissions({"service-update"})
     @RequestMapping(method = RequestMethod.POST, value = "/editServiceCategory", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -81,6 +88,7 @@ public class ServiceController {
         return true;
     }
 
+    @RequiresPermissions({"service-delete"})
     @RequestMapping(method = RequestMethod.DELETE, value = "/deleteServiceCategory/{Id}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -89,6 +97,7 @@ public class ServiceController {
         return true;
     }
 
+    @RequiresPermissions({"service-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/searchService/{serviceName}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -109,6 +118,7 @@ public class ServiceController {
 
     }
 
+    @RequiresPermissions({"service-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/searchService/processId/{processId}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -193,6 +203,7 @@ public class ServiceController {
     }
 
     //根据服务id跳转到服务基本信息页面
+    @RequiresPermissions({"service-get"})
     @RequestMapping("/serviceGrid")
     public ModelAndView serviceGrid(String serviceId) {
         ModelAndView mv = new ModelAndView("service/serviceGrid");
@@ -203,19 +214,21 @@ public class ServiceController {
         return mv;
     }
 
+    @RequiresPermissions({"service-get"})
     @RequestMapping("/serviceAppandForm/process/{processId}")
-    public ModelAndView serviceAppandForm(@PathVariable("processId")String processId) {
+    public ModelAndView serviceAppandForm(@PathVariable("processId") String processId) {
         ModelAndView mv = new ModelAndView("service/serviceGrid");
         mv.addObject(processId);
         return mv;
     }
 
-
+    @RequiresPermissions({"service-get"})
     @RequestMapping("serviceTree")
     public List<TreeNode> serviceTree() {
         return serviceServiceImpl.genderServiceTree();
     }
 
+    @RequiresPermissions({"service-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getAll", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -224,10 +237,8 @@ public class ServiceController {
     }
 
     @ExceptionHandler({UnauthenticatedException.class, UnauthorizedException.class})
-    public
-    @ResponseBody
-    boolean processUnauthorizedException() {
-        return false;
+    public String processUnauthorizedException() {
+        return "403";
     }
 
 }

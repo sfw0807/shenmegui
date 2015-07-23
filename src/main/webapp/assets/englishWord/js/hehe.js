@@ -72,6 +72,19 @@ var englishWordManager = {
                 callBack(result);
             }
         });
+    },
+    "query" : function(data,callBack){
+        $.ajax({
+            "type" : "POST",
+            "contentType" : "application/json;charset=utf-8",
+            "url" : "/englishWord/query",
+            "data": JSON.stringify(data),
+            "dataType": "json",
+            "success": function(result) {
+                callBack(result);
+            }
+        });
     }
+
 
 };

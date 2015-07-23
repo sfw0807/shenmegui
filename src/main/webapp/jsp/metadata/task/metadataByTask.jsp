@@ -71,7 +71,7 @@
 
 </fieldset>
 <table id="metadataList" class="easyui-datagrid" title="元数据管理"
-       data-options="rownumbers:true,singleSelect:false,url:'/metadata/query',method:'get',toolbar:toolbar,pagination:true,
+       data-options="rownumbers:true,singleSelect:false,url:'/metadata/list',method:'get',toolbar:toolbar,pagination:true,
 				pageSize:10" style="height:370px; width:auto;">
     <thead>
     <tr>

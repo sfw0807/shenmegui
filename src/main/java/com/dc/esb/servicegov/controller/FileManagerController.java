@@ -7,6 +7,7 @@ import com.dc.esb.servicegov.entity.Interface;
 import com.dc.esb.servicegov.service.FileManagerService;
 import com.dc.esb.servicegov.util.DateUtils;
 import com.dc.esb.servicegov.util.Utils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class FileManagerController {
     @Autowired
     FileManagerService fileManagerService;
 
-
+    @RequiresPermissions({"system-add"})
     @RequestMapping(method = RequestMethod.POST, value = "/getAll", headers = "Accept=application/json")
     public @ResponseBody
     Map<String,Object> getAll(HttpServletRequest req){

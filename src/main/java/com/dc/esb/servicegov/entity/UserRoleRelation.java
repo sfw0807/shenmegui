@@ -24,14 +24,6 @@ public class UserRoleRelation implements Serializable{
 	@Id
 	@Column(name = "USER_ID")
 	private String userId;
-
-	@ManyToOne
-	@JoinColumn(name="USER_ID",referencedColumnName="USER_ID")
-	private SGUser user;
-	
-	@ManyToOne
-	@JoinColumn(name="ROLE_ID",referencedColumnName="ROLE_ID")
-	private Role role;
 	
 	public String getRoleId() {
 		return roleId;
@@ -47,22 +39,6 @@ public class UserRoleRelation implements Serializable{
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public SGUser getSGUser() {
-		return user;
-	}
-
-	public void setSGUser(SGUser SGUser) {
-		this.user = SGUser;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
 	}
 
 	

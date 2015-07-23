@@ -1,19 +1,18 @@
 package com.dc.esb.servicegov.controller;
 
+import com.dc.esb.servicegov.dao.support.Page;
+import com.dc.esb.servicegov.entity.EnglishWord;
+import com.dc.esb.servicegov.service.impl.EnglishWordServiceImpl;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.dc.esb.servicegov.entity.EnglishWord;
-import com.dc.esb.servicegov.service.impl.EnglishWordServiceImpl;
 
 @Controller
 @RequestMapping("/englishWord")
@@ -22,14 +21,21 @@ public class EnglishWordController {
     @Autowired
     private EnglishWordServiceImpl englishWordService;
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getAll", headers = "Accept=application/json")
     public
     @ResponseBody
-    List<EnglishWord> getAll() {
-        List<EnglishWord> words = englishWordService.getAll();
-        return words;
+    Map<String, Object> getAll(@RequestParam("page") int pageNo, @RequestParam("rows") int rowCount) {
+        Page page = englishWordService.getAll(rowCount);
+        page.setPage(pageNo);
+        List<EnglishWord> rows = englishWordService.getAll(page);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("total", page.getResultCount());
+        result.put("rows", rows);
+        return result;
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getById/{Id}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -37,81 +43,84 @@ public class EnglishWordController {
         return englishWordService.getById(Id);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByEnglishWord/{value}", headers = "Accept=application/json")
     public
     @ResponseBody
     List<EnglishWord> getEnglishWordByEnglishWord(@PathVariable String value) {
-        Map<String,String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("englishWord", value);
         List<EnglishWord> words = englishWordService.findBy(params);
         return words;
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByWordAb/{value}", headers = "Accept=application/json")
     public
     @ResponseBody
     List<EnglishWord> getEnglishWordByWordAb(@PathVariable String value) {
         Map<String, String> params = new HashMap<String, String>();
-        params.put("wordAb",value);
+        params.put("wordAb", value);
         List<EnglishWord> words = englishWordService.findBy(params);
         return words;
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByChineseWord/{value}", headers = "Accept=application/json")
     public
     @ResponseBody
     List<EnglishWord> getEnglishWordByChineseWord(@PathVariable String value) {
         Map<String, String> params = new HashMap<String, String>();
-        params.put("chineseWord",value);
+        params.put("chineseWord", value);
         List<EnglishWord> words = englishWordService.findBy(params);
         return words;
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByPotUser/{value}", headers = "Accept=application/json")
     public
     @ResponseBody
     List<EnglishWord> getEnglishWordByPotUser(@PathVariable String value) {
         Map<String, String> params = new HashMap<String, String>();
-        params.put("potUser",value);
+        params.put("potUser", value);
         List<EnglishWord> words = englishWordService.findBy(params);
         return words;
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByPotDate/{value}", headers = "Accept=application/json")
     public
     @ResponseBody
     List<EnglishWord> getEnglishWordByPotDate(@PathVariable String value) {
         Map<String, String> params = new HashMap<String, String>();
-        params.put("potDate",value);
+        params.put("potDate", value);
         List<EnglishWord> words = englishWordService.findBy(params);
         return words;
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByRemark/{value}", headers = "Accept=application/json")
     public
     @ResponseBody
     List<EnglishWord> getEnglishWordByRemark(@PathVariable String value) {
         Map<String, String> params = new HashMap<String, String>();
-        params.put("remark",value);
+        params.put("remark", value);
         List<EnglishWord> words = englishWordService.findBy(params);
         return words;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/get/EnglishWord/{englishWord}/ChineseWord/{chineseWord}/WordAb/{wordAb}", headers = "Accept=application/json")
-    public
+    @RequiresPermissions({"metadata-get"})
+    @RequestMapping(method = RequestMethod.POST, value = "/query", headers = "Accept=application/json" )
     @ResponseBody
-    List<EnglishWord> getEnglishWordByRemark(@PathVariable(value = "englishWord") String englishWord, @PathVariable(value = "chineseWord") String chineseWord, @PathVariable(value = "wordAb") String wordAb) {
-        Map<String, String> params = new HashMap<String, String>();
-        if (!"itisanuniquevaluethatneverbeexisted".equals(englishWord))
-            params.put("englishWord", englishWord);
-        if (!"itisanuniquevaluethatneverbeexisted".equals(chineseWord))
-            params.put("chineseWord", chineseWord);
-        if (!"itisanuniquevaluethatneverbeexisted".equals(wordAb))
-            params.put("wordAb", wordAb);
-        List<EnglishWord> words = englishWordService.findBy(params);
-        return words;
+    public Map<String, Object> query(@RequestBody Map<String, String> params) {
+        List<EnglishWord> rows = englishWordService.findLikeAnyWhere(params);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("total", rows.size());
+        result.put("rows", rows);
+        return result;
     }
 
+    @RequiresPermissions({"metadata-add"})
     @RequestMapping(method = RequestMethod.POST, value = "/add", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -121,6 +130,7 @@ public class EnglishWordController {
         return true;
     }
 
+    @RequiresPermissions({"metadata-update"})
     @RequestMapping(method = RequestMethod.POST, value = "/modify", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -130,6 +140,7 @@ public class EnglishWordController {
         return true;
     }
 
+    @RequiresPermissions({"metadata-delete"})
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{id}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -139,5 +150,8 @@ public class EnglishWordController {
         return true;
     }
 
-
+    @ExceptionHandler({UnauthenticatedException.class, UnauthorizedException.class})
+    public String processUnauthorizedException() {
+        return "403";
+    }
 }

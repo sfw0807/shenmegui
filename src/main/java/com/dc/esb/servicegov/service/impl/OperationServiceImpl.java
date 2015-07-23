@@ -1,29 +1,22 @@
 package com.dc.esb.servicegov.service.impl;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.dc.esb.servicegov.dao.impl.OperationDAOImpl;
+import com.dc.esb.servicegov.dao.support.HibernateDAO;
+import com.dc.esb.servicegov.entity.Operation;
+import com.dc.esb.servicegov.entity.OperationHis;
+import com.dc.esb.servicegov.entity.OperationPK;
+import com.dc.esb.servicegov.entity.ServiceInvoke;
+import com.dc.esb.servicegov.service.support.AbstractBaseService;
+import com.dc.esb.servicegov.service.support.Constants;
+import com.dc.esb.servicegov.util.DateUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.dc.esb.servicegov.dao.impl.OperationDAOImpl;
-import com.dc.esb.servicegov.dao.support.HibernateDAO;
-import com.dc.esb.servicegov.entity.Operation;
-import com.dc.esb.servicegov.entity.OperationHis;
-import com.dc.esb.servicegov.entity.OperationPK;
-import com.dc.esb.servicegov.entity.ServiceHead;
-import com.dc.esb.servicegov.entity.ServiceInvoke;
-import com.dc.esb.servicegov.service.support.AbstractBaseService;
-import com.dc.esb.servicegov.service.support.Constants;
-import com.dc.esb.servicegov.util.DateUtils;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 @Service
 @Transactional
@@ -261,10 +254,7 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, Operati
             slaService.backUpSLAByCondition(params, operationHisAutoId);
             //备份OLA
             olaService.backUpByCondition(params, operationHisAutoId);
-            /**
-             * 这段代码有什么用
-             */
-            operationDAOImpl.save(operation);
+
         }
     }
 

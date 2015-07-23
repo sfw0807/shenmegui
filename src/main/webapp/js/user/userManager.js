@@ -91,5 +91,17 @@ var userManager = {
                 callBack(result);
             }
         });
+    },
+    "assignRoles" : function(data,callBack){
+        $.ajax({
+            type: "post",
+            contentType: "application/json; charset=utf-8",
+            url: "/user/assignRoles",
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function(result) {
+                callBack(result);
+            }
+        });
     }
 };

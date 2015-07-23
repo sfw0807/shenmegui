@@ -24,9 +24,6 @@ public class Role implements Serializable {
     private String name;
     @Column(name = "ROLE_REMARK")
     private String remark;
-
-    @OneToMany(mappedBy="role",cascade=CascadeType.ALL)
-    private List<UserRoleRelation> userRoleRelations;
     
     public String getId() {
 		return id;
@@ -51,15 +48,5 @@ public class Role implements Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
-	public List<UserRoleRelation> getUserRoleRelations() {
-		return userRoleRelations;
-	}
-
-	public void setUserRoleRelations(List<UserRoleRelation> userRoleRelations) {
-		this.userRoleRelations = userRoleRelations;
-	}
-
-	
     
 }

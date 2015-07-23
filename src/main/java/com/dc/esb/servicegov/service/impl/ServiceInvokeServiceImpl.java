@@ -1,5 +1,6 @@
 package com.dc.esb.servicegov.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -10,6 +11,8 @@ import com.dc.esb.servicegov.entity.ServiceInvoke;
 import com.dc.esb.servicegov.service.ServiceInvokeService;
 import com.dc.esb.servicegov.service.support.AbstractBaseService;
 
+import com.dc.esb.servicegov.service.support.Constants;
+import com.dc.esb.servicegov.vo.RelationVO;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,5 +77,17 @@ public class ServiceInvokeServiceImpl extends AbstractBaseService<ServiceInvoke,
 	}
 	public List<?> findJsonBySO(String serviceId, String operationId){
 		return serviceInvokeDAOImpl.findJsonBySO(serviceId, operationId);
+	}
+
+	public List getInvokerRelationByServiceId(String serviceId) {
+		String hql = " select new com.dc.esb.servicegov.vo.RelationVO" +
+				"(a.system.systemId, b.system.systemAb, a.system.systemAb, a.serviceId, a.operationId, a.interfaceId)"+
+				" from ServiceInvoke as a, ServiceInvoke as b " +
+				" where a.type=? and b.type=? and a.serviceId=b.serviceId and a.serviceId=? and a.operationId=b.operationId";
+
+		List<?> list = super.find(hql, Constants.INVOKE_TYPE_PROVIDER, Constants.INVOKE_TYPE_CONSUMER, serviceId);
+
+		return list;
+
 	}
 }

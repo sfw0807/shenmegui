@@ -4,13 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.dc.esb.servicegov.entity.Ida;
 import com.dc.esb.servicegov.service.IdaService;
@@ -21,7 +20,8 @@ public class IDAController {
 	
 	@Autowired
 	IdaService idaService;
-	
+
+	@RequiresPermissions({"system-get"})
 	@RequestMapping(method = RequestMethod.GET, value = "/getHeads/{headId}", headers = "Accept=application/json")
 	public @ResponseBody
 	Map<String,Object> getHeads(@PathVariable String headId) {
@@ -35,8 +35,9 @@ public class IDAController {
 		map.put("total", idas.size());
 		map.put("rows", idas);
 		return map;
-	}  
-	
+	}
+
+	@RequiresPermissions({"system-get"})
 	@RequestMapping(method = RequestMethod.GET, value = "/getInterfaces/{interfaceId}", headers = "Accept=application/json")
 	public @ResponseBody
 	Map<String,Object> getInterfaces(@PathVariable String interfaceId) {
@@ -50,9 +51,9 @@ public class IDAController {
 		map.put("total", idas.size());
 		map.put("rows", idas);
 		return map;
-	} 
-	
-	
+	}
+
+	@RequiresPermissions({"system-add"})
 	@RequestMapping(method = RequestMethod.POST, value = "/add", headers = "Accept=application/json")
 	public @ResponseBody
 	boolean save(@RequestBody
@@ -60,7 +61,8 @@ public class IDAController {
 		idaService.saveOrUpdate(idas);
 		return true;
 	}
-	
+
+	@RequiresPermissions({"system-delete"})
 	@RequestMapping(method = RequestMethod.POST, value = "/delete", headers = "Accept=application/json")
 	public @ResponseBody
 	boolean delete(@RequestBody
@@ -78,6 +80,7 @@ public class IDAController {
 	 * @param seq2
 	 * @return
 	 */
+	@RequiresPermissions({"system-update"})
 	@RequestMapping(method = RequestMethod.GET, value = "/modifySEQ/{id}/{seq}/{id2}/{seq2}", headers = "Accept=application/json")
 	public @ResponseBody
 	boolean modifySEQ(@PathVariable
@@ -94,8 +97,15 @@ public class IDAController {
 	 * @param id
 	 * @return
 	 */
+	@RequiresPermissions({"system-update"})
 	@RequestMapping(method = RequestMethod.POST, value = "/updateMetadataId", headers = "Accept=application/json")
 	public @ResponseBody boolean updateMetadataId( String metadataId, String id){
 		return idaService.updateMetadataId(metadataId, id);
+	}
+
+
+	@ExceptionHandler({UnauthenticatedException.class, UnauthorizedException.class})
+	public String processUnauthorizedException() {
+		return "403";
 	}
 }

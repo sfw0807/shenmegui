@@ -43,9 +43,6 @@ public class RoleController {
         Map<String,Object> resMap = new HashMap<String,Object>();
         resMap.put("total", page.getResultCount());
         resMap.put("rows", role);
-        for(Role u : role){
-            u.setUserRoleRelations(null);
-        }
         return resMap;
     }
 
@@ -81,9 +78,6 @@ public class RoleController {
             params.put("remark", remark);
 
         List<Role> roles = roleServiceImpl.findLikeAnyWhere(params);
-        for(Role r: roles){
-            r.setUserRoleRelations(null);
-        }
         return roles;
     }
 }

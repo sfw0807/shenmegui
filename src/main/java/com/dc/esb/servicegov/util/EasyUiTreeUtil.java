@@ -94,7 +94,7 @@ public class EasyUiTreeUtil {
 			for(Object obj : list){
 				TreeNode t = convertTreeNode(obj, fields);
 				tmp.add(t);
-				if(StringUtils.isEmpty(t.parentId)){
+				if(StringUtils.isEmpty(t.parentId) || (StringUtils.isNotEmpty(t.parentId) && t.getParentId().equals("/")) ){
 					result.add(t);
 				}
 			}

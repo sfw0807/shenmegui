@@ -21,18 +21,4 @@ public class UserServiceImpl extends AbstractBaseService<SGUser, String>{
     public HibernateDAO<SGUser, String> getDAO() {
         return userDAO;
     }
-    
-    public SGUser getById(String id){
-    	return userDAO.findUniqueBy("id", id);
-    }
-    
-    public void delete(String id){
-    	userDAO.deleteById(id);
-    }
-    public void update(SGUser SGUser){
-    	userDAO.update(SGUser);
-    }
-    public void passWord(SGUser SGUser){
-    	userDAO.passWord(SGUser);
-    }
 }

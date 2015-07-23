@@ -16,9 +16,11 @@ public class ServiceTag implements Serializable{
 	@Id
 	@Column(name = "SERVICE_ID")
 	private String serviceId;
-	
+
+	@Id
 	@Column(name = "TAG_ID")
 	private String tagId;
+
 
 	public String getServiceId() {
 		return serviceId;
@@ -35,6 +37,4 @@ public class ServiceTag implements Serializable{
 	public void setTagId(String tagId) {
 		this.tagId = tagId;
 	}
-	
-	
 }

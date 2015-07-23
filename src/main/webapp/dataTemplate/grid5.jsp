@@ -27,14 +27,6 @@
 			<th>词汇英文缩写</th>
 			<td><input class="easyui-textbox" type="text" name="WordAb" id="WordAb">
 			</td>
-		</tr>
-
-		<tr>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
 			<td align="right"><a href="#" class="easyui-linkbutton"
 								 iconCls="icon-search" id="search">搜索单词</a>
 			</td>
@@ -48,8 +40,7 @@
 				pageSize:10">
 	<thead>
 	<tr>
-		<th field="id" width="100"
-			editor="{type:'validatebox',options:{required:true}}">ID</th>
+		<th field="id" width="100" hidden="true">ID</th>
 		<th field="englishWord" width="100" editor="text">单词名称</th>
 		<th field="wordAb" width="100" align="right" editor="text">单词缩写</th>
 		<th field="chineseWord" width="100" align="right" editor="text">单词中文</th>
@@ -101,7 +92,6 @@
 				for ( var i = 0; i < addDatas.length; i++) {
 					var addData = addDatas[i];
 					var data = {};
-// 					alert(addData.id);
 					if (addData.id) {
 						data.id = addData.id;
 						data.englishWord = addData.englishWord;
@@ -153,17 +143,16 @@
 	} ];
 	$(function() {
 		$('#tt').edatagrid({
-			autoSave : false,
-			saveUrl : '/englishWord/add',
-			updateUrl : '/englishWord/add',
-			destroyUrl : '/'
+			autoSave : false
 		});
 		$('#search').click(function(){
-			var  param = {};
-			param.englishWord = $('#EnglishWord').val() ? $('#EnglishWord').val() : "itisanuniquevaluethatneverbeexisted";
-			param.chineseWord = $('#ChineseWord').val() ? $('#ChineseWord').val() : "itisanuniquevaluethatneverbeexisted";
-			param.wordAb = $('#WordAb').val() ? $('#WordAb').val() : "itisanuniquevaluethatneverbeexisted";
-			englishWordManager.getByParams(param,function(result){
+			var  param = {
+				"englishWord" : $("#EnglishWord").textbox("getValue"),
+				"chineseWord" : $("#ChineseWord").textbox("getValue"),
+				"wordAb" : $("#WordAb").textbox("getValue")
+
+			};
+			englishWordManager.query(param,function(result){
 				$('#tt').edatagrid('loadData',result);
 			});
 		});

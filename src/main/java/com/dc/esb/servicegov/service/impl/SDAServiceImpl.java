@@ -47,7 +47,7 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
         sdaReq.setSdaId(UUID.randomUUID().toString());
         sdaReq.setStructName("request");
         sdaReq.setStructAlias("请求头");
-        sdaReq.setSeq(0);
+        sdaReq.setSeq(1);
         sdaReq.setServiceId(operation.getServiceId());
         sdaReq.setOperationId(operation.getOperationId());
         sdaReq.setParentId(sdaRoot.getSdaId());
@@ -57,7 +57,7 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
         sdaRes.setSdaId(UUID.randomUUID().toString());
         sdaRes.setStructName("response");
         sdaRes.setStructAlias("响应头");
-        sdaRes.setSeq(0);
+        sdaRes.setSeq(2);
         sdaRes.setServiceId(operation.getServiceId());
         sdaRes.setOperationId(operation.getOperationId());
         sdaRes.setParentId(sdaRoot.getSdaId());

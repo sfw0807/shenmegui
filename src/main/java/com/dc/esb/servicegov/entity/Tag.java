@@ -1,11 +1,10 @@
 package com.dc.esb.servicegov.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="TAG")
@@ -15,6 +14,8 @@ public class Tag implements Serializable{
 
 	@Id
 	@Column(name = "TAG_ID")
+	@GeneratedValue(generator="system-uuid")
+	@GenericGenerator(name="system-uuid",strategy="uuid")
 	private String tagId;
 	
 	@Column(name = "TAG_NAME")

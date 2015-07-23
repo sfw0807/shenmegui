@@ -23,7 +23,10 @@ public class RolePermissionRelationController {
     boolean add(@RequestBody RolePermissionRelation[] rprs) {
 
         for(RolePermissionRelation  rpr : rprs){
-            rolePermissionRelationService.save(rpr);
+            RolePermissionRelation rolePermissionRelation = new RolePermissionRelation();
+            rolePermissionRelation.setPermissionId(rpr.getPermissionId());
+            rolePermissionRelation.setRoleId(rpr.getRoleId());
+            rolePermissionRelationService.save(rolePermissionRelation);
         }
         return true;
     }
@@ -35,10 +38,6 @@ public class RolePermissionRelationController {
         HashMap<String,String> param = new HashMap<String, String>();
         param.put("roleId",roleId);
         List<RolePermissionRelation> temp = rolePermissionRelationService.findBy(param);
-        for(RolePermissionRelation u : temp){
-            u.setPermission(null);
-            u.setRole(null);
-        }
         return temp;
     }
 
@@ -47,7 +46,10 @@ public class RolePermissionRelationController {
     boolean modify(@RequestBody RolePermissionRelation[] rprs) {
 
         for(RolePermissionRelation  rpr : rprs){
-            rolePermissionRelationService.save(rpr);
+            RolePermissionRelation rolePermissionRelation = new RolePermissionRelation();
+            rolePermissionRelation.setPermissionId(rpr.getPermissionId());
+            rolePermissionRelation.setRoleId(rpr.getRoleId());
+            rolePermissionRelationService.save(rolePermissionRelation);
         }
         return true;
     }

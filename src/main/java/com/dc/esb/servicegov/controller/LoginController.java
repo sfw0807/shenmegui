@@ -48,30 +48,8 @@ public class LoginController {
         username = new String(username.getBytes("iso-8859-1"), "utf-8");
         password = new String(password.getBytes("iso-8859-1"), "utf-8");
         log.info("userName: " + username + "; password: " + password);
-
         SecurityUtils.getSubject().login(new UsernamePasswordToken(username, password));
         return new ModelAndView("index");
 
     }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/hehe", headers = "Accept=application/json")
-    public
-    @ResponseBody
-    boolean hehe() {
-//        User user = new User();
-//        user.setId("1");
-//        user.setName("2");
-//        userService.save(user);
-
-        SGUser SGSGUser1 = userService.getById("1");
-
-        EnglishWord englishWord = new EnglishWord();
-        englishWord.setId("hehehe");
-        englishWord.setChineseWord("hehehehe");
-        englishWordService.save(englishWord);
-        return true;
-
-    }
-
-
 }

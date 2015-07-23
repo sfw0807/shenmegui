@@ -4,6 +4,9 @@ import java.util.*;
 
 import com.dc.esb.servicegov.dao.support.Page;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.UnauthenticatedException;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,7 @@ public class CategoryWordController {
     @Autowired
     private CategoryWordServiceImpl categoryWordService;
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getAll", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -32,6 +36,7 @@ public class CategoryWordController {
         return map;
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getById/{id}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -39,6 +44,7 @@ public class CategoryWordController {
         return categoryWordService.getById(id);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByEnglishWord/{englishWord}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -46,6 +52,7 @@ public class CategoryWordController {
         return categoryWordService.getByEnglishWord(englishWord);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByChineseWord/{chineseWord}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -53,6 +60,7 @@ public class CategoryWordController {
         return categoryWordService.getByChineseWord(chineseWord);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByEsglisgAb/{esglisgAb}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -60,6 +68,7 @@ public class CategoryWordController {
         return categoryWordService.getByEsglisgAb(esglisgAb);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByRemark/{remark}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -67,6 +76,7 @@ public class CategoryWordController {
         return categoryWordService.getByRemark(remark);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByPotUser/{potUser}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -74,6 +84,7 @@ public class CategoryWordController {
         return categoryWordService.getByPotUser(potUser);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByPotDate/{potDate}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -81,6 +92,7 @@ public class CategoryWordController {
         return categoryWordService.getByPotDate(potDate);
     }
 
+    @RequiresPermissions({"metadata-add"})
     @RequestMapping(method = RequestMethod.POST, value = "/add", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -90,6 +102,7 @@ public class CategoryWordController {
         return true;
     }
 
+    @RequiresPermissions({"metadata-update"})
     @RequestMapping(method = RequestMethod.POST, value = "/modify", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -98,6 +111,7 @@ public class CategoryWordController {
         return true;
     }
 
+    @RequiresPermissions({"metadata-delete"})
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{Id}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -106,6 +120,7 @@ public class CategoryWordController {
         return true;
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/get/EnglishWord/{englishWord}/ChineseWord/{chineseWord}/EsglisgAb/{esglisgAb}/Remark/{remark}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -123,6 +138,7 @@ public class CategoryWordController {
         return words;
     }
 
+    @RequiresPermissions({"metadata-add"})
     @RequestMapping(method = RequestMethod.POST, value = "/saveCategoryWord", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -143,6 +159,7 @@ public class CategoryWordController {
         return true;
     }
 
+    @RequiresPermissions({"metadata-delete"})
     @RequestMapping(method = RequestMethod.POST, value = "/deleteCategoryWord", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -154,6 +171,11 @@ public class CategoryWordController {
             categoryWordService.deleteById(id);
         }
         return true;
+    }
+
+    @ExceptionHandler({UnauthenticatedException.class, UnauthorizedException.class})
+    public String processUnauthorizedException() {
+        return "403";
     }
 
 }

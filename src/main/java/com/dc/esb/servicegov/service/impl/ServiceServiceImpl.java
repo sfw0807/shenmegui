@@ -1,16 +1,22 @@
 package com.dc.esb.servicegov.service.impl;
 
 import com.dc.esb.servicegov.dao.impl.OperationDAOImpl;
+import com.dc.esb.servicegov.dao.impl.SDADAOImpl;
 import com.dc.esb.servicegov.dao.impl.ServiceDAOImpl;
 import com.dc.esb.servicegov.dao.support.HibernateDAO;
 import com.dc.esb.servicegov.entity.Operation;
+import com.dc.esb.servicegov.entity.SDA;
+import com.dc.esb.servicegov.entity.ServiceInvoke;
 import com.dc.esb.servicegov.service.support.AbstractBaseService;
 import com.dc.esb.servicegov.util.EasyUiTreeUtil;
 import com.dc.esb.servicegov.util.TreeNode;
+import com.dc.esb.servicegov.vo.RelationVO;
+import com.dc.esb.servicegov.vo.SDAVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +30,9 @@ public class ServiceServiceImpl extends AbstractBaseService<com.dc.esb.servicego
 
     @Autowired
     private OperationDAOImpl operationDAOImpl;
+
+    @Autowired
+    private SDADAOImpl sdaDAO;
 
     @Override
     public HibernateDAO<com.dc.esb.servicegov.entity.Service, String> getDAO() {
@@ -53,4 +62,45 @@ public class ServiceServiceImpl extends AbstractBaseService<com.dc.esb.servicego
         return eUtil.convertTree(list, fields);
 
     }
+
+    public SDAVO getSDAofRelation(RelationVO relation) throws Exception {
+        SDAVO root = null;
+        if (null != relation) {
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("serviceId", relation.getServiceId().trim());
+            params.put("operationId", relation.getOperationId().trim());
+            List<SDA> nodes = sdaDAO.findBy(params, "seq");
+            // 获取node节点的属性
+            Map<String, SDAVO> sdaMap = new HashMap<String, SDAVO>(nodes.size());
+            String tmpPath = "/";
+            for (SDA sdaNode : nodes) {
+                SDAVO sda = new SDAVO();
+                sda.setValue(sdaNode);
+                // sda.setProperties(nodeProperties);
+                sdaMap.put(sdaNode.getSdaId(), sda);
+                String parentResourceId = sdaNode.getParentId();
+                if ("/".equalsIgnoreCase(parentResourceId)) {
+                    root = sda;
+                    sda.setXpath("/");
+                }
+                String metadataId = sda.getValue().getMetadataId();
+                String structName = sda.getValue().getStructName();
+                SDAVO parentSDA = sdaMap.get(parentResourceId);
+
+                if (null != parentSDA) {
+                    parentSDA.addChild(sda);
+                    sda.setXpath(tmpPath + "/" + metadataId);
+                    if ("request".equalsIgnoreCase(structName)) {
+                        tmpPath = "/request";
+                    }
+                    if ("response".equalsIgnoreCase(structName)) {
+                        tmpPath = "/response";
+                    }
+                }
+            }
+            sdaMap = null;
+        }
+        return root;
+    }
+
 }

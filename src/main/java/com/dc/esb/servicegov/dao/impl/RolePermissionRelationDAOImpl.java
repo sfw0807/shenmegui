@@ -9,6 +9,5 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by lenovo on 2015/7/13.
  */
 @Repository
-@Transactional
 public class RolePermissionRelationDAOImpl extends HibernateDAO<RolePermissionRelation, String> {
 }

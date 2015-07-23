@@ -92,6 +92,9 @@ public abstract class AbstractBaseService<T, PK extends Serializable> {
         getDAO().delete(id);
     }
 
+	public List<T> find(String hql, Object ... param){
+		return getDAO().find(hql, param);
+	}
     public List<T> findBy(Map<String, String> properties) {
         return getDAO().findBy(properties);
     }

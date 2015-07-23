@@ -12,6 +12,8 @@ public class Constants {
     
     public static final String INVOKE_TYPE_CONSUMER = "1";//接口映射类型，1：消费者，0：提供者
     public static final String INVOKE_TYPE_PROVIDER = "0";
+
+	public static final String EXCEL_TEMPLATE_SERVICE = System.getProperty("user.dir") +"/src/main/resources/template/excel_service_template.xls";
     
     public static class Operation{
     	public static final String OPT_STATE_UNAUDIT = "0";  //0：未审核， 1：审核通过，2：审核不通过

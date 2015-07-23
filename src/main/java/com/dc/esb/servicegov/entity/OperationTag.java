@@ -16,20 +16,15 @@ public class OperationTag implements Serializable{
 	@Id
 	@Column(name = "TAG_ID")
 	private String tagId;
-	
+
+	@Id
 	@Column(name = "SERVICE_ID")
 	private String serviceId;
-	
+
+	@Id
 	@Column(name = "OPERATION_ID")
 	private String operationId;
 
-	public String getTagId() {
-		return tagId;
-	}
-
-	public void setTagId(String tagId) {
-		this.tagId = tagId;
-	}
 
 	public String getServiceId() {
 		return serviceId;
@@ -46,6 +41,13 @@ public class OperationTag implements Serializable{
 	public void setOperationId(String operationId) {
 		this.operationId = operationId;
 	}
-	
-	
+
+
+	public String getTagId() {
+		return tagId;
+	}
+
+	public void setTagId(String tagId) {
+		this.tagId = tagId;
+	}
 }

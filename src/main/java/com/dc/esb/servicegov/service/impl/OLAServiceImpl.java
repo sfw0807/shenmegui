@@ -55,7 +55,7 @@ public class OLAServiceImpl extends AbstractBaseService<OLA, String> implements 
                 OperationServiceImpl os = context
                         .getBean(OperationServiceImpl.class);
                 Operation operation = os.getOperation(
-                        operationId, serviceId);
+                        serviceId, operationId);
                 if (operation != null) {
                     mv.addObject("operation", operation);
                 }

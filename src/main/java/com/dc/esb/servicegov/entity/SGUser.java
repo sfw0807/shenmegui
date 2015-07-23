@@ -36,9 +36,6 @@ public class SGUser implements Serializable {
     private String remark;
     @Column(name = "USER_STARTDATE")
     private String startdate;
-
-    @OneToMany(mappedBy="user",cascade=CascadeType.ALL)
-    private List<UserRoleRelation> userRoleRelations;
     
 
 	public String getStartdate() {
@@ -114,16 +111,4 @@ public class SGUser implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-
-	public List<UserRoleRelation> getUserRoleRelations() {
-		return userRoleRelations;
-	}
-
-	public void setUserRoleRelations(List<UserRoleRelation> userRoleRelations) {
-		this.userRoleRelations = userRoleRelations;
-	}
-
-	
-    
-    
 }
