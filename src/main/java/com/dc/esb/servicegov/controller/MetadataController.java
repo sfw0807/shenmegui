@@ -8,6 +8,7 @@ import com.dc.esb.servicegov.service.impl.MetadataServiceImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ public class MetadataController {
     @Autowired
     private MetadataConfigGenerator metadataConfigGenerator;
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getAll", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -38,6 +40,7 @@ public class MetadataController {
         return metadataService.getAllMetadata();
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByMetadataId/{metadataId}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -45,6 +48,7 @@ public class MetadataController {
         return metadataService.getByMetadataId(metadataId);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByMetadataName/{metadataName}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -52,6 +56,7 @@ public class MetadataController {
         return metadataService.getByMetadataName(metadataName);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByChineseName/{chineseName}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -59,6 +64,7 @@ public class MetadataController {
         return metadataService.getByChineseName(chineseName);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByCategoryWordId/{categoryWordId}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -66,6 +72,7 @@ public class MetadataController {
         return metadataService.getByCategoryWordId(categoryWordId);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByRemark/{remark}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -73,6 +80,7 @@ public class MetadataController {
         return metadataService.getByRemark(remark);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByType/{type}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -80,6 +88,7 @@ public class MetadataController {
         return metadataService.getByType(type);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByLength/{length}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -87,6 +96,7 @@ public class MetadataController {
         return metadataService.getByLength(length);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByScale/{scale}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -94,6 +104,7 @@ public class MetadataController {
         return metadataService.getByScale(scale);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByEnumId/{enumId}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -101,6 +112,7 @@ public class MetadataController {
         return metadataService.getByEnumId(enumId);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByMetadataAlias/{metadataAlias}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -108,6 +120,7 @@ public class MetadataController {
         return metadataService.getByMetadataAlias(metadataAlias);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByBussDefine/{bussDefine}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -115,6 +128,7 @@ public class MetadataController {
         return metadataService.getByBussDefine(bussDefine);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByBussRule/{bussRule}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -122,6 +136,7 @@ public class MetadataController {
         return metadataService.getByBussRule(bussRule);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByDataSource/{dataSource}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -129,6 +144,7 @@ public class MetadataController {
         return metadataService.getByDataSource(dataSource);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByTemplateId/{templateId}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -136,6 +152,7 @@ public class MetadataController {
         return metadataService.getByTemplateId(templateId);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByStatus/{status}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -143,6 +160,7 @@ public class MetadataController {
         return metadataService.getByStatus(status);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByVersion/{version}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -150,6 +168,7 @@ public class MetadataController {
         return metadataService.getByVersion(version);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByPotUser/{potUser}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -157,6 +176,7 @@ public class MetadataController {
         return metadataService.getByPotUser(potUser);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByPotDate/{potDate}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -164,6 +184,7 @@ public class MetadataController {
         return metadataService.getByPotDate(potDate);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByAuditUser/{auditUser}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -171,6 +192,7 @@ public class MetadataController {
         return metadataService.getByAuditUser(auditUser);
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByAuditDate/{auditDate}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -178,6 +200,7 @@ public class MetadataController {
         return metadataService.getByAuditDate(auditDate);
     }
 
+    @RequiresPermissions({"metadata-add"})
     @RequestMapping(method = RequestMethod.POST, value = "/add", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -186,6 +209,7 @@ public class MetadataController {
         return true;
     }
 
+    @RequiresPermissions({"metadata-update"})
     @RequestMapping(method = RequestMethod.POST, value = "/modify", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -194,6 +218,7 @@ public class MetadataController {
         return true;
     }
 
+    @RequiresPermissions({"metadata-delete"})
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{metadataId}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -202,6 +227,7 @@ public class MetadataController {
         return true;
     }
 
+    @RequiresPermissions({"metadata-delete"})
     @RequestMapping("/deletes")
     @ResponseBody
     public boolean deletes(String metadataIds) {
@@ -209,6 +235,7 @@ public class MetadataController {
         return true;
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping("/list")
     @ResponseBody
     public Map<String, Object> list(@RequestParam("page") int pageNo, @RequestParam("rows") int rowCount) {
@@ -221,7 +248,8 @@ public class MetadataController {
         return result;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/query", headers = "Accept=application/json" )
+    @RequiresPermissions({"metadata-get"})
+    @RequestMapping(method = RequestMethod.POST, value = "/query", headers = "Accept=application/json")
     @ResponseBody
     public Map<String, Object> query(@RequestBody Map<String, String> params) {
         List<Metadata> rows = metadataService.findLikeAnyWhere(params);
@@ -231,6 +259,7 @@ public class MetadataController {
         return result;
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping("/query/processId/{processId}")
     @ResponseBody
     public Map<String, Object> query(HttpServletRequest request, @PathVariable("processId") String processId) {
@@ -245,6 +274,7 @@ public class MetadataController {
         return result;
     }
 
+    @RequiresPermissions({"metadata-update"})
     @RequestMapping(method = RequestMethod.GET, value = "/editPage", headers = "Accept=application/json")
     public ModelAndView editPage(String metadataId) {
         ModelAndView mv = new ModelAndView("../assets/metadata/edit");
@@ -257,6 +287,7 @@ public class MetadataController {
         return mv;
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/uniqueValid", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -265,6 +296,7 @@ public class MetadataController {
     }
 
     //获取类别词接口
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping("/categoryWord")
     @ResponseBody
     public List<CategoryWord> categoryWord() {
@@ -274,18 +306,28 @@ public class MetadataController {
         return rows;
     }
 
+    /**
+     * TODO 这个是干什么的
+     *
+     * @param serviceId
+     * @return
+     */
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping("/servicePage")
     public ModelAndView servicePage(String serviceId) {
         ModelAndView mv = new ModelAndView("service/serviceIndex");
         return mv;
     }
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping("/audit/process/{processId}")
-    public @ResponseBody boolean auditMetadata(@PathVariable("processId") String processId){
+    public
+    @ResponseBody
+    boolean auditMetadata(@PathVariable("processId") String processId) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("processId", processId);
         List<Metadata> metadatas = metadataService.findBy(params);
-        for(Metadata metadata : metadatas){
+        for (Metadata metadata : metadatas) {
             metadata.setStatus("正式");
             metadataService.save(metadata);
         }
@@ -293,10 +335,12 @@ public class MetadataController {
     }
 
 
+    @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.GET, value = "/export")
-    public @ResponseBody
-    boolean exportMetadata(HttpServletRequest request, HttpServletResponse response){
-        log.info( SecurityUtils.getSubject().getPrincipal());
+    public
+    @ResponseBody
+    boolean exportMetadata(HttpServletRequest request, HttpServletResponse response) {
+        log.info(SecurityUtils.getSubject().getPrincipal());
         //生成本地文件
         File file = metadataConfigGenerator.generate();
         //读取本地文件内容
@@ -318,8 +362,8 @@ public class MetadataController {
             out.write(buffer);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally{
-            if(null != dataIn){
+        } finally {
+            if (null != dataIn) {
                 try {
                     dataIn.close();
                 } catch (IOException e) {

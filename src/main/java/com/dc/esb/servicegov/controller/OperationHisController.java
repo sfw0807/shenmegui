@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,13 +22,15 @@ import com.dc.esb.servicegov.service.impl.OperationHisServiceImpl;
 public class OperationHisController {
 	@Autowired
 	private OperationHisServiceImpl operationHisServiceImpl;
-	
+
+	@RequiresPermissions({"service-get"})
 	@RequestMapping("/hisPage")
 	public ModelAndView hisPage(HttpServletRequest req, String operationId, String serviceId){
 		return operationHisServiceImpl.hisPage(req, operationId, serviceId);
 	}
 	
-	//根据服务和场景id 
+	//根据服务和场景id
+	@RequiresPermissions({"service-get"})
 	@RequestMapping("/getByOS/{serviceId}/{operationId}")
 	@ResponseBody
 	public Map<String, Object> getByOS(@PathVariable(value="serviceId") String serviceId, @PathVariable(value="operationId") String operationId) {
@@ -39,12 +42,14 @@ public class OperationHisController {
 		return result;
 	}
 
+	@RequiresPermissions({"service-get"})
 	@RequestMapping("/getByAutoId")
 	@ResponseBody
 	public OperationHis getByAutoId(String autoId){
 		return operationHisServiceImpl.getByAutoId(autoId);
 	}
-	
+
+	@RequiresPermissions({"service-get"})
 	@RequestMapping("/operationHisList")
 	@ResponseBody
 	public Map<String, Object> operationHisList() {
