@@ -146,12 +146,12 @@
 		});
 		$('#search').click(function(){
 			var  param = {};
-			param.id = $('#Id').val() ? $('#Id').val() : "itisanuniquevaluethatneverbeexisted";
-			param.name = $('#Name').val() ? $('#Name').val() : "itisanuniquevaluethatneverbeexisted";
-			param.orgId = $('#OrgId').val() ? $('#OrgId').val() : "itisanuniquevaluethatneverbeexisted";
-			param.startdate = $('#Startdate').datebox('getValue') ? $('#Startdate').datebox('getValue'): "itisanuniquevaluethatneverbeexisted";
-			param.lastdate = $('#Lastdate').datebox('getValue') ? $('#Lastdate').datebox('getValue') : "itisanuniquevaluethatneverbeexisted";
-			userManager.getByParams(param,function(result){
+			param.id = $('#Id').val();
+			param.name = $('#Name').val();
+			param.orgId = $('#OrgId').val();
+			param.startdate = $('#Startdate').datebox('getValue');
+			param.lastdate = $('#Lastdate').datebox('getValue');
+			userManager.query(param,function(result){
 				$('#tt').edatagrid('loadData',result);
 			});
 		});

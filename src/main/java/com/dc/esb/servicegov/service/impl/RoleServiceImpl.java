@@ -1,6 +1,7 @@
 package com.dc.esb.servicegov.service.impl;
 
 import com.dc.esb.servicegov.dao.impl.RoleDAOImpl;
+import com.dc.esb.servicegov.dao.impl.UserDAOImpl;
 import com.dc.esb.servicegov.dao.support.HibernateDAO;
 import com.dc.esb.servicegov.entity.Role;
 import com.dc.esb.servicegov.service.support.AbstractBaseService;
@@ -21,6 +22,6 @@ public class RoleServiceImpl extends AbstractBaseService<Role, String>{
     public HibernateDAO<Role, String> getDAO() {
         return roleDAO;
     }
-    
-  
+
+
 }

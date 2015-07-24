@@ -27,19 +27,14 @@ var userManager = {
             }
         });
     },
-    "getByParams" : function(param, callBack) {
-        var url = "/user/get";
-        url += "/id/" +param.id;
-        url += "/name/" +param.name;
-        url += "/orgId/" +param.orgId;
-        url += "/startdate/" +param.startdate;
-        url += "/lastdate/" +param.lastdate;
+    "query" : function(params, callBack){
         $.ajax({
-            "type" : "GET",
-            "contentType" : "application/json; charset=utf-8",
-            "url" : url,
-            "dataType" : "json",
-            "success" : function(result) {
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: "/user/query",
+            data: JSON.stringify(params),
+            dataType: "json",
+            success: function(result) {
                 callBack(result);
             }
         });

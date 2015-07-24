@@ -63,23 +63,11 @@ public class UserController {
         return resMap;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/get/id/{id}/name/{name}/orgId/{orgId}/startdate/{startdate}/lastdate/{lastdate}", headers = "Accept=application/json")
+    @RequestMapping(method = RequestMethod.POST, value = "/query", headers = "Accept=application/json")
     public
     @ResponseBody
-    List<SGUser> getByName(@PathVariable(value = "id") String id, @PathVariable(value = "name") String name, @PathVariable(value = "orgId") String orgId, @PathVariable(value = "startdate") String startdate, @PathVariable(value = "lastdate") String lastdate) {
-        Map<String, String> params = new HashMap<String, String>();
-        if (!"itisanuniquevaluethatneverbeexisted".equals(id))
-            params.put("id", id);
-        if (!"itisanuniquevaluethatneverbeexisted".equals(name))
-            params.put("name", name);
-        if (!"itisanuniquevaluethatneverbeexisted".equals(orgId))
-            params.put("orgId", orgId);
-        if (!"itisanuniquevaluethatneverbeexisted".equals(lastdate))
-            params.put("orgId", lastdate);
-        if (!"itisanuniquevaluethatneverbeexisted".equals(startdate))
-            params.put("startdate", startdate);
-        List<SGUser> SGUser = userServiceImpl.findBy(params);
-        return SGUser;
+    List<SGUser> getByName( @RequestBody Map<String, String> params) {
+        return userServiceImpl.findLikeAnyWhere(params);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{id}", headers = "Accept=application/json")

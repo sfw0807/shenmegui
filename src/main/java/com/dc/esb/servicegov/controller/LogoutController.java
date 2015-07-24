@@ -19,6 +19,4 @@ public class LogoutController {
         ModelAndView mv = new ModelAndView("/login/login");
         return mv;
     }
-
-
 }
