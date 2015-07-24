@@ -42,6 +42,7 @@
     </ul>
     <div id="header_toolsbar">
         <a href="javascript:;" class="login_user"><shiro:principal/></a>
+        <a href="/logout/">退出</a>
         <a href="javascript:;">帮助</a>
     </div>
 </div>
