@@ -32,22 +32,6 @@
 <fieldset>
     <legend>条件搜索</legend>
     <table border="0" cellspacing="0" cellpadding="0">
-        <!--
-        <tr>
-            <th>服务一级目录</th>
-            <td><input class="easyui-textbox" disabled="disabled"
-                type="text" name="name">
-            </td>
-
-            <th>服务二级目录</th>
-            <td><input class="easyui-textbox" disabled="disabled"
-                type="text" name="name"></td>
-            <th>服务三级目录</th>
-            <td><input class="easyui-textbox" disabled="disabled"
-                type="text" name="name">
-            </td>
-        </tr>
-         -->
         <tr>
             <th>服务代码</th>
             <td><input class="easyui-textbox" disabled="disabled"
@@ -330,7 +314,7 @@
                 form.attr("action","/excelExporter/exportService");
                 var input1=$("<input>");
                 input1.attr("type","hidden");
-                input1.attr("name","serviceId");
+                input1.attr("name","id");
                 input1.attr("value","${entity.serviceId }");
                 var input2=$("<input>");
                 input2.attr("type","hidden");
