@@ -13,7 +13,7 @@
     <table width="99%" border="0" cellspacing="0" cellpadding="0" id="userInfo">
         <tr>
             <th>用户代码</th>
-            <td><input name="userId" class="easyui-textbox" type="text" id="userId"/><font color="#FF0000">*</font></td>
+            <td><input name="userId" class="easyui-validatebox" type="text" id="userId" data-options="required:true,validType:'english'" /><font color="#FF0000">*</font></td>
             <th>用户名称</th>
             <td><input name="userName" class="easyui-textbox" type="text" id="userName"/><font color="#FF0000">*</font>
             </td>
@@ -56,6 +56,8 @@
                                                                                    onclick="$('#w').window('close');">关闭</a>
 </div>
 
+<script type="text/javascript" src="/plugin/validate.js"></script>
+
 <script type="text/javascript">
     $(function () {
         $('#roleTable').datagrid({
@@ -93,7 +95,6 @@
             userRoleRelation.userId = $('#userId').val();
             roles.push(userRoleRelation);
         }
-//        data.userRoleRelations = roles;
         userManager.add(data, function (result) {
             if (result) {
                 userManager.assignRoles(roles, function (result) {
