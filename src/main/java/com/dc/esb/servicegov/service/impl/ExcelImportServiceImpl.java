@@ -17,12 +17,14 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.jboss.seam.annotations.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-@Service
+@Service("BaseExcelImportService")
+@Transactional
 public class ExcelImportServiceImpl extends AbstractBaseService implements ExcelImportService {
     protected Log logger = LogFactory.getLog(getClass());
 
@@ -63,6 +65,15 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
     protected String initVersion = "1.0.0";
     protected static int readline = 0;
 
+    /**
+     * 执行入库
+     * @param infoMap
+     * @param inputMap
+     * @param outMap
+     * @param publicMap
+     * @param headMap
+     * @return
+     */
     @Override
     public boolean executeImport(Map<String, Object> infoMap, Map<String, Object> inputMap, Map<String, Object> outMap, Map<String, String> publicMap, Map<String, Object> headMap) {
         com.dc.esb.servicegov.entity.Service service = (com.dc.esb.servicegov.entity.Service) infoMap.get("service");
@@ -113,7 +124,11 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
     }
 
 
-
+    /**
+     * 解析Index页,获取IndexDO对象
+     * @param indexSheet
+     * @return
+     */
     @Override
     public List<IndexDO> parseIndexSheet(Sheet indexSheet) {
         List<IndexDO> indexDOs = new ArrayList<IndexDO>();
@@ -139,6 +154,7 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
             indexDO.setInterfaceHead(interfaceHead);
             indexDO.setProviderSystem(providerSystem);
             indexDO.setSystemId(systemId);
+            indexDO.setInterfacePoint(interfacePoint);
             indexDOs.add(indexDO);
         }
         return indexDOs;
@@ -1095,21 +1111,6 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
         parentId = null;
         for (int i = 0; i < sdaoutput.size(); i++) {
             sda = sdaoutput.get(i);
-            //判断ida是否存在
-//			Map<String,String> paramMap = new HashMap<String, String>();
-//			paramMap.put("operationId",operation.getOperationId());
-//			paramMap.put("structName",sda.getStructName());
-//			if(sda.getMetadataId()!=null && !"".equals(sda.getMetadataId())) {
-//				paramMap.put("metadataId", sda.getMetadataId());
-//			}
-//			paramMap.put("serviceId",service.getServiceId());
-//			paramMap.put("argType","output");
-//			SDA sdadb = sdaDAO.findUniqureBy(paramMap);
-//			if(sdadb!=null){
-//				sda.setSdaId(sdadb.getSdaId());
-//				sda.setParentId(sdadb.getParentId());
-//				continue;
-//			}
             sda.setSdaId(UUID.randomUUID().toString());
             sda.setOperationId(operation.getOperationId());
             sda.setParentId(responseId);
