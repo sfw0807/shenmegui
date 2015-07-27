@@ -99,6 +99,11 @@ public class HibernateDAO<T, PK extends Serializable> {
         logger.debug("save or update entity: {}", entity);
     }
 
+    public void deleteAll(){
+        String hql = "delete from " + getEntityClass().getName();
+        exeHql(hql);
+    }
+
     /**
      * 删除对象.
      *
@@ -136,7 +141,7 @@ public class HibernateDAO<T, PK extends Serializable> {
      */
     public T get(final PK id) {
         Assert.notNull(id, "id不能为空");
-        return (T) getSession().load(entityClass, id);
+        return (T) getSession().get(entityClass, id);
     }
 
     /**
@@ -182,7 +187,6 @@ public class HibernateDAO<T, PK extends Serializable> {
 
     public List<T> getAll(Page page) {
         Criteria criteria = getEntityCriteria();
-
         if (page.getOrderBy() != null) {
             if (page.getOrder().equalsIgnoreCase("asc")) {
                 criteria.addOrder(Order.asc(page.getOrderBy()));
@@ -192,10 +196,13 @@ public class HibernateDAO<T, PK extends Serializable> {
         } else {
             criteria.addOrder(Order.desc(this.getIdName()));
         }
-
         criteria.setFirstResult(page.getFirstItemPos());
         criteria.setMaxResults(page.getPageSize());
-        return criteria.list();
+        List<T> objects =  criteria.list();
+        for(T object : objects){
+            initProxyObject(object);
+        }
+        return objects;
     }
 
     /**
@@ -393,8 +400,8 @@ public class HibernateDAO<T, PK extends Serializable> {
      * @param values 数量可变的参数,按顺序绑定.
      */
     @Transactional
-    public <X> X findUnique(final String hql, final Object... values) {
-        return (X) createQuery(hql, values).uniqueResult();
+    public <T> T findUnique(final String hql, final Object... values) {
+        return (T) createQuery(hql, values).uniqueResult();
     }
 
     /**

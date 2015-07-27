@@ -2,11 +2,14 @@ package com.dc.esb.servicegov.controller;
 
 import com.dc.esb.servicegov.dao.support.Page;
 import com.dc.esb.servicegov.dao.support.SearchCondition;
+import com.dc.esb.servicegov.entity.Metadata;
 import com.dc.esb.servicegov.entity.SGUser;
 import com.dc.esb.servicegov.entity.UserRoleRelation;
 import com.dc.esb.servicegov.service.impl.RoleServiceImpl;
 import com.dc.esb.servicegov.service.impl.UserRoleRelationServiceImpl;
 import com.dc.esb.servicegov.service.impl.UserServiceImpl;
+import com.dc.esb.servicegov.vo.UserVO;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +31,7 @@ public class UserController {
     @Autowired
     private RoleServiceImpl roleService;
 
+    @RequiresRoles({"admin"})
     @RequestMapping(method = RequestMethod.POST, value = "/add", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -36,6 +40,7 @@ public class UserController {
         return true;
     }
 
+    @RequiresRoles({"admin"})
     @RequestMapping(method = RequestMethod.POST, value = "/assignRoles", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -46,30 +51,38 @@ public class UserController {
         return true;
     }
 
+    @RequiresRoles({"admin"})
     @RequestMapping(method = RequestMethod.GET, value = "/getAll", headers = "Accept=application/json")
     public
     @ResponseBody
-    Map<String, Object> getAll(String operationId, HttpServletRequest req) {
-        String starpage = req.getParameter("page");
-        String rows = req.getParameter("rows");
-        StringBuffer hql = new StringBuffer("select user from SGUser user");
-        List<SearchCondition> searchConds = new ArrayList<SearchCondition>();
-        Page page = userServiceImpl.findPage(hql.toString(), Integer.parseInt(rows), searchConds);
-        page.setPage(Integer.parseInt(starpage));
-        List<SGUser> SGUser = userServiceImpl.findBy(hql.toString(), page, searchConds);
-        Map<String, Object> resMap = new HashMap<String, Object>();
-        resMap.put("total", page.getResultCount());
-        resMap.put("rows", SGUser);
-        return resMap;
+    Map<String, Object> getAll( @RequestParam("page") int pageNo, @RequestParam("rows") int rowCount) {
+        List<UserVO> userVOs = new ArrayList<UserVO>();
+        Page page = userServiceImpl.getAll(rowCount);
+        page.setPage(pageNo);
+        List<SGUser> rows = userServiceImpl.getAll(page);
+        for(SGUser user : rows){
+            userVOs.add(new UserVO(user));
+        }
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("total", page.getResultCount());
+        result.put("rows", userVOs);
+        return result;
     }
 
+    @RequiresRoles({"admin"})
     @RequestMapping(method = RequestMethod.POST, value = "/query", headers = "Accept=application/json")
     public
     @ResponseBody
-    List<SGUser> getByName( @RequestBody Map<String, String> params) {
-        return userServiceImpl.findLikeAnyWhere(params);
+    List<UserVO> getByName( @RequestBody Map<String, String> params) {
+        List<UserVO> userVOs = new ArrayList<UserVO>();
+        List<SGUser> users = userServiceImpl.findLikeAnyWhere(params);
+        for(SGUser user : users){
+            userVOs.add(new UserVO(user));
+        }
+        return userVOs;
     }
 
+    @RequiresRoles({"admin"})
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{id}", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -78,6 +91,7 @@ public class UserController {
         return true;
     }
 
+    @RequiresRoles({"admin"})
     @RequestMapping(method = RequestMethod.GET, value = "/getById/{id}", headers = "Accept=application/json")
     public ModelAndView getById(
             @PathVariable String id) {
@@ -96,6 +110,7 @@ public class UserController {
         return model;
     }
 
+    @RequiresRoles({"admin"})
     @RequestMapping(method = RequestMethod.POST, value = "/modify", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -104,6 +119,7 @@ public class UserController {
         return true;
     }
 
+    @RequiresRoles({"admin"})
     @RequestMapping(method = RequestMethod.GET, value = "/getByPW/{id}", headers = "Accept=application/json")
     public ModelAndView getByPW(
             @PathVariable String id) {
@@ -114,6 +130,7 @@ public class UserController {
         return model;
     }
 
+    @RequiresRoles({"admin"})
     @RequestMapping(method = RequestMethod.POST, value = "/passWord", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -122,13 +139,14 @@ public class UserController {
         return true;
     }
 
+    @RequiresRoles({"admin"})
     @RequestMapping(method = RequestMethod.GET, value = "/checkUnique/userId/{userId}", headers = "Accept=application/json")
     public
     @ResponseBody
     boolean passWord(@PathVariable("userId") String userId) {
         SGUser user = userServiceImpl.getById(userId);
         if(null != user){
-
+            return false;
         }
         return true;
     }

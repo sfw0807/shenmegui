@@ -8,6 +8,7 @@ import java.util.Map;
 import com.dc.esb.servicegov.dao.support.Page;
 import com.dc.esb.servicegov.dao.support.SearchCondition;
 import com.dc.esb.servicegov.entity.SGUser;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -80,4 +81,18 @@ public class RoleController {
         List<Role> roles = roleServiceImpl.findLikeAnyWhere(params);
         return roles;
     }
+
+    @RequiresRoles({"admin"})
+    @RequestMapping(method = RequestMethod.GET, value = "/checkUnique/roleId/{roleId}", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    boolean passWord(@PathVariable("roleId") String roleId) {
+        Role role = roleServiceImpl.getById(roleId);
+        if(null != role){
+            return false;
+        }
+        return true;
+    }
+
+
 }

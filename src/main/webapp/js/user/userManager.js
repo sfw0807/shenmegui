@@ -98,5 +98,16 @@ var userManager = {
                 callBack(result);
             }
         });
+    },
+    "checkUnique" : function(userId, callBack){
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: "/user/checkUnique/userId/" + userId,
+            dataType: "json",
+            success: function(result) {
+                callBack(result);
+            }
+        });
     }
 };

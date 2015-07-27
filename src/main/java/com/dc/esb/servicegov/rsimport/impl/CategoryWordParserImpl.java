@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.hibernate.NonUniqueObjectException;
+import org.jboss.seam.annotations.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,8 +35,10 @@ public class CategoryWordParserImpl implements IResourceParser {
 		Sheet sheet = workbook.getSheet(SHEET_NAME);//根据页签名找到对应的表
 		parseSheet(sheet);
 	}
-	
+
+	@Transactional
 	private void parseSheet(Sheet sheet) {
+		categoryWordService.deleteAll();
 		for (int rowNum = START_ROW_NUM; rowNum <= sheet.getLastRowNum(); rowNum++) {
 			Row row = sheet.getRow(rowNum);
 			CategoryWord categoryWord =parseRow(row);

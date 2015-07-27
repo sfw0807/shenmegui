@@ -65,5 +65,16 @@ var roleManager = {
                 callBack(result);
             }
         });
+    },
+    "checkUnique" : function(roleId, callBack){
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            url: "/role/checkUnique/roleId/"+roleId,
+            dataType: "json",
+            success: function(result) {
+                callBack(result);
+            }
+        });
     }
 };

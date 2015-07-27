@@ -30,8 +30,9 @@ public class EnglishWordXlsxParserImpl implements IResourceParser {
 		parseSheet(sheet);
 	}
 
+	@Transactional
 	private void parseSheet(Sheet sheet) {
-//		List<EnglishWord> englishWords = new ArrayList<EnglishWord>();
+		englishWordService.deleteAll();
 		for (int rowNum = START_ROW_NUM; rowNum <= sheet.getLastRowNum(); rowNum++) {
 			Row row = sheet.getRow(rowNum);
 			EnglishWord englishWord =parseRow(row);

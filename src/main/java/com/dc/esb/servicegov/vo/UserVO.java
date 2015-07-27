@@ -1,36 +1,49 @@
-package com.dc.esb.servicegov.entity;
+package com.dc.esb.servicegov.vo;
 
-import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.*;
+import com.dc.esb.servicegov.entity.SGUser;
 
-@Entity
-@Table(name = "SG_USER")
-public class SGUser implements Serializable {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 22222222222L;
-	@Id
-    @Column(name = "USER_ID")
+/**
+ * Created by vincentfxz on 15/7/27.
+ */
+public class UserVO {
+
     private String id;
-    @Column(name = "USER_NAME")
     private String name;
-    @Column(name="USER_MOBILE")
     private String userMobile;
-    @Column(name="USER_TEL")
     private String userTel;
-    @Column(name = "USER_PASSWORD")
     private String password;
-    @Column(name = "USER_ORG_ID")
     private String orgId;
-    @Column(name = "USER_LASTDATE")
     private String lastdate;
-    @Column(name = "USER_REMARK")
     private String remark;
-    @Column(name = "USER_STARTDATE")
     private String startdate;
+
+    public UserVO(String id, String name, String userMobile, String userTel, String password, String orgId, String lastdate, String remark, String startdate){
+        this.id = id;
+        this.name = name;
+        this.userMobile = userMobile;
+        this.userTel = userTel;
+        this.password = password;
+        this.orgId = orgId;
+        this.lastdate = lastdate;
+        this.remark = remark;
+        this.startdate = startdate;
+    }
+
+    public UserVO(SGUser user){
+        this.id = user.getId();
+        this.name = user.getName();
+        this.userMobile = user.getUserMobile();
+        this.userTel = user.getUserTel();
+        this.password = user.getPassword();
+        this.orgId = user.getOrgId();
+        this.lastdate = user.getLastdate();
+        this.remark = user.getRemark();
+        this.startdate = user.getStartdate();
+    }
+
+
+
 
     public String getId() {
         return id;

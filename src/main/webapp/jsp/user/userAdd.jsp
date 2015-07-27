@@ -77,40 +77,54 @@
         });
     });
     $('#saveBtn').click(function () {
-        var data = {};
-        var rows = $("#roleTable").datagrid("getSelections");
-        data.id = $('#userId').val();
-        data.name = $('#userName').val();
-        data.password = $('#password').val();
-        data.userMobile = $('#userMobile').val();
-        data.userTel = $('#userTel').val();
-        data.startdate = $('#startdate').datebox('getValue');
-        data.lastdate = $('#lastdate').datebox('getValue');
-        data.orgId = $('#org').combobox('getValue');
-        data.remark = $('#remark').val();
-        var roles = [];
-        for (var i = 0; i < rows.length; i++) {
-            var userRoleRelation = {};
-            userRoleRelation.roleId = rows[i].id;
-            userRoleRelation.userId = $('#userId').val();
-            roles.push(userRoleRelation);
-        }
-        userManager.add(data, function (result) {
-            if (result) {
-                userManager.assignRoles(roles, function (result) {
-                    if (result) {
-                        alert("保存成功");
-                        $('#tt').datagrid('reload');
-                    } else {
-                        alert("保存失败");
-                    }
-                });
-            } else {
-                alert("保存失败");
-            }
-        });
+        var isValid = $("#userId").validatebox("isValid");
+        if(isValid){
 
-        $('#w').window('close');
+            var data = {};
+            var rows = $("#roleTable").datagrid("getSelections");
+            data.id = $('#userId').val();
+            data.name = $('#userName').val();
+            data.password = $('#password').val();
+            data.userMobile = $('#userMobile').val();
+            data.userTel = $('#userTel').val();
+            data.startdate = $('#startdate').datebox('getValue');
+            data.lastdate = $('#lastdate').datebox('getValue');
+            data.orgId = $('#org').combobox('getValue');
+            data.remark = $('#remark').val();
+            var roles = [];
+            for (var i = 0; i < rows.length; i++) {
+                var userRoleRelation = {};
+                userRoleRelation.roleId = rows[i].id;
+                userRoleRelation.userId = $('#userId').val();
+                roles.push(userRoleRelation);
+            }
+
+            var checkUniqueCallBack = function checkUniqueCallBack(result) {
+                if (result) {
+                    userManager.add(data, function (result) {
+                        if (result) {
+                            userManager.assignRoles(roles, function (result) {
+                                if (result) {
+                                    alert("保存成功");
+                                    $('#tt').datagrid('reload');
+                                } else {
+                                    alert("保存失败");
+                                }
+                            });
+                        } else {
+                            alert("保存失败");
+                        }
+                    });
+                } else {
+                    alert("该用户已经存在，放弃新增，或者选择修改");
+                }
+            }
+            userManager.checkUnique(data.id, checkUniqueCallBack);
+
+            $('#w').window('close');
+        }else{
+            alert("输入错误！");
+        }
     });
 
 

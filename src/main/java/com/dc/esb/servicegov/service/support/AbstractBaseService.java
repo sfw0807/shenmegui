@@ -155,4 +155,8 @@ public abstract class AbstractBaseService<T, PK extends Serializable> {
     public List<T> getAll(Page page) {
         return getDAO().getAll(page);
     }
+
+    public void deleteAll(){
+        getDAO().deleteAll();
+    }
 }
