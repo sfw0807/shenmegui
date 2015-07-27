@@ -39,7 +39,10 @@ public class MetadataArrayParserImpl implements IResourceParser {
     @Override
     public void parse(Workbook workbook) {
         Sheet sheet = workbook.getSheet(SHEET_NAME);
-        parseSheet(sheet);
+        if (null != sheet) {
+
+            parseSheet(sheet);
+        }
     }
 
     private void parseSheet(Sheet sheet) {

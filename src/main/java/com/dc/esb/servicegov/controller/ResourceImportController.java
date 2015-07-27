@@ -62,9 +62,10 @@ public class ResourceImportController {
                 }
                 if (null != workbook) {
                     //TODO 暂时只要元数据导入
-//                    englishWordXlsxParserImpl.parse(workbook);
-//                    categoryWordParserImpl.parse(workbook);
+                    englishWordXlsxParserImpl.parse(workbook);
+                    categoryWordParserImpl.parse(workbook);
                     metadataXlsxParserImpl.parse(workbook);
+
                     metadataArrayParserImpl.parse(workbook);
                 }
                 return "SUCCESS";
