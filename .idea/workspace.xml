@@ -6,21 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="1e5c09cd-1f12-4791-92ad-47202525782b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ld/src/main/java/com/baidu/ld/service/lms/impl/BaseService.java" afterPath="$PROJECT_DIR$/../ld/src/main/java/com/baidu/ld/service/lms/impl/BaseService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/CategoryWordController.java" afterPath="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/CategoryWordController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ld/src/main/java/com/baidu/ld/domain/lms/entity/Course.java" afterPath="$PROJECT_DIR$/../ld/src/main/java/com/baidu/ld/domain/lms/entity/Course.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ld/src/main/java/com/baidu/ld/dao/lms/hibernate/CourseStudyResultDAO.java" afterPath="$PROJECT_DIR$/../ld/src/main/java/com/baidu/ld/dao/lms/hibernate/CourseStudyResultDAO.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ld/src/main/java/com/baidu/ld/service/lms/impl/FrontUserService.java" afterPath="$PROJECT_DIR$/../ld/src/main/java/com/baidu/ld/service/lms/impl/FrontUserService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ld/src/main/java/com/baidu/ld/service/lms/impl/LmsUserManager.java" afterPath="$PROJECT_DIR$/../ld/src/main/java/com/baidu/ld/service/lms/impl/LmsUserManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/LogoutController.java" afterPath="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/LogoutController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/MyProcess.bpmn" afterPath="$PROJECT_DIR$/src/main/resources/MyProcess.bpmn" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/service/impl/RoleServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/service/impl/RoleServiceImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/entity/SGUser.java" afterPath="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/entity/SGUser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/UserController.java" afterPath="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/UserController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ld/src/main/resources/spring/applicationContext-security-cas.xml" afterPath="$PROJECT_DIR$/../ld/src/main/resources/spring/applicationContext-security-cas.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/assets/categoryWord/js/categoryWordManager.js" afterPath="$PROJECT_DIR$/src/main/webapp/assets/categoryWord/js/categoryWordManager.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/dataTemplate/grid5.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/dataTemplate/grid5.jsp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/dataTemplate/grid6.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/dataTemplate/grid6.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/config/jdbc.properties" afterPath="$PROJECT_DIR$/src/main/resources/config/jdbc.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ld/pom.xml" afterPath="$PROJECT_DIR$/../ld/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ld/src/main/resources/systemConfig.properties" afterPath="$PROJECT_DIR$/../ld/src/main/resources/systemConfig.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/jsp/user/userMaintain.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/jsp/user/userMaintain.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/js/user/userManager.js" afterPath="$PROJECT_DIR$/src/main/webapp/js/user/userManager.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="servicegov.iws" />
@@ -2085,239 +2085,125 @@
     </favorites_list>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="jdbc.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/config/jdbc.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="405">
-              <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="persistence.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.36" vertical-offset="521" max-vertical-offset="885">
-              <caret line="47" column="64" selection-start-line="47" selection-start-column="64" selection-end-line="47" selection-end-column="64" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExcelImportServiceImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/service/impl/ExcelImportServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2179" max-vertical-offset="20205">
-              <caret line="165" column="69" selection-start-line="165" selection-start-column="69" selection-end-line="165" selection-end-column="69" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#5001#5010#0" expanded="true" />
-                <element signature="e#6329#6345#0" expanded="true" />
-                <element signature="e#6739#6755#0" expanded="true" />
-                <element signature="e#16401#16417#0" expanded="true" />
-                <element signature="e#23055#23071#0" expanded="true" />
-                <element signature="e#42207#42223#0" expanded="true" />
-                <element signature="e#44907#44923#0" expanded="true" />
-                <element signature="e#45603#45619#0" expanded="true" />
-                <element signature="e#46163#46179#0" expanded="true" />
-                <element signature="e#49988#50004#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="userMaintain.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/jsp/user/userMaintain.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.1764708" vertical-offset="1890" max-vertical-offset="2520">
-              <caret line="147" column="28" selection-start-line="147" selection-start-column="28" selection-end-line="147" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserController.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/UserController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7265625" vertical-offset="606" max-vertical-offset="1710">
-              <caret line="75" column="45" selection-start-line="75" selection-start-column="45" selection-end-line="75" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="userEdit.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/jsp/user/userEdit.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-16.5" vertical-offset="1584" max-vertical-offset="2220">
-              <caret line="132" column="20" selection-start-line="132" selection-start-column="20" selection-end-line="132" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="userAdd.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/jsp/user/userAdd.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.0" vertical-offset="0" max-vertical-offset="1875">
-              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="validate.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/plugin/validate.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="795" max-vertical-offset="2175">
-              <caret line="71" column="24" selection-start-line="71" selection-start-column="24" selection-end-line="71" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ESBSG1.PERMISSION" pinned="false" current-in-tab="false">
-        <entry file="dbDummy://dbtable:/71e0e3e9/22c6e72b-54c8-4d7c-afb7-926556a74304/.ESBSG1.PERMISSION">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-          <provider editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="285">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ESBSG1.SERVICE_INVOKE" pinned="false" current-in-tab="false">
-        <entry file="dbDummy://dbtable:/71e0e3e9/22c6e72b-54c8-4d7c-afb7-926556a74304/.ESBSG1.SERVICE_INVOKE">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-          <provider editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="90">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="esbsg1" pinned="false" current-in-tab="false">
-        <entry file="dbDummy://db-console:/71e0e3e9/22c6e72b-54c8-4d7c-afb7-926556a74304/">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.733333" vertical-offset="3068" max-vertical-offset="3690">
-              <caret line="218" column="128" selection-start-line="0" selection-start-column="0" selection-end-line="240" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MyProcess.bpmn" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/MyProcess.bpmn">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="668" max-vertical-offset="3390">
-              <caret line="455" column="34" selection-start-line="455" selection-start-column="34" selection-end-line="455" selection-end-column="34" />
-              <folding>
-                <element signature="n#process#0;n#definitions#0;n#!!top" expanded="false" />
-                <element signature="n#process#1;n#definitions#0;n#!!top" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoginController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/LoginController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="138" max-vertical-offset="675">
-              <caret line="36" column="3" selection-start-line="36" selection-start-column="3" selection-end-line="41" selection-end-column="5" />
-              <folding>
-                <element signature="e#1371#1372#0" expanded="true" />
-                <element signature="e#1426#1427#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LogoutController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/LogoutController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
-              <caret line="5" column="61" selection-start-line="5" selection-start-column="61" selection-end-line="5" selection-end-column="61" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="application.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/config/spring/application.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.8" vertical-offset="1950" max-vertical-offset="2895">
-              <caret line="138" column="64" selection-start-line="138" selection-start-column="52" selection-end-line="138" selection-end-column="64" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.jsp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/jsp/index.jsp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.125" vertical-offset="0" max-vertical-offset="2055">
-              <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ServiceController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/ServiceController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="335" max-vertical-offset="3360">
-              <caret line="65" column="10" selection-start-line="65" selection-start-column="10" selection-end-line="65" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RoleServiceImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/service/impl/RoleServiceImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
-              <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
-              <folding>
-                <element signature="e#736#737#0" expanded="true" />
-                <element signature="e#766#767#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RoleController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/RoleController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="1095">
-              <caret line="39" column="59" selection-start-line="39" selection-start-column="59" selection-end-line="39" selection-end-column="59" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="userManager.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/js/user/userManager.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="1605">
-              <caret line="25" column="33" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.32606873">
+      <split-first>
+        <leaf>
+          <file leaf-file-name="grid5.jsp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/webapp/dataTemplate/grid5.jsp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-8.392157" vertical-offset="2212" max-vertical-offset="2835">
+                  <caret line="176" column="13" selection-start-line="165" selection-start-column="11" selection-end-line="176" selection-end-column="13" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="EnglishWordController.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/EnglishWordController.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-4.288889" vertical-offset="1487" max-vertical-offset="2415">
+                  <caret line="114" column="22" selection-start-line="114" selection-start-column="22" selection-end-line="114" selection-end-column="22" />
+                  <folding>
+                    <element signature="imports" expanded="true" />
+                    <element signature="e#6106#6107#0" expanded="true" />
+                    <element signature="e#6134#6135#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="AbstractBaseService.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/service/support/AbstractBaseService.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="1247" max-vertical-offset="1800">
+                  <caret line="142" column="32" selection-start-line="142" selection-start-column="24" selection-end-line="142" selection-end-column="32" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="grid6.jsp" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/webapp/dataTemplate/grid6.jsp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.62624586" vertical-offset="1573" max-vertical-offset="2175">
+                  <caret line="130" column="20" selection-start-line="130" selection-start-column="20" selection-end-line="130" selection-end-column="20" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="categoryWordManager.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/webapp/assets/categoryWord/js/categoryWordManager.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="744" max-vertical-offset="1425">
+                  <caret line="74" column="13" selection-start-line="74" selection-start-column="13" selection-end-line="74" selection-end-column="13" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="CategoryWord.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/entity/CategoryWord.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="990">
+                  <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="englishWordManager.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/webapp/assets/englishWord/js/englishWordManager.js">
+              <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+                <state />
+              </provider>
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-5.9666667" vertical-offset="781" max-vertical-offset="1425">
+                  <caret line="64" column="40" selection-start-line="64" selection-start-column="40" selection-end-line="64" selection-end-column="40" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="CategoryWordController.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/CategoryWordController.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-13.37037" vertical-offset="1679" max-vertical-offset="2700">
+                  <caret line="152" column="9" selection-start-line="152" selection-start-column="9" selection-end-line="152" selection-end-column="9" />
+                  <folding>
+                    <element signature="e#6293#6309#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="esbsg1" pinned="false" current-in-tab="false">
+            <entry file="dbDummy://db-console:/71e0e3e9/22c6e72b-54c8-4d7c-afb7-926556a74304/">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="-8.8" vertical-offset="3021" max-vertical-offset="3690">
+                  <caret line="219" column="43" selection-start-line="219" selection-start-column="43" selection-end-line="219" selection-end-column="43" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SGUser.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/entity/SGUser.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.37921348" vertical-offset="45" max-vertical-offset="1140">
+                  <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -2340,11 +2226,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/entity/Role.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/entity/UserRoleRelation.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/dao/impl/UserDAOImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/service/impl/PermissionServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/dao/impl/RolePermissionRelationDAOImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/service/impl/UserServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/entity/RolePermissionRelation.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/RolePermissionRelationController.java" />
@@ -2357,7 +2238,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/ServiceController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/security/impl/SampleRealm.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/BaseLineController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/CategoryWordController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/ConfigExportController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/EnumController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/EnglishWordController.java" />
@@ -2384,13 +2264,19 @@
         <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/LoginController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/jsp/index.jsp" />
         <option value="db-console:/71e0e3e9/22c6e72b-54c8-4d7c-afb7-926556a74304/" />
-        <option value="$PROJECT_DIR$/src/main/resources/config/jdbc.properties" />
-        <option value="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/LogoutController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/service/impl/RoleServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/jsp/user/userMaintain.jsp" />
         <option value="$PROJECT_DIR$/src/main/webapp/js/user/userManager.js" />
+        <option value="$PROJECT_DIR$/src/main/resources/config/jdbc.properties" />
+        <option value="$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml" />
+        <option value="dbtable:/71e0e3e9/22c6e72b-54c8-4d7c-afb7-926556a74304/.ESBSG1.SG_USER" />
+        <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/entity/SGUser.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/UserController.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/dataTemplate/grid5.jsp" />
+        <option value="$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/CategoryWordController.java" />
+        <option value="$PROJECT_DIR$/src/main/webapp/dataTemplate/grid6.jsp" />
+        <option value="$PROJECT_DIR$/src/main/webapp/assets/categoryWord/js/categoryWordManager.js" />
       </list>
     </option>
   </component>
@@ -2468,7 +2354,7 @@
     <option name="x" value="1280" />
     <option name="y" value="23" />
     <option name="width" value="1440" />
-    <option name="height" value="821" />
+    <option name="height" value="829" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -3035,7 +2921,7 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="recentsLimit" value="5" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="userCont&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/UserController.java&#10;userMain&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/jsp/user/userMaintain.jsp&#10;userManager.js&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/js/user/userManager.js&#10;UserController&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/UserController.java&#10;RoleCont&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/RoleController.java&#10;RoleService&#9;PSI&#9;JAVA://com.dc.esb.servicegov.service.impl.RoleServiceImpl&#10;LogoutController&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/LogoutController.java&#10;persisten&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/META-INF/persistence.xml&#10;jdbc.proper&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/config/jdbc.properties&#10;login&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/LoginController.java&#10;Logout&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/LogoutController.java&#10;index.jsp&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/jsp/index.jsp&#10;application.xml&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/config/spring/application.xml&#10;log&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/LoginController.java&#10;MyProcess&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/MyProcess.bpmn&#10;ExcelIm&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/service/impl/ExcelImportServiceImpl.java&#10;persis&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/META-INF/persistence.xml&#10;jdbc.properties&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/config/jdbc.properties&#10;insertInterface&#9;PSI&#9;JAVA://com.dc.esb.servicegov.service.impl.ExcelImportServiceImpl#insertInterface&#10;useradd&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/jsp/user/userAdd.jsp&#10;userEdit.jsp&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/jsp/user/userEdit.jsp&#10;/user&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/UserController.java&#10;ServiceGr&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/jsp/service/serviceGrid.jsp&#10;jdbc&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/config/jdbc.properties&#10;ExcelI&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/service/impl/ExcelImportServiceImpl.java&#10;ExcelEx&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/ExcelExportController.java&#10;Metadata&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/MetadataController.java&#10;Service&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/ServiceController.java&#10;ServiceCont&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/ServiceController.java&#10;ExcelE&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/ExcelExportController.java&#10;ExcelExp&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src723/main/java/com/dc/esb/servicegov/controller/ExcelExportController.java&#10;permissionEdit&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/jsp/role/permissionEdit.jsp&#10;Interfa&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/InterfaceController.java&#10;Config&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/ConfigExportController.java&#10;Constants&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/service/support/Constants.java&#10;ExcelExpor&#9;PSI&#9;JAVA://com.dc.esb.servicegov.service.impl.ExcelExportServiceImpl&#10;Constan&#9;PSI&#9;JAVA://com.dc.esb.servicegov.excel.support.Constants&#10;ServiceCon&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/ServiceController.java&#10;Sample&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/security/impl/SampleRealm.java&#10;ServiceCo&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/ServiceController.java&#10;404&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/newui/pages/examples/404.html&#10;ServiceController&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/ServiceController.java&#10;persist&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/META-INF/persistence.xml&#10;RoleD&#9;PSI&#9;JAVA://com.dc.esb.servicegov.dao.impl.RoleDAOImpl&#10;UserD&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/dao/impl/UserDAOImpl.java&#10;userMa&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/js/user/userManager.js&#10;UserCon&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/UserController.java&#10;userAdd&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/jsp/user/userAdd.jsp&#10;UserRole&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/entity/UserRoleRelation.java&#10;application&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/config/spring/application.xml" />
+    <property name="SearchEverywhereHistoryKey" value="SGUser&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/entity/SGUser.java&#10;CategoryWor&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/CategoryWordController.java&#10;englishwordMa&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/assets/englishWord/js/englishWordManager.js&#10;englishwordma&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/assets/englishWord/js/englishWordManager.js&#10;Category&#9;PSI&#9;JAVA://com.dc.esb.servicegov.entity.CategoryWord&#10;CategoryWord&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/CategoryWordController.java&#10;CategorywordContr&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/CategoryWordController.java&#10;grid&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/dataTemplate/grid6.jsp&#10;grid6&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/dataTemplate/grid6.jsp&#10;grid6.jsp&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/dataTemplate/grid6.jsp&#10;English&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/EnglishWordController.java&#10;grid5&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/dataTemplate/grid5.jsp&#10;grid7&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/dataTemplate/grid7.jsp&#10;grid5.jsp&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/dataTemplate/grid5.jsp&#10;UserController&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/UserController.java&#10;User&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/entity/SGUser.java&#10;persis&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/META-INF/persistence.xml&#10;jdbc&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/config/jdbc.properties&#10;SGuser&#9;PSI&#9;JAVA://com.dc.esb.servicegov.entity.SGUser&#10;userCont&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/UserController.java&#10;userMain&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/jsp/user/userMaintain.jsp&#10;userManager.js&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/js/user/userManager.js&#10;RoleCont&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/RoleController.java&#10;RoleService&#9;PSI&#9;JAVA://com.dc.esb.servicegov.service.impl.RoleServiceImpl&#10;LogoutController&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/LogoutController.java&#10;persisten&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/META-INF/persistence.xml&#10;jdbc.proper&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/config/jdbc.properties&#10;login&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/LoginController.java&#10;Logout&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/LogoutController.java&#10;index.jsp&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/jsp/index.jsp&#10;application.xml&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/config/spring/application.xml&#10;log&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/LoginController.java&#10;MyProcess&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/MyProcess.bpmn&#10;ExcelIm&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/service/impl/ExcelImportServiceImpl.java&#10;jdbc.properties&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/resources/config/jdbc.properties&#10;insertInterface&#9;PSI&#9;JAVA://com.dc.esb.servicegov.service.impl.ExcelImportServiceImpl#insertInterface&#10;useradd&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/jsp/user/userAdd.jsp&#10;userEdit.jsp&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/jsp/user/userEdit.jsp&#10;/user&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/UserController.java&#10;ServiceGr&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/jsp/service/serviceGrid.jsp&#10;ExcelI&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/service/impl/ExcelImportServiceImpl.java&#10;ExcelEx&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/ExcelExportController.java&#10;Metadata&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/MetadataController.java&#10;Service&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/ServiceController.java&#10;ServiceCont&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/ServiceController.java&#10;ExcelE&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/ExcelExportController.java&#10;ExcelExp&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src723/main/java/com/dc/esb/servicegov/controller/ExcelExportController.java&#10;permissionEdit&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/webapp/jsp/role/permissionEdit.jsp&#10;Interfa&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/InterfaceController.java&#10;Config&#9;FILE&#9;file:///Users/vincentfxz/Code/ServiceGovernance/src/main/java/com/dc/esb/servicegov/controller/ConfigExportController.java" />
     <property name="options.lastSelected" value="database.main" />
     <property name="options.splitter.main.proportions" value="0.30166668" />
     <property name="options.splitter.details.proportions" value="0.2" />
@@ -3655,7 +3541,7 @@
       <workItem from="1436747994415" duration="15970000" />
       <workItem from="1436785394806" duration="2246000" />
       <workItem from="1436787841255" duration="108143000" />
-      <workItem from="1437440868002" duration="75613000" />
+      <workItem from="1437440868002" duration="86142000" />
     </task>
     <task id="LOCAL-00001" summary="commit by vincent fan  add wsdl export">
       <created>1404194147472</created>
@@ -3685,7 +3571,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="934210000" />
+    <option name="totallyTimeSpent" value="944739000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -3708,14 +3594,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1280" y="23" width="1440" height="821" extended-state="0" />
+    <frame x="1280" y="23" width="1440" height="829" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.59565806" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24821173" sideWeight="0.8678474" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25751072" sideWeight="0.76086956" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14663805" sideWeight="0.76086956" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29044586" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4192673" sideWeight="0.29685265" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
@@ -3726,11 +3612,11 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1795422" sideWeight="0.66712326" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45931035" sideWeight="0.7746365" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.57475996" sideWeight="0.82474226" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4433121" sideWeight="0.82474226" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42112482" sideWeight="0.6967096" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32647464" sideWeight="0.70314735" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37313432" sideWeight="0.6967096" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3175034" sideWeight="0.70314735" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3490701" sideWeight="0.19716088" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32229403" sideWeight="0.3328767" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24749643" sideWeight="0.60410094" order="2" side_tool="false" content_ui="tabs" />
@@ -3752,7 +3638,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.59565806" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25751072" sideWeight="0.76086956" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14663805" sideWeight="0.76086956" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24821173" sideWeight="0.8678474" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29044586" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3269494" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -3764,18 +3650,18 @@
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.6089918" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32737276" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1795422" sideWeight="0.66712326" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1795422" sideWeight="0.66712326" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17851374" sideWeight="0.9128065" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45931035" sideWeight="0.7746365" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.57475996" sideWeight="0.82474226" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4433121" sideWeight="0.82474226" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.8678474" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.42112482" sideWeight="0.6967096" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.37313432" sideWeight="0.6967096" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3656051" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43895748" sideWeight="0.70314735" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3175034" sideWeight="0.70314735" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3490701" sideWeight="0.19716088" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36038515" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32229403" sideWeight="0.3328767" order="6" side_tool="true" content_ui="tabs" />
@@ -3864,7 +3750,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="352" />
+      <option name="time" value="353" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="MavenRunConfiguration">
@@ -3880,119 +3766,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/dao/support/HibernateDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1198" max-vertical-offset="9195">
-          <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.6.10.Final/hibernate-core-3.6.10.Final-sources.jar!/org/hibernate/impl/SessionImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="7879" max-vertical-offset="32865">
-          <caret line="681" column="0" selection-start-line="681" selection-start-column="0" selection-end-line="681" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.6.10.Final/hibernate-core-3.6.10.Final-sources.jar!/org/hibernate/event/def/DefaultSaveOrUpdateEventListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1920" max-vertical-offset="5160">
-          <caret line="180" column="0" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.6.10.Final/hibernate-core-3.6.10.Final-sources.jar!/org/hibernate/engine/StatefulPersistenceContext.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6863" max-vertical-offset="23490">
-          <caret line="545" column="0" selection-start-line="545" selection-start-column="0" selection-end-line="545" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/RolePermissionRelationController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="504" max-vertical-offset="1020">
-          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/service/impl/ExcelExportServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1245" max-vertical-offset="4815">
-          <caret line="115" column="24" selection-start-line="115" selection-start-column="24" selection-end-line="115" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/service/impl/TaizhouExcelImportServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1151" max-vertical-offset="2520">
-          <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5397#5413#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/jsp/role/permissionEdit.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26086956" vertical-offset="0" max-vertical-offset="1395">
-          <caret line="8" column="7" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/FileManagerController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1860">
-          <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/BaseLineController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="299" max-vertical-offset="1035">
-          <caret line="51" column="12" selection-start-line="51" selection-start-column="12" selection-end-line="51" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/CategoryWordController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="987" max-vertical-offset="2550">
-          <caret line="121" column="0" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/CurrentUserInterceptor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="285">
-          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/DefaultController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
           <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/EnglishWordController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1535" max-vertical-offset="2205">
-          <caret line="151" column="0" selection-start-line="151" selection-start-column="0" selection-end-line="155" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -4237,7 +4014,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/MyProcess.bpmn">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="668" max-vertical-offset="3390">
+        <state vertical-scroll-proportion="0.83164984" vertical-offset="668" max-vertical-offset="3390">
           <caret line="455" column="34" selection-start-line="455" selection-start-column="34" selection-end-line="455" selection-end-column="34" />
           <folding>
             <element signature="n#process#0;n#definitions#0;n#!!top" expanded="false" />
@@ -4248,7 +4025,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/config/spring/application.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.8" vertical-offset="1950" max-vertical-offset="2895">
+        <state vertical-scroll-proportion="0.40677965" vertical-offset="1950" max-vertical-offset="2895">
           <caret line="138" column="64" selection-start-line="138" selection-start-column="52" selection-end-line="138" selection-end-column="64" />
           <folding />
         </state>
@@ -4256,39 +4033,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/jsp/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.125" vertical-offset="0" max-vertical-offset="2055">
+        <state vertical-scroll-proportion="1.0641892" vertical-offset="0" max-vertical-offset="2055">
           <caret line="21" column="1" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://db-console:/71e0e3e9/22c6e72b-54c8-4d7c-afb7-926556a74304/">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.733333" vertical-offset="3068" max-vertical-offset="3690">
-          <caret line="218" column="128" selection-start-line="0" selection-start-column="0" selection-end-line="240" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/config/jdbc.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="405">
-          <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.36" vertical-offset="521" max-vertical-offset="885">
-          <caret line="47" column="64" selection-start-line="47" selection-start-column="64" selection-end-line="47" selection-end-column="64" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/LoginController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="138" max-vertical-offset="675">
+        <state vertical-scroll-proportion="0.50625" vertical-offset="138" max-vertical-offset="675">
           <caret line="36" column="3" selection-start-line="36" selection-start-column="3" selection-end-line="41" selection-end-column="5" />
           <folding>
             <element signature="e#1371#1372#0" expanded="true" />
@@ -4299,7 +4052,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/LogoutController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
+        <state vertical-scroll-proportion="0.22522523" vertical-offset="0" max-vertical-offset="420">
           <caret line="5" column="61" selection-start-line="5" selection-start-column="61" selection-end-line="5" selection-end-column="61" />
           <folding />
         </state>
@@ -4307,7 +4060,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/ServiceController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="335" max-vertical-offset="3360">
+        <state vertical-scroll-proportion="1.0625" vertical-offset="335" max-vertical-offset="3360">
           <caret line="65" column="10" selection-start-line="65" selection-start-column="10" selection-end-line="65" selection-end-column="10" />
           <folding />
         </state>
@@ -4315,7 +4068,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/service/impl/RoleServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
+        <state vertical-scroll-proportion="0.8005618" vertical-offset="0" max-vertical-offset="390">
           <caret line="26" column="1" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
           <folding>
             <element signature="e#736#737#0" expanded="true" />
@@ -4326,7 +4079,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/RoleController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="1095">
+        <state vertical-scroll-proportion="0.83090377" vertical-offset="60" max-vertical-offset="1095">
           <caret line="39" column="59" selection-start-line="39" selection-start-column="59" selection-end-line="39" selection-end-column="59" />
           <folding />
         </state>
@@ -4342,16 +4095,158 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/js/user/userManager.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="1605">
+        <state vertical-scroll-proportion="0.46348315" vertical-offset="210" max-vertical-offset="1605">
           <caret line="25" column="33" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/config/jdbc.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="405">
+          <caret line="13" column="30" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/persistence.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.2" vertical-offset="275" max-vertical-offset="885">
+          <caret line="37" column="49" selection-start-line="37" selection-start-column="49" selection-end-line="37" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://dbtable:/71e0e3e9/22c6e72b-54c8-4d7c-afb7-926556a74304/.ESBSG1.SG_USER">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.0" vertical-offset="0" max-vertical-offset="435">
+          <caret line="4" column="36" selection-start-line="4" selection-start-column="36" selection-end-line="4" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/service/impl/UserServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.37921348" vertical-offset="0" max-vertical-offset="356">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/UserController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7265625" vertical-offset="606" max-vertical-offset="1710">
-          <caret line="75" column="45" selection-start-line="75" selection-start-column="45" selection-end-line="75" selection-end-column="45" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1287" max-vertical-offset="1875">
+          <caret line="121" column="20" selection-start-line="121" selection-start-column="20" selection-end-line="121" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/dataTemplate/grid7.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.75" vertical-offset="0" max-vertical-offset="3195">
+          <caret line="6" column="87" selection-start-line="6" selection-start-column="87" selection-end-line="6" selection-end-column="87" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/assets/englishWord/js/hehe.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="1440">
+          <caret line="51" column="27" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/service/support/AbstractBaseService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1247" max-vertical-offset="1800">
+          <caret line="142" column="32" selection-start-line="142" selection-start-column="24" selection-end-line="142" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/dataTemplate/grid5.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.392157" vertical-offset="2212" max-vertical-offset="2835">
+          <caret line="176" column="13" selection-start-line="165" selection-start-column="11" selection-end-line="176" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/entity/CategoryWord.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="990">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/assets/englishWord/js/englishWordManager.js">
+      <provider editor-type-id="com.intellij.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-5.9666667" vertical-offset="781" max-vertical-offset="1425">
+          <caret line="64" column="40" selection-start-line="64" selection-start-column="40" selection-end-line="64" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/EnglishWordController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.288889" vertical-offset="1487" max-vertical-offset="2415">
+          <caret line="114" column="22" selection-start-line="114" selection-start-column="22" selection-end-line="114" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#6106#6107#0" expanded="true" />
+            <element signature="e#6134#6135#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/assets/categoryWord/js/categoryWordManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="744" max-vertical-offset="1425">
+          <caret line="74" column="13" selection-start-line="74" selection-start-column="13" selection-end-line="74" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/dataTemplate/grid6.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.62624586" vertical-offset="1573" max-vertical-offset="2175">
+          <caret line="130" column="20" selection-start-line="130" selection-start-column="20" selection-end-line="130" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/controller/CategoryWordController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.37037" vertical-offset="1679" max-vertical-offset="2700">
+          <caret line="152" column="9" selection-start-line="152" selection-start-column="9" selection-end-line="152" selection-end-column="9" />
+          <folding>
+            <element signature="e#6293#6309#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="dbDummy://db-console:/71e0e3e9/22c6e72b-54c8-4d7c-afb7-926556a74304/">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.8" vertical-offset="3021" max-vertical-offset="3690">
+          <caret line="219" column="43" selection-start-line="219" selection-start-column="43" selection-end-line="219" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/dc/esb/servicegov/entity/SGUser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.37921348" vertical-offset="45" max-vertical-offset="1140">
+          <caret line="24" column="28" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
           <folding />
         </state>
       </provider>

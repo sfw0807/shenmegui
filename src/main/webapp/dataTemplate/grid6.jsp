@@ -22,8 +22,6 @@
             <td>
                 <input class="easyui-textbox" type="text" id="englishWord">
             </td>
-        </tr>
-        <tr>
             <th>类别词英文缩写</th>
             <td>
                 <input class="easyui-textbox" id="esglisgAb"/>
@@ -33,7 +31,7 @@
                 <input class="easyui-textbox" id="remark"/>
             </td>
             <td>
-                <button href="#" onclick="search()" class="easyui-linkbutton" plain="true" iconCls="icon-search">过滤
+                <button href="#" id="search" class="easyui-linkbutton" plain="true" iconCls="icon-search">过滤
                 </button>
             </td>
         </tr>
@@ -119,17 +117,23 @@
                 editedRows.push(index);
             }
         });
-    });
-    function search() {
-        var param = {};
-        param.englishWord = $('#englishWord').val() ? $('#englishWord').val() : "isNull";
-        param.chineseWord = $('#chineseWord').val() ? $('#chineseWord').val() : "isNull";
-        param.esglisgAb = $('#esglisgAb').val() ? $('#esglisgAb').val() : "isNull";
-        param.remark = $('#remark').val() ? $('#remark').val() : "isNull";
-        categoryWordManager.getByParams(param, function (result) {
-            $('#tt').edatagrid('loadData', result);
+        $("#search").click(function(){
+            var param = {
+                "englishWord": $("#englishWord").textbox("getValue"),
+                "chineseWord": $("#chineseWord").textbox("getValue"),
+                "esglisgAb": $("#esglisgAb").textbox("getValue"),
+                "remark": $("#remark").textbox("getValue")
+            };
+            if (param.englishWord || param.chineseWord || param.esglisgAb || param.remark) {
+                categoryWordManager.query(param, function (result) {
+                    $('#tt').edatagrid('loadData', result);
+                });
+            } else {
+                alert("请输入查询条件");
+            }
         });
-    }
+
+    });
 </script>
 
 </body>

@@ -121,4 +121,15 @@ public class UserController {
         userServiceImpl.save(SGUser);
         return true;
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/checkUnique/userId/{userId}", headers = "Accept=application/json")
+    public
+    @ResponseBody
+    boolean passWord(@PathVariable("userId") String userId) {
+        SGUser user = userServiceImpl.getById(userId);
+        if(null != user){
+
+        }
+        return true;
+    }
 }

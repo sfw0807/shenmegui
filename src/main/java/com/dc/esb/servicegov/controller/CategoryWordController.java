@@ -3,6 +3,7 @@ package com.dc.esb.servicegov.controller;
 import java.util.*;
 
 import com.dc.esb.servicegov.dao.support.Page;
+import com.dc.esb.servicegov.entity.EnglishWord;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -136,6 +137,16 @@ public class CategoryWordController {
             params.put("remark", remark);
         List<CategoryWord> words = categoryWordService.findBy(params);
         return words;
+    }
+
+    @RequiresPermissions({"metadata-get"})
+    @RequestMapping(method = RequestMethod.POST, value = "/query", headers = "Accept=application/json")
+    public @ResponseBody Map<String, Object> query(@RequestBody Map<String, String> params){
+        List<CategoryWord> rows = categoryWordService.findLikeAnyWhere(params);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("total", rows.size());
+        result.put("rows", rows);
+        return result;
     }
 
     @RequiresPermissions({"metadata-add"})
