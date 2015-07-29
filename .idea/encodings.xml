@@ -1,46 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
-    <file url="file://$PROJECT_DIR$/../MyPages/jjTest/baowen2" charset="GBK" />
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm-6-examples/evaluation" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm-6-examples/jms" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm-6-examples/parameters" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm-6-examples/quickstarts" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm-6-examples/rest" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm-6-examples/rewards" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm-6-examples/rewards-basic" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-audit" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-bpmn2" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-bpmn2-emfextmodel" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-distribution" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-document" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-examples" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-flow" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-flow-builder" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-human-task" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task-audit" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task-core" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task-jpa" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-human-task/jbpm-human-task-workitems" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-persistence-jpa" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-query-jpa" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-runtime-manager" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-services" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-executor" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-executor-cdi" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-kie-services" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-api" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-cdi" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-executor-ejb" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb-api" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb-client" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb-impl" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-services-ejb/jbpm-services-ejb-timer" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-services/jbpm-shared-services" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-test" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../jbpm/jbpm-workitems" charset="UTF-8" />
   </component>
 </project>
