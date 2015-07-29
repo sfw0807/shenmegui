@@ -102,10 +102,12 @@
 			<table id="invokeList" class="easyui-datagrid"
 				data-options="	rownumbers:true,
 								singleSelect:true,
+								fixed:false,
 								url:'/serviceLink/getInterfaceByOSS?operationId=${operation.operationId }&serviceId=${service.serviceId }',
 								method:'get',
 								pagination:true,
 								toolbar: '#tb',
+								striped: true,
 								pageSize:10"
 				style="height:200px; width:100%;">
 				<thead>
@@ -149,7 +151,7 @@
                                 iconCls: 'icon-ok',
                                 rownumbers: true,
                                 animate: true,
-                                fitColumns: true,
+                                fitColumns: false,
                                 url: '/sda/sdaTree?serviceId=${service.serviceId }&operationId='+encodeURI(encodeURI('${operation.operationId }')),
                                 method: 'get',
                                 idField: 'id',
@@ -180,7 +182,7 @@
                                                                 iconCls:'icon-edit',
                                                                 rownumbers: false,
                                                                 animate: true,
-                                                                fitColumns: true,
+                                                                fitColumns: false,
                                                                 method: 'get',
                                                                 idField: 'id',
                                                                 treeField: 'structName',

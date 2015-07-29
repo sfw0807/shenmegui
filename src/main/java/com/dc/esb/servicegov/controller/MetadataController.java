@@ -251,10 +251,13 @@ public class MetadataController {
     @RequiresPermissions({"metadata-get"})
     @RequestMapping(method = RequestMethod.POST, value = "/query", headers = "Accept=application/json")
     @ResponseBody
-    public Map<String, Object> query(@RequestBody Map<String, String> params) {
-        List<Metadata> rows = metadataService.findLikeAnyWhere(params);
+    public Map<String, Object> query(@RequestBody Map<String, String> params, @RequestParam("page") int pageNo, @RequestParam("rows") int rowCount) {
+        int total = metadataService.findLikeAnyWhere(params).size();
+        Page page = new Page(total, rowCount);
+        page.setPage(pageNo);
+        List<Metadata> rows = metadataService.findLikeAnyWhere(params, page);
         Map<String, Object> result = new HashMap<String, Object>();
-        result.put("total", rows.size());
+        result.put("total", page.getResultCount());
         result.put("rows", rows);
         return result;
     }

@@ -8,7 +8,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 public class EasyUiTreeUtil {
-	
+		private static EasyUiTreeUtil instance;
+
+	public static EasyUiTreeUtil getInstance() {
+		return instance == null ? new EasyUiTreeUtil() : instance;
+	}
 	//通用获取对象某个属性值
 		public String getFieldValue(Object t, String fieldName){
 			Field fields[]=t.getClass().getDeclaredFields();//获得对象所有属性
@@ -91,8 +95,17 @@ public class EasyUiTreeUtil {
 		if(list != null && list.size() > 0){
 			List<TreeNode> tmp = new ArrayList<TreeNode>();
 			List<TreeNode> result = new ArrayList<TreeNode>();
-			for(Object obj : list){
-				TreeNode t = convertTreeNode(obj, fields);
+			for(int i = 0; i< list.size(); i++){
+				Object obj = list.get(i);
+				if(obj == null){
+					continue;
+				}
+				TreeNode t;
+				if(obj instanceof  TreeNode){
+					t = (TreeNode)obj;
+				}else{
+					t = convertTreeNode(obj, fields);
+				}
 				tmp.add(t);
 				if(StringUtils.isEmpty(t.parentId) || (StringUtils.isNotEmpty(t.parentId) && t.getParentId().equals("/")) ){
 					result.add(t);

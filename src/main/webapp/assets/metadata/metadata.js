@@ -8,9 +8,9 @@ $(function(){
 			"metadataName" : $("#metadataName").textbox("getValue"),
 			"chineseName" : $("#chineseName").textbox("getValue"),
 			"metadataAlias" : $("#metadataAlias").textbox("getValue"),
-			"status" : $("#status").combobox("getValue"),
+	//		"status" : $("#status").combobox("getValue"),
 			"categoryWordId" : $("#categoryWordId").combobox("getValue"),
-			"version" : $("#version").textbox("getValue"),
+	//		"version" : $("#version").textbox("getValue"),
 			"startDate" : $("#startDate").datebox("getValue"),
 			"endDate" : $("#endDate").datebox("getValue")
 		};

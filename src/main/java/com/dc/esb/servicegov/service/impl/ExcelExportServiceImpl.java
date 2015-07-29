@@ -4,14 +4,14 @@ import com.dc.esb.servicegov.dao.impl.*;
 import com.dc.esb.servicegov.dao.support.HibernateDAO;
 import com.dc.esb.servicegov.entity.*;
 import com.dc.esb.servicegov.entity.Service;
+import com.dc.esb.servicegov.entity.System;
 import com.dc.esb.servicegov.excel.MappingSheetTask;
 import com.dc.esb.servicegov.service.support.AbstractBaseService;
 import com.dc.esb.servicegov.service.support.Constants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.hssf.util.CellRangeAddress;
 import org.drools.core.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +47,10 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
     private ServiceDAOImpl serviceDao;
     @Autowired
     private OperationDAOImpl operationDAO;
+    @Autowired
+    private ServiceCategoryDAOImpl serviceCategoryDao;
+    @Autowired
+    private SystemDAOImpl systemDAOImpl;
 
     /**
      * TODO根据参数id和类型，返回excel文件
@@ -66,11 +70,11 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
     }
 
     /**
-     * TODO 读取服务模板
+     * TODO 读取模板
      * @return
      */
-    public  HSSFWorkbook getTempalteWb(){
-        File file = new File(Constants.EXCEL_TEMPLATE_SERVICE);
+    public  HSSFWorkbook getTempalteWb(String templatePath){
+        File file = new File(templatePath);
         HSSFWorkbook wb = null;
         BufferedInputStream in = null;
         InputStream is;
@@ -98,7 +102,7 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
         return genderWorkbook(siList);
     }
     public HSSFWorkbook genderWorkbook(List<ServiceInvoke> siList) {
-        HSSFWorkbook workbook =  getTempalteWb();
+        HSSFWorkbook workbook =  getTempalteWb(Constants.EXCEL_TEMPLATE_SERVICE);
 
         HSSFSheet indexSheet = workbook.getSheet("INDEX");
         HSSFSheet mappingSheet = workbook.getSheet("MAPPING");
@@ -112,9 +116,9 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
             ServiceInvoke si = siList.get(i);
             HSSFSheet sheet = workbook.cloneSheet(workbook.getSheetIndex(mappingSheet));//复制模板中mapping页
             workbook.setSheetName(workbook.getSheetIndex(sheet), si.getInterfaceId());//修改sheet名称
-            MappingSheetTask msTask = new MappingSheetTask(sheet, si, this);
-            pool.execute(msTask);
-//            fillMapping(sheet, si);
+//            MappingSheetTask msTask = new MappingSheetTask(sheet, si, this);
+//            pool.execute(msTask);
+            fillMapping(sheet, si);
         }
         pool.shutdown();
         while(true){ //判断多线程是否结束
@@ -225,13 +229,18 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
             }
 //        if(reqListIda.size() > 0){//处理没有对应的ida，可能没有
 //            for(int i = 0; i < reqListIda.size(); i++){
-//                fillIda(sheet, 7+reqListSDA.size(), reqListIda.get(i));
+//                fillIda(sheet, 7+reqListSDA.size()+i, reqListIda.get(i));
 //            }
 //        }
            // sheet.createRow(8+reqListSDA.size());
             for (int i = 0; i < resListSDA.size(); i++) {
-                fillMappRow(sheet, 8 + reqListSDA.size() + i, resListSDA.get(i), resListIda );
+                fillMappRow(sheet, 8 + reqListSDA.size()+ reqListIda.size() + i, resListSDA.get(i), resListIda );
             }
+//            if(resListIda.size() > 0){//处理没有对应的ida，可能没有
+//                for(int i = 0; i < resListIda.size(); i++){
+//                    fillIda(sheet, 8+reqListSDA.size()+reqListIda.size()+resListSDA.size()+i, reqListIda.get(i));
+//                }
+//            }
         }catch (Exception e){
             e.printStackTrace();
             logger.error("===========填充[" + sheet.getSheetName() + "]页失败===========");
@@ -241,7 +250,7 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
     }
 
     public void fillMappRow(HSSFSheet sheet, int index, SDA sda,  List<Ida> idaList){
-        sheet.createRow(sheet.getLastRowNum()+1);
+        sheet.createRow(sheet.getLastRowNum() + 1);
         sheet.shiftRows(index, sheet.getLastRowNum(), 1, true, false); //插入一行
         fillSDA(sheet, index, sda);
         if((!StringUtils.isEmpty(sda.getType()) && (sda.getType().equalsIgnoreCase("array") || sda.getType().equalsIgnoreCase("struct"))) ||
@@ -276,6 +285,10 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
     }
     public void fillIda(HSSFSheet sheet, int index, Ida ida){
         HSSFRow row = sheet.getRow(index);
+//        if( null == row ){
+//            row = sheet.createRow(sheet.getLastRowNum() + 1);
+//            sheet.shiftRows(index, sheet.getLastRowNum(), 1, true, false); //插入一行
+//        }
         fillIda(sheet, row, ida);
         if(!StringUtils.isEmpty(ida.getType()) && (ida.getType().equalsIgnoreCase("array") || ida.getType().equalsIgnoreCase("struct"))){
             List<Ida> childList = getIdaChildren(ida.getId());
@@ -295,8 +308,33 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
         row.createCell(4).setCellValue(ida.getRequired());//是否必输
         row.createCell(5).setCellValue(ida.getRemark());//备注
     }
+    public Ida judgeMetadataId(List<Ida> idaList, String metadataId){
+        for(int i = 0; i < idaList.size(); i++){
+            Ida ida = idaList.get(i);
+            if(!StringUtils.isEmpty(ida.getMetadataId()) && !StringUtils.isEmpty(metadataId) && ida.getMetadataId().equals(metadataId)){
+                return ida;
+            }
+        }
+        return null;
+    }
+
+    public List<SDA> getSDAChildren(String sdaId){
+        String hql = " from " + SDA.class.getName() + " where parentId=?";
+        List<SDA> list = sdaDao.find(hql, sdaId);
+        return list;
+    }
+    public List<Ida> getIdaChildren(String id){
+        List<Ida> list = idaDao.findBy("_parentId", id);
+        return list;
+    }
+    public List<Ida> getIdaByParentName(String interfaceId, String parentName){
+        String hql = " from " + Ida.class.getName() + " as i where i._parentId in("+
+                " select i2.id from "+ Ida.class.getName() + " as i2 where i2.interfaceId = ? and structName = ?"+
+                ")";
+        List<Ida> list = idaDao.find(hql, interfaceId, parentName);
+        return list;
+    }
     /**
-     * TODO 根据节点名称查询SDA
      * @param serviceId
      * @param operationId
      * @param parentName
@@ -310,30 +348,143 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
         return list;
     }
 
-    public List<Ida> getIdaByParentName(String interfaceId, String parentName){
-        String hql = " from " + Ida.class.getName() + " as i where i._parentId in("+
-                " select i2.id from "+ Ida.class.getName() + " as i2 where i2.interfaceId = ? and structName = ?"+
-                ")";
-        List<Ida> list = idaDao.find(hql, interfaceId, parentName);
-        return list;
-    }
-    public Ida judgeMetadataId(List<Ida> idaList, String metadataId){
-        for(int i = 0; i < idaList.size(); i++){
-            Ida ida = idaList.get(i);
-            if(!StringUtils.isEmpty(ida.getMetadataId()) && !StringUtils.isEmpty(metadataId) && ida.getMetadataId().equals(metadataId)){
-                return ida;
-            }
+    /**
+     * @param categoryId
+     * @return
+     */
+    public HSSFWorkbook genderServiceView(String categoryId){
+        try{
+            HSSFWorkbook wb = getTempalteWb(Constants.EXCEL_TEMPLATE_SERVICE_VIEW);
+            HSSFCellStyle cellStyle = commonStyle(wb);
+            //填充view
+            fillView(wb, categoryId, cellStyle);
+            //填充system页
+            fillSystem(wb.getSheet("APP-ID"), cellStyle);
+            //删除view页
+            wb.removeSheetAt(wb.getSheetIndex(wb.getSheet("VIEW")));
+            return wb;
+        }catch (Exception e){
+            logger.error(e, e);
         }
         return null;
     }
-    public List<SDA> getSDAChildren(String sdaId){
-        String hql = " from " + SDA.class.getName() + " where parentId=?";
-        List<SDA> list = sdaDao.find(hql, sdaId);
-        return list;
+
+    public void fillView(HSSFWorkbook wb, String categoryId, HSSFCellStyle cellStyle){
+        //根据categoryId查询
+        ServiceCategory sc = serviceCategoryDao.findUniqueBy("categoryId", categoryId);
+
+        HSSFSheet  view = wb.getSheet("VIEW");
+        HSSFSheet sheet = wb.cloneSheet(wb.getSheetIndex(view)); //复制index页
+        wb.setSheetName(wb.getSheetIndex(sheet), sc.getCategoryName());
+        int counter = 1;
+        //查询子分类
+        List<ServiceCategory> scList = serviceCategoryDao.findBy("parentId", categoryId);
+        String[] values0 = {sc.getCategoryName(), " ", " ", " ", " ", " ", " ", " ", " "};
+        if(scList.size() == 0){
+            HSSFRow row = sheet.createRow(counter);
+            setRowValue(row, cellStyle, values0);
+            return;
+        }
+        for(ServiceCategory child : scList){
+            int start = counter;
+            String[] values1 = {sc.getCategoryName(), child.getCategoryName(), " ", " ", " ", " ", " ", " ", " "};
+            List<Service> services = serviceDao.findBy("categoryId", child.getCategoryId());
+            if(services.size() == 0){
+                HSSFRow row = sheet.createRow(counter);
+                counter++;
+                setRowValue(row , cellStyle, values1);
+                continue;
+            }
+            for(Service service : services){
+                String[] values2 = {sc.getCategoryName(), child.getCategoryName(), service.getServiceId(), service.getServiceName(), " ", " ", " ", " ", " "};
+
+                List<Operation> operations = operationDAO.findBy("serviceId", service.getServiceId());
+                if(operations.size() == 0){
+                    HSSFRow row = sheet.createRow(counter);
+                    counter++;
+                    setRowValue(row , cellStyle, values2);
+                    continue;
+                }
+                for(Operation operation : operations){
+                    HSSFRow row = sheet.createRow(counter);
+                    counter++;
+                    String[] values3 = {sc.getCategoryName(), child.getCategoryName(), service.getServiceId(), service.getServiceName(),
+                            operation.getOperationId(), operation.getOperationName(), " ", " ", operation.getOperationRemark()};
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("serviceId", operation.getServiceId());
+                    params.put("operationId", operation.getOperationId());
+                    params.put("type", Constants.INVOKE_TYPE_CONSUMER);
+                    List<ServiceInvoke> consumerInvokes = siDao.findBy(params);
+                    if(consumerInvokes.size() > 0){
+                        values3[6] = consumerInvokes.get(0).getSystem().getSystemChineseName();//服务消费者
+                    }
+                    params.put("type", Constants.INVOKE_TYPE_PROVIDER);
+                    List<ServiceInvoke> providerInvokes = siDao.findBy(params);
+                    if(providerInvokes.size() > 0){
+                        values3[7] = providerInvokes.get(0).getSystem().getSystemChineseName();//服务提供者
+                    }
+                    setRowValue(row, cellStyle, values3);
+                }
+                CellRangeAddress region2 = new CellRangeAddress(counter-operations.size(), counter-1, (short) 2, (short) 2);
+                CellRangeAddress region3 = new CellRangeAddress(counter-operations.size(), counter-1, (short) 3, (short) 3);
+                sheet.addMergedRegion(region2);//合并单元格：服务号
+                sheet.addMergedRegion(region3);//合并单元格：服务名称
+                HSSFRow R = sheet.getRow(counter - operations.size());//居中
+                HSSFCell C = R.getCell(2);
+                C.setCellStyle(cellStyle);
+                sheet.getRow(counter-operations.size()).getCell(3).setCellStyle(cellStyle);//居中
+            }
+            CellRangeAddress region1 = new CellRangeAddress(start, counter-1, (short) 1, (short) 1);
+            sheet.addMergedRegion(region1);//合并单元格：子类
+            sheet.getRow(start).getCell(1).setCellStyle(cellStyle);//居中
+
+        }
+        CellRangeAddress region0 = new CellRangeAddress(1, counter-1, (short) 0, (short) 0);
+        sheet.addMergedRegion(region0);
+        sheet.getRow(1).getCell(0).setCellStyle(cellStyle);//居中
+
     }
-    public List<Ida> getIdaChildren(String id){
-        List<Ida> list = idaDao.findBy("_parentId", id);
-        return list;
+
+    /**
+     * 填充系统页
+     * @param sheet
+     * @param cellStyle
+     */
+    public void fillSystem(HSSFSheet sheet, HSSFCellStyle cellStyle){
+        List<System> systemList = systemDAOImpl.getAll();
+        for(int i = 0; i < systemList.size(); i++){
+            System system = systemList.get(i);
+            HSSFRow row = sheet.createRow(2+i);
+
+            setCellValue(row.createCell(1), cellStyle, system.getSystemId());//系统id
+            setCellValue(row.createCell(2), cellStyle, system.getSystemAb());//英文简称
+            setCellValue(row.createCell(3), cellStyle, system.getSystemChineseName());;//中文名称
+        }
+    }
+    public void setRowValue(HSSFRow row, HSSFCellStyle cellStyle, String[] values){
+        for(int i = 0; i < values.length; i++){
+            setCellValue(row.createCell(i), cellStyle, values[i]);
+        }
+    }
+    public void setCellValue(HSSFCell cell, HSSFCellStyle cellStyle, String value){
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue(value);
+    }
+
+    /**
+     * 样式：边框+居中
+     * @param wb
+     * @return
+     */
+    public HSSFCellStyle commonStyle(HSSFWorkbook wb){
+        HSSFCellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+        cellStyle.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
+        cellStyle.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
+        cellStyle.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
+        cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);//居中
+        cellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+        return cellStyle;
     }
     @Override
     public HibernateDAO getDAO() {

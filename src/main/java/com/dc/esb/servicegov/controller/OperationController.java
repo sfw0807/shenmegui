@@ -1,7 +1,32 @@
 package com.dc.esb.servicegov.controller;
 
-import com.dc.esb.servicegov.entity.Operation;
+import static com.dc.esb.servicegov.service.support.Constants.STATE_PASS;
+import static com.dc.esb.servicegov.service.support.Constants.STATE_UNPASS;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.dc.esb.servicegov.entity.OperationPK;
+import com.dc.esb.servicegov.util.TreeNode;
+import net.sf.json.JSON;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.dc.esb.servicegov.entity.Operation;
 import com.dc.esb.servicegov.entity.Service;
 import com.dc.esb.servicegov.entity.ServiceInvoke;
 import com.dc.esb.servicegov.service.impl.OperationServiceImpl;
@@ -161,7 +186,7 @@ public class OperationController {
      * @param Operation
      * @return
      */
-    @RequiresPermissions({"service-modify"})
+    @RequiresPermissions({"service-update"})
     @RequestMapping(method = RequestMethod.POST, value = "/edit", headers = "Accept=application/json")
     public
     @ResponseBody
@@ -197,9 +222,7 @@ public class OperationController {
             Map<String, String> params = new HashMap<String, String>();
             params.put("serviceId", serviceId);
             params.put("operationId", operationId);
-            /**
-             * TODO use Constants
-             */
+
             params.put("type", Constants.INVOKE_TYPE_CONSUMER);
             List<ServiceInvoke> consumerInvokes = serviceInvokeService.findBy(params);
 
@@ -308,51 +331,17 @@ public class OperationController {
             }
         }
         return mv;
-    }
-
-    //根据系统id查询接口列表
-
+	}
     /**
-     * TODO 这个方法放在这个Controller是什么道理
-     *
-     * @param systemId
+     * TODO根据元数据ID查询场景列表
+     * @param metadataId
      * @return
      */
     @RequiresPermissions({"service-get"})
-    @RequestMapping("/getInterface")
+    @RequestMapping("/getByMetadataId/{metadataId}")
     @ResponseBody
-    public Map<String, Object> getInterface(String systemId) {
-        List<ServiceInvoke> rows = serviceInvokeService.findBy("systemId", systemId);
-        JsonConfig jc = JSONUtil.genderJsonConfig(ServiceInvoke.simpleFields());
-        JSONArray ja = JSONArray.fromObject(rows, jc);
-
-        Map<String, Object> result = new HashMap<String, Object>();
-        result.put("total", rows.size());
-        result.put("rows", ja);
-        return result;
+    public List<TreeNode> getByMetadataId(@PathVariable(value = "metadataId") String metadataId){
+        return operationServiceImpl.getTreeByMetadataId(metadataId);
     }
 
-    /**
-     * TODO 这个方法放在这个Controller是什么道理
-     *
-     * @param serviceId
-     * @param operationId
-     * @param systemId
-     * @return
-     */
-    @RequiresPermissions({"service-get"})
-    @RequestMapping("/getInterfaceByOSS")
-    @ResponseBody
-    public Map<String, Object> getInterfaceByOSS(String serviceId, String operationId, String systemId) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("serviceId", serviceId);
-        params.put("operationId", operationId);
-        List<?> rows = serviceInvokeService.findBy(params);
-        JsonConfig serviceInvokeJC = JSONUtil.genderJsonConfig(ServiceInvoke.simpleFields());
-        JSONArray ja = JSONArray.fromObject(rows, serviceInvokeJC);
-        Map<String, Object> result = new HashMap<String, Object>();
-        result.put("total", rows.size());
-        result.put("rows", ja);
-        return result;
-    }
 }

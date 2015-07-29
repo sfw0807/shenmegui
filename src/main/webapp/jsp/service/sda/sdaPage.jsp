@@ -76,6 +76,10 @@ var delIds = [];
 			//var d2 = new Date();
 			//d2.setMonth(d2.getMonth()+1);
 			var node = $('#tg').treegrid('getSelected');
+			if(node.text == "root"){
+				alert("请选择其他节点！");
+				return false;
+			}
 			$('#tg').treegrid('append',{
 				parent: node.id,
 				data: [{
@@ -178,7 +182,7 @@ var delIds = [];
 	    	
 		    	
 				var s = '<a iconcls="icon-close" onclick="cancel()" style="display:none;margin-top:5px;margin-bottom:5px;margin-left:5px;" class="easyui-linkbutton l-btn l-btn-small" href="javascript:void(0)" group="" id="cancelbtn'+value+'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">取消</span><span class="l-btn-icon icon-cancel">&nbsp;</span></span></a>';
-				 s += '<a iconcls="icon-ok" onclick="saveSDA()" style="display:none;margin-top:5px;margin-bottom:5px;margin-left:5px;" class="easyui-linkbutton l-btn l-btn-small" href="javascript:void(0)" group="" id="okbtn'+value+'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">确认</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a>';
+				 s += '<a iconcls="icon-ok" onclick="saveSDA()" style="display:none;margin-top:5px;margin-bottom:5px;margin-left:5px;" class="easyui-linkbutton l-btn l-btn-small" href="javascript:void(0)" group="" id="okbtn'+value+'"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text">保存</span><span class="l-btn-icon icon-ok">&nbsp;</span></span></a>';
 		    	return s;
 	    	
 		}
@@ -289,7 +293,9 @@ var delIds = [];
   <tr>
     <td><a href="javascript:void(0)" onclick="moveUp()" class="easyui-linkbutton" iconCls="icon-up" plain="true">上移</a>&nbsp;&nbsp;
     	<a href="javascript:void(0)" onclick="moveDown()" class="easyui-linkbutton" iconCls="icon-down" plain="true">下移</a>&nbsp;&nbsp;
+	    <!--
 	    <a href="javascript:void(0)" onclick="addNode()" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>&nbsp;&nbsp;
+	    -->
 	    <a href="javascript:void(0)" onclick="saveSDA()" class="easyui-linkbutton" iconCls="icon-save" plain="true">保存</a>
     </td>
     <td align="right"><select class="easyui-combobox" panelHeight="auto" style="width:200px">

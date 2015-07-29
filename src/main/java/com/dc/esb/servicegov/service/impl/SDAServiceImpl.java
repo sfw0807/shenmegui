@@ -88,7 +88,7 @@ public class SDAServiceImpl extends AbstractBaseService<SDA, String> implements 
 
     public List<SDA> getSDAListBySO(String serviceId, String operationId) {
         List<SDA> list = sdaDAO.find(
-                " from SDA where operationId=? and serviceId=? order by seq desc",
+                " from SDA where operationId=? and serviceId=? order by seq asc",
                 operationId, serviceId);
         return list;
     }

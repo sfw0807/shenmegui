@@ -74,7 +74,7 @@ var serviceManager ={
 				callBack(result);
 			}
 		});
-	},
+	}
 	
 
 };
