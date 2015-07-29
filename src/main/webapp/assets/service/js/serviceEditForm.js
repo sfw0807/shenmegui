@@ -23,7 +23,7 @@ $(function(){
         service.categoryId = $('#serviceCategory').val();
         service.version = $('#version').val();
         service.state = $('#state').val();
-        serviceManager.editService(service,function(result){
+        serviceManager.update(service,function(result){
             if(result){
                 $('#w').window('close');
                 $('.mxservicetree').tree('reload');

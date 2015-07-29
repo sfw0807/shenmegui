@@ -9,7 +9,7 @@
 		serviceCategory.desc = $('#discription').val();
 		serviceCategory.parentId = $('#parentId').val();
 		serviceCategory.remark = $('#remark').val();
-		serviceManager.editServiceCategory(serviceCategory,function(result){
+		serviceManager.updateServiceCategory(serviceCategory,function(result){
 			$('#w').window('close');
 			$('.mxservicetree').tree('reload');
 		});

@@ -25,11 +25,7 @@
             <th style="text-align:right">别名</th>
             <td><input class="easyui-textbox" type="text" style="width:100px" name="metadataAlias" id="metadataAlias">
             </td>
-            <th style="text-align:right">状态</th>
-            <td><select class="easyui-combobox" panelHeight="auto" style="width:100px" name="status" id="status">
-                <option value="未审核">未审核</option>
-                <option value="正式">正式</option>
-            </select></td>
+
         </tr>
         <tr>
             <th>类别词</th>
@@ -45,8 +41,6 @@
 						}
 					"
                        style="width: 100px; "/></td>
-            <th>基线版本号</th>
-            <td><input class="easyui-textbox" style="width:100px" type="text" name="version" id="version"></td>
             <th> 创建人</th>
             <td><input class="easyui-textbox" style="width:100px" type="text" name="name"></td>
             <th> 创建起始日期</th>
@@ -136,12 +130,24 @@
             text: '关联服务场景',
             iconCls: 'icon-cfp',
             handler: function () {
-                uiinit.win({
-                    w: 500,
-                    iconCls: 'icon-cfp',
-                    title: "关联服务场景",
-                    url: "/dataTemplate/words/tree.html"
-                });
+                var checkedItems = $('#metadataList').datagrid('getChecked');
+                 if (checkedItems != null && checkedItems.length > 0) {
+                       if (checkedItems.length > 1) {
+                            alert("请只选中一行要修改的数据！");
+                            return false;
+                       }
+                       else{
+                                        uiinit.win({
+                                            w: 600,
+                                            iconCls: 'icon-cfp',
+                                            title: "关联服务场景",
+                                            url: "/jsp/service/operation/list.jsp?metadataId="+checkedItems[0].metadataId
+                                        });
+                       }
+                  }
+                  else {
+                                  alert("请先选中一个元数据！");
+                       }
             }
         },
         {

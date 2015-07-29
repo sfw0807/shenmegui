@@ -98,10 +98,17 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
             String cusumerSystem = publicMap.get("cusumerSystem");
             //接口方向
             String interfacepoint = publicMap.get("interfacepoint");
-            String systemId = cusumerSystem;
+            //TODO excel传入的是简称，转化为id
+            HashMap<String,String> param = new HashMap<String, String>();
+            param.put("systemAb",cusumerSystem);
+            System system = systemDao.findUniqureBy(param);
+            String systemId = system.getSystemId();
             String type = "1";
             if ("Provider".equalsIgnoreCase(interfacepoint)) {
-                systemId = providerSystem;
+                param = new HashMap<String, String>();
+                param.put("systemAb",providerSystem);
+                system = systemDao.findUniqureBy(param);
+                systemId = system.getSystemId();
                 type = "0";
             }
             //获取调用关系
@@ -479,6 +486,8 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
                     String cell = ExcelTool.getInstance().getCellContent(
                             cellObj);
                     if ("交易码".equals(cell)) {
+                        //TODO 类型报错
+                        sheetRow.getCell(k + 1).setCellType(Cell.CELL_TYPE_STRING);
                         tranCode = sheetRow.getCell(k + 1).getStringCellValue();
                         if (tranCode == null || "".equals(tranCode)) {
                             logger.error(tranSheet.getSheetName()
@@ -1181,9 +1190,10 @@ public class ExcelImportServiceImpl extends AbstractBaseService implements Excel
             //建立调用关系
             interfaceDao.save(inter);
             provider_invoke = new ServiceInvoke();
-            paramMap.put("systemAb", providerSystem);
-            System system = systemDao.findUniqureBy(paramMap);
-            provider_invoke.setSystemId(system.getSystemId());
+            //TODO 已经改为id格式
+//			paramMap.put("systemAb", providerSystem);
+//			System system = systemDao.findUniqureBy(paramMap);
+            provider_invoke.setSystemId(providerSystem);
             provider_invoke.setServiceId(service.getServiceId());
             provider_invoke.setOperationId(operation.getOperationId());
             provider_invoke.setType(type);

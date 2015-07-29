@@ -13,27 +13,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-   <table title="服务列表" class="easyui-treegrid" id="serviceTree" style=" width:auto;"
-			data-options="
-				iconCls: 'icon-ok',
-				rownumbers: true,
-				animate: true,
-				fitColumns: true,
-				url: '/service/serviceTree',
-				method: 'get',
-				idField: 'id',
-				treeField: 'text'
-				"
-                >
-		<thead>
-			<tr>
-				<th data-options="field:'id',width:180,editor:'text'">服务编号</th>
-				<th data-options="field:'text',width:180,editor:'text'">服务名称</th>
-				<th data-options="field:'append1',width:60,align:'right',editor:'text'">版本</th>
-				<th data-options="field:'append2',width:80,editor:'text'">功能描述</th>
-				<th data-options="field:'append3',width:80,editor:'text'">备注</th>
-			</tr>
-		</thead>
-	</table>
+     <div class="win-bbar" style="text-align:center"><a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+                                                           onClick="$('#dlg').dialog('close');">取消</a><a href="javascript:void(0)"
+                                                                                      onclick="selectService()"
+                                                                                      class="easyui-linkbutton"
+                                                                                      iconCls="icon-save">确定</a></div>
+  	<ul id="serviceTree" class="easyui-tree mxservicetree" data-options="url:'/service/getTree',method:'get',animate:true"></ul>
   </body>
 </html>
