@@ -265,8 +265,6 @@ var SYSMENU = {
 
                     },
                     onClick: function (node) {
-                        console.log(node);
-
                         if (node.type == 'service') {//打开服务场景
                             if ($("#serviceFrame" + node.id).size() == 0) {//如果没有打开基本信息，则新创建基本信息
                                 var mid = node.id;
@@ -498,8 +496,6 @@ var SYSMENU = {
 
                 },
                 onClick: function (node) {
-                    console.log(node);
-
                     if (node.type == 'service') {//打开服务场景
                         if ($("#serviceFrame" + node.id).size() == 0) {//如果没有打开基本信息，则新创建基本信息
                             var mid = node.id;

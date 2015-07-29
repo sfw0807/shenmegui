@@ -139,7 +139,7 @@ public class ServiceController {
 
     }
 
-    private List<ServiceTreeViewBean> getTreeJson(List<ServiceCategory> serviceCategoryList, List<com.dc.esb.servicegov.entity.Service> serviceList) {
+    private List<ServiceTreeViewBean> getTreeJson(List<ServiceCategory> serviceCategoryList, List<Service> serviceList) {
         List<ServiceTreeViewBean> treeBeans = new ArrayList<ServiceTreeViewBean>();
         //服务类
         List<ServiceTreeViewBean> parents = new ArrayList<ServiceTreeViewBean>();
@@ -156,7 +156,7 @@ public class ServiceController {
             }
         }
         //服务
-        for (com.dc.esb.servicegov.entity.Service service : serviceList) {
+        for (Service service : serviceList) {
             for (ServiceTreeViewBean per : treeBeans) {
                 if (per.getId().equals(service.getCategoryId())) {
                     ServiceTreeViewBean treeViewBean = new ServiceTreeViewBean();
@@ -235,6 +235,16 @@ public class ServiceController {
     List<Service> getAll() {
         return serviceServiceImpl.getAll();
     }
+
+    @RequiresPermissions({"service-get"})
+    @RequestMapping("serviceCategorys")
+    public
+    @ResponseBody
+    List<ServiceCategory> serviceCategorys() {
+        String hql = " from " + ServiceCategory.class.getName() + " where parentId is null";
+        List<ServiceCategory> list = serviceCategoryServiceImpl.find(hql);
+        return list;
+}
 
     @ExceptionHandler({UnauthenticatedException.class, UnauthorizedException.class})
     public String processUnauthorizedException() {

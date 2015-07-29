@@ -365,10 +365,27 @@ public class HibernateDAO<T, PK extends Serializable> {
     }
 
     @Transactional
-    public List<T> findLike(final Map<String, String> params, MatchMode matchMode){
+    public List<T> findLike(final Map<String, String> params, MatchMode matchMode, Object ... other){
         Criteria criteria = getSession().createCriteria(entityClass);
+
+        if(other != null && other.length > 0){
+            Page page = (Page)other[0];
+            if (page.getOrderBy() != null) {
+                if (page.getOrder().equalsIgnoreCase("asc")) {
+                    criteria.addOrder(Order.asc(page.getOrderBy()));
+                } else {
+                    criteria.addOrder(Order.desc(page.getOrderBy()));
+                }
+            } else {
+                criteria.addOrder(Order.desc(this.getIdName()));
+            }
+
+            criteria.setFirstResult(page.getFirstItemPos());
+            criteria.setMaxResults(page.getPageSize());
+        }
+
         for (Map.Entry<String, String> entry : params.entrySet()) {
-            Criterion criterion = Restrictions.like(entry.getKey(), entry.getValue(),matchMode);
+            Criterion criterion = Restrictions.like(entry.getKey(), entry.getValue(), matchMode);
             criteria.add(criterion);
         }
         return criteria.list();
@@ -572,7 +589,7 @@ public class HibernateDAO<T, PK extends Serializable> {
     /**
      * 根据属性名和属性值查询对象，并根据page返回当前页的List。
      *
-     * @param searchCond 查询条件
+     * @param searchConds 查询条件
      * @param page       分页信息对象
      * @return 符合条件的对象List，List的size可能为0。
      */

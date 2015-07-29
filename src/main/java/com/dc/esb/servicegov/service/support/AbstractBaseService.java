@@ -133,14 +133,14 @@ public abstract class AbstractBaseService<T, PK extends Serializable> {
         return getDAO().findLike(params);
     }
 
-    public List<T> findLikeAnyWhere(Map<String, String> params) {
+    public List<T> findLikeAnyWhere(Map<String, String> params, Object ... other) {
         Map<String, String> notNullParams = new HashMap<String, String>();
         for (Map.Entry<String, String> entry : params.entrySet()) {
             if (null != entry.getValue() && !"".equalsIgnoreCase(entry.getValue())) {
                 notNullParams.put(entry.getKey(), entry.getValue());
             }
         }
-        return getDAO().findLike(notNullParams, MatchMode.ANYWHERE);
+        return getDAO().findLike(notNullParams, MatchMode.ANYWHERE, other);
     }
 
     public Page findPage(final String hql, int pageSize, List<SearchCondition> searchConds) {

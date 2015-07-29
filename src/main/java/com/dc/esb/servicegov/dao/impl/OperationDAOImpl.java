@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.dc.esb.servicegov.dao.support.HibernateDAO;
 import com.dc.esb.servicegov.entity.OperationPK;
+import com.dc.esb.servicegov.entity.ServiceCategory;
 import com.dc.esb.servicegov.util.DateUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Repository;
@@ -43,6 +44,19 @@ public class OperationDAOImpl extends HibernateDAO<Operation, OperationPK> {
 		entity.setOptUser(userName);
 		super.save(entity);
 	}
+
+	public List<Operation> getByMetadataId(String metadataId){
+		String hql = "select o from Operation as o, SDA s where o.operationId = s.operationId and o.serviceId = s.serviceId and s.metadataId = ? ";
+		List<Operation> list = this.find(hql, metadataId);
+		return list;
+	}
+
+	public List<Operation> getByCategoryId(String categoryId){
+		String hql = " from " + Operation.class.getName() + " op where op.service.categoryId = ?)";
+		List<Operation> opList = this.find(hql, categoryId);
+		return opList;
+	}
+
 //	@Override
 //	public void delete(OperationPK id) {
 //		Assert.notNull(id, "id不能为空");

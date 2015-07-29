@@ -106,7 +106,12 @@
 {"success":true,"url":"/jsp/user/userMaintain.jsp","title":"用户维护"}
 <%
 	}
-
+%><%
+	if(mid.equals("9.3")){
+%>
+{"success":true,"url":"/jsp/export/list.jsp","title":"文件导出"}
+<%
+	}
 %><%
 	if(mid.equals("9.4")){
 %>

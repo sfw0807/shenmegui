@@ -130,16 +130,11 @@ function choseService(id) {
  * 刷新table
  */
 function selectService(listId, dialogId, url) {
-    var checkedItems = $('#' + listId).datagrid('getChecked');
-    if (checkedItems != null && checkedItems.length > 0) {
-        operationId = checkedItems[0].operationId;
-        console.log(operationId);
-        $('#' + dialogId).dialog('close');
-        $('#' + listId).datagrid({
-            url: url + serviceId
-        });
-        $('#' + listId).datagrid("reload");
-    }
+    $('#dlg').dialog('close');
+               var node = $("#serviceTree").tree("getSelected");
+               $("#operationAuditList").datagrid({
+                url:'/operation/getAudits/'+ node.service.serviceId
+               });
 }
 
 //审核通过方法

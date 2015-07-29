@@ -1,19 +1,20 @@
 package com.dc.esb.servicegov.service.impl;
 
 import com.dc.esb.servicegov.dao.impl.OperationDAOImpl;
+import com.dc.esb.servicegov.dao.impl.ServiceCategoryDAOImpl;
 import com.dc.esb.servicegov.dao.support.HibernateDAO;
-import com.dc.esb.servicegov.entity.Operation;
-import com.dc.esb.servicegov.entity.OperationHis;
-import com.dc.esb.servicegov.entity.OperationPK;
-import com.dc.esb.servicegov.entity.ServiceInvoke;
+import com.dc.esb.servicegov.entity.*;
 import com.dc.esb.servicegov.service.support.AbstractBaseService;
 import com.dc.esb.servicegov.service.support.Constants;
 import com.dc.esb.servicegov.util.DateUtils;
+import com.dc.esb.servicegov.util.EasyUiTreeUtil;
+import com.dc.esb.servicegov.util.TreeNode;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
+import sun.reflect.generics.tree.Tree;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -44,6 +45,8 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, Operati
     private ServiceInvokeServiceImpl serviceInvokeService;
     @Autowired
     private VersionServiceImpl versionServiceImpl;
+    @Autowired
+    private ServiceCategoryDAOImpl scDao;
 
     public List<Operation> getOperationByServiceId(String serviceId) {
         return operationDAOImpl.findBy("serviceId", serviceId);
@@ -187,7 +190,6 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, Operati
                 	serviceInvokeService.updateAfterOPAdd(prostr,serviceId,operationId,Constants.INVOKE_TYPE_PROVIDER);
                 }  else {//传入参数为systemId
                     ServiceInvoke si = new ServiceInvoke();
-                    si.setInvokeId(UUID.randomUUID().toString());
                     si.setSystemId(prostr);
                     si.setServiceId(serviceId);
                     si.setOperationId(operationId);
@@ -264,5 +266,75 @@ public class OperationServiceImpl extends AbstractBaseService<Operation, Operati
     
     public List<Operation> getReleased(){
     	return operationDAOImpl.getReleased();
+    }
+
+    /**
+     * TODO 根据metadataId查询operation树
+     * @param metadataId
+     * @return
+     */
+    public List<TreeNode> getTreeByMetadataId(String metadataId){
+        //查找场景列表
+        List<Operation> opList = operationDAOImpl.getByMetadataId(metadataId);
+        List<TreeNode> tree = genderTree(opList);
+
+        return tree;
+    }
+
+    /**
+     * TODO 根据场景列表组装服务场景树
+     * @param opList
+     * @return
+     */
+    public List<TreeNode> genderTree(List<Operation> opList){
+        List<TreeNode> tree = new ArrayList<TreeNode>();
+
+        for( int i = 0; i < opList.size(); i++){
+            Operation operation = opList.get(i);
+            //节点转换
+            Map<String, String> opFields = new HashMap<String, String>();
+            opFields.put("id", "operationId");
+            opFields.put("text", "operationName");
+            opFields.put("append1", "operationDesc");
+            TreeNode opNode = EasyUiTreeUtil.getInstance().convertTreeNode(operation, opFields);
+
+            com.dc.esb.servicegov.entity.Service service = operation.getService();
+            Map<String, String> serviceFields = new HashMap<String, String>();
+            serviceFields.put("id", "serviceId");
+            serviceFields.put("text", "serviceName");
+            serviceFields.put("append1", "desc");
+            TreeNode serviceNode = EasyUiTreeUtil.getInstance().convertTreeNode(service, serviceFields);
+
+            Map<String, String> scFields = new HashMap<String, String>();
+            scFields.put("id", "categoryId");
+            scFields.put("text", "categoryName");
+            scFields.put("parentId", "parentId");
+            ServiceCategory sc3 = scDao.findUniqueBy("categoryId", service.getCategoryId());
+            TreeNode scNode3 = EasyUiTreeUtil.getInstance().convertTreeNode(sc3, scFields);
+
+            ServiceCategory sc2 =  scDao.findUniqueBy("categoryId", sc3.getParentId());;
+            TreeNode scNode2 = EasyUiTreeUtil.getInstance().convertTreeNode(sc2, scFields);
+
+            ServiceCategory sc1=  scDao.findUniqueBy("categoryId", sc2.getParentId());
+            TreeNode scNode1 = EasyUiTreeUtil.getInstance().convertTreeNode(sc1, scFields);
+
+            opNode.setParentId(serviceNode.getId());//operation的父节点为service
+            serviceNode.setParentId(scNode3.getId());//service的父节点为三级分类
+            tree.add(opNode);
+            if(!tree.contains(serviceNode)){
+                tree.add(serviceNode);
+            }
+            if(!tree.contains(scNode3)){
+                tree.add(scNode3);
+            }
+            if(!tree.contains(scNode2)){
+                tree.add(scNode2);
+            }
+            if(!tree.contains(scNode1)){
+                tree.add(scNode1);
+            }
+        }
+
+        return EasyUiTreeUtil.getInstance().convertTree(tree, null);
     }
 }

@@ -48,7 +48,7 @@ public class ServiceInvokeController {
     @RequestMapping("/getInterface")
     @ResponseBody
     public Map<String, Object> getInterface(String systemId) {
-        List<ServiceInvoke> rows = serviceInvokeService.findBy("systemId", systemId);
+        List<ServiceInvoke> rows = serviceInvokeService.getDistinctInter( systemId);
 
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("total", rows.size());

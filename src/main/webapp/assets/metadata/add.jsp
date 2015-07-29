@@ -105,7 +105,7 @@
             message: '元数据名称已存在'
         }
     });
-    if(processId){
+    if(typeof(processId) != 'undefined'){
         $('#taskIdInput').val(processId);
     }
 </script>
