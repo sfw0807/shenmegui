@@ -23,4 +23,10 @@ $(function(){
     $("#serviceTreeDeleteBtn").click(function(){
         serviceUIHelper.deleteServiceFormTree();
     });
+    /**
+         * 服务树右键菜单编辑按钮事件
+         */
+        $("#servicePdf").click(function(){
+            serviceUIHelper.exportPdf();
+        });
 });

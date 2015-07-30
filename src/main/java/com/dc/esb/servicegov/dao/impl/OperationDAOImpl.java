@@ -51,12 +51,27 @@ public class OperationDAOImpl extends HibernateDAO<Operation, OperationPK> {
 		return list;
 	}
 
-	public List<Operation> getByCategoryId(String categoryId){
+	/**
+	 * 根据一级服务分类查询
+	 * @param categoryId
+	 * @return
+	 */
+	public List<Operation> getByCategoryId1(String categoryId){
+		String hql = " from " + Operation.class.getName() + " op where op.service.categoryId in " +
+				"( select sc.categoryId from "+ ServiceCategory.class.getName() +" as sc where sc.parentId = ?)";
+		List<Operation> opList = this.find(hql, categoryId);
+		return opList;
+	}
+	/**
+	 * 根据二级服务分类id查询
+	 * @param categoryId
+	 * @return
+	 */
+	public List<Operation> getByCategoryId2(String categoryId){
 		String hql = " from " + Operation.class.getName() + " op where op.service.categoryId = ?)";
 		List<Operation> opList = this.find(hql, categoryId);
 		return opList;
 	}
-
 //	@Override
 //	public void delete(OperationPK id) {
 //		Assert.notNull(id, "id不能为空");

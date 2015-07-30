@@ -8,11 +8,11 @@ import com.dc.esb.servicegov.entity.System;
 import com.dc.esb.servicegov.excel.MappingSheetTask;
 import com.dc.esb.servicegov.service.support.AbstractBaseService;
 import com.dc.esb.servicegov.service.support.Constants;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.CellRangeAddress;
-import org.drools.core.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -137,7 +137,7 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
         return workbook;
     }
     /**
-     * TODO 填充index页
+     *  填充index页
      * @param sheet
      * @param siList
      */
@@ -379,7 +379,7 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
         int counter = 1;
         //查询子分类
         List<ServiceCategory> scList = serviceCategoryDao.findBy("parentId", categoryId);
-        String[] values0 = {sc.getCategoryName(), " ", " ", " ", " ", " ", " ", " ", " "};
+        String[] values0 = {sc.getCategoryName(), " ", " ", " ", " ", " ", " ", " ", " ", " ", " "};
         if(scList.size() == 0){
             HSSFRow row = sheet.createRow(counter);
             setRowValue(row, cellStyle, values0);
@@ -387,7 +387,7 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
         }
         for(ServiceCategory child : scList){
             int start = counter;
-            String[] values1 = {sc.getCategoryName(), child.getCategoryName(), " ", " ", " ", " ", " ", " ", " "};
+            String[] values1 = {sc.getCategoryName(), child.getCategoryName(), " ", " ", " ", " ", " ", " ", " ", " ", " "};
             List<Service> services = serviceDao.findBy("categoryId", child.getCategoryId());
             if(services.size() == 0){
                 HSSFRow row = sheet.createRow(counter);
@@ -409,7 +409,7 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
                     HSSFRow row = sheet.createRow(counter);
                     counter++;
                     String[] values3 = {sc.getCategoryName(), child.getCategoryName(), service.getServiceId(), service.getServiceName(),
-                            operation.getOperationId(), operation.getOperationName(), " ", " ", operation.getOperationRemark()};
+                            operation.getOperationId(), operation.getOperationName(), " ", " ", " ", " ", operation.getOperationRemark()};
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("serviceId", operation.getServiceId());
                     params.put("operationId", operation.getOperationId());
@@ -417,11 +417,16 @@ public class ExcelExportServiceImpl  extends AbstractBaseService {
                     List<ServiceInvoke> consumerInvokes = siDao.findBy(params);
                     if(consumerInvokes.size() > 0){
                         values3[6] = consumerInvokes.get(0).getSystem().getSystemChineseName();//服务消费者
+                        if(consumerInvokes.get(0).getInter() != null){
+                            values3[7] = consumerInvokes.get(0).getInter().getInterfaceName();
+                            values3[8] = consumerInvokes.get(0).getInter().getInterfaceId();
+                        }
+
                     }
                     params.put("type", Constants.INVOKE_TYPE_PROVIDER);
                     List<ServiceInvoke> providerInvokes = siDao.findBy(params);
                     if(providerInvokes.size() > 0){
-                        values3[7] = providerInvokes.get(0).getSystem().getSystemChineseName();//服务提供者
+                        values3[9] = providerInvokes.get(0).getSystem().getSystemChineseName();//服务提供者
                     }
                     setRowValue(row, cellStyle, values3);
                 }

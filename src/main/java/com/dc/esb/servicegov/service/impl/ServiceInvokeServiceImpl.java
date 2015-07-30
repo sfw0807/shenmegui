@@ -94,18 +94,26 @@ public class ServiceInvokeServiceImpl extends AbstractBaseService<ServiceInvoke,
 	public List<ServiceInvoke> getDistinctInter(String systemId){
 		List<ServiceInvoke> list = this.findBy("systemId", systemId);
 		List<ServiceInvoke> tempList = new ArrayList<ServiceInvoke>();
+
 		for(int i = 0; i < list.size(); i++){
 			ServiceInvoke si = list.get(i);
-			for(int j = 0; j < list.size(); j++){
-				ServiceInvoke sj = list.get(j);
-				if(si.getSystemId().equals(sj.getSystemId()) ){
-					if(StringUtils.isNotEmpty(si.getInterfaceId())&& StringUtils.isNotEmpty(sj.getInterfaceId())&& si.getInterfaceId().equals(sj.getInterfaceId())){
-						if(i != j){
-							tempList.add(si);
+			if(si != null){
+				for(int j = 0; j < list.size(); j++){
+					ServiceInvoke sj = list.get(j);
+					if(sj != null){
+						if(si.getSystemId().equals(sj.getSystemId()) ){
+							if(StringUtils.isNotEmpty(si.getInterfaceId())&& StringUtils.isNotEmpty(sj.getInterfaceId())&& si.getInterfaceId().equals(sj.getInterfaceId())){
+								if(i != j){
+									sj = null;
+									list.set(j, sj);
+									tempList.add(sj);
+								}
+							}
 						}
 					}
 				}
 			}
+
 		}
 		for(int i = 0; i < tempList.size(); i++){
 			list.remove(tempList.get(i));

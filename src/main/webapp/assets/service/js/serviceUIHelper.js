@@ -72,6 +72,43 @@ var serviceUIHelper = {
         $('.mxservicetree').tree({
             url:"/service/searchService/processId"+ PROCESS_INFO.processId
         });
-    }
+    },
+    "exportPdf" : function exportPdf(){
+            var node = $('.mxservicetree').tree('getSelected');
+            var id = node.id;
+            var type = node.type;
+            if(node.type == "serviceCategory"){
+                if(node.children != null && node.children.length == 0){
+                     alert("该服务分类下没有服务数据！");
+                                    return false;
+                }
+                if(node.children != null && node.children.length > 0){
+                    if(node.children[0].type == "service"){
+                        type = "serviceCategory2";
+                    }
+                    if(node.children[0].type == "serviceCategory"){
+                        type = "serviceCategory1";
+                    }
+                }
+            }
+            var form=$("<form>");//定义一个form表单
+            form.attr("style","display:none");
+            form.attr("target","");
+            form.attr("method","post");
+            form.attr("action","/pdfExporter/exportService");
+            var input1=$("<input>");
+            input1.attr("type","hidden");
+            input1.attr("name","id");
+            input1.attr("value",id);
 
+             var input2=$("<input>");
+             input2.attr("type","hidden");
+             input2.attr("name","type");
+             input2.attr("value",type);
+
+            $("body").append(form);//将表单放置在web中
+            form.append(input1);
+            form.append(input2);
+            form.submit();//表单提交
+    }
 };

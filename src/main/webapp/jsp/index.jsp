@@ -81,6 +81,7 @@
     <div id="serviceTreeAddBtn" data-options="iconCls:'icon-add'">新增</div>
     <div id="serviceTreeEditBtn" data-options="iconCls:'icon-edit'">编辑</div>
     <div id="serviceTreeDeleteBtn" data-options="iconCls:'icon-remove'">删除</div>
+    <div id="servicePdf" data-options="iconCls:'icon-excel-export'">导出PDF</div>
 </div>
 
 <div id="mm-mslinktree" class="easyui-menu" style="width: 120px;">
