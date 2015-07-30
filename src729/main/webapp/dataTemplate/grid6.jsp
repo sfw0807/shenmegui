@@ -61,6 +61,7 @@
 <script type="text/javascript" src="/resources/js/jquery.edatagrid.js"></script>
 <script type="text/javascript" src="/resources/js/ui.js"></script>
 <script type="text/javascript" src="/assets/categoryWord/js/categoryWordManager.js"></script>
+<script type="text/javascript" src="/resources/js"
 <script type="text/javascript">
     var toolbar = [{
         text: '新增',
